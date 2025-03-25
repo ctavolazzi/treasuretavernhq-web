@@ -75,6 +75,7 @@
     justify-content: center;
     align-items: center;
     padding: 1rem 0.75rem;
+    padding-top: 0;
     text-align: center;
     position: relative;
   }
@@ -85,6 +86,7 @@
     z-index: 2;
     position: relative;
     text-align: center;
+    padding-top: 0.5rem;
   }
 
   h1 {
@@ -363,6 +365,17 @@
 
     .cta-form {
       padding: 1.75rem;
+    }
+  }
+
+  @media (max-width: 767px) {
+    main {
+      justify-content: flex-start;
+      padding-top: 2rem;
+    }
+
+    .container {
+      padding-top: 0;
     }
   }
 </style>
