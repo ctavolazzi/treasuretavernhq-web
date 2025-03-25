@@ -220,6 +220,8 @@
 
   .success-message {
     margin-top: 1.25rem;
+    margin-left: auto;
+    margin-right: auto;
     padding: 1.25rem;
     background: rgba(52, 168, 83, 0.1);
     border: 1px solid rgba(52, 168, 83, 0.25);
@@ -457,7 +459,7 @@
     {:else}
       <div class="success-message">
         <p>Welcome, traveler! You'll receive word when the Tavern doors open.</p>
-        <a href="/announcements" class="announcement-button">Welcome, traveler!</a>
+        <a href="/announcements" class="announcement-button">Read the Announcements</a>
       </div>
     {/if}
 
