@@ -4,6 +4,13 @@
 </script>
 
 <style>
+  /* Import the required fonts from Google Fonts */
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;500;600;700&family=Inter:wght@300;400;500;700&family=Spectral:wght@400;500;600&display=swap');
+
+  :global(body) {
+    font-family: 'Spectral', Georgia, serif;
+  }
+
   .banner {
     padding: 0.5rem 0.75rem;
     background: linear-gradient(90deg, #13111C 0%, #1F1B2D 50%, #13111C 100%);

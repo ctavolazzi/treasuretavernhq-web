@@ -60,7 +60,6 @@
     min-height: 100vh;
     background: linear-gradient(145deg, #13111C 0%, #1F1B2D 60%, #2B1D34 100%);
     color: #F7E8D4;
-    font-family: 'Spectral', 'Crimson Text', Georgia, serif;
     overflow-x: hidden;
     line-height: 1.4;
   }
