@@ -228,6 +228,36 @@
     animation: fadeIn 0.5s ease-in;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
     max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .success-message p {
+    margin-bottom: 1.25rem;
+  }
+
+  .announcement-button {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    background: linear-gradient(135deg, #9E61E3 0%, #7A3CA3 100%);
+    color: #F7E8D4;
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    box-shadow: 0 4px 12px rgba(122, 60, 163, 0.3);
+  }
+
+  .announcement-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(122, 60, 163, 0.4);
+    background: linear-gradient(135deg, #AF71F4 0%, #8547B0 100%);
   }
 
   @keyframes fadeIn {
@@ -427,6 +457,7 @@
     {:else}
       <div class="success-message">
         <p>Welcome, traveler! You'll receive word when the Tavern doors open.</p>
+        <a href="/announcements" class="announcement-button">Welcome, traveler!</a>
       </div>
     {/if}
 
