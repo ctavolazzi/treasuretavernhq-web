@@ -78,7 +78,8 @@
   const newsletters = [
     { id: 'january-2025', title: 'January 2025: New Year Adventures', summary: 'Start the year with exciting quests and magical resolutions.' },
     { id: 'february-2025', title: 'February 2025: Tales of Romance', summary: 'Love potions, enchanted roses, and stories of legendary couples.' },
-    { id: 'march-2025', title: 'March 2025: Dungeon Master Tips', summary: 'Expert advice for running memorable campaigns.' }
+    { id: 'march-2025', title: 'March 2025: Dungeon Master Tips', summary: 'Expert advice for running memorable campaigns.' },
+    { id: 'april-2025-coming-soon', title: 'April 2025: Coming Soon', summary: 'Our next magical chronicle is being prepared by the scribes...', comingSoon: true }
   ];
 
   // Mobile menu state
@@ -643,6 +644,35 @@
       padding: 0.5rem 0.75rem;
     }
   }
+
+  /* Newsletter Coming Soon Styles */
+  .newsletter-link.coming-soon {
+    background: rgba(19, 17, 28, 0.4);
+    border: 1px dashed rgba(189, 150, 72, 0.3);
+    cursor: default;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .newsletter-link.coming-soon:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  .coming-soon-label {
+    position: absolute;
+    top: 10px;
+    right: -30px;
+    background: rgba(158, 97, 227, 0.8);
+    color: #F7E8D4;
+    font-size: 0.7rem;
+    padding: 0.2rem 2rem;
+    transform: rotate(45deg);
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  }
 </style>
 
 <svelte:head>
@@ -664,10 +694,18 @@
       <ul class="newsletter-list" class:show={showMobileMenu}>
         {#each newsletters as newsletter}
           <li class="newsletter-item">
-            <a href="/newsletter/{newsletter.id}" class="newsletter-link">
-              <h3 class="newsletter-link-title">{newsletter.title}</h3>
-              <p class="newsletter-link-summary">{newsletter.summary}</p>
-            </a>
+            {#if newsletter.comingSoon}
+              <div class="newsletter-link coming-soon">
+                <h3 class="newsletter-link-title">{newsletter.title}</h3>
+                <p class="newsletter-link-summary">{newsletter.summary}</p>
+                <div class="coming-soon-label">Coming Soon</div>
+              </div>
+            {:else}
+              <a href="/newsletter/{newsletter.id}" class="newsletter-link">
+                <h3 class="newsletter-link-title">{newsletter.title}</h3>
+                <p class="newsletter-link-summary">{newsletter.summary}</p>
+              </a>
+            {/if}
           </li>
         {/each}
       </ul>

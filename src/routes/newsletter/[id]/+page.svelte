@@ -99,12 +99,28 @@
   const newsletter = newsletters[id];
 
   let notFound = false;
+  let canShare = false;
+
+  // Function to share the newsletter
+  function shareNewsletter() {
+    if (navigator.share) {
+      navigator.share({
+        title: newsletter.title,
+        text: `Check out this newsletter from Treasure Tavern: ${newsletter.title}`,
+        url: window.location.href,
+      })
+      .catch((error) => console.error('Error sharing:', error));
+    }
+  }
 
   onMount(() => {
     // Check if the newsletter exists
     if (!newsletter) {
       notFound = true;
     }
+
+    // Check if the Web Share API is available
+    canShare = !!navigator.share;
   });
 </script>
 
@@ -240,10 +256,50 @@
     background: linear-gradient(135deg, #A671E6 0%, #8A4CB3 100%);
   }
 
+  .share-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: rgba(31, 27, 45, 0.6);
+    border: 1px solid rgba(189, 150, 72, 0.3);
+    border-radius: 6px;
+    color: #F7E8D4;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-left: 1rem;
+    font-size: 0.9rem;
+  }
+
+  .share-button:hover {
+    background: rgba(31, 27, 45, 0.8);
+    transform: translateY(-2px);
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+  }
+
   @media (max-width: 768px) {
     .newsletter-page {
       margin: 1.5rem auto 3rem;
       padding: 0 1rem;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .header-actions {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .share-button {
+      margin-left: 0;
     }
   }
 </style>
@@ -254,9 +310,17 @@
 </svelte:head>
 
 <div class="newsletter-page">
-  <a href="/newsletter" class="back-link">
-    <i class="fas fa-arrow-left"></i> Back to Tavern Chronicles
-  </a>
+  <div class="header-actions">
+    <a href="/newsletter" class="back-link">
+      <i class="fas fa-arrow-left"></i> Back to Tavern Chronicles
+    </a>
+
+    {#if canShare && newsletter}
+      <button class="share-button" on:click={shareNewsletter}>
+        <i class="fas fa-share-alt"></i> Share
+      </button>
+    {/if}
+  </div>
 
   {#if notFound}
     <div class="not-found">
