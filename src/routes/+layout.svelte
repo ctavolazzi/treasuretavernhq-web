@@ -1,6 +1,7 @@
 <script lang="ts">
 	import '../app.css';
 	import MobileNav from '$lib/components/MobileNav.svelte';
+	import { onMount } from 'svelte';
 	let { children } = $props();
 
   let bannerActive = false;
@@ -16,6 +17,11 @@
       }, 1000);
     }
   }
+
+  onMount(() => {
+    // Fix for any potential mobile menu issues
+    document.body.classList.remove('no-scroll');
+  });
 </script>
 
 <svelte:head>
@@ -201,7 +207,7 @@
   </div>
 
   <!-- Mobile Menu Component -->
-  <MobileNav bind:isOpen={mobileMenuOpen} />
+  <MobileNav on:stateChange={(e) => mobileMenuOpen = e.detail.isOpen} />
 </nav>
 
 <a href="/about" class="banner" class:active={bannerActive} on:click={toggleBanner}>

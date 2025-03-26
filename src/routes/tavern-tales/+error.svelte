@@ -68,7 +68,7 @@
     max-width: 100%;
     width: clamp(250px, 80vw, 350px);
     height: clamp(180px, 50vw, 250px);
-    background: url('/images/lost-traveler.svg') center/cover no-repeat;
+    background: url('/images/lost-traveler.jpg') center/cover no-repeat;
     border-radius: 10px;
     border: 1px solid rgba(189, 150, 72, 0.3);
     position: relative;

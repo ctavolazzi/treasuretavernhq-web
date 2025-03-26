@@ -267,6 +267,23 @@
     display: none;
   }
 
+  .tale-featured-image {
+    margin: 0 0 2rem 0;
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(189, 150, 72, 0.3);
+  }
+
+  .tale-featured-image img {
+    width: 100%;
+    display: block;
+    height: auto;
+    max-height: 500px;
+    object-fit: cover;
+  }
+
   .media-container {
     margin: clamp(1.5rem, 5vw, 3rem) 0;
     width: 100%;
@@ -491,6 +508,11 @@
   </header>
 
   <main class="tale-container">
+    <!-- Featured image -->
+    <div class="tale-featured-image">
+      <img src={tale.coverImage} alt={tale.title} />
+    </div>
+
     <!-- Media display, if applicable -->
     {#if tale.mediaType === 'video' && mediaReady}
       <div class="media-container">

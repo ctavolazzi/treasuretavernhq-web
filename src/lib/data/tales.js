@@ -19,7 +19,7 @@ const talesData = [
         date: 'Full Moon of Autumn',
         author: 'The Keeper of Keys',
         excerpt: 'Strange chittering echoes from the cellar. The barmaid mentions chess pieces moving of their own accord after midnight.',
-        coverImage: '/images/tales/whispers-of-the-goblin-court.svg',
+        coverImage: '/images/tales/goblin-chess.png',
         featured: true,
         tags: ['goblin', 'mystery', 'tavern', 'magic'],
         content: `
@@ -66,7 +66,7 @@ const talesData = [
         date: 'Midwinter Night',
         author: 'Whispers on the Wind',
         excerpt: 'A poetic tale of a knight who forsook his vows for love, only to wander eternally searching for his lost beloved across countless realms.',
-        coverImage: '/images/tales/ballad-of-the-wandering-knight.svg',
+        coverImage: '/images/tales/knight-mirror.png',
         featured: true,
         tags: ['knight', 'love', 'tragedy', 'realms'],
         content: `
@@ -143,7 +143,7 @@ const talesData = [
         date: 'Summer Solstice',
         author: 'The Verdant Minstrel',
         excerpt: 'A collection of melodies said to have been taught to a minstrel by the ancient dragons during a chance encounter in the misty mountains.',
-        coverImage: '/images/tales/scales-of-forgotten-songs.svg',
+        coverImage: '/images/tales/dragon-wizard-music.png',
         featured: false,
         tags: ['dragon', 'music', 'ancient', 'memory'],
         content: `
@@ -203,7 +203,7 @@ const talesData = [
         date: 'New Moon Night',
         author: 'The Veiled Oracle',
         excerpt: 'A collection of riddles said to reveal secrets of the tavern to those clever enough to solve them. Some say the answers change when no one is watching.',
-        coverImage: '/images/tales/riddles-in-the-dark.svg',
+        coverImage: '/images/tales/riddles-in-the-dark.jpg',
         featured: false,
         tags: ['riddles', 'mystery', 'secrets', 'interactive'],
         content: `
@@ -293,7 +293,7 @@ const talesData = [
         date: 'Spring Equinox',
         author: 'The Silent Observer',
         excerpt: 'A visual chronicle capturing the rarely-seen ritual of the ancient forest guardians as they prepare for the changing of the seasons.',
-        coverImage: '/images/tales/twilight-of-the-forest-guardians.svg',
+        coverImage: '/images/tales/twilight-of-the-forest-guardians.jpg',
         featured: true,
         tags: ['forest', 'guardians', 'ritual', 'seasons'],
         content: `
@@ -336,7 +336,7 @@ const talesData = [
         date: 'Dark of the Moon',
         author: 'Anonymous',
         excerpt: 'A tale told by a traveler who claimed to have walked the space between stars and returned with memories of conversations with entities from beyond the veil.',
-        coverImage: '/images/tales/whispers-of-the-void.svg',
+        coverImage: '/images/tales/goblin-infestation.png',
         featured: false,
         tags: ['void', 'stars', 'cosmic', 'entities'],
         content: `
