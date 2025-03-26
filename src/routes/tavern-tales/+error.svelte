@@ -9,15 +9,17 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 2rem;
+    padding: clamp(1rem, 3vw, 2rem);
     text-align: center;
     background: linear-gradient(145deg, #13111C 0%, #1F1B2D 60%, #2B1D34 100%);
     color: #F7E8D4;
+    width: 100%;
+    overflow-x: hidden;
   }
 
   .error-title {
     font-family: 'Cinzel Decorative', 'Luminari', fantasy;
-    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-size: clamp(1.75rem, 5vw, 3.5rem);
     margin: 0 0 1rem;
     color: #BD9648;
     text-shadow: 0 0 15px rgba(189, 150, 72, 0.3);
@@ -26,18 +28,19 @@
 
   .error-subtitle {
     font-family: 'Cinzel', serif;
-    font-size: clamp(1.25rem, 3vw, 1.75rem);
+    font-size: clamp(1.1rem, 3vw, 1.75rem);
     color: #9E61E3;
     margin-bottom: 2rem;
   }
 
   .error-message {
     font-family: 'Spectral', serif;
-    font-size: clamp(1.1rem, 2vw, 1.25rem);
+    font-size: clamp(1rem, 2vw, 1.25rem);
     line-height: 1.6;
     margin-bottom: 2rem;
     color: rgba(247, 232, 212, 0.92);
     max-width: 700px;
+    padding: 0 clamp(0.5rem, 2vw, 1rem);
   }
 
   .decorative-divider {
@@ -45,7 +48,7 @@
     max-width: 500px;
     height: 1px;
     background: linear-gradient(90deg, rgba(189, 150, 72, 0) 0%, rgba(189, 150, 72, 0.6) 50%, rgba(189, 150, 72, 0) 100%);
-    margin: 2rem auto;
+    margin: clamp(1.5rem, 4vw, 2rem) auto;
     position: relative;
   }
 
@@ -61,10 +64,10 @@
   }
 
   .illustration {
-    margin: 2rem 0;
+    margin: clamp(1.5rem, 4vw, 2rem) 0;
     max-width: 100%;
-    width: 350px;
-    height: 250px;
+    width: clamp(250px, 80vw, 350px);
+    height: clamp(180px, 50vw, 250px);
     background: url('/images/lost-traveler.svg') center/cover no-repeat;
     border-radius: 10px;
     border: 1px solid rgba(189, 150, 72, 0.3);
@@ -85,20 +88,20 @@
 
   .error-nav {
     display: flex;
-    gap: 1.5rem;
-    margin-top: 2rem;
+    gap: clamp(1rem, 3vw, 1.5rem);
+    margin-top: clamp(1.5rem, 4vw, 2rem);
     flex-wrap: wrap;
     justify-content: center;
   }
 
   .error-button {
-    padding: 0.75rem 1.5rem;
+    padding: clamp(0.5rem, 2vw, 0.75rem) clamp(1rem, 3vw, 1.5rem);
     background: rgba(31, 27, 45, 0.6);
     border: 1px solid rgba(247, 232, 212, 0.1);
     border-radius: 6px;
     color: #F7E8D4;
     font-family: 'Cinzel', serif;
-    font-size: 1rem;
+    font-size: clamp(0.9rem, 2vw, 1rem);
     cursor: pointer;
     transition: all 0.3s ease;
     text-decoration: none;
@@ -121,6 +124,19 @@
 
   .primary-button:hover {
     box-shadow: 0 5px 15px rgba(158, 97, 227, 0.3);
+  }
+
+  @media (max-width: 480px) {
+    .error-nav {
+      flex-direction: column;
+      width: 100%;
+      max-width: 280px;
+    }
+
+    .error-button {
+      width: 100%;
+      justify-content: center;
+    }
   }
 </style>
 

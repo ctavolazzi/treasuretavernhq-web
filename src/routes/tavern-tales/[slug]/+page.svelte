@@ -1,9 +1,36 @@
-<script>
+<script lang="ts">
   import { onMount } from 'svelte';
   import AnnouncementCta from '$lib/components/AnnouncementCta.svelte';
 
-  // Get the data from the loader
-  export let data;
+  // Define Tale interface to fix type errors
+  interface Tale {
+    slug: string;
+    title: string;
+    type: string;
+    category: string;
+    date: string;
+    author: string;
+    excerpt: string;
+    content: string;
+    coverImage: string;
+    mediaType?: 'video' | 'audio' | 'interactive' | null;
+    mediaContent?: string;
+    tags: string[];
+  }
+
+  interface RelatedTale {
+    slug: string;
+    title: string;
+    type: string;
+    coverImage: string;
+  }
+
+  // Get the data from the loader with proper type annotations
+  export let data: {
+    tale: Tale;
+    relatedTales: RelatedTale[];
+  };
+
   const { tale, relatedTales } = data;
 
   // For handling the interactive media component if applicable
@@ -37,11 +64,13 @@
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    width: 100%;
+    overflow-x: hidden;
   }
 
   .tale-header {
     position: relative;
-    padding: 4rem 2rem 2rem;
+    padding: clamp(2rem, 6vw, 4rem) clamp(1rem, 3vw, 2rem) clamp(1rem, 3vw, 2rem);
     text-align: center;
     background: rgba(19, 17, 28, 0.8);
     border-bottom: 1px solid rgba(189, 150, 72, 0.2);
@@ -51,7 +80,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 2rem;
+    gap: clamp(1rem, 3vw, 2rem);
     margin-bottom: 1rem;
     flex-wrap: wrap;
   }
@@ -61,7 +90,7 @@
     align-items: center;
     gap: 0.5rem;
     font-family: 'Inter', system-ui, sans-serif;
-    font-size: 0.95rem;
+    font-size: clamp(0.85rem, 2vw, 0.95rem);
     color: rgba(247, 232, 212, 0.7);
   }
 
@@ -92,12 +121,12 @@
     max-width: 800px;
     width: 100%;
     margin: 0 auto;
-    padding: 3rem 2rem;
+    padding: clamp(1.5rem, 5vw, 3rem) clamp(1rem, 3vw, 2rem);
   }
 
   h1 {
     font-family: 'Cinzel Decorative', 'Luminari', fantasy;
-    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    font-size: clamp(2rem, 5vw, 3.5rem);
     margin: 0 0 1rem;
     font-weight: 700;
     line-height: 1.2;
@@ -107,7 +136,7 @@
 
   h2 {
     font-family: 'Cinzel', serif;
-    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
     margin: 3rem 0 1.5rem;
     color: #BD9648;
     text-shadow: 0 0 8px rgba(189, 150, 72, 0.3);
@@ -115,14 +144,14 @@
 
   h3 {
     font-family: 'Cinzel', serif;
-    font-size: clamp(1.35rem, 2vw, 1.8rem);
+    font-size: clamp(1.25rem, 2vw, 1.8rem);
     color: #BD9648;
     margin: 2rem 0 1rem;
   }
 
   .tale-content {
     font-family: 'Spectral', serif;
-    font-size: clamp(1.1rem, 2vw, 1.2rem);
+    font-size: clamp(1rem, 2vw, 1.2rem);
     line-height: 1.6;
     color: rgba(247, 232, 212, 0.92);
   }
@@ -133,7 +162,7 @@
 
   .tale-content :global(.journal-entry) {
     margin-bottom: 1.5rem;
-    padding-left: 1rem;
+    padding-left: clamp(0.5rem, 2vw, 1rem);
     border-left: 3px solid rgba(158, 97, 227, 0.4);
   }
 
@@ -145,7 +174,7 @@
 
   .tale-content :global(.poem) {
     margin-bottom: 3rem;
-    padding: 1.5rem;
+    padding: clamp(1rem, 3vw, 1.5rem);
     background: rgba(31, 27, 45, 0.4);
     border-radius: 8px;
     border: 1px solid rgba(247, 232, 212, 0.1);
@@ -157,36 +186,36 @@
   }
 
   .tale-content :global(.note) {
-    padding: 1rem;
+    padding: clamp(0.75rem, 2vw, 1rem);
     margin: 2rem 0;
     border-radius: 8px;
     background: rgba(31, 27, 45, 0.5);
-    font-size: 0.95em;
+    font-size: clamp(0.85rem, 2vw, 0.95em);
   }
 
   .tale-content :global(.warning) {
-    padding: 1rem;
+    padding: clamp(0.75rem, 2vw, 1rem);
     margin: 2rem 0;
     border-radius: 8px;
     background: rgba(31, 27, 45, 0.5);
-    font-size: 0.95em;
+    font-size: clamp(0.85rem, 2vw, 0.95em);
     border-left: 3px solid #FF6B6B;
   }
 
   .tale-content :global(.final-note) {
-    padding: 1rem;
+    padding: clamp(0.75rem, 2vw, 1rem);
     margin: 2rem 0;
     border-radius: 8px;
     background: rgba(31, 27, 45, 0.5);
-    font-size: 0.95em;
+    font-size: clamp(0.85rem, 2vw, 0.95em);
   }
 
   .tale-content :global(.closing-note) {
-    padding: 1rem;
+    padding: clamp(0.75rem, 2vw, 1rem);
     margin: 2rem 0;
     border-radius: 8px;
     background: rgba(31, 27, 45, 0.5);
-    font-size: 0.95em;
+    font-size: clamp(0.85rem, 2vw, 0.95em);
   }
 
   .tale-content :global(.song-entry) {
@@ -201,7 +230,7 @@
   }
 
   .tale-content :global(.music-player) {
-    padding: 1rem;
+    padding: clamp(0.75rem, 2vw, 1rem);
     margin: 1rem 0;
     background: rgba(19, 17, 28, 0.6);
     border-radius: 8px;
@@ -209,15 +238,15 @@
   }
 
   .tale-content :global(.collector-notes) {
-    font-size: 0.95em;
+    font-size: clamp(0.85rem, 2vw, 0.95em);
     color: rgba(247, 232, 212, 0.75);
-    padding-left: 1rem;
+    padding-left: clamp(0.5rem, 2vw, 1rem);
     border-left: 3px solid rgba(189, 150, 72, 0.3);
   }
 
   .tale-content :global(.riddle) {
     margin-bottom: 3rem;
-    padding: 1.5rem;
+    padding: clamp(1rem, 3vw, 1.5rem);
     background: rgba(31, 27, 45, 0.4);
     border-radius: 8px;
     border: 1px solid rgba(247, 232, 212, 0.1);
@@ -231,7 +260,7 @@
 
   .tale-content :global(.riddle-hint) {
     color: rgba(158, 97, 227, 0.9);
-    font-size: 0.95em;
+    font-size: clamp(0.85rem, 2vw, 0.95em);
   }
 
   .tale-content :global(.hidden) {
@@ -239,7 +268,7 @@
   }
 
   .media-container {
-    margin: 3rem 0;
+    margin: clamp(1.5rem, 5vw, 3rem) 0;
     width: 100%;
     border-radius: 8px;
     overflow: hidden;
@@ -263,7 +292,7 @@
   }
 
   .audio-container {
-    padding: 1.5rem;
+    padding: clamp(1rem, 3vw, 1.5rem);
     background: rgba(19, 17, 28, 0.6);
     text-align: center;
   }
@@ -271,6 +300,7 @@
   .audio-message {
     font-style: italic;
     margin-bottom: 1rem;
+    font-size: clamp(0.9rem, 2vw, 1rem);
   }
 
   audio {
@@ -279,20 +309,20 @@
   }
 
   .interactive-container {
-    padding: 1.5rem;
+    padding: clamp(1rem, 3vw, 1.5rem);
     background: rgba(19, 17, 28, 0.6);
     text-align: center;
   }
 
   .reveal-button {
     margin-top: 1.5rem;
-    padding: 0.75rem 1.5rem;
+    padding: clamp(0.5rem, 2vw, 0.75rem) clamp(1rem, 3vw, 1.5rem);
     background: linear-gradient(135deg, #9E61E3 0%, #7A3CA3 100%);
     border: none;
     border-radius: 6px;
     color: #F7E8D4;
     font-family: 'Cinzel', serif;
-    font-size: 1rem;
+    font-size: clamp(0.9rem, 2vw, 1rem);
     cursor: pointer;
     transition: all 0.3s ease;
   }
@@ -303,13 +333,13 @@
   }
 
   .related-tales {
-    margin: 4rem 0;
+    margin: clamp(2rem, 6vw, 4rem) 0;
   }
 
   .related-tales-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr));
+    gap: clamp(1rem, 3vw, 1.5rem);
   }
 
   .related-tale-card {
@@ -328,40 +358,42 @@
 
   .related-tale-image {
     width: 100%;
-    height: 120px;
+    height: clamp(100px, 20vw, 120px);
     object-fit: cover;
   }
 
   .related-tale-content {
-    padding: 1rem;
+    padding: clamp(0.75rem, 2vw, 1rem);
   }
 
   .related-tale-title {
     font-family: 'Cinzel', serif;
-    font-size: 1.1rem;
+    font-size: clamp(1rem, 2vw, 1.1rem);
     margin: 0 0 0.5rem;
     color: #BD9648;
   }
 
   .related-tale-type {
-    font-size: 0.9rem;
+    font-size: clamp(0.8rem, 2vw, 0.9rem);
     color: rgba(247, 232, 212, 0.7);
   }
 
   .navigation {
     display: flex;
     justify-content: space-between;
-    margin-top: 3rem;
+    margin-top: clamp(2rem, 5vw, 3rem);
+    flex-wrap: wrap;
+    gap: 1rem;
   }
 
   .nav-button {
-    padding: 0.75rem 1.25rem;
+    padding: clamp(0.5rem, 2vw, 0.75rem) clamp(0.75rem, 3vw, 1.25rem);
     border: none;
     border-radius: 6px;
     background: rgba(31, 27, 45, 0.6);
     color: #F7E8D4;
     font-family: 'Cinzel', serif;
-    font-size: 0.95rem;
+    font-size: clamp(0.85rem, 2vw, 0.95rem);
     cursor: pointer;
     transition: all 0.3s ease;
     text-decoration: none;
@@ -378,13 +410,13 @@
 
   .footer {
     background: rgba(19, 17, 28, 1);
-    padding: 2rem;
+    padding: clamp(1.5rem, 4vw, 2rem);
     text-align: center;
     border-top: 1px solid rgba(189, 150, 72, 0.2);
   }
 
   .footer-text {
-    font-size: 0.9rem;
+    font-size: clamp(0.8rem, 2vw, 0.9rem);
     color: rgba(247, 232, 212, 0.6);
     font-family: 'Inter', system-ui, sans-serif;
   }
@@ -394,20 +426,39 @@
     max-width: 600px;
     height: 1px;
     background: linear-gradient(90deg, rgba(189, 150, 72, 0) 0%, rgba(189, 150, 72, 0.6) 50%, rgba(189, 150, 72, 0) 100%);
-    margin: 4rem auto;
+    margin: clamp(2rem, 6vw, 4rem) auto;
   }
 
   @media (max-width: 768px) {
     .tale-container {
-      padding: 2rem 1.5rem;
+      padding: clamp(1.5rem, 4vw, 2rem) clamp(1rem, 3vw, 1.5rem);
     }
 
     .tale-header {
-      padding: 3rem 1.5rem 1.5rem;
+      padding: clamp(2rem, 5vw, 3rem) clamp(1rem, 3vw, 1.5rem) clamp(1rem, 3vw, 1.5rem);
     }
 
     .tale-meta {
       gap: 1rem;
+    }
+
+    .navigation {
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 480px) {
+    h1 {
+      font-size: clamp(1.75rem, 5vw, 2.5rem);
+    }
+
+    .tale-meta {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .tale-content {
+      font-size: clamp(0.95rem, 2vw, 1.1rem);
     }
 
     .related-tales-grid {

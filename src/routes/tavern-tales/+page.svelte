@@ -106,6 +106,8 @@
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    width: 100%;
+    overflow-x: hidden;
   }
 
   .hero {
@@ -115,7 +117,7 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 0 2rem;
+    padding: 0 max(1rem, 5vw);
     overflow: hidden;
   }
 
@@ -136,11 +138,12 @@
     max-width: 900px;
     width: 100%;
     z-index: 1;
+    padding: 0 max(1rem, 3vw);
   }
 
   .hero-title {
     font-family: 'Cinzel Decorative', 'Luminari', fantasy;
-    font-size: clamp(3rem, 8vw, 5rem);
+    font-size: clamp(2.5rem, 8vw, 5rem);
     margin-bottom: 0.5rem;
     font-weight: 700;
     color: #F7E8D4;
@@ -150,7 +153,7 @@
 
   .hero-subtitle {
     font-family: 'Spectral', serif;
-    font-size: clamp(1.25rem, 3vw, 1.5rem);
+    font-size: clamp(1.1rem, 3vw, 1.5rem);
     margin-bottom: 2rem;
     color: rgba(247, 232, 212, 0.9);
     max-width: 800px;
@@ -165,27 +168,27 @@
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 100px;
+    height: clamp(50px, 10vw, 100px);
     background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none"><path d="M0,100 L1000,100 L1000,0 C900,80 800,100 700,60 C600,20 500,80 400,100 C300,120 200,80 100,50 L0,100 Z" fill="%231F1B2D"/></svg>');
     background-size: 100% 100%;
     background-repeat: no-repeat;
   }
 
   .main-content {
-    padding: 3rem 2rem;
-    max-width: 1200px;
+    padding: clamp(1.5rem, 5vw, 3rem) clamp(1rem, 3vw, 2rem);
+    max-width: min(95vw, 1200px);
     margin: 0 auto;
     width: 100%;
   }
 
   .featured-section {
-    margin-bottom: 5rem;
+    margin-bottom: clamp(2.5rem, 8vw, 5rem);
   }
 
   .section-title {
     font-family: 'Cinzel', serif;
-    font-size: clamp(1.75rem, 3vw, 2.5rem);
-    margin-bottom: 1.5rem;
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    margin-bottom: clamp(1rem, 3vw, 1.5rem);
     color: #BD9648;
     text-shadow: 0 0 8px rgba(189, 150, 72, 0.3);
     display: flex;
@@ -203,15 +206,15 @@
 
   .featured-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+    gap: clamp(1rem, 3vw, 2rem);
   }
 
   .featured-card {
     position: relative;
     border-radius: 10px;
     overflow: hidden;
-    min-height: 350px;
+    min-height: clamp(300px, 60vh, 350px);
     border: 1px solid rgba(247, 232, 212, 0.1);
     transition: all 0.3s ease;
     background: rgba(31, 27, 45, 0.4);
@@ -227,7 +230,7 @@
 
   .card-image {
     width: 100%;
-    height: 180px;
+    height: clamp(150px, 30vw, 180px);
     object-fit: cover;
   }
 
@@ -242,7 +245,7 @@
   }
 
   .card-content {
-    padding: 1.5rem;
+    padding: clamp(1rem, 3vw, 1.5rem);
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -252,14 +255,14 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 0.5rem;
-    font-size: 0.85rem;
+    font-size: clamp(0.75rem, 2vw, 0.85rem);
     color: rgba(247, 232, 212, 0.7);
     font-family: 'Inter', system-ui, sans-serif;
   }
 
   .card-title {
     font-family: 'Cinzel', serif;
-    font-size: 1.5rem;
+    font-size: clamp(1.25rem, 3vw, 1.5rem);
     margin-bottom: 0.75rem;
     color: #BD9648;
     line-height: 1.3;
@@ -274,16 +277,16 @@
     color: rgba(247, 232, 212, 0.85);
     margin-bottom: 1.5rem;
     font-family: 'Spectral', serif;
-    font-size: 1rem;
+    font-size: clamp(0.9rem, 2vw, 1rem);
     line-height: 1.5;
     flex: 1;
   }
 
   .card-tag {
     display: inline-block;
-    padding: 0.3rem 0.8rem;
+    padding: 0.25rem 0.7rem;
     border-radius: 20px;
-    font-size: 0.85rem;
+    font-size: clamp(0.75rem, 2vw, 0.85rem);
     font-weight: 500;
     margin-right: 0.5rem;
     margin-bottom: 0.5rem;
@@ -326,7 +329,7 @@
     font-weight: 500;
     text-decoration: none;
     font-family: 'Inter', system-ui, sans-serif;
-    font-size: 0.95rem;
+    font-size: clamp(0.85rem, 2vw, 0.95rem);
     transition: all 0.3s ease;
   }
 
@@ -336,24 +339,24 @@
   }
 
   .categories-section {
-    margin-bottom: 5rem;
+    margin-bottom: clamp(2.5rem, 8vw, 5rem);
   }
 
   .categories-container {
     display: flex;
-    gap: 1rem;
+    gap: clamp(0.5rem, 2vw, 1rem);
     flex-wrap: wrap;
-    margin-bottom: 2rem;
+    margin-bottom: clamp(1rem, 3vw, 2rem);
   }
 
   .category-button {
-    padding: 0.75rem 1.5rem;
+    padding: clamp(0.5rem, 2vw, 0.75rem) clamp(0.75rem, 3vw, 1.5rem);
     border-radius: 30px;
     border: 1px solid rgba(247, 232, 212, 0.2);
     background: rgba(31, 27, 45, 0.4);
     color: rgba(247, 232, 212, 0.8);
     font-family: 'Inter', system-ui, sans-serif;
-    font-size: 0.95rem;
+    font-size: clamp(0.85rem, 2vw, 0.95rem);
     cursor: pointer;
     transition: all 0.3s ease;
   }
@@ -372,13 +375,13 @@
   }
 
   .recent-section {
-    margin-bottom: 5rem;
+    margin-bottom: clamp(2.5rem, 8vw, 5rem);
   }
 
   .tales-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+    gap: clamp(1rem, 3vw, 1.5rem);
   }
 
   .tale-card {
@@ -399,12 +402,12 @@
 
   .tale-card-image {
     width: 100%;
-    height: 160px;
+    height: clamp(120px, 25vw, 160px);
     object-fit: cover;
   }
 
   .tale-card-content {
-    padding: 1.5rem;
+    padding: clamp(1rem, 3vw, 1.5rem);
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -414,14 +417,14 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 0.5rem;
-    font-size: 0.8rem;
+    font-size: clamp(0.7rem, 2vw, 0.8rem);
     color: rgba(247, 232, 212, 0.7);
     font-family: 'Inter', system-ui, sans-serif;
   }
 
   .tale-card-title {
     font-family: 'Cinzel', serif;
-    font-size: 1.25rem;
+    font-size: clamp(1.1rem, 3vw, 1.25rem);
     margin-bottom: 0.5rem;
     color: #BD9648;
     line-height: 1.3;
@@ -436,7 +439,7 @@
     color: rgba(247, 232, 212, 0.85);
     margin-bottom: 1rem;
     font-family: 'Spectral', serif;
-    font-size: 0.95rem;
+    font-size: clamp(0.85rem, 2vw, 0.95rem);
     line-height: 1.5;
     flex: 1;
   }
@@ -446,14 +449,14 @@
   }
 
   .search-container {
-    margin-bottom: 2rem;
+    margin-bottom: clamp(1rem, 3vw, 2rem);
     position: relative;
   }
 
   .search-input {
     width: 100%;
-    padding: 1rem 1.5rem;
-    font-size: 1rem;
+    padding: clamp(0.75rem, 2vw, 1rem) clamp(1rem, 3vw, 1.5rem);
+    font-size: clamp(0.9rem, 2vw, 1rem);
     color: #F7E8D4;
     background: rgba(31, 27, 45, 0.4);
     border: 1px solid rgba(247, 232, 212, 0.2);
@@ -475,7 +478,7 @@
     background: none;
     border: none;
     color: rgba(247, 232, 212, 0.7);
-    font-size: 1.2rem;
+    font-size: clamp(1rem, 2vw, 1.2rem);
     cursor: pointer;
     transition: color 0.3s ease;
   }
@@ -485,7 +488,7 @@
   }
 
   .search-results {
-    padding: 1.5rem;
+    padding: clamp(1rem, 3vw, 1.5rem);
     background: rgba(31, 27, 45, 0.6);
     border-radius: 8px;
     margin-bottom: 3rem;
@@ -622,21 +625,46 @@
     font-family: 'Inter', system-ui, sans-serif;
   }
 
-  @media (max-width: 768px) {
-    .main-content {
-      padding: 2rem 1.5rem;
-    }
-
+  @media (max-width: 1100px) {
     .featured-grid {
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr));
+    }
+  }
+
+  @media (max-width: 768px) {
+    .section-title {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
     }
 
-    .tales-grid {
-      grid-template-columns: 1fr;
+    .section-title::after {
+      width: 100%;
+      margin-left: 0;
     }
 
     .categories-container {
       justify-content: center;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero-title {
+      font-size: clamp(2rem, 8vw, 3rem);
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1rem, 3vw, 1.25rem);
+    }
+
+    .card-tag {
+      padding: 0.2rem 0.5rem;
+      margin-right: 0.3rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .featured-card {
+      min-height: 280px;
     }
   }
 </style>
