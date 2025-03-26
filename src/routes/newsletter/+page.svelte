@@ -76,9 +76,9 @@
 
   // Newsletter data
   const newsletters = [
-    { id: 'may-2023', title: 'May 2023: The Hidden Treasures', summary: 'Discover the rarest magical items from distant realms.' },
-    { id: 'april-2023', title: 'April 2023: Spring Festival Special', summary: 'Celebrating the Bloom Festival with exclusive stories and offers.' },
-    { id: 'march-2023', title: 'March 2023: Dungeon Master Tips', summary: 'Expert advice for running memorable campaigns.' }
+    { id: 'january-2025', title: 'January 2025: New Year Adventures', summary: 'Start the year with exciting quests and magical resolutions.' },
+    { id: 'february-2025', title: 'February 2025: Tales of Romance', summary: 'Love potions, enchanted roses, and stories of legendary couples.' },
+    { id: 'march-2025', title: 'March 2025: Dungeon Master Tips', summary: 'Expert advice for running memorable campaigns.' }
   ];
 
   // Mobile menu state

@@ -3,7 +3,7 @@
   import { onMount } from 'svelte';
 
   // Define newsletter ID type
-  type NewsletterID = 'may-2023' | 'april-2023' | 'march-2023';
+  type NewsletterID = 'january-2025' | 'february-2025' | 'march-2025';
 
   // Extract the newsletter ID from the URL
   const id = $page.params.id as NewsletterID;
@@ -17,57 +17,60 @@
 
   // Newsletter data - in a real app, this would be fetched from a database or API
   const newsletters: Record<NewsletterID, Newsletter> = {
-    'may-2023': {
-      title: 'May 2023: The Hidden Treasures',
-      date: 'May 1, 2023',
+    'january-2025': {
+      title: 'January 2025: New Year Adventures',
+      date: 'January 1, 2025',
       content: `
-        <h2>The Hidden Treasures of the Eastern Realms</h2>
+        <h2>Embark on New Year Adventures</h2>
 
-        <p>Welcome, adventurers, to our May edition of the Treasure Tavern newsletter! This month, we're exploring the mythical artifacts of the Eastern Realms, a land shrouded in mystery and magic.</p>
+        <p>Welcome to the first Tavern Chronicles of 2025! As the winter snow blankets the lands, we gather by the hearth to share tales of adventure and plan our quests for the coming year.</p>
 
-        <h3>The Crystal of Eternal Twilight</h3>
+        <h3>New Year's Resolutions for Every Adventurer</h3>
 
-        <p>Deep within the Whispering Mountains lies a crystal that captures the essence of twilight. It's said that gazing into its depths reveals visions of possible futures, but only for those pure of heart. According to legend, the crystal was created when the first rays of moonlight touched the tears of a dying phoenix.</p>
+        <p>The turning of the year is the perfect time to set new goals for your heroic journey. Consider these resolutions that every adventurer should contemplate:</p>
 
-        <h3>The Scrolls of Forgotten Wisdom</h3>
+        <p>- Master a new weapon or spell school</p>
+        <p>- Forge an alliance with a previously hostile faction</p>
+        <p>- Explore that mysterious dungeon you've been avoiding</p>
+        <p>- Commission a bard to immortalize your greatest deed</p>
 
-        <p>These ancient scrolls contain spells and knowledge from a civilization that vanished thousands of years ago. Written in a language that changes depending on who reads them, the scrolls adapt to show the reader exactly what they need to learn—though not always what they want to know.</p>
+        <h3>The Frost Queen's Challenge</h3>
 
-        <h3>Special Offer: Eastern Realms Map Collection</h3>
+        <p>Legend speaks of the Frost Queen's Challenge, a trial that appears only in the first moon of each year. Those brave enough to seek out her ice palace in the Northern Wastes may earn her favor—and magical items that harness the power of winter itself.</p>
 
-        <p>For this month only, we're offering a limited edition set of maps detailing the Eastern Realms, complete with notes from famous explorers and hints about where these treasures might be found. Use code <strong>EASTERN25</strong> at checkout for 25% off!</p>
+        <h3>January Special: Adventurer's Journal</h3>
 
-        <p>Until next month, may your quests be fruitful and your stories legendary.</p>
+        <p>Begin your year right with our leather-bound Adventurer's Journal, complete with sections for quest tracking, treasure inventories, and NPC relationships. Use code <strong>NEWQUEST</strong> for 20% off your purchase!</p>
+
+        <p>May your year be filled with successful quests and legendary tales!</p>
       `
     },
-    'april-2023': {
-      title: 'April 2023: Spring Festival Special',
-      date: 'April 1, 2023',
+    'february-2025': {
+      title: 'February 2025: Tales of Romance',
+      date: 'February 1, 2025',
       content: `
-        <h2>Celebrating the Bloom Festival</h2>
+        <h2>Love and Magic in the Realms</h2>
 
-        <p>Greetings, fellow adventurers! As nature awakens from its slumber, we at Treasure Tavern are excited to share the traditions and secrets of the Spring Bloom Festival.</p>
+        <p>Greetings, brave hearts! February brings with it tales of love that transcend time and magic that binds souls together. This month, we explore the romantic legends that inspire bards across the realms.</p>
 
-        <h3>The Origin of the Bloom Festival</h3>
+        <h3>Legendary Romances</h3>
 
-        <p>The Spring Bloom Festival dates back to the Second Age, when a terrible curse had blanketed the land in eternal winter. It was only through the sacrifice of the elven princess Elowen, who gave her life to awaken the ancient forest spirits, that spring returned to the realm. Each year, we celebrate her gift by planting new life and sharing stories of renewal.</p>
+        <p>Throughout history, love has driven heroes to accomplish impossible feats. The ranger Alastair who transformed himself into a dragon to rescue his beloved from the Obsidian Tower. The sorceress Elindra who cast herself into stone to protect her village—only to be awakened centuries later by a kiss from a wandering healer who saw beauty in the statue. These tales remind us that love is perhaps the strongest magic of all.</p>
 
-        <h3>Bloom Festival Traditions You Can Try</h3>
+        <h3>Enchanted Items for Lovers</h3>
 
-        <p>Create a "wish garden" by planting seeds while focusing on your hopes for the coming year. The blooms that emerge are said to reflect the likelihood of your wishes coming true.</p>
+        <p>The Paired Pendants of Heartspeak allow wearers to sense each other's emotions across any distance. The Rose of Eternal Devotion never wilts so long as the giver's love remains true. The Goblet of Shared Fates ensures that when one drinks, both taste the sweetness—and both share the consequences of poison.</p>
 
-        <p>Craft a crown of spring flowers to honor Princess Elowen. Those who wear such crowns at midnight on the festival's final day sometimes report dreams of guidance from the princess herself.</p>
+        <h3>Valentine's Day Campaign Hook</h3>
 
-        <h3>Limited Time: Bloom Festival Game Expansion</h3>
+        <p>For Dungeon Masters: Try this adventure hook for your February sessions. A local village celebrates Valentine's Day by hanging enchanted lanterns that reveal one's true love. This year, however, all the lanterns show the same mysterious figure, and those who gaze too long find themselves entranced and wandering toward the ancient forest...</p>
 
-        <p>We've created a special Bloom Festival expansion for your tabletop campaigns, complete with festival-themed quests, magical spring items, and unique NPCs to encounter. Download it now from our members' area at no cost!</p>
-
-        <p>May your spring be filled with adventure and new beginnings!</p>
+        <p>Until our next meeting, may your heart find adventure and your adventures feed your heart!</p>
       `
     },
-    'march-2023': {
-      title: 'March 2023: Dungeon Master Tips',
-      date: 'March 1, 2023',
+    'march-2025': {
+      title: 'March 2025: Dungeon Master Tips',
+      date: 'March 1, 2025',
       content: `
         <h2>Mastering the Art of Storytelling</h2>
 
