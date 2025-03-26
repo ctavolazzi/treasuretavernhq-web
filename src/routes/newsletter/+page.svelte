@@ -76,9 +76,9 @@
 
   // Newsletter data
   const newsletters = [
-    { id: '2025-05', title: 'May 2025: The Hidden Treasures', summary: 'Discover the rarest magical items from distant realms.' },
-    { id: '2025-04', title: 'April 2025: Spring Festival Special', summary: 'Celebrating the Bloom Festival with exclusive stories and offers.' },
-    { id: '2025-03', title: 'March 2025: Dungeon Master Tips', summary: 'Expert advice for running memorable campaigns.' }
+    { id: 'may-2023', title: 'May 2023: The Hidden Treasures', summary: 'Discover the rarest magical items from distant realms.' },
+    { id: 'april-2023', title: 'April 2023: Spring Festival Special', summary: 'Celebrating the Bloom Festival with exclusive stories and offers.' },
+    { id: 'march-2023', title: 'March 2023: Dungeon Master Tips', summary: 'Expert advice for running memorable campaigns.' }
   ];
 
   // Mobile menu state
@@ -656,7 +656,7 @@
   <div class="newsletter-nav">
     <div class="newsletter-nav-inner">
       <div class="newsletter-nav-header">
-        <h2 class="newsletter-nav-title">Past Newsletters</h2>
+        <h2 class="newsletter-nav-title">Tavern Chronicles</h2>
         <button class="mobile-menu-toggle" on:click={() => showMobileMenu = !showMobileMenu} aria-label="Toggle newsletter menu">
           <i class="fas fa-{showMobileMenu ? 'times' : 'bars'}" aria-hidden="true"></i>
         </button>

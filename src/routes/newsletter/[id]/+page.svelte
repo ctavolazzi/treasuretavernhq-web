@@ -2,14 +2,24 @@
   import { page } from '$app/stores';
   import { onMount } from 'svelte';
 
+  // Define newsletter ID type
+  type NewsletterID = 'may-2023' | 'april-2023' | 'march-2023';
+
   // Extract the newsletter ID from the URL
-  const id = $page.params.id;
+  const id = $page.params.id as NewsletterID;
+
+  // Interface for a newsletter
+  interface Newsletter {
+    title: string;
+    date: string;
+    content: string;
+  }
 
   // Newsletter data - in a real app, this would be fetched from a database or API
-  const newsletters = {
-    '2025-05': {
-      title: 'May 2025: The Hidden Treasures',
-      date: 'May 1, 2025',
+  const newsletters: Record<NewsletterID, Newsletter> = {
+    'may-2023': {
+      title: 'May 2023: The Hidden Treasures',
+      date: 'May 1, 2023',
       content: `
         <h2>The Hidden Treasures of the Eastern Realms</h2>
 
@@ -30,9 +40,9 @@
         <p>Until next month, may your quests be fruitful and your stories legendary.</p>
       `
     },
-    '2025-04': {
-      title: 'April 2025: Spring Festival Special',
-      date: 'April 1, 2025',
+    'april-2023': {
+      title: 'April 2023: Spring Festival Special',
+      date: 'April 1, 2023',
       content: `
         <h2>Celebrating the Bloom Festival</h2>
 
@@ -55,9 +65,9 @@
         <p>May your spring be filled with adventure and new beginnings!</p>
       `
     },
-    '2025-03': {
-      title: 'March 2025: Dungeon Master Tips',
-      date: 'March 1, 2025',
+    'march-2023': {
+      title: 'March 2023: Dungeon Master Tips',
+      date: 'March 1, 2023',
       content: `
         <h2>Mastering the Art of Storytelling</h2>
 
@@ -242,7 +252,7 @@
 
 <div class="newsletter-page">
   <a href="/newsletter" class="back-link">
-    <i class="fas fa-arrow-left"></i> Back to Newsletters
+    <i class="fas fa-arrow-left"></i> Back to Tavern Chronicles
   </a>
 
   {#if notFound}
