@@ -10,6 +10,19 @@
   let supabaseConfigured = true;
   let newsletterOptIn = true; // Default to checked for better conversion
 
+  // Lantern animation
+  let lanternState: 'out' | 'animate' | 'success' = 'out';
+  let lanternAnimating = false;
+  let lanternAnimationFrame: number;
+  let animationStep = 0;
+  let lanternImages = [
+    '/images/tavern-lantern-out.png',
+    '/images/tavern-lantern-2.png',
+    '/images/tavern-lantern.png'
+  ];
+  let currentImageIndex = 0;
+  let currentLanternImage = lanternImages[0];
+
   // Handle form submission
   async function handleSubmit() {
     loading = true;
@@ -26,7 +39,34 @@
       const result = await subscribeEmail(email, newsletterOptIn, name);
 
       if (result.success) {
-        subscribed = true;
+        // Start a fancy lighting sequence - first spark animation
+        lanternState = 'animate';
+        lanternAnimating = true;
+        currentImageIndex = 1;
+        currentLanternImage = lanternImages[1];
+
+        // After sparking for a moment, fully light the lantern
+        setTimeout(() => {
+          // Increase the flickering intensity for a moment
+          let flickerCount = 0;
+          const intenseFade = setInterval(() => {
+            flickerCount++;
+            currentImageIndex = flickerCount % 2 === 0 ? 1 : 2;
+            currentLanternImage = lanternImages[currentImageIndex];
+
+            // After several flickers, settle on fully lit
+            if (flickerCount > 6) {
+              clearInterval(intenseFade);
+              lanternAnimating = false;
+              lanternState = 'success';
+              currentImageIndex = 2;
+              currentLanternImage = lanternImages[2];
+
+              // Finally set subscribed state (after lantern is lit)
+              subscribed = true;
+            }
+          }, 120) as unknown as number;
+        }, 800);
       } else {
         error = result.error || 'Unknown error occurred';
       }
@@ -44,12 +84,83 @@
     return re.test(emailToCheck);
   }
 
+  // Start lantern animation
+  function startLanternAnimation() {
+    if (lanternState === 'success') return; // Don't animate if subscription successful
+
+    lanternState = 'animate';
+    lanternAnimating = true;
+
+    // Cancel any existing animation
+    if (lanternAnimationFrame) {
+      cancelAnimationFrame(lanternAnimationFrame);
+    }
+
+    // Animation function
+    const animate = () => {
+      animationStep++;
+
+      // Cycle between the spark (1) and lit (2) images rapidly
+      // We use modulo to alternate between 1 and 2 (second and third images)
+      if (animationStep % 5 === 0) { // Change image every 5 frames for a nice effect
+        currentImageIndex = currentImageIndex === 1 ? 2 : 1;
+        currentLanternImage = lanternImages[currentImageIndex];
+      }
+
+      if (lanternAnimating) {
+        lanternAnimationFrame = requestAnimationFrame(animate);
+      }
+    };
+
+    // Start the animation
+    animate();
+  }
+
+  // Stop lantern animation
+  function stopLanternAnimation() {
+    if (lanternState === 'success') return; // Don't stop if subscription successful
+
+    lanternAnimating = false;
+    lanternState = 'out';
+    currentImageIndex = 0;
+    currentLanternImage = lanternImages[0];
+
+    if (lanternAnimationFrame) {
+      cancelAnimationFrame(lanternAnimationFrame);
+      lanternAnimationFrame = undefined;
+    }
+  }
+
+  // Event handlers
+  function handleTouchStart() {
+    startLanternAnimation();
+  }
+
+  function handleTouchEnd() {
+    stopLanternAnimation();
+  }
+
+  function handleMouseEnter() {
+    startLanternAnimation();
+  }
+
+  function handleMouseLeave() {
+    stopLanternAnimation();
+  }
+
   onMount(() => {
     // Check if Supabase is configured properly
     supabaseConfigured = isSupabaseConfigured();
     if (!supabaseConfigured) {
       console.warn('Supabase is not properly configured. Email submission will be simulated.');
     }
+
+    // Clean up animation on unmount
+    return () => {
+      if (lanternAnimationFrame) {
+        cancelAnimationFrame(lanternAnimationFrame);
+      }
+    };
   });
 </script>
 
@@ -410,11 +521,185 @@
       padding-top: 0;
     }
   }
+
+  .lantern-container {
+    position: relative;
+    margin: 0 auto 1.5rem;
+    width: 180px;
+    height: 180px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .lantern-container:hover {
+    transform: translateY(-3px);
+  }
+
+  .lantern-container:active {
+    transform: translateY(0);
+  }
+
+  .lantern-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: all 0.1s ease;
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
+  }
+
+  .lantern-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255, 215, 107, 0.4) 0%, rgba(255, 215, 107, 0) 70%);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .lantern-animate .lantern-glow {
+    opacity: 0.7;
+    background: radial-gradient(circle, rgba(255, 180, 80, 0.6) 0%, rgba(255, 180, 80, 0) 60%);
+    animation: flicker 0.3s ease-in-out infinite alternate;
+  }
+
+  .lantern-success .lantern-glow {
+    opacity: 1;
+    background: radial-gradient(circle, rgba(255, 215, 107, 0.7) 0%, rgba(255, 215, 107, 0) 70%);
+    animation: pulse 3s infinite alternate;
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(1); opacity: 0.5; }
+    100% { transform: scale(1.15); opacity: 0.8; }
+  }
+
+  @keyframes flicker {
+    0% { opacity: 0.4; transform: scale(0.98); }
+    100% { opacity: 0.7; transform: scale(1.02); }
+  }
+
+  /* Exploration Section Styles */
+  .exploration-section {
+    margin-top: 3rem;
+    padding: 1.5rem;
+    border-radius: 10px;
+    background: rgba(31, 27, 45, 0.4);
+    border: 1px solid rgba(247, 232, 212, 0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .exploration-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    margin: 0 0 1rem;
+    font-weight: 700;
+    color: #BD9648;
+    text-shadow: 0 0 8px rgba(189, 150, 72, 0.3);
+    text-align: center;
+  }
+
+  .exploration-description {
+    font-family: 'Spectral', serif;
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    margin: 0 auto 1.5rem;
+    text-align: center;
+    max-width: 700px;
+    color: rgba(247, 232, 212, 0.92);
+    line-height: 1.5;
+  }
+
+  .exploration-links {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr));
+    gap: clamp(1rem, 3vw, 1.5rem);
+    margin-top: 1.5rem;
+  }
+
+  .exploration-card {
+    background: rgba(19, 17, 28, 0.6);
+    border: 1px solid rgba(247, 232, 212, 0.1);
+    border-radius: 8px;
+    padding: 1.5rem 1.25rem;
+    text-decoration: none;
+    color: #F7E8D4;
+    transition: all 0.3s ease;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  .exploration-card:hover {
+    transform: translateY(-3px);
+    background: rgba(19, 17, 28, 0.7);
+    border-color: rgba(189, 150, 72, 0.3);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  }
+
+  .exploration-card h3 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.1rem, 2vw, 1.3rem);
+    margin: 0.75rem 0 0.5rem;
+    color: #BD9648;
+    font-weight: 600;
+  }
+
+  .exploration-card p {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: clamp(0.85rem, 2vw, 0.95rem);
+    margin: 0;
+    color: rgba(247, 232, 212, 0.85);
+    line-height: 1.3;
+  }
+
+  .card-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  }
+
+  @media (max-width: 768px) {
+    .exploration-section {
+      padding: 1.25rem;
+      margin-top: 2rem;
+    }
+
+    .exploration-links {
+      grid-template-columns: 1fr;
+    }
+  }
 </style>
 
 <main>
   <div class="container">
     <h1>The Door Is Opening</h1>
+
+    <!-- Interactive Lantern with touch/hover animation -->
+    <div class="lantern-container lantern-{lanternState}"
+      on:mouseenter={handleMouseEnter}
+      on:mouseleave={handleMouseLeave}
+      on:touchstart|preventDefault={handleTouchStart}
+      on:touchend|preventDefault={handleTouchEnd}
+      on:touchcancel|preventDefault={handleTouchEnd}>
+      <div class="lantern-glow"></div>
+      <img
+        src={currentLanternImage}
+        alt="Tavern Lantern"
+        class="lantern-image"
+        draggable="false"
+      />
+    </div>
+
     <p class="subheading" style="text-align: center; margin-left: auto; margin-right: auto;">An amusing fantasy universe is coming. Join early to unlock the Tavern.</p>
 
     {#if !subscribed}
@@ -464,5 +749,49 @@
     {/if}
 
     <p>Become a Friend of the Tavern and receive tales, secrets, and early access to a growing fantasy universe.</p>
+
+    <!-- Exploration Section -->
+    <div class="exploration-section">
+      <h2 class="exploration-title">Discover the Tavern</h2>
+      <p class="exploration-description">Treasure Tavern is a fantastical universe filled with mythical characters, magical artifacts, and extraordinary tales. Explore our world through the links below and begin your journey.</p>
+
+      <div class="exploration-links">
+        <a href="/tavern-tales" class="exploration-card">
+          <div class="card-icon">📜</div>
+          <h3>Tavern Tales</h3>
+          <p>Immerse yourself in fantastical stories from across the realm</p>
+        </a>
+
+        <a href="/about" class="exploration-card">
+          <div class="card-icon">🏮</div>
+          <h3>About</h3>
+          <p>Learn the history and purpose of the mystical Treasure Tavern</p>
+        </a>
+
+        <a href="/newsletter" class="exploration-card">
+          <div class="card-icon">📯</div>
+          <h3>Newsletter</h3>
+          <p>Subscribe to receive magical updates and exclusive content</p>
+        </a>
+
+        <a href="/announcements" class="exploration-card">
+          <div class="card-icon">📣</div>
+          <h3>Announcements</h3>
+          <p>Hear the latest news and upcoming events from the Tavern</p>
+        </a>
+
+        <a href="/contact" class="exploration-card">
+          <div class="card-icon">💌</div>
+          <h3>Contact</h3>
+          <p>Send a message to the Tavern Keepers with questions or tales</p>
+        </a>
+
+        <a href="/demo" class="exploration-card">
+          <div class="card-icon">✨</div>
+          <h3>Demo</h3>
+          <p>Experience interactive previews of upcoming features</p>
+        </a>
+      </div>
+    </div>
   </div>
 </main>

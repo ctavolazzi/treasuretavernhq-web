@@ -277,6 +277,26 @@
             Immerse yourself in interactive encounters, enchanted riddles, and experiences that blur the line between story and reality.
           </p>
         </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-map-marked-alt"></i>
+          </div>
+          <h3 class="feature-title">Exclusive Events</h3>
+          <p class="feature-description">
+            Participate in seasonal gatherings, storytelling contests, and mysterious quests that bridge the gap between our realm and the world of fantasy.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-coins"></i>
+          </div>
+          <h3 class="feature-title">Treasure Rewards</h3>
+          <p class="feature-description">
+            Earn unique tokens, badges, and virtual artifacts as you contribute to our community, unlocking special content and hidden tales.
+          </p>
+        </div>
       </div>
     </section>
 

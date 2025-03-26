@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import { fade } from 'svelte/transition';
   import AnnouncementCta from '$lib/components/AnnouncementCta.svelte';
 
   // Define Tale interface to fix type errors
@@ -39,10 +40,37 @@
   // Handle media display
   let mediaReady = false;
 
+  // Track the current slug to help with reactivity
+  let currentSlug: string | undefined;
+  // Add a loading state
+  let isLoading = false;
+
   onMount(() => {
     // Handle any client-side initialization
     mediaReady = true;
+
+    // Initial scroll to top on page load
+    window.scrollTo({ top: 0, behavior: 'auto' });
+
+    // Simpler approach - ensure loading state is reset properly
+    // Marking as loaded initially (after component mount)
+    isLoading = false;
+
+    // Set up a safety timer to ensure spinner doesn't get stuck
+    const safetyTimer = setTimeout(() => {
+      if (isLoading) {
+        isLoading = false;
+      }
+    }, 3000); // 3 second safety timeout
+
+    // Clean up
+    return () => {
+      clearTimeout(safetyTimer);
+    };
   });
+
+  // Track changes to the tale slug without doing anything that would cause SSR issues
+  $: currentSlug = tale?.slug;
 </script>
 
 <style>
@@ -375,8 +403,9 @@
 
   .related-tale-image {
     width: 100%;
-    height: clamp(100px, 20vw, 120px);
-    object-fit: cover;
+    height: auto;
+    object-fit: contain;
+    max-height: 150px;
   }
 
   .related-tale-content {
@@ -446,6 +475,70 @@
     margin: clamp(2rem, 6vw, 4rem) auto;
   }
 
+  /* Loading spinner and overlay */
+  .loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(19, 17, 28, 0.92);
+    z-index: 9999; /* Ensure it's above everything */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.2s ease;
+  }
+
+  .loading-text {
+    font-family: 'Cinzel', serif;
+    color: #F7E8D4;
+    margin-top: 1.5rem;
+    font-size: 1.2rem;
+    text-shadow: 0 0 10px rgba(158, 97, 227, 0.6);
+  }
+
+  .spinner {
+    width: 60px;
+    height: 60px;
+    border: 5px solid transparent;
+    border-top-color: #9E61E3;
+    border-radius: 50%;
+    animation: spin 1s ease-in-out infinite;
+    position: relative;
+  }
+
+  .spinner:before, .spinner:after {
+    content: "";
+    position: absolute;
+    border: 5px solid transparent;
+    border-radius: 50%;
+  }
+
+  .spinner:before {
+    top: -15px;
+    left: -15px;
+    right: -15px;
+    bottom: -15px;
+    border-top-color: #BD9648;
+    animation: spin 2s linear infinite;
+  }
+
+  .spinner:after {
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
+    border-top-color: #F7E8D4;
+    animation: spin 1.5s linear infinite;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
   @media (max-width: 768px) {
     .tale-container {
       padding: clamp(1.5rem, 4vw, 2rem) clamp(1rem, 3vw, 1.5rem);
@@ -490,6 +583,14 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </svelte:head>
 
+{#key tale.slug}
+<!-- Loading overlay - positioned above everything -->
+{#if isLoading}
+<div class="loading-overlay" transition:fade={{ duration: 150 }}>
+  <div class="spinner"></div>
+  <p class="loading-text">Loading Chronicle...</p>
+</div>
+{/if}
 <div class="page-container">
   <header class="tale-header">
     <div class="tale-meta">
@@ -560,12 +661,33 @@
     </div>
 
     <!-- Related tales section -->
-    {#if relatedTales.length > 0}
+    {#if relatedTales && relatedTales.length > 0}
       <div class="related-tales">
         <h2>Related Chronicles</h2>
         <div class="related-tales-grid">
           {#each relatedTales as relatedTale}
-            <a href={`/tavern-tales/${relatedTale.slug}`} class="related-tale-card">
+            <a
+              href={`/tavern-tales/${encodeURIComponent(relatedTale.slug)}`}
+              class="related-tale-card"
+              data-sveltekit-preload-data="hover"
+              on:click={(e) => {
+                // Prevent default link behavior
+                e.preventDefault();
+
+                if (typeof window !== 'undefined') {
+                  // Show loading state
+                  isLoading = true;
+
+                  // Scroll to top immediately
+                  window.scrollTo({ top: 0, behavior: 'auto' });
+
+                  // Short delay for visual feedback, then navigate
+                  setTimeout(() => {
+                    window.location.href = `/tavern-tales/${encodeURIComponent(relatedTale.slug)}`;
+                  }, 300);
+                }
+              }}
+            >
               <img src={relatedTale.coverImage} alt={relatedTale.title} class="related-tale-image">
               <div class="related-tale-content">
                 <h3 class="related-tale-title">{relatedTale.title}</h3>
@@ -581,10 +703,10 @@
 
     <!-- CTA Section -->
     <AnnouncementCta
-      title="Share Your Own Tale"
-      description="The Tavern welcomes stories from travelers far and wide. Perhaps you have encountered something strange on your journeys worth recording in our archives?"
-      buttonText="Return to Chronicles"
-      demoLink="/tavern-tales"
+      title="Join the Tavern's Inner Circle"
+      description="Subscribe to our Chronicles newsletter to receive exclusive tales, early access to new stories, and special invitations to Tavern events. Be part of our community of storytellers and adventurers."
+      buttonText="Subscribe to Chronicles"
+      demoLink="/newsletter"
     />
 
     <div class="navigation">
@@ -603,3 +725,4 @@
     <p class="footer-text">© {new Date().getFullYear()} Treasure Tavern. All rights reserved.</p>
   </footer>
 </div>
+{/key}

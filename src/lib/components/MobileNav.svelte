@@ -250,6 +250,10 @@
     animation-delay: 0.3s;
   }
 
+  .mobile-menu.open .mobile-nav-link:nth-child(6) {
+    animation-delay: 0.35s;
+  }
+
   @keyframes slideIn {
     to {
       opacity: 1;
@@ -330,5 +334,9 @@
   <a href="/about" class="mobile-nav-link" on:click={closeMenu}>
     <span class="mobile-nav-icon"><i class="fas fa-info-circle"></i></span>
     About
+  </a>
+  <a href="/contact" class="mobile-nav-link" on:click={closeMenu}>
+    <span class="mobile-nav-icon"><i class="fas fa-envelope"></i></span>
+    Contact
   </a>
 </div>

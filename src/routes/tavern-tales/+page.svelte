@@ -230,8 +230,9 @@
 
   .card-image {
     width: 100%;
-    height: clamp(150px, 30vw, 180px);
-    object-fit: cover;
+    height: auto;
+    object-fit: contain;
+    max-height: 250px;
   }
 
   .card-overlay {
@@ -402,8 +403,9 @@
 
   .tale-card-image {
     width: 100%;
-    height: clamp(120px, 25vw, 160px);
-    object-fit: cover;
+    height: auto;
+    object-fit: contain;
+    max-height: 200px;
   }
 
   .tale-card-content {

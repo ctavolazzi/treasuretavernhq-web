@@ -188,6 +188,41 @@
       margin-right: 0;
     }
   }
+
+  /* Footer Styles */
+  .footer {
+    background: rgba(19, 17, 28, 0.95);
+    border-top: 1px solid rgba(189, 150, 72, 0.3);
+    padding: 1.5rem 0;
+    text-align: center;
+    margin-top: 2rem;
+  }
+
+  .footer-text {
+    color: rgba(247, 232, 212, 0.75);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.95rem;
+    margin: 0;
+  }
+
+  .footer-links {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+
+  .footer-link {
+    color: rgba(247, 232, 212, 0.65);
+    text-decoration: none;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+  }
+
+  .footer-link:hover {
+    color: #BD9648;
+  }
 </style>
 
 <nav>
@@ -204,6 +239,7 @@
     <a href="/demo" class="nav-link">Demo</a>
     <a href="/announcements" class="nav-link">Announcements</a>
     <a href="/about" class="nav-link">About</a>
+    <a href="/contact" class="nav-link">Contact</a>
   </div>
 
   <!-- Mobile Menu Component -->
@@ -215,3 +251,14 @@
 </a>
 
 {@render children()}
+
+<!-- Footer -->
+<footer class="footer">
+  <p class="footer-text">© {new Date().getFullYear()} Treasure Tavern. All rights reserved.</p>
+  <div class="footer-links">
+    <a href="/about" class="footer-link">About</a>
+    <a href="/contact" class="footer-link">Contact</a>
+    <a href="/tavern-tales" class="footer-link">Tales</a>
+    <a href="/newsletter" class="footer-link">Newsletter</a>
+  </div>
+</footer>
