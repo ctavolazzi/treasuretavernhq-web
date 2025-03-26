@@ -1,8 +1,10 @@
 <script lang="ts">
 	import '../app.css';
+	import MobileNav from '$lib/components/MobileNav.svelte';
 	let { children } = $props();
 
   let bannerActive = false;
+  let mobileMenuOpen = false;
 
   function toggleBanner() {
     bannerActive = !bannerActive;
@@ -28,6 +30,10 @@
     font-family: 'Spectral', Georgia, serif;
     margin: 0;
     padding: 0;
+  }
+
+  :global(body.no-scroll) {
+    overflow: hidden;
   }
 
   nav {
@@ -154,13 +160,7 @@
     }
 
     .nav-right {
-      display: flex;
-      gap: 0.75rem;
-    }
-
-    .nav-link {
-      margin-left: 0;
-      font-size: 0.9rem;
+      display: none; /* Hide regular menu on mobile */
     }
 
     .logo span {
@@ -199,6 +199,9 @@
     <a href="/announcements" class="nav-link">Announcements</a>
     <a href="/about" class="nav-link">About</a>
   </div>
+
+  <!-- Mobile Menu Component -->
+  <MobileNav bind:isOpen={mobileMenuOpen} />
 </nav>
 
 <a href="/about" class="banner" class:active={bannerActive} on:click={toggleBanner}>

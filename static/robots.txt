@@ -1,0 +1,21 @@
+# robots.txt for Treasure Tavern
+
+User-agent: *
+Allow: /
+Allow: /about
+Allow: /tavern-tales
+Allow: /newsletter
+Allow: /announcements
+
+# Prevent indexing of any admin areas if added in the future
+Disallow: /admin/
+Disallow: /api/
+
+# Allow common bots with slightly more permissions
+User-agent: Googlebot
+User-agent: Bingbot
+User-agent: Slurp
+Allow: /
+
+# Sitemap location (when added)
+# Sitemap: https://treasuretavern.com/sitemap.xml
