@@ -106,6 +106,10 @@
     text-align: center;
     cursor: pointer;
     transition: all 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
   }
 
   .banner:hover {
@@ -122,7 +126,8 @@
     text-shadow: 0 0 8px rgba(189, 150, 72, 0.3);
     margin: 0;
     transition: all 0.3s ease;
-    display: inline-block;
+    display: block;
+    width: 100%;
   }
 
   .banner:hover .banner-text {
@@ -173,6 +178,7 @@
     }
 
     .logo img {
+      height: 35px;
       margin-right: 0;
     }
   }
@@ -188,14 +194,15 @@
 
   <div class="nav-right">
     <a href="/newsletter" class="nav-link">Newsletter</a>
-    <a href="/tavern-tales" class="nav-link">Tavern Tales</a>
+    <a href="/tavern-tales" class="nav-link">Tales</a>
     <a href="/demo" class="nav-link">Demo</a>
     <a href="/announcements" class="nav-link">Announcements</a>
+    <a href="/about" class="nav-link">About</a>
   </div>
 </nav>
 
-<div class="banner" class:active={bannerActive} on:click={toggleBanner}>
+<a href="/about" class="banner" class:active={bannerActive} on:click={toggleBanner}>
   <h1 class="banner-text">Treasure Tavern HQ</h1>
-</div>
+</a>
 
 {@render children()}
