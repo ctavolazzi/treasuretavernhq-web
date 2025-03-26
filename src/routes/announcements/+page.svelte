@@ -5,21 +5,24 @@
   const announcements = [
     {
       id: 1,
-      date: "April 20, 2024",
-      title: "The Tavern's Foundation",
-      content: "We've broken ground on the Treasure Tavern! Our magical establishment is taking shape, and we're excited to share the journey with you. Stay tuned for more updates as construction continues."
+      slug: "goblin-infestation-cleanup",
+      date: "March 10, 2025",
+      title: "Goblin Infestation Cleanup Complete",
+      content: "After weeks of battling the unexpected goblin infestation in our cellar, our brave adventurers have finally cleared out the last of the vermin. Special thanks to the Dwarven Extermination Guild for their assistance with the particularly stubborn goblin king who had established a throne made entirely of stolen silverware."
     },
     {
       id: 2,
-      date: "April 22, 2024",
-      title: "Character Creation Begins",
-      content: "The first inhabitants of our fantasy universe are coming to life! Our storytellers and artists are hard at work creating memorable characters who will populate the Tavern and its surrounding world."
+      slug: "machine-elves-strike-resolved",
+      date: "March 15, 2025",
+      title: "Machine Elves Strike Resolved",
+      content: "The labor dispute with our Machine Elves kitchen staff has finally been settled. Their demands for 'chronologically flexible lunch breaks' and 'interdimensional vacation days' have been accommodated. Patrons may notice our menu now includes several dishes that technically don't exist on this plane of reality."
     },
     {
       id: 3,
-      date: "April 25, 2024",
-      title: "Early Access Coming Soon",
-      content: "Friends of the Tavern will soon receive their first invitations to peek behind the scenes. Early access will begin in phases, with the earliest supporters getting the first chance to experience what we're building."
+      slug: "dragon-mating-season",
+      date: "March 22, 2025",
+      title: "Warning: Dragon Mating Season",
+      content: "Patrons are advised to use the eastern entrance until further notice, as a pair of adolescent copper dragons have claimed our western tower for courtship rituals. The local Dragonriders Guild assures us this is temporary, though the occasional rain of molten copper may continue through the month. Complimentary fireproof umbrellas available at the coat check."
     }
   ];
 </script>
@@ -149,6 +152,37 @@
     background: linear-gradient(135deg, #AF71F4 0%, #8547B0 100%);
   }
 
+  .announcement-link {
+    text-decoration: none;
+    color: #BD9648;
+    transition: color 0.3s ease;
+  }
+
+  .announcement-link:hover {
+    color: #d8b05c;
+    text-decoration: underline;
+  }
+
+  .read-more-button {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background: rgba(158, 97, 227, 0.15);
+    border: 1px solid rgba(158, 97, 227, 0.3);
+    border-radius: 4px;
+    color: #9E61E3;
+    font-family: 'Cinzel', serif;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .read-more-button:hover {
+    background: rgba(158, 97, 227, 0.25);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+
   @media (max-width: 768px) {
     main {
       padding: 1.5rem;
@@ -166,8 +200,11 @@
         {#each announcements as announcement (announcement.id)}
           <div class="announcement">
             <div class="announcement-date">{announcement.date}</div>
-            <h2 class="announcement-title">{announcement.title}</h2>
-            <p class="announcement-content">{announcement.content}</p>
+            <h2 class="announcement-title">
+              <a href="/announcements/{announcement.slug}" class="announcement-link">{announcement.title}</a>
+            </h2>
+            <p class="announcement-content">{announcement.content.slice(0, 180)}...</p>
+            <a href="/announcements/{announcement.slug}" class="read-more-button">Read Full Announcement</a>
           </div>
         {/each}
       {:else}
