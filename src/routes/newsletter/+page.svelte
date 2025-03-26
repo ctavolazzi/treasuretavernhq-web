@@ -649,14 +649,16 @@
   .newsletter-link.coming-soon {
     background: rgba(19, 17, 28, 0.4);
     border: 1px dashed rgba(189, 150, 72, 0.3);
-    cursor: default;
     position: relative;
     overflow: hidden;
+    cursor: pointer;
   }
 
   .newsletter-link.coming-soon:hover {
-    transform: none;
-    box-shadow: none;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    background: rgba(19, 17, 28, 0.6);
+    border-color: rgba(189, 150, 72, 0.5);
   }
 
   .coming-soon-label {
@@ -695,11 +697,11 @@
         {#each newsletters as newsletter}
           <li class="newsletter-item">
             {#if newsletter.comingSoon}
-              <div class="newsletter-link coming-soon">
+              <a href="#hero-section" class="newsletter-link coming-soon">
                 <h3 class="newsletter-link-title">{newsletter.title}</h3>
                 <p class="newsletter-link-summary">{newsletter.summary}</p>
                 <div class="coming-soon-label">Coming Soon</div>
-              </div>
+              </a>
             {:else}
               <a href="/newsletter/{newsletter.id}" class="newsletter-link">
                 <h3 class="newsletter-link-title">{newsletter.title}</h3>
@@ -713,7 +715,7 @@
   </div>
 
   <!-- Hero Section with Primary Signup -->
-  <section class="hero-section">
+  <section id="hero-section" class="hero-section">
     <div class="hero-content">
       <a href="/" style="text-decoration: none;">
         <p class="brand-heading">Treasure Tavern Presents</p>
@@ -727,10 +729,10 @@
 
       <!-- Hero Form - First Signup Opportunity -->
       <div class="cta-form">
-        <h3 class="form-title">Begin Your Journey</h3>
+        <h3 class="form-title">Be The First To Receive New Chronicles</h3>
         {#if heroForm.success}
           <div class="success-message">
-            <i class="fas fa-check-circle"></i> Thank you for joining our fellowship! Check your inbox for your welcome message.
+            <i class="fas fa-check-circle"></i> Thank you for joining our fellowship! We'll send you our latest Chronicles as soon as they're released.
           </div>
         {:else}
           <form on:submit|preventDefault={handleHeroSubmit}>
@@ -752,14 +754,14 @@
                 bind:checked={heroForm.newsletterOptIn}
               />
               <label for="hero-newsletter-opt-in">
-                Yes, send me exclusive content, special offers, and updates from Treasure Tavern.
+                Yes, send me new Chronicles as soon as they're released, plus exclusive content and offers.
               </label>
             </div>
             {#if heroForm.error}
               <div class="error-message"><i class="fas fa-exclamation-circle"></i> {heroForm.error}</div>
             {/if}
             <button type="submit" disabled={heroForm.loading}>
-              {heroForm.loading ? 'Joining...' : 'Join the Adventure'}
+              {heroForm.loading ? 'Joining...' : 'Never Miss a Chronicle'}
             </button>
           </form>
         {/if}

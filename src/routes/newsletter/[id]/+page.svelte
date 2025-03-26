@@ -238,6 +238,34 @@
     margin: 0 0 1.5rem;
   }
 
+  .cta-benefits {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .benefit-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Inter', sans-serif;
+    color: rgba(247, 232, 212, 0.9);
+  }
+
+  .benefit-item i {
+    color: #9E61E3;
+    font-size: 1.1rem;
+  }
+
+  .cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
   .subscribe-button {
     display: inline-block;
     padding: 0.75rem 1.5rem;
@@ -254,6 +282,26 @@
     transform: translateY(-2px);
     box-shadow: 0 7px 15px rgba(0, 0, 0, 0.2);
     background: linear-gradient(135deg, #A671E6 0%, #8A4CB3 100%);
+  }
+
+  .demo-button {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background: transparent;
+    color: #F7E8D4;
+    text-decoration: none;
+    font-family: 'Cinzel', serif;
+    font-weight: 500;
+    border-radius: 6px;
+    border: 1px solid rgba(189, 150, 72, 0.4);
+    transition: all 0.3s ease;
+  }
+
+  .demo-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 7px 15px rgba(0, 0, 0, 0.1);
+    border-color: rgba(189, 150, 72, 0.7);
+    background: rgba(31, 27, 45, 0.4);
   }
 
   .share-button {
@@ -339,9 +387,26 @@
     </div>
 
     <div class="subscribe-cta">
-      <h3>Enjoying Our Newsletter?</h3>
-      <p>Don't miss future editions! Subscribe now to receive magical content directly in your inbox.</p>
-      <a href="/newsletter" class="subscribe-button">Subscribe Now</a>
+      <h3>Want More Tavern Chronicles?</h3>
+      <p>Don't miss future editions! Subscribe now to get our next chronicle <strong>"April 2025: Coming Soon"</strong> delivered straight to your inbox as soon as it's released.</p>
+      <div class="cta-benefits">
+        <div class="benefit-item">
+          <i class="fas fa-scroll"></i>
+          <span>First access to new Chronicles</span>
+        </div>
+        <div class="benefit-item">
+          <i class="fas fa-gem"></i>
+          <span>Exclusive subscriber-only content</span>
+        </div>
+        <div class="benefit-item">
+          <i class="fas fa-hat-wizard"></i>
+          <span>Special offers on magical items</span>
+        </div>
+      </div>
+      <div class="cta-buttons">
+        <a href="/newsletter#hero-section" class="subscribe-button">Subscribe Now</a>
+        <a href="/demo" class="demo-button">Try Free Demo</a>
+      </div>
     </div>
   {/if}
 </div>
