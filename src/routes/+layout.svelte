@@ -1,7 +1,24 @@
 <script lang="ts">
 	import '../app.css';
 	let { children } = $props();
+
+  let bannerActive = false;
+
+  function toggleBanner() {
+    bannerActive = !bannerActive;
+
+    // Optional: Add some fun effect when clicked
+    if (bannerActive) {
+      setTimeout(() => {
+        bannerActive = false;
+      }, 1000);
+    }
+  }
 </script>
+
+<svelte:head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</svelte:head>
 
 <style>
   /* Import the required fonts from Google Fonts */
@@ -9,29 +26,174 @@
 
   :global(body) {
     font-family: 'Spectral', Georgia, serif;
+    margin: 0;
+    padding: 0;
+  }
+
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1.5rem;
+    background: rgba(19, 17, 28, 0.98);
+    border-bottom: 1px solid rgba(189, 150, 72, 0.3);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .nav-left, .nav-right {
+    display: flex;
+    align-items: center;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #F7E8D4;
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    transition: opacity 0.2s ease;
+  }
+
+  .logo:hover {
+    opacity: 0.9;
+  }
+
+  .logo img {
+    height: 40px;
+    margin-right: 0.75rem;
+    filter: drop-shadow(0 0 2px rgba(189, 150, 72, 0.5));
+  }
+
+  .nav-link {
+    color: rgba(247, 232, 212, 0.85);
+    text-decoration: none;
+    margin-left: 2rem;
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    position: relative;
+    padding: 0.25rem 0;
+  }
+
+  .nav-link:after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background: #BD9648;
+    transition: width 0.2s ease;
+  }
+
+  .nav-link:hover {
+    color: #BD9648;
+    text-shadow: 0 0 8px rgba(189, 150, 72, 0.3);
+  }
+
+  .nav-link:hover:after {
+    width: 100%;
   }
 
   .banner {
     padding: 0.5rem 0.75rem;
     background: linear-gradient(90deg, #13111C 0%, #1F1B2D 50%, #13111C 100%);
     border-bottom: 1px solid rgba(189, 150, 72, 0.3);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .banner:hover {
+    background: linear-gradient(90deg, #181423 0%, #262238 50%, #181423 100%);
   }
 
   .banner-text {
     color: #BD9648;
-    font-size: clamp(1rem, 1.5vw, 1.2rem);
+    font-size: clamp(0.9rem, 1.5vw, 1.1rem);
     text-transform: uppercase;
     letter-spacing: 0.25em;
     font-family: 'Cinzel', serif;
     font-weight: 500;
     text-shadow: 0 0 8px rgba(189, 150, 72, 0.3);
     margin: 0;
+    transition: all 0.3s ease;
+    display: inline-block;
+  }
+
+  .banner:hover .banner-text {
+    color: #d8b05c;
+    letter-spacing: 0.28em;
+    text-shadow: 0 0 12px rgba(189, 150, 72, 0.6);
+  }
+
+  .banner.active {
+    background: linear-gradient(90deg, #181423 0%, #262238 50%, #181423 100%);
+  }
+
+  .banner.active .banner-text {
+    transform: scale(1.05);
+  }
+
+  @media (max-width: 768px) {
+    nav {
+      padding: 0.75rem 1rem;
+    }
+
+    .nav-left {
+      flex: 1;
+    }
+
+    .nav-right {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .nav-link {
+      margin-left: 0;
+      font-size: 0.9rem;
+    }
+
+    .logo span {
+      font-size: 0.9rem;
+    }
+
+    .logo img {
+      height: 32px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .logo span {
+      display: none;
+    }
+
+    .logo img {
+      margin-right: 0;
+    }
   }
 </style>
 
-<div class="banner">
+<nav>
+  <div class="nav-left">
+    <a href="/" class="logo">
+      <img src="/treasure-tavern-logo-small.png" alt="Treasure Tavern" />
+      <span>Treasure Tavern</span>
+    </a>
+  </div>
+
+  <div class="nav-right">
+    <a href="/newsletter" class="nav-link">Newsletter</a>
+    <a href="/demo" class="nav-link">Demo</a>
+    <a href="/announcements" class="nav-link">Announcements</a>
+  </div>
+</nav>
+
+<div class="banner" class:active={bannerActive} on:click={toggleBanner}>
   <h1 class="banner-text">Treasure Tavern HQ</h1>
 </div>
 

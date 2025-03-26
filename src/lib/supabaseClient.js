@@ -8,9 +8,10 @@ export const supabase = createClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_K
  * @param {string} email - The email address to subscribe
  * @param {boolean} [newsletterOptIn=true] - Whether the user opted in to the newsletter
  * @param {string} [name=''] - The user's name (optional)
+ * @param {string} [source='splash_page'] - The source of the subscription
  * @returns {Promise<{success: boolean, error: string|null}>} Result object
  */
-export async function subscribeEmail(email, newsletterOptIn = true, name = '') {
+export async function subscribeEmail(email, newsletterOptIn = true, name = '', source = 'splash_page') {
   try {
     const { error } = await supabase
       .from('emails')
@@ -19,7 +20,7 @@ export async function subscribeEmail(email, newsletterOptIn = true, name = '') {
           email,
           name: name.trim(), // Store the trimmed name if provided
           created_at: new Date().toISOString(),
-          source: 'splash_page',
+          source: source, // Use the provided source or default to 'splash_page'
           newsletter_opt_in: newsletterOptIn
         }
       ]);
