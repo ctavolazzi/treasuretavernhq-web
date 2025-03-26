@@ -678,7 +678,12 @@
   <div class="newsletter-nav">
     <div class="newsletter-nav-inner">
       <div class="newsletter-nav-header">
-        <h2 class="newsletter-nav-title">Tavern Chronicles</h2>
+        <h2 class="newsletter-nav-title">
+          <a href="/tavern-tales" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 0.5rem;">
+            Tavern Chronicles
+            <i class="fas fa-external-link-alt" style="font-size: 0.8rem;"></i>
+          </a>
+        </h2>
         <button class="mobile-menu-toggle" on:click={() => showMobileMenu = !showMobileMenu} aria-label="Toggle newsletter menu">
           <i class="fas fa-{showMobileMenu ? 'times' : 'bars'}" aria-hidden="true"></i>
         </button>

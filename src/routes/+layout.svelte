@@ -188,6 +188,7 @@
 
   <div class="nav-right">
     <a href="/newsletter" class="nav-link">Newsletter</a>
+    <a href="/tavern-tales" class="nav-link">Tavern Tales</a>
     <a href="/demo" class="nav-link">Demo</a>
     <a href="/announcements" class="nav-link">Announcements</a>
   </div>

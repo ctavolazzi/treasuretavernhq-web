@@ -6,49 +6,52 @@
   const features = [
     {
       icon: 'fa-dungeon',
-      title: 'Interactive Tavern Exploration',
-      description: 'Navigate through themed rooms and discover hidden secrets in our fully interactive tavern environment.'
+      title: 'Mystical Tavern Spaces',
+      description: 'Whispers speak of hidden chambers and secret passages within these ancient walls, awaiting those with keen eyes and curious minds.'
     },
     {
       icon: 'fa-dice-d20',
-      title: 'Character Creation System',
-      description: 'Forge your own identity with our robust character creation tools. Choose race, class, backstory and more!'
+      title: 'Weave Your Destiny',
+      description: 'The threads of fate lie before you, ready to be woven into a tapestry uniquely your own. What tale will you tell?'
     },
     {
       icon: 'fa-book-open',
-      title: 'Quests & Stories',
-      description: 'Embark on adventures ranging from simple tavern tasks to epic quests that will test your mettle.'
+      title: 'Tales Untold',
+      description: 'Legends and lore abound within these walls, some recorded in ancient tomes, others waiting to be discovered or perhaps... created.'
     },
     {
       icon: 'fa-users',
-      title: 'Community Events',
-      description: 'Join scheduled tournaments, seasonal festivals, and collaborative challenges with other tavern patrons.'
+      title: 'Fellowship of the Brave',
+      description: 'No hero walks alone in this realm. Find kindred spirits around the hearth, sharing tales of glory and woe alike.'
     }
   ];
 
-  // Testimonial quotes from beta testers
+  // Testimonial quotes from tavern patrons
   const testimonials = [
-    { name: 'Eldrin Stormforge', quote: 'The atmosphere is so immersive, I felt like I was really sitting in a fantasy tavern!' },
-    { name: 'Lyra Nightsong', quote: 'The character creation is incredible! So many options, and each choice feels meaningful.' },
-    { name: 'Thordar Ironhelm', quote: 'I spent hours just exploring the tavern and finding secret passages. Can\'t wait for the full release!' }
+    { name: 'A Shadow in the Corner', quote: 'The air here feels thick with possibilities... and perhaps something more arcane.' },
+    { name: 'Cloaked Visitor', quote: 'I\'ve glimpsed what awaits beyond the veil. Words fail to capture its essence.' },
+    { name: 'Tavern Regular', quote: 'Each time I return, something has changed. Or perhaps, I am the one who is different.' }
   ];
 
-  // Upcoming events
+  // Tavern rumors
   const upcomingEvents = [
     {
-      title: 'Goblin Chess Tournament',
-      date: 'March 28, 2025',
-      description: 'Challenge our resident goblins to chess matches with special rules. Winners receive exclusive in-game rewards.'
+      slug: 'whispers-of-the-goblin-court',
+      title: 'Whispers of the Goblin Court',
+      date: 'When the moon wanes next',
+      description: 'Strange chittering echoes from the cellar. The barmaid mentions chess pieces moving of their own accord after midnight.'
     },
     {
-      title: 'Bardic Competition',
-      date: 'April 5, 2025',
-      description: 'Submit your poems, songs, or tales to be judged by our panel of famous fantasy bards.'
+      slug: 'ballad-of-the-wandering-knight',
+      title: 'Ballad of the Wandering Knight',
+      date: 'When the stars align',
+      description: 'The old bard in the corner speaks of a competition where words become reality, and the best tale might reshape the very walls of the tavern.'
     },
     {
-      title: 'Dragon Flight Experience',
-      date: 'April 12, 2025',
-      description: 'Limited spots available for our virtual dragon flight experience. Feel the wind in your hair as you soar above the realm.'
+      slug: 'twilight-of-the-forest-guardians',
+      title: 'Twilight of the Forest Guardians',
+      date: 'When morning mists part',
+      description: 'Travelers claim to have seen great winged shapes against the dawn sky. The innkeeper neither confirms nor denies such sightings.'
     }
   ];
 
@@ -56,11 +59,11 @@
   let magicWordAttempt = '';
   let hasTriedMagicWord = false;
   let magicWordSuccess = false;
-  const secretMagicWord = 'enchant';
+  const validMagicWords = ['abracadabra', 'open sesame'];
 
   function checkMagicWord() {
     hasTriedMagicWord = true;
-    magicWordSuccess = magicWordAttempt.toLowerCase() === secretMagicWord;
+    magicWordSuccess = validMagicWords.includes(magicWordAttempt.toLowerCase());
   }
 
   // For particle effect on magic success
@@ -255,6 +258,15 @@
     display: flex;
     flex-direction: column;
     text-align: left;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .event-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    border-color: rgba(189, 150, 72, 0.3);
+    background: rgba(31, 27, 45, 0.8);
   }
 
   .event-date {
@@ -403,26 +415,27 @@
 </style>
 
 <svelte:head>
-  <title>Demo Preview - Treasure Tavern</title>
-  <meta name="description" content="Preview the upcoming Treasure Tavern fantasy experience - explore features, upcoming events, and get a taste of our magical world." />
+  <title>The Threshold - Treasure Tavern</title>
+  <meta name="description" content="The Treasure Tavern stands between worlds, its doors not yet open. Leave your mark and perhaps the tavern will remember you when the time comes." />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </svelte:head>
 
 <main class="demo-container">
-  <h1>Treasure Tavern Demo</h1>
-  <div class="coming-soon">Opening Soon - Spring 2025</div>
+  <h1>Treasure Tavern</h1>
+  <div class="coming-soon">The Doors Are Yet to Open</div>
 
   <p>
-    Welcome, brave adventurer! You've stumbled upon our tavern a bit early - we're still polishing the mugs
-    and training the griffins. Soon, these doors will open to a world of fantasy adventure, camaraderie, and magic.
+    Hail, wanderer. You've found your way to our threshold earlier than fate intended. Beyond these doors lies
+    a realm of mysteries still taking shape in the mists of creation.
   </p>
 
   <p>
-    <strong>The Treasure Tavern</strong> will be a fully interactive fantasy experience where you can create your own
-    character, join quests, collect magical items, and become part of our growing community of adventurers.
+    <strong>The Treasure Tavern</strong> exists between realms, a gathering place for those who seek wonder,
+    adventure, and the fellowship of kindred spirits. The hearth fire is being stoked, and ancient spells of
+    welcome are being woven into the very foundations.
   </p>
 
-  <h2>Features Coming to Our Tavern</h2>
+  <h2>Whispers of What Awaits</h2>
   <div class="features-grid">
     {#each features as feature}
       <div class="feature-card">
@@ -435,7 +448,7 @@
     {/each}
   </div>
 
-  <h2>What Our Beta Testers Say</h2>
+  <h2>What Our Tavern Patrons Say</h2>
   <div class="testimonials">
     {#each testimonials as testimonial}
       <div class="testimonial-card">
@@ -445,11 +458,11 @@
     {/each}
   </div>
 
-  <h2>Try Your Hand at Magic</h2>
+  <h2>A Test of Arcane Knowledge</h2>
   <div class="interactive-section">
     <p>
-      The tavern is imbued with ancient magic. Speak the correct enchantment word below
-      to reveal a hidden surprise.
+      Ancient runes flicker across the tavern doors. Perhaps they respond to certain words of power?
+      Whisper an enchantment and see if the tavern recognizes you as one of its own.
     </p>
 
     <form class="magic-word-form" on:submit|preventDefault={checkMagicWord}>
@@ -457,29 +470,29 @@
         type="text"
         class="magic-input"
         bind:value={magicWordAttempt}
-        placeholder="Speak the magic word..."
+        placeholder="Speak a word of power..."
         autocomplete="off"
       />
-      <button type="submit" class="magic-button">Cast Spell</button>
+      <button type="submit" class="magic-button">Whisper</button>
     </form>
 
     <div class="magic-result">
       {#if hasTriedMagicWord}
         {#if magicWordSuccess}
           <p class="magic-success">
-            ✨ The air shimmers around you as your spell takes effect! ✨<br>
-            You have been granted early access to our newsletter signup. Check your email soon!
+            ✨ The runes flicker and glow with recognition... ✨<br>
+            Something stirs in the shadows. The tavern has marked your passing.
           </p>
         {:else}
           <p class="magic-failure">
-            Your spell fizzles out. Perhaps try another word?
+            The runes remain dormant. Perhaps another word will awaken them?
           </p>
         {/if}
       {/if}
     </div>
 
     {#if hasTriedMagicWord && !magicWordSuccess}
-      <p class="hint">Hint: This word means "to cast a spell upon" or "to fill with delight."</p>
+      <p class="hint">Hint: Try classic magical phrases from ancient tales, words that might open doors or create wonders.</p>
     {/if}
   </div>
 
@@ -489,40 +502,47 @@
     </div>
   {/if}
 
-  <h2>Upcoming Virtual Events</h2>
+  <h2>Tales Whispered at the Bar</h2>
   <p>
-    Even before our full launch, we'll be hosting special events for our community.
-    Here's a glimpse of what's coming:
+    The shadows in the corners of the tavern seem to shift and murmur. Fragments of conversations
+    drift through the air, tales of things that may come to pass:
   </p>
 
   <div class="events-list">
     {#each upcomingEvents as event}
-      <div class="event-card">
+      <a href={`/tavern-tales/${event.slug}`} class="event-card">
         <div class="event-date">{event.date}</div>
         <h3 class="event-title">{event.title}</h3>
         <p class="event-description">{event.description}</p>
-      </div>
+      </a>
     {/each}
   </div>
 
+  <div class="explore-more" style="margin-top: 1.5rem; text-align: center;">
+    <a href="/tavern-tales" class="magic-button">
+      <i class="fas fa-book-open" style="margin-right: 0.5rem;"></i>
+      Explore All Chronicles
+    </a>
+  </div>
+
   <div class="newsletter-preview">
-    <h3>From Our Latest Chronicle</h3>
+    <h3>Echoes from the Chronicles</h3>
     <div class="preview-image">
       <!-- Placeholder for a newsletter preview image -->
-      <img src="https://placehold.co/800x400/2B1D34/F7E8D4?text=March+Chronicle+Preview" alt="Newsletter Preview" width="800" height="400" />
+      <img src="https://placehold.co/800x400/2B1D34/F7E8D4?text=Tavern+Chronicles" alt="Chronicles Preview" width="800" height="400" />
     </div>
     <p>
-      Each month, our tavern scribes compile the most exciting tales, useful adventuring tips, and exclusive offers
-      into our Tavern Chronicles. Join our mailing list to never miss an issue.
+      The Tavern keeps its own records, tales of heroes and monsters, secrets and revelations.
+      Those who have earned the tavern's trust may find such Chronicles delivered by mysterious means.
     </p>
   </div>
 
   <div class="divider"></div>
 
   <AnnouncementCta
-    title="Join Our Fellowship of Adventurers"
-    description="Be among the first to receive your invitation when our doors open. Early members will receive exclusive in-game rewards and special access to limited-time events."
-    buttonText="Reserve Your Spot Now"
+    title="Leave Your Mark Upon the Threshold"
+    description="Those who sign the ancient ledger may be remembered when the tavern's doors finally creak open. Perhaps a message might find its way to you."
+    buttonText="Sign the Ledger"
     demoLink="/"
   />
 
