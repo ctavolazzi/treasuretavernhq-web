@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { subscribeEmail, isSupabaseConfigured, supabase } from '$lib/supabaseClient';
+  import ImageModal from '$lib/components/ImageModal.svelte'; // Import the modal component
 
   let email = '';
   let name = '';
@@ -14,28 +15,27 @@
   let footerElement: HTMLElement; // Reference to footer element
   let audioControlsBottomOffset = 20; // Default bottom position
   let audioControlsVisible = true; // Control visibility of audio controls
+  let scrollModalOpen = false; // Track if the scroll modal is open
+  let scrollImgSrc = '/images/tavern-song-scroll-transparent.png'; // Image source for the modal
 
   // Lantern animation
   let lanternState: 'out' | 'animate' | 'success' = 'out';
-  let lanternAnimating = false;
-  let lanternAnimationFrame: number | null = null; // Fix the type by allowing null
-  let animationStep = 0;
-  let lanternImages = [
-    '/images/tavern-lantern-out.webp',
-    '/images/tavern-lantern-2.webp',
-    '/images/tavern-lantern.webp'
-  ];
-  // Fallback PNG images for browsers that don't support WebP
-  let lanternImagesFallback = [
-    '/images/tavern-lantern-out.png',
-    '/images/tavern-lantern-2.png',
-    '/images/tavern-lantern.png'
-  ];
-  let currentImageIndex = 0;
-  let currentLanternImage = lanternImages[0];
+  let subscriptionSucceeded = false; // Track if user has successfully subscribed
+
+  // URLs for the lantern GIFs and static images
+  let lanternAnimationGif = '/gifs/tavern-lantern-animation.gif';
+  let lanternSuccessGif = '/gifs/tavern-lantern-success.gif';
+  let lanternStaticImage = '/images/tavern-lantern.webp';
+
+  // Fallbacks for browsers that don't support WebP
+  let lanternStaticImageFallback = '/images/tavern-lantern.png';
+
+  // Track what image is currently displayed
+  let currentLanternImage = lanternAnimationGif;
   let isTouch = false; // Track if the device primarily uses touch
   let supportsWebP = true; // Will be set in onMount
-  let isMuted = false; // Default to unmuted for audio to play on load
+  let isMuted = true; // Start muted to comply with browser autoplay policies
+  let audioInitialized = false; // Track if audio has been initialized
 
   // Audio control functions
   function toggleMute() {
@@ -45,9 +45,19 @@
 
       if (isMuted) {
         audioPlayer.pause();
-      } else if (audioPlayer.paused) {
-        audioPlayer.play();
+      } else {
+        // Play and handle any errors gracefully
+        audioPlayer.play().catch(error => {
+          console.warn('Still unable to play audio after user interaction:', error);
+          // Fall back to muted state if still having issues
+          isMuted = true;
+          audioPlayer.muted = true;
+        });
       }
+
+      // Remove localStorage storage
+      // Update initialized state
+      audioInitialized = true;
     }
   }
 
@@ -67,34 +77,11 @@
       const result = await subscribeEmail(email, newsletterOptIn, name);
 
       if (result.success) {
-        // Start a fancy lighting sequence - first spark animation
-        lanternState = 'animate';
-        lanternAnimating = true;
-        currentImageIndex = 1;
-        currentLanternImage = lanternImages[1];
-
-        // After sparking for a moment, fully light the lantern
-        setTimeout(() => {
-          // Increase the flickering intensity for a moment
-          let flickerCount = 0;
-          const intenseFade = setInterval(() => {
-            flickerCount++;
-            currentImageIndex = flickerCount % 2 === 0 ? 1 : 2;
-            currentLanternImage = lanternImages[currentImageIndex];
-
-            // After several flickers, settle on fully lit
-            if (flickerCount > 6) {
-              clearInterval(intenseFade);
-              lanternAnimating = false;
-              lanternState = 'success';
-              currentImageIndex = 2;
-              currentLanternImage = lanternImages[2];
-
-              // Finally set subscribed state (after lantern is lit)
-              subscribed = true;
-            }
-          }, 120) as unknown as number;
-        }, 800);
+        // Set lantern to success state
+        lanternState = 'success';
+        currentLanternImage = lanternSuccessGif;
+        subscriptionSucceeded = true;
+        subscribed = true;
       } else {
         error = result.error || 'Unknown error occurred';
       }
@@ -112,93 +99,30 @@
     return re.test(emailToCheck);
   }
 
-  // Start lantern animation
-  function startLanternAnimation() {
-    // Remove the success state check to allow hover animation always
-    lanternState = 'animate';
-    lanternAnimating = true;
-
-    // Store previous state to restore it when hover ends
-    const previousIndex = currentImageIndex;
-
-    // Cancel any existing animation
-    if (lanternAnimationFrame !== null) {
-      cancelAnimationFrame(lanternAnimationFrame);
-    }
-
-    // Reset animation step for smooth start
-    animationStep = 0;
-
-    // Force image to lantern-2 to start with a visible change
-    currentImageIndex = 1;
-    currentLanternImage = lanternImages[currentImageIndex];
-
-    // Animation function
-    const animate = () => {
-      animationStep++;
-
-      // Slower flickering - only change every 4 frames instead of 2
-      if (animationStep % 4 === 0) {
-        // Alternate between image 1 and 2 (spark and lit states)
-        currentImageIndex = currentImageIndex === 1 ? 2 : 1;
-        currentLanternImage = lanternImages[currentImageIndex];
-      }
-
-      if (lanternAnimating) {
-        lanternAnimationFrame = requestAnimationFrame(animate);
-      }
-    };
-
-    // Start the animation
-    animate();
-  }
-
-  // Stop lantern animation
-  function stopLanternAnimation() {
-    // Only go back to "out" state if we weren't in success state
-    if (lanternState !== 'success') {
-      lanternState = 'out';
-      currentImageIndex = 0;
-      currentLanternImage = lanternImages[0];
-    } else {
-      // If we were in success state, go back to fully lit
-      currentImageIndex = 2;
-      currentLanternImage = lanternImages[2];
-    }
-
-    lanternAnimating = false;
-
-    if (lanternAnimationFrame !== null) {
-      cancelAnimationFrame(lanternAnimationFrame);
-      lanternAnimationFrame = null;
-    }
-  }
-
-  // Use pointer events for unified handling of mouse and touch
+  // Simple event handlers for lantern hover/touch interaction
   function handlePointerEnter(event: PointerEvent) {
-    // Always start with the spark image (index 1) for immediate visual feedback
-    currentImageIndex = 1;
-    currentLanternImage = lanternImages[currentImageIndex];
-    // Then start the animation
-    startLanternAnimation();
+    // No action needed - animation is handled by the GIF
+    if (lanternState === 'success') {
+      currentLanternImage = lanternSuccessGif;
+    }
   }
 
   function handlePointerLeave(event: PointerEvent) {
-    stopLanternAnimation();
+    // No action needed - animation is handled by the GIF
+    if (lanternState === 'success') {
+      currentLanternImage = lanternSuccessGif;
+    }
   }
 
   // Event handlers for touch
   function handleTouchStart(event: TouchEvent) {
     event.preventDefault();
-    // Always start with the spark image (index 1) for immediate visual feedback
-    currentImageIndex = 1;
-    currentLanternImage = lanternImages[currentImageIndex];
-    startLanternAnimation();
+    // No action needed - animation is handled by the GIF
   }
 
   function handleTouchEnd(event: TouchEvent) {
     event.preventDefault();
-    stopLanternAnimation();
+    // No action needed - animation is handled by the GIF
   }
 
   // Function to handle scroll and prevent audio controls from overlapping footer
@@ -244,81 +168,58 @@
     webP.onload = () => {
       // WebP is supported
       supportsWebP = true;
-      currentLanternImage = lanternImages[currentImageIndex];
-      // Start the lantern animation on page load
-      startLanternAnimation();
     };
 
     webP.onerror = () => {
-      // WebP is not supported, use PNG fallbacks
+      // WebP is not supported, use fallbacks
       supportsWebP = false;
-      lanternImages = lanternImagesFallback;
-      currentLanternImage = lanternImages[currentImageIndex];
-      // Start the lantern animation on page load
-      startLanternAnimation();
+      lanternStaticImage = lanternStaticImageFallback;
     };
 
-    // Initialize audio player and attempt autoplay with multiple approaches
+    // If user has subscribed, show success state
+    if (subscribed) {
+      lanternState = 'success';
+      currentLanternImage = lanternSuccessGif;
+    }
+
+    // Initialize audio player
     if (audioPlayer) {
       audioPlayer.volume = 0.3; // Set initial volume to 30%
 
-      // Force unmuted state
-      audioPlayer.muted = false;
-      isMuted = false;
+      // Remove localStorage check - always start muted
+      // Always start muted
+      audioPlayer.muted = true;
+      isMuted = true; // Force isMuted to true on every page load
 
-      // Try to play audio immediately
-      const playPromise = audioPlayer.play();
+      // Load the audio
+      audioPlayer.load();
 
-      // Handle autoplay promise (might be rejected due to browser policies)
-      if (playPromise !== undefined) {
-        playPromise.catch(error => {
-          console.warn('Initial autoplay attempt failed:', error);
+      // Add Font Awesome for icons
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
+      document.head.appendChild(link);
 
-          // Try again with user interaction simulation
-          document.addEventListener('click', function autoplayHandler() {
-            audioPlayer.play().then(() => {
-              // Remove the event listener once we've successfully started playback
-              document.removeEventListener('click', autoplayHandler);
-            }).catch(e => console.warn('Autoplay still failed after user interaction'));
-          }, { once: true });
+      // Set up scroll handling without relying on finding the footer immediately
+      window.addEventListener('scroll', handleScroll);
 
-          // Also try with a slight delay as fallback
-          setTimeout(() => {
-            if (audioPlayer.paused) {
-              audioPlayer.play().catch(e => console.warn('Delayed autoplay attempt also failed'));
-            }
-          }, 1000);
-        });
-      }
+      // Run initial position check after a longer delay to ensure DOM is fully loaded
+      setTimeout(handleScroll, 1000);
+
+      // Also check position on window resize
+      window.addEventListener('resize', handleScroll);
+
+      // Clean up animation on unmount
+      return () => {
+        // Stop audio on unmount
+        if (audioPlayer) {
+          audioPlayer.pause();
+        }
+
+        window.removeEventListener('scroll', handleScroll);
+        window.removeEventListener('resize', handleScroll);
+      };
     }
-
-    // Add Font Awesome for icons
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
-    document.head.appendChild(link);
-
-    // Set up scroll handling without relying on finding the footer immediately
-    window.addEventListener('scroll', handleScroll);
-
-    // Run initial position check after a longer delay to ensure DOM is fully loaded
-    setTimeout(handleScroll, 1000);
-
-    // Also check position on window resize
-    window.addEventListener('resize', handleScroll);
-
-    // Clean up animation on unmount
-    return () => {
-      if (lanternAnimationFrame !== null) {
-        cancelAnimationFrame(lanternAnimationFrame);
-      }
-      // Stop audio on unmount
-      if (audioPlayer) {
-        audioPlayer.pause();
-      }
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', handleScroll);
-    };
   });
 </script>
 
@@ -1199,17 +1100,20 @@
     max-width: 700px;
     text-align: center;
     position: relative;
-    padding: 1rem;
+    padding: 1.5rem 1rem;
     background: rgba(31, 27, 45, 0.5);
     border-radius: 8px;
     border: 1px solid rgba(189, 150, 72, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .song-title {
     font-family: 'Cinzel', serif;
     font-size: 1.4rem;
     color: #BD9648;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     text-shadow: 0 0 8px rgba(189, 150, 72, 0.3);
   }
 
@@ -1245,11 +1149,85 @@
   .delayed {
     animation-delay: 1.5s;
   }
+
+  .tavern-song-scroll {
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    max-height: min(70vh, 600px);
+    margin: 0 auto;
+    display: block;
+    transition: transform 0.3s ease;
+    object-fit: contain;
+  }
+
+  .scroll-image-container {
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    max-width: 700px;
+    margin: 0 auto 1rem;
+    transition: transform 0.3s ease;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .scroll-image-container:hover .tavern-song-scroll {
+    transform: scale(1.02);
+  }
+
+  .scroll-image-container:hover .view-larger-hint {
+    opacity: 1;
+  }
+
+  .view-larger-hint {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    color: #F7E8D4;
+    padding: 8px;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.9rem;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.9), 0 0 5px rgba(0, 0, 0, 0.9);
+  }
+
+  @media (max-width: 768px) {
+    .view-larger-hint {
+      opacity: 0.8;
+      font-size: 0.8rem;
+      padding: 6px;
+    }
+
+    .tavern-song-scroll {
+      max-height: min(60vh, 500px);
+    }
+  }
+
+  /* Add style for the hint text */
+  .audio-hint {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.75rem;
+    color: rgba(247, 232, 212, 0.7);
+    font-style: italic;
+    margin-left: 4px;
+  }
 </style>
 
 <main>
   <!-- Audio player -->
-  <audio bind:this={audioPlayer} src="/audio/TheTavernOak.mp3" preload="auto" loop></audio>
+  <audio bind:this={audioPlayer} src="/audio/TheTavernOak.mp3" preload="auto" loop muted></audio>
+
+  <!-- Image Modal -->
+  <ImageModal
+    bind:open={scrollModalOpen}
+    imgSrc={scrollImgSrc}
+    altText="The Tavern Oak - A tavern song written on a scroll"
+  />
 
   <div class="audio-controls" bind:this={audioControlsElement} on:click={toggleMute} role="button" tabindex="0" aria-label={isMuted ? "Unmute tavern music" : "Mute tavern music"} on:keydown={(e) => e.key === 'Enter' && toggleMute()}>
     <div class="mute-button">
@@ -1260,6 +1238,9 @@
       {/if}
     </div>
     <span class="audio-title">Tavern Music</span>
+    {#if isMuted}
+      <span class="audio-hint">(Click to play)</span>
+    {/if}
   </div>
 
   <div class="container">
@@ -1459,34 +1440,25 @@
 
       <div class="tavern-song">
         <h3 class="song-title">The Tavern Oak</h3>
-        <div class="song-lyrics">
-          <p>
-            Raise tankards high and spill your ale!<br>
-            The Tavern's where our stories blend.<br>
-            Where bards embellish every tale,<br>
-            And foes by midnight become friends.
-          </p>
-
-          <p>
-            Heroes boast of dragons slain,<br>
-            While nabbing someone else's stew.<br>
-            The thief claims he's reformed—again!<br>
-            As barkeep's brew goes missing too.
-          </p>
-
-          <p>
-            A wizard burps up sparks of blue,<br>
-            A dwarf snores 'neath the table loud.<br>
-            The elf's still on verse twenty-two,<br>
-            The barmaid sighs amidst the crowd.
-          </p>
-
-          <p>
-            So join our band of misfits dear,<br>
-            We'll laugh and have our fill.<br>
-            For in this hall we know no fear,<br>
-            (Except the bloody bill!)
-          </p>
+        <div
+          class="scroll-image-container"
+          on:click={() => scrollModalOpen = true}
+          role="button"
+          tabindex="0"
+          on:keydown={(e) => e.key === 'Enter' && (scrollModalOpen = true)}
+          aria-label="Open tavern song scroll"
+        >
+          <picture>
+            <img
+              src={scrollImgSrc}
+              alt="The Tavern Oak - A tavern song written on a scroll"
+              class="tavern-song-scroll"
+              loading="lazy"
+            />
+          </picture>
+          <div class="view-larger-hint">
+            <span>Click to enlarge</span>
+          </div>
         </div>
         <div class="song-notes">
           <span class="music-note">♫</span>

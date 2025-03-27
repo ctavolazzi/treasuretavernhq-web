@@ -361,3 +361,95 @@ Add the TheTavernOak.mp3 song to play on page load and create additional content
 - Fixed a linter error related to multiple script tags
 - Ensured all new elements match the site's fantasy aesthetic
 - Work effort marked as completed
+
+## 2025-03-27
+
+### 15:45 - Audio Controls: Simplified by Removing LocalStorage Persistence
+
+Further simplified the audio controls:
+
+1. Removed localStorage getting/setting for the audio mute state
+2. Ensured audio always starts muted on every page load
+3. Made it a simple toggle without preserving user preferences between sessions
+4. Cleaned up related conditional code for better maintainability
+
+This change makes the audio control behavior more predictable - it will always start muted when the page loads, and users can toggle it on if desired. The mute setting will reset when the page is refreshed, simplifying the user experience.
+
+### 15:40 - Lantern Animation: Simplified to Two-Image Flickering
+
+Updated the lantern animation to use only two specific images:
+
+1. Modified the animation to alternate strictly between tavern-lantern-2.webp and tavern-lantern.webp
+2. Simplified the frame sequence while maintaining variable timing for natural-looking flicker
+3. Reduced the total number of frames from 16 to 10 for a more focused animation
+4. Maintained the same high-quality dithering and color settings
+5. Kept the success animation unchanged
+
+This change simplifies the animation while still providing an engaging flickering effect. The new animation focuses on the primary flickering states, creating a cleaner visual that maintains the lantern's atmospheric quality.
+
+### 15:30 - Audio Controls: Removed Pulsing Animation
+
+Removed the attention-grabbing pulsing animation from the audio controls:
+
+1. Eliminated the setTimeout that was adding the "attention-pulse" class
+2. Removed the CSS animation code for the pulsing effect
+3. Verified that the audio player still starts muted by default as required
+
+This change provides a cleaner, less distracting UI while maintaining the audio control functionality. The audio controls no longer pulse or flash to draw attention, resulting in a more subtle and polished user experience.
+
+### 15:20 - Lantern Animation: Enhanced with Natural Random Flickering
+
+Further improved the lantern animation with more natural flickering effects:
+
+1. Increased the number of frames from 8 to 16 for more animation variety
+2. Added variable timing for each frame (between 0.08s and 0.17s) for a less predictable effect
+3. Incorporated the third lantern image for additional visual depth
+4. Improved dithering and color settings for smoother transitions
+5. Created a more varied, random sequence to better simulate a real flame
+
+These improvements make the lantern animation look more realistic and engaging, with a natural flickering effect that better captures the atmosphere of a flame. The enhanced animation maintains the same visual theme while providing a more dynamic user experience.
+
+### 15:10 - Lantern Animation: Created Dedicated GIFs Folder and Improved Animation
+
+Organized the project structure by creating a dedicated folder for GIF assets and improved the animation style:
+
+1. Created a new `static/gifs/` directory to store all GIF animations
+2. Moved the lantern animation GIFs to this new directory
+3. Updated the script to output to the new location
+4. Modified the code to reference the new paths
+5. Changed the animation to use continuous flickering instead of turning on and off
+
+This organization improves the project structure and makes it easier to manage different types of media assets. The lantern animation now uses GIFs for both the normal flickering animation and the success state, which simplifies the code and reduces JavaScript overhead. The continuous flickering between lit and sparking states creates a more engaging visual effect.
+
+### 14:30 - New Work Effort: Lantern Animation to GIF Conversion
+
+Created a new work effort to convert the current JavaScript-based lantern animation to a simpler GIF animation. The plan is to:
+
+1. Create a GIF animation from existing lantern images
+2. Replace the current JavaScript-based animation with the GIF
+3. Maintain the success state after subscription
+4. Simplify the related JavaScript code
+
+This change should improve performance by reducing JavaScript overhead while maintaining the visual appeal of the animation. The animation will play automatically when the page loads, improving the user experience.
+
+References:
+- New work effort: [[work_efforts/active/lantern_animation_to_gif.md]]
+- Current implementation: [[src/routes/+page.svelte]]
+
+## 2023-03-27 20:00: Remove Background from Tavern Song Scroll Image
+
+### Feature Request
+Remove the background from the tavern-song-scroll.png image using ffmpeg to create a transparent version for use in the website.
+
+### Development Plan
+1. Examine the current tavern-song-scroll.png image to identify the background color/pattern
+2. Create a script using ffmpeg to remove the background via chroma keying or similar technique
+3. Save the processed image with transparency in PNG format
+4. Test the output across different backgrounds to ensure proper transparency
+5. Optimize the final image for web use if needed
+
+### Progress
+- Created work effort to track the background removal task
+- Identified the image location at /static/images/tavern-song-scroll.png
+- Researching appropriate ffmpeg filters for background removal
+- Will use the existing scripts directory for the new ffmpeg script
