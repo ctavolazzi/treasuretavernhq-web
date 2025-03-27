@@ -429,6 +429,13 @@
     a realm of mysteries still taking shape in the mists of creation.
   </p>
 
+  <div style="margin: 1.5rem auto;">
+    <a href="/#newsletter-signup" class="magic-button" style="display: inline-flex; align-items: center; gap: 0.5rem;">
+      <i class="fas fa-envelope"></i>
+      Join Our Newsletter
+    </a>
+  </div>
+
   <p>
     <strong>The Treasure Tavern</strong> exists between realms, a gathering place for those who seek wonder,
     adventure, and the fellowship of kindred spirits. The hearth fire is being stoked, and ancient spells of
@@ -543,7 +550,7 @@
     title="Leave Your Mark Upon the Threshold"
     description="Those who sign the ancient ledger may be remembered when the tavern's doors finally creak open. Perhaps a message might find its way to you."
     buttonText="Sign the Ledger"
-    demoLink="/"
+    demoLink="/#newsletter-signup"
   />
 
   <a href="/" class="back-link">← Return to the Tavern</a>

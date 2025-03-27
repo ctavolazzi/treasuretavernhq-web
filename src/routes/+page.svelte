@@ -1332,7 +1332,7 @@
     </div>
 
     <!-- Interactive Lantern with unified pointer events and touch handling -->
-    <a href="/announcements" class="lantern-container lantern-{lanternState}"
+    <a href="#newsletter-signup" class="lantern-container lantern-{lanternState}"
       on:pointerenter={handlePointerEnter}
       on:pointerleave={handlePointerLeave}
       on:touchstart|preventDefault={handleTouchStart}
@@ -1340,7 +1340,7 @@
       on:touchcancel|preventDefault={handleTouchEnd}
       role="button"
       tabindex="0"
-      aria-label="Interactive lantern - click to read announcements">
+      aria-label="Interactive lantern - click to sign up to the newsletter">
       <div class="lantern-glow"></div>
       <img
         src={currentLanternImage}
@@ -1362,7 +1362,7 @@
     <p class="subheading" style="text-align: center; margin-left: auto; margin-right: auto;">An amusing fantasy universe is coming. Join early to unlock the Tavern.</p>
 
     {#if !subscribed}
-      <form class="cta-form" on:submit|preventDefault={handleSubmit}>
+      <form id="newsletter-signup" class="cta-form" on:submit|preventDefault={handleSubmit}>
         <p class="form-intro">Be the first to know - put your email below!</p>
 
         <div class="input-wrapper">

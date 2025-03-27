@@ -21,6 +21,8 @@ const talesData = [
         excerpt: 'In the gleaming city of Vitralis, a young apprentice glassblower discovers her mentor holds a dangerous secret—the ability to trap souls within her delicate creations.',
         coverImage: '/images/tales/the-glass-sorceress.png',
         featured: true,
+        mediaType: 'audio',
+        mediaContent: '/audio/the-glass-sorceress-audio-speech.mp3',
         tags: ['sorceress', 'glass', 'souls', 'apprentice', 'magic'],
         content: `
             <p>The first time I saw Mistress Luminara trap a soul in glass, I didn't realize what I was witnessing. I was simply mesmerized by the way she caught the last breath of the dying merchant in a delicate glass orb, twisting it with tools too fine to see, whispering words that made the air shimmer like heat above summer stones.</p>
@@ -223,8 +225,8 @@ const talesData = [
 
             <p class="signature">- From the private journal of Iris Calaver, known in Vitralis as the Glass Sorceress, discovered after the mysterious explosion that destroyed her workshop. Among the debris, authorities recovered dozens of intact glass objects that glowed with a distinctive blue light. Those who handle them report hearing whispers and occasionally seeing a woman's face reflected in their depths, even when no one stands nearby.</p>
         `,
-        mediaType: null,
-        mediaContent: null
+        mediaType: 'audio',
+        mediaContent: '/audio/the-glass-sorceress-audio-speech.mp3'
     },
     {
         slug: 'the-sorceress-of-storms',

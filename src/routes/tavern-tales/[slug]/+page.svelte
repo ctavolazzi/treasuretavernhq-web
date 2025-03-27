@@ -5,6 +5,8 @@
   import { page } from '$app/stores';
   import { getTaleBySlug, getRelatedTales } from '$lib/data/tales';
   import ResponsiveImage from '$lib/components/ResponsiveImage.svelte';
+  import AudioPlayer from '$lib/components/AudioPlayer.svelte';
+  import SimpleAudioPlayer from '$lib/components/SimpleAudioPlayer.svelte';
 
   // Define Tale interface to fix type errors
   interface Tale {
@@ -631,13 +633,10 @@
       </div>
     {:else if tale.mediaType === 'audio' && mediaReady}
       <div class="media-container">
-        <div class="audio-container">
-          <p class="audio-message">Listen to the audio accompaniment while reading:</p>
-          <audio controls>
-            <source src={tale.mediaContent} type="audio/mpeg">
-            Your browser does not support the audio element.
-          </audio>
-        </div>
+        <SimpleAudioPlayer
+          audioSrc={tale.mediaContent || ''}
+          audioTitle={`Audio Narration: ${tale.title}`}
+        />
       </div>
     {:else if tale.mediaType === 'interactive'}
       <div class="media-container">
