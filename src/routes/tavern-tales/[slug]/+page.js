@@ -1,22 +1,19 @@
-import { error } from '@sveltejs/kit';
 import { getTaleBySlug, getRelatedTales } from '$lib/data/tales';
+import { error } from '@sveltejs/kit';
 
 /** @type {import('./$types').PageLoad} */
-export async function load({ params }) {
-    const { slug } = params;
+export async function load({ params, fetch }) {
+    // Get the tale by slug
+    const tale = await getTaleBySlug(params.slug, fetch);
 
-    // Fetch the tale by slug
-    const tale = await getTaleBySlug(slug);
-
-    // If no tale is found, throw a 404 error
     if (!tale) {
         throw error(404, {
             message: 'Tale not found'
         });
     }
 
-    // Get related tales if any
-    const relatedTales = await getRelatedTales(slug);
+    // Get related tales
+    const relatedTales = await getRelatedTales(params.slug);
 
     return {
         tale,

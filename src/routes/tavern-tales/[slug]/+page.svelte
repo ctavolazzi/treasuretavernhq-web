@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import { onMount, onDestroy } from 'svelte';
   import { fade } from 'svelte/transition';
   import AnnouncementCta from '$lib/components/AnnouncementCta.svelte';
   import { page } from '$app/stores';
@@ -50,6 +50,10 @@
   // Add a loading state
   let isLoading = false;
 
+  // State for copy functionality
+  let copySuccess = false;
+  let copyTimeout: ReturnType<typeof setTimeout> | null = null;
+
   onMount(() => {
     // Handle any client-side initialization
     mediaReady = true;
@@ -76,6 +80,78 @@
 
   // Track changes to the tale slug without doing anything that would cause SSR issues
   $: currentSlug = tale?.slug;
+
+  // Function to copy tale content to clipboard
+  function copyTaleContent() {
+    if (typeof window !== 'undefined' && tale) {
+      // Create a temporary element to hold the HTML content
+      const tempElement = document.createElement('div');
+      tempElement.innerHTML = tale.content;
+
+      // Get the text content (strips HTML tags)
+      const textContent = tempElement.textContent || tempElement.innerText || '';
+
+      // Copy to clipboard
+      navigator.clipboard.writeText(textContent)
+        .then(() => {
+          // Show success message
+          copySuccess = true;
+
+          // Clear any existing timeout
+          if (copyTimeout) {
+            clearTimeout(copyTimeout);
+          }
+
+          // Hide success message after 3 seconds
+          copyTimeout = setTimeout(() => {
+            copySuccess = false;
+          }, 3000);
+        })
+        .catch(err => {
+          console.error('Failed to copy text: ', err);
+        });
+    }
+  }
+
+  // Function to download tale content as a text file
+  function downloadTaleAsText() {
+    if (typeof window !== 'undefined' && tale) {
+      // Create a temporary element to hold the HTML content
+      const tempElement = document.createElement('div');
+      tempElement.innerHTML = tale.content;
+
+      // Get the text content (strips HTML tags)
+      const textContent = tempElement.textContent || tempElement.innerText || '';
+
+      // Create a blob with the text content
+      const blob = new Blob([textContent], { type: 'text/plain' });
+
+      // Create a URL for the blob
+      const url = URL.createObjectURL(blob);
+
+      // Create a link element
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${tale.title.replace(/[^a-z0-9]/gi, '-').toLowerCase()}.txt`;
+
+      // Append the link to the body
+      document.body.appendChild(a);
+
+      // Click the link to trigger the download
+      a.click();
+
+      // Clean up
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+  }
+
+  // Clear timeout on component destroy
+  onDestroy(() => {
+    if (copyTimeout) {
+      clearTimeout(copyTimeout);
+    }
+  });
 </script>
 
 <style>
@@ -148,6 +224,74 @@
     background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 15" preserveAspectRatio="none"><path d="M0,15 L1000,15 L1000,0 C900,10 800,15 700,5 C600,-5 500,10 400,15 C300,20 200,10 100,5 L0,15 Z" fill="%231F1B2D"/></svg>');
     background-size: 100% 100%;
     background-repeat: no-repeat;
+  }
+
+  .back-nav-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 1.5rem 2rem 0.5rem;
+    background: rgba(19, 17, 28, 0.95);
+    border-bottom: 1px solid rgba(189, 150, 72, 0.2);
+  }
+
+  .back-button {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.8rem 1.5rem;
+    background: rgba(31, 27, 45, 0.8);
+    color: #F7E8D4;
+    border: 1px solid rgba(189, 150, 72, 0.5);
+    border-radius: 8px;
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  .back-button:hover {
+    background: rgba(31, 27, 45, 0.95);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+    border-color: rgba(189, 150, 72, 0.8);
+  }
+
+  .back-button i {
+    font-size: 1.2rem;
+    color: #9E61E3;
+  }
+
+  .home-button {
+    padding: 0.8rem 1.5rem;
+    background: rgba(31, 27, 45, 0.8);
+    color: #F7E8D4;
+    border: 1px solid rgba(189, 150, 72, 0.5);
+    border-radius: 8px;
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  .home-button:hover {
+    background: rgba(31, 27, 45, 0.95);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+    border-color: rgba(189, 150, 72, 0.8);
+  }
+
+  .home-button i {
+    color: #BD9648;
   }
 
   .tale-container {
@@ -300,21 +444,13 @@
     display: none;
   }
 
-  .tale-featured-image {
+  .tale-cover {
     margin: 0 0 2rem 0;
     width: 100%;
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(189, 150, 72, 0.3);
-  }
-
-  .tale-featured-image img {
-    width: 100%;
-    display: block;
-    height: auto;
-    max-height: 500px;
-    object-fit: cover;
   }
 
   .media-container {
@@ -339,23 +475,6 @@
     width: 100%;
     height: 100%;
     border: none;
-  }
-
-  .audio-container {
-    padding: clamp(1rem, 3vw, 1.5rem);
-    background: rgba(19, 17, 28, 0.6);
-    text-align: center;
-  }
-
-  .audio-message {
-    font-style: italic;
-    margin-bottom: 1rem;
-    font-size: clamp(0.9rem, 2vw, 1rem);
-  }
-
-  audio {
-    width: 100%;
-    max-width: 500px;
   }
 
   .interactive-container {
@@ -404,13 +523,6 @@
     transform: translateY(-5px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
     border-color: rgba(189, 150, 72, 0.3);
-  }
-
-  .related-tale-image {
-    width: 100%;
-    height: auto;
-    object-fit: contain;
-    max-height: 150px;
   }
 
   .related-tale-content {
@@ -560,6 +672,15 @@
     .navigation {
       justify-content: center;
     }
+
+    .back-nav-container {
+      padding: 1rem 1.2rem 0.5rem;
+    }
+
+    .back-button {
+      padding: 0.6rem 1.2rem;
+      font-size: 0.95rem;
+    }
   }
 
   @media (max-width: 480px) {
@@ -579,6 +700,83 @@
     .related-tales-grid {
       grid-template-columns: 1fr;
     }
+
+    .back-nav-container {
+      padding: 0.8rem 1rem 0.5rem;
+      flex-direction: row;
+      gap: 0.5rem;
+    }
+
+    .back-button {
+      padding: 0.5rem 0.8rem;
+      font-size: 0.75rem;
+      flex: 1;
+      justify-content: center;
+    }
+  }
+
+  .button-container {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 1.75rem auto 2.25rem;
+    flex-wrap: wrap;
+  }
+
+  .copy-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    background: rgba(31, 27, 45, 0.7);
+    color: #F7E8D4;
+    border: 1px solid rgba(189, 150, 72, 0.5);
+    border-radius: 12px;
+    padding: 0.85rem 2rem;
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.25);
+    width: auto;
+    min-width: 200px;
+    max-width: 90%;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    letter-spacing: 0.03em;
+  }
+
+  .copy-button:hover {
+    background: rgba(31, 27, 45, 0.9);
+    border-color: #BD9648;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3), 0 0 10px rgba(189, 150, 72, 0.3);
+  }
+
+  .copy-button:active {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }
+
+  .copy-button i {
+    color: #BD9648;
+    font-size: 1.2rem;
+  }
+
+  .copy-success {
+    color: #6CCF7F;
+    font-weight: 500;
+    margin-left: 0.5rem;
+    font-size: 0.9rem;
+    animation: fadeIn 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
   }
 </style>
 
@@ -597,6 +795,18 @@
 </div>
 {/if}
 <div class="page-container">
+  <!-- Standalone back button navigation -->
+  <div class="back-nav-container">
+    <a href="/tavern-tales" class="back-button">
+      <i class="fas fa-arrow-left"></i>
+      <span>BACK TO TALES</span>
+    </a>
+    <a href="/" class="back-button home-button">
+      <span>MAIN TAVERN</span>
+      <i class="fas fa-home"></i>
+    </a>
+  </div>
+
   <header class="tale-header">
     <div class="tale-meta">
       <div class="tale-meta-item">
@@ -657,6 +867,16 @@
       </div>
     {/if}
 
+    <!-- Action buttons below media but above content -->
+    <div class="button-container">
+      <button class="copy-button" on:click={copyTaleContent}>
+        <i class="fas fa-copy"></i> Copy Story Text
+        {#if copySuccess}
+          <span class="copy-success"><i class="fas fa-check"></i> Copied!</span>
+        {/if}
+      </button>
+    </div>
+
     <!-- Tale content -->
     <div class="tale-content">
       {@html tale.content}
@@ -690,7 +910,7 @@
                 }
               }}
             >
-              <ResponsiveImage src={relatedTale.coverImage} alt={relatedTale.title} className="related-tale-image" />
+              <ResponsiveImage src={relatedTale.coverImage} alt={relatedTale.title} />
               <div class="related-tale-content">
                 <h3 class="related-tale-title">{relatedTale.title}</h3>
                 <p class="related-tale-type">{relatedTale.type}</p>
