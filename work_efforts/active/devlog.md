@@ -510,3 +510,31 @@ Consolidate the project's utility scripts by merging the "scripts" and "utils" d
 - Organized utilities more logically with shell scripts in a subdirectory
 - Maintained all functionality while improving organization
 - Updated all references to ensure no broken paths
+
+## 2023-05-12 10:30: Switch Welcome and Door Opening Text Elements
+
+### Development Plan
+1. Locate "Welcome to the Treasure Tavern" and "The Door is Opening" text elements in the home page
+2. Switch their positions while maintaining their respective styling and hierarchy
+3. Add explanatory text under "The Door Is Opening" heading about what Treasure Tavern is
+4. Test the changes to ensure proper display on different screen sizes
+
+### Progress
+- Created work effort to track the task of switching text elements on the home page
+- Identified that "The Door is Opening" is currently the main h1 heading at the top of the page
+- Identified that "Welcome to Treasure Tavern" is an h2 heading in the welcome section below
+- Planning to switch positions while maintaining appropriate heading levels and styling
+- Will add descriptive context about what Treasure Tavern actually is
+
+### Final Status
+- Implementation completed successfully
+- Swapped the text content between the two headings while maintaining their respective HTML elements:
+  - "Welcome to Treasure Tavern" is now the main h1 heading at the top of the page
+  - "The Door is Opening" is now the h2 heading in the welcome section
+- Added explanatory paragraph below "The Door Is Opening" heading that:
+  - Describes Treasure Tavern as a fantasy universe created for entertainment and escape
+  - Explains it's a work of fiction, online store, and interactive social media experience
+  - Provides context for visitors to better understand the purpose of the site
+- Maintained appropriate styling and hierarchy for both headings
+- Verified that the display is proper across different screen sizes
+- Work effort marked as completed

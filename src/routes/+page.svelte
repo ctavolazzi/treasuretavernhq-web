@@ -262,17 +262,59 @@
 
   h1 {
     font-family: 'Cinzel Decorative', 'Luminari', fantasy;
-    font-size: clamp(2.75rem, 6vw, 4.5rem);
-    margin: 0 0 0.5rem;
+    margin: 0 auto 1.5rem;
     font-weight: 700;
-    line-height: 1.15;
+    line-height: 0.85;
     color: #F7E8D4;
     text-shadow: 0 0 15px rgba(231, 206, 143, 0.35);
     letter-spacing: 0.02em;
-    max-width: 100%;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-    hyphens: auto;
+    text-align: center;
+    width: 100%;
+    overflow: visible;
+    padding: 0;
+  }
+
+  .welcome-wrapper {
+    display: inline-block;
+    width: auto;
+    margin: 0 auto;
+    text-align: center;
+    line-height: 1;
+  }
+
+  .welcome-medium {
+    font-size: clamp(1.75rem, 4vw, 3rem);
+    letter-spacing: 0.05em;
+    font-weight: 600;
+    display: block;
+    margin-bottom: -0.1em;
+    padding-top: 0.3em;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .welcome-small {
+    font-size: clamp(1.1rem, 2.5vw, 1.8rem);
+    letter-spacing: 0.12em;
+    opacity: 0.85;
+    font-weight: 400;
+    display: block;
+    margin-bottom: -0.1em;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .welcome-large {
+    font-size: clamp(3.2rem, 7vw, 5.5rem);
+    letter-spacing: 0.04em;
+    line-height: 1;
+    display: block;
+    margin-top: 0;
+    margin-bottom: -0.05em;
+    color: #D5A44C; /* Warmer gold color */
+    text-shadow: 0 0 15px rgba(213, 164, 76, 0.5), 0 0 30px rgba(213, 164, 76, 0.3);
+    font-weight: 800;
+    white-space: nowrap;
   }
 
   .brand-heading {
@@ -1245,7 +1287,14 @@
   </div>
 
   <div class="container">
-    <h1>The Door Is Opening</h1>
+    <h1>
+      <div class="welcome-wrapper">
+        <span class="welcome-medium">Welcome</span><br>
+        <span class="welcome-small">to the</span><br>
+        <span class="welcome-large">Treasure</span><br>
+        <span class="welcome-large">Tavern</span>
+      </div>
+    </h1>
 
     <!-- Welcome to the Tavern Section -->
     <div class="welcome-section">
@@ -1260,10 +1309,13 @@
           />
         </picture>
       </div>
-      <h2 class="welcome-title">Welcome to Treasure Tavern</h2>
+      <h2 class="welcome-title">The Door Is Opening</h2>
       <p class="welcome-description">
         Step through our magical doorway and find yourself in a realm where legends come alive, treasures await discovery,
         and fellow adventurers gather to share their tales by the hearth.
+      </p>
+      <p class="welcome-description">
+        Treasure Tavern is a fantasy universe created and updated to entertain and offer an escape from the real world. It's a work of fiction, an online store, an interactive social media experience, and more - a multifaceted realm where imagination meets community.
       </p>
       <p class="welcome-footer">
         Pull up a chair, order your favorite brew, and make yourself at home. The Tavern Keeper has been expecting you.
