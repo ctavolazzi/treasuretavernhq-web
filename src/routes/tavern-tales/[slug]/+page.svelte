@@ -179,10 +179,113 @@
 
   .tale-header {
     position: relative;
-    padding: clamp(2rem, 6vw, 4rem) clamp(1rem, 3vw, 2rem) clamp(1rem, 3vw, 2rem);
+    padding: clamp(1.5rem, 4vw, 2.5rem) clamp(1rem, 3vw, 2rem) clamp(1rem, 3vw, 2rem);
     text-align: center;
     background: rgba(19, 17, 28, 0.8);
     border-bottom: 1px solid rgba(189, 150, 72, 0.2);
+  }
+
+  .tale-meta-compact {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0.75rem 0 0;
+    flex-wrap: wrap;
+  }
+
+  .author-info {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1rem, 2vw, 1.1rem);
+    color: #BD9648;
+    font-weight: 500;
+  }
+
+  .season-info {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: clamp(0.9rem, 2vw, 1rem);
+    color: rgba(247, 232, 212, 0.85);
+  }
+
+  .season-info i {
+    color: #9E61E3;
+    font-size: 0.9rem;
+  }
+
+  .type-info {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: clamp(0.9rem, 2vw, 1rem);
+    color: #9E61E3;
+  }
+
+  .meta-divider {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background-color: rgba(247, 232, 212, 0.4);
+  }
+
+  h1 {
+    font-family: 'Cinzel Decorative', 'Luminari', fantasy;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    margin: 0;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #F7E8D4;
+    text-shadow: 0 0 15px rgba(231, 206, 143, 0.35);
+  }
+
+  .tale-meta-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .keeper-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.5rem, 3vw, 1.8rem);
+    color: rgba(247, 232, 212, 0.9);
+    margin: 0;
+    font-weight: 500;
+  }
+
+  .season-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1.2rem;
+    background: rgba(31, 27, 45, 0.5);
+    border-radius: 40px;
+    border: 1px solid rgba(158, 97, 227, 0.3);
+  }
+
+  .season-badge i {
+    color: #9E61E3;
+    font-size: 1.1rem;
+  }
+
+  .season-badge span {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1rem, 2vw, 1.1rem);
+    color: rgba(247, 232, 212, 0.85);
+  }
+
+  .tale-type-badge {
+    margin-top: 1rem;
+    padding: 0.6rem 2rem;
+    background: rgba(78, 34, 133, 0.4);
+    border-radius: 30px;
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+    font-weight: 500;
+    color: #9E61E3;
+    border: 1px solid rgba(158, 97, 227, 0.3);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   }
 
   .tale-meta {
@@ -299,16 +402,6 @@
     width: 100%;
     margin: 0 auto;
     padding: clamp(1.5rem, 5vw, 3rem) clamp(1rem, 3vw, 2rem);
-  }
-
-  h1 {
-    font-family: 'Cinzel Decorative', 'Luminari', fantasy;
-    font-size: clamp(2rem, 5vw, 3.5rem);
-    margin: 0 0 1rem;
-    font-weight: 700;
-    line-height: 1.2;
-    color: #F7E8D4;
-    text-shadow: 0 0 15px rgba(231, 206, 143, 0.35);
   }
 
   h2 {
@@ -515,30 +608,63 @@
     background: rgba(31, 27, 45, 0.6);
     border-radius: 8px;
     overflow: hidden;
-    border: 1px solid rgba(247, 232, 212, 0.1);
+    border: 1px solid rgba(189, 150, 72, 0.2);
     transition: all 0.3s ease;
+    position: relative;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   }
 
   .related-tale-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    border-color: rgba(189, 150, 72, 0.3);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    border-color: rgba(189, 150, 72, 0.5);
   }
 
   .related-tale-content {
-    padding: clamp(0.75rem, 2vw, 1rem);
+    padding: clamp(0.75rem, 2vw, 1.2rem);
+    position: relative;
+    background: rgba(31, 27, 45, 0.85);
   }
 
   .related-tale-title {
     font-family: 'Cinzel', serif;
-    font-size: clamp(1rem, 2vw, 1.1rem);
+    font-size: clamp(1rem, 2vw, 1.2rem);
     margin: 0 0 0.5rem;
     color: #BD9648;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   }
 
   .related-tale-type {
     font-size: clamp(0.8rem, 2vw, 0.9rem);
     color: rgba(247, 232, 212, 0.7);
+    display: inline-block;
+    padding: 0.2rem 0.8rem;
+    background: rgba(158, 97, 227, 0.15);
+    border-radius: 20px;
+    margin-bottom: 0.75rem;
+  }
+
+  .read-more {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Cinzel', serif;
+    font-size: 0.95rem;
+    color: #9E61E3;
+    margin-top: 0.75rem;
+    transition: all 0.3s ease;
+  }
+
+  .read-more i {
+    transition: transform 0.3s ease;
+  }
+
+  .related-tale-card:hover .read-more {
+    color: #BD9648;
+  }
+
+  .related-tale-card:hover .read-more i {
+    transform: translateX(4px);
   }
 
   .navigation {
@@ -662,11 +788,11 @@
     }
 
     .tale-header {
-      padding: clamp(2rem, 5vw, 3rem) clamp(1rem, 3vw, 1.5rem) clamp(1rem, 3vw, 1.5rem);
+      padding: clamp(1.2rem, 4vw, 2rem) clamp(1rem, 3vw, 1.5rem) clamp(1rem, 3vw, 1.5rem);
     }
 
-    .tale-meta {
-      gap: 1rem;
+    .tale-meta-compact {
+      margin-top: 0.5rem;
     }
 
     .navigation {
@@ -688,9 +814,18 @@
       font-size: clamp(1.75rem, 5vw, 2.5rem);
     }
 
-    .tale-meta {
-      flex-direction: column;
-      gap: 0.75rem;
+    .tale-meta-compact {
+      gap: 0.4rem;
+      margin-top: 0.4rem;
+      font-size: 0.85rem;
+    }
+
+    .author-info, .season-info, .type-info {
+      font-size: 0.85rem;
+    }
+
+    .season-info i {
+      font-size: 0.8rem;
     }
 
     .tale-content {
@@ -808,18 +943,17 @@
   </div>
 
   <header class="tale-header">
-    <div class="tale-meta">
-      <div class="tale-meta-item">
-        <i class="fas fa-quill meta-icon"></i>
-        <span>{tale.author}</span>
-      </div>
-      <div class="tale-meta-item">
-        <i class="fas fa-moon meta-icon"></i>
+    <h1>{tale.title}</h1>
+    <div class="tale-meta-compact">
+      <div class="author-info">{tale.author}</div>
+      <div class="meta-divider"></div>
+      <div class="season-info">
+        <i class="fas fa-moon"></i>
         <span>{tale.date}</span>
       </div>
-      <div class="tale-type">{tale.type}</div>
+      <div class="meta-divider"></div>
+      <div class="type-info">{tale.type}</div>
     </div>
-    <h1>{tale.title}</h1>
     <div class="header-decor"></div>
   </header>
 
@@ -914,6 +1048,10 @@
               <div class="related-tale-content">
                 <h3 class="related-tale-title">{relatedTale.title}</h3>
                 <p class="related-tale-type">{relatedTale.type}</p>
+                <div class="read-more">
+                  <span>Read Chronicle</span>
+                  <i class="fas fa-arrow-right"></i>
+                </div>
               </div>
             </a>
           {/each}

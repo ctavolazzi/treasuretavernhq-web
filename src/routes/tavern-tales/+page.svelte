@@ -119,12 +119,12 @@
 
   .hero {
     position: relative;
-    min-height: 60vh;
+    min-height: 45vh;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 0 max(1rem, 5vw);
+    padding: 3rem max(1rem, 5vw);
     overflow: hidden;
   }
 
@@ -151,7 +151,7 @@
   .hero-title {
     font-family: 'Cinzel Decorative', 'Luminari', fantasy;
     font-size: clamp(2.5rem, 8vw, 4rem);
-    margin: 0 0 1rem;
+    margin: 0 0 0.5rem;
     font-weight: 700;
     line-height: 1.15;
     color: #F7E8D4;
@@ -165,7 +165,7 @@
   .hero-subtitle {
     font-family: 'Spectral', serif;
     font-size: clamp(1.1rem, 3vw, 1.5rem);
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
     color: rgba(247, 232, 212, 0.9);
     max-width: 800px;
     margin-left: auto;
@@ -179,27 +179,27 @@
     bottom: 0;
     left: 0;
     width: 100%;
-    height: clamp(50px, 10vw, 100px);
+    height: clamp(30px, 8vw, 70px);
     background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none"><path d="M0,100 L1000,100 L1000,0 C900,80 800,100 700,60 C600,20 500,80 400,100 C300,120 200,80 100,50 L0,100 Z" fill="%231F1B2D"/></svg>');
     background-size: 100% 100%;
     background-repeat: no-repeat;
   }
 
   .main-content {
-    padding: clamp(1.5rem, 5vw, 3rem) clamp(1rem, 3vw, 2rem);
+    padding: clamp(1rem, 3vw, 2rem) clamp(1rem, 3vw, 2rem);
     max-width: min(95vw, 1200px);
     margin: 0 auto;
     width: 100%;
   }
 
   .featured-section {
-    margin-bottom: clamp(2.5rem, 8vw, 5rem);
+    margin-bottom: clamp(2rem, 5vw, 3.5rem);
   }
 
   .section-title {
     font-family: 'Cinzel', serif;
     font-size: clamp(1.5rem, 3vw, 2.5rem);
-    margin-bottom: clamp(1rem, 3vw, 1.5rem);
+    margin-bottom: clamp(0.75rem, 2vw, 1.25rem);
     color: #BD9648;
     text-shadow: 0 0 8px rgba(189, 150, 72, 0.3);
     display: flex;
@@ -227,7 +227,7 @@
     position: relative;
     border-radius: 10px;
     overflow: hidden;
-    min-height: clamp(300px, 60vh, 350px);
+    min-height: clamp(280px, 50vh, 320px);
     border: 1px solid rgba(247, 232, 212, 0.1);
     transition: all 0.3s ease;
     background: rgba(31, 27, 45, 0.4);
@@ -248,18 +248,8 @@
     max-height: 250px;
   }
 
-  .card-overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 50%;
-    background: linear-gradient(transparent, rgba(19, 17, 28, 0.8));
-    pointer-events: none;
-  }
-
   .card-content {
-    padding: clamp(1rem, 3vw, 1.5rem);
+    padding: clamp(0.75rem, 2vw, 1.25rem);
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -715,7 +705,6 @@
         {#each featuredTales as tale (tale.slug)}
           <a href={`/tavern-tales/${tale.slug}`} class="featured-card">
             <ResponsiveImage src={tale.coverImage} alt={tale.title} className="card-image" />
-            <div class="card-overlay"></div>
             <div class="card-content">
               <div class="card-meta">
                 <span>{tale.author}</span>
