@@ -1259,6 +1259,15 @@
     font-style: italic;
     margin-left: 4px;
   }
+
+  .subheading-emphasis {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.2rem, 3vw, 1.6rem);
+    color: #BD9648;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    text-shadow: 0 0 10px rgba(189, 150, 72, 0.4);
+  }
 </style>
 
 <main>
@@ -1349,6 +1358,7 @@
       />
     </a>
 
+    <p class="subheading-emphasis" style="text-align: center; margin-left: auto; margin-right: auto;">Light the Lantern</p>
     <p class="subheading" style="text-align: center; margin-left: auto; margin-right: auto;">An amusing fantasy universe is coming. Join early to unlock the Tavern.</p>
 
     {#if !subscribed}
@@ -1383,7 +1393,7 @@
         </div>
         <div class="form-actions">
           <button type="submit" disabled={loading}>
-            Light the Lantern
+            Join the Email List
             {#if loading}
               <span class="loading"></span>
             {/if}
@@ -1422,7 +1432,7 @@
 
     <!-- Exploration Section -->
     <div class="exploration-section">
-      <h2 class="exploration-title">Discover the Tavern</h2>
+      <h2 class="exploration-title">Explore the Tavern</h2>
       <p class="exploration-description">Treasure Tavern is a fantastical universe filled with mythical characters, magical artifacts, and extraordinary tales. Explore our world through the links below and begin your journey.</p>
 
       <div class="exploration-links">
