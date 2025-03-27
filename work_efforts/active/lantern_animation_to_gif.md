@@ -30,7 +30,7 @@ tags: [web, frontend, animation, gif, optimization]
 - Animation is triggered on hover/touch and after successful subscription
 - Need to maintain the "success" state for after subscription
 - Used ffmpeg to create two GIFs: one for flickering animation and one for the success state
-- Created a bash script in scripts/ directory to generate the GIFs
+- Created a bash script in utils/scripts/ directory to generate the GIFs
 - Created a dedicated folder at static/gifs for better organization of GIF assets
 - Updated animation to use continuous flickering between lit and sparking states
 - Modified the animation to flicker between only two specific states: tavern-lantern-2.webp and tavern-lantern.webp
@@ -58,7 +58,7 @@ tags: [web, frontend, animation, gif, optimization]
 
 ## 📌 Linked Items
 - [[src/routes/+page.svelte]]
-- [[scripts/create-lantern-gifs.sh]]
+- [[utils/scripts/create-lantern-gifs.sh]]
 - [[static/gifs/tavern-lantern-animation.gif]]
 - [[static/gifs/tavern-lantern-success.gif]]
 - [[static/images/tavern-lantern-out.webp]]

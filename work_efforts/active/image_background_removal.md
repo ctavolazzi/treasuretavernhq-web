@@ -29,7 +29,7 @@ tags: [web, image-processing, ffmpeg, background-removal]
 - Used ffmpeg's colorkey filter for background removal
 - PNG format was used to maintain transparency
 - The processed image maintains the same dimensions as the original
-- Created a script at `/scripts/remove-background.sh` that can be reused for similar tasks
+- Created a script at `/utils/scripts/remove-background.sh` that can be reused for similar tasks
 - Utilized medium gray color (0x666666) as the key color with similarity of 0.4 and blend of 0.2 for optimal results
 
 ## 🐞 Potential Issues
@@ -49,8 +49,8 @@ tags: [web, image-processing, ffmpeg, background-removal]
 ## 📌 Linked Items
 - [[static/images/tavern-song-scroll.png]] (original image)
 - [[static/images/tavern-song-scroll-transparent.png]] (processed image with transparency)
-- [[scripts/remove-background.sh]] (script created for background removal)
-- [[scripts/create-lantern-gifs.sh]] (used as reference for ffmpeg usage)
+- [[utils/scripts/remove-background.sh]] (script created for background removal)
+- [[utils/scripts/create-lantern-gifs.sh]] (used as reference for ffmpeg usage)
 
 ## 📅 Timeline & Progress
 - **Started**: 2023-03-27 20:00

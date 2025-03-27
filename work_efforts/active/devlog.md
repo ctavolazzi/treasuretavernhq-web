@@ -453,3 +453,60 @@ Remove the background from the tavern-song-scroll.png image using ffmpeg to crea
 - Identified the image location at /static/images/tavern-song-scroll.png
 - Researching appropriate ffmpeg filters for background removal
 - Will use the existing scripts directory for the new ffmpeg script
+
+## 2023-03-27 21:00: Convert Scroll Image to WebP Format
+
+### Feature Request
+Convert the home page's transparent scroll image from PNG to WebP format while preserving transparency to improve performance.
+
+### Development Plan
+1. Examine the current transparent PNG scroll image
+2. Create a script to convert the PNG to WebP format with transparency
+3. Ensure the WebP image maintains proper transparency
+4. Implement PNG fallback for browsers that don't support WebP
+5. Update the image reference in the home page component
+6. Test the image display across different browsers and devices
+
+### Progress
+- Created work effort to track the WebP conversion task
+- Identified the source image at /static/images/tavern-song-scroll-transparent.png
+- Confirmed that WebP format supports alpha transparency similar to PNG
+- Researched the best approach for converting transparent PNG to WebP
+- Created a script at `/utils/scripts/png-to-webp.sh` to handle the WebP conversion
+- Ensured the script preserves transparency in the WebP output
+
+### Final Status
+- Implementation completed successfully
+- Successfully converted the PNG to WebP format with transparency preserved
+- Achieved an 85% file size reduction (from 4.0MB to 576KB)
+- Updated the home page to use WebP with PNG fallback for better browser compatibility
+- Used the picture tag with source and img elements for proper implementation
+- Added conditional rendering in the ImageModal component based on browser WebP support
+- The implementation maintains the same look and functionality while improving performance
+- Work effort marked as completed
+
+## 2023-03-27 21:30: Directory Structure Cleanup - Merged Scripts and Utils
+
+### Task
+Consolidate the project's utility scripts by merging the "scripts" and "utils" directories.
+
+### Development Plan
+1. Create a "scripts" subdirectory within "utils" for shell scripts
+2. Move all shell scripts (.sh files) from scripts/ to utils/scripts/
+3. Move all JavaScript files from scripts/ to utils/
+4. Update all references to the moved scripts in the codebase
+
+### Implementation
+- Created a subdirectory "scripts" inside the "utils" directory
+- Moved all shell scripts (.sh files) to utils/scripts/
+- Moved all JavaScript utility files to the utils/ directory
+- Removed the now-empty scripts/ directory
+- Updated script paths in package.json npm scripts
+- Fixed references in work effort documentation files
+- Ensured all shell scripts maintain executable permissions
+
+### Outcome
+- Simplified project structure by eliminating redundant directories
+- Organized utilities more logically with shell scripts in a subdirectory
+- Maintained all functionality while improving organization
+- Updated all references to ensure no broken paths

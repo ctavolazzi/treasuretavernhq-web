@@ -17,6 +17,7 @@
   let audioControlsVisible = true; // Control visibility of audio controls
   let scrollModalOpen = false; // Track if the scroll modal is open
   let scrollImgSrc = '/images/tavern-song-scroll-transparent.png'; // Image source for the modal
+  let scrollImgWebpSrc = '/images/tavern-song-scroll-transparent.webp'; // WebP version
 
   // Lantern animation
   let lanternState: 'out' | 'animate' | 'success' = 'out';
@@ -1225,7 +1226,7 @@
   <!-- Image Modal -->
   <ImageModal
     bind:open={scrollModalOpen}
-    imgSrc={scrollImgSrc}
+    imgSrc={supportsWebP ? scrollImgWebpSrc : scrollImgSrc}
     altText="The Tavern Oak - A tavern song written on a scroll"
   />
 
@@ -1449,6 +1450,7 @@
           aria-label="Open tavern song scroll"
         >
           <picture>
+            <source srcset={scrollImgWebpSrc} type="image/webp">
             <img
               src={scrollImgSrc}
               alt="The Tavern Oak - A tavern song written on a scroll"
