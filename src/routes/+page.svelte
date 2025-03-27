@@ -13,7 +13,7 @@
   // Lantern animation
   let lanternState: 'out' | 'animate' | 'success' = 'out';
   let lanternAnimating = false;
-  let lanternAnimationFrame: number;
+  let lanternAnimationFrame: number | null = null; // Fix the type by allowing null
   let animationStep = 0;
   let lanternImages = [
     '/images/tavern-lantern-out.png',
@@ -22,6 +22,7 @@
   ];
   let currentImageIndex = 0;
   let currentLanternImage = lanternImages[0];
+  let isTouch = false; // Track if the device primarily uses touch
 
   // Handle form submission
   async function handleSubmit() {
@@ -92,7 +93,7 @@
     lanternAnimating = true;
 
     // Cancel any existing animation
-    if (lanternAnimationFrame) {
+    if (lanternAnimationFrame !== null) {
       cancelAnimationFrame(lanternAnimationFrame);
     }
 
@@ -125,26 +126,32 @@
     currentImageIndex = 0;
     currentLanternImage = lanternImages[0];
 
-    if (lanternAnimationFrame) {
+    if (lanternAnimationFrame !== null) {
       cancelAnimationFrame(lanternAnimationFrame);
-      lanternAnimationFrame = undefined;
+      lanternAnimationFrame = null; // Set to null instead of undefined
     }
   }
 
-  // Event handlers
-  function handleTouchStart() {
+  // Use pointer events for unified handling of mouse and touch
+  function handlePointerEnter(event: PointerEvent) {
+    if (isTouch && event.pointerType === 'touch') return; // Skip for touch devices to avoid conflicts
     startLanternAnimation();
   }
 
-  function handleTouchEnd() {
+  function handlePointerLeave(event: PointerEvent) {
+    if (isTouch && event.pointerType === 'touch') return; // Skip for touch devices to avoid conflicts
     stopLanternAnimation();
   }
 
-  function handleMouseEnter() {
+  // Event handlers for touch
+  function handleTouchStart(event: TouchEvent) {
+    event.preventDefault();
+    isTouch = true; // Mark as touch device
     startLanternAnimation();
   }
 
-  function handleMouseLeave() {
+  function handleTouchEnd(event: TouchEvent) {
+    event.preventDefault();
     stopLanternAnimation();
   }
 
@@ -155,9 +162,12 @@
       console.warn('Supabase is not properly configured. Email submission will be simulated.');
     }
 
+    // Detect touch capability
+    isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
     // Clean up animation on unmount
     return () => {
-      if (lanternAnimationFrame) {
+      if (lanternAnimationFrame !== null) {
         cancelAnimationFrame(lanternAnimationFrame);
       }
     };
@@ -531,6 +541,7 @@
     transition: transform 0.2s ease;
     user-select: none;
     -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation; /* Improve touch behavior */
   }
 
   .lantern-container:hover {
@@ -547,6 +558,7 @@
     object-fit: contain;
     transition: all 0.1s ease;
     filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
+    will-change: transform, opacity; /* Hint for browser optimization */
   }
 
   .lantern-glow {
@@ -560,6 +572,19 @@
     transition: opacity 0.2s ease;
     pointer-events: none;
     z-index: -1;
+    will-change: opacity, transform; /* Hint for browser optimization */
+  }
+
+  /* Add a no-hover fallback animation for touch-only devices */
+  @media (hover: none) {
+    .lantern-container {
+      animation: subtle-pulse 3s infinite alternate;
+    }
+
+    @keyframes subtle-pulse {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-2px); }
+    }
   }
 
   .lantern-animate .lantern-glow {
@@ -684,13 +709,16 @@
   <div class="container">
     <h1>The Door Is Opening</h1>
 
-    <!-- Interactive Lantern with touch/hover animation -->
+    <!-- Interactive Lantern with unified pointer events and touch handling -->
     <div class="lantern-container lantern-{lanternState}"
-      on:mouseenter={handleMouseEnter}
-      on:mouseleave={handleMouseLeave}
+      on:pointerenter={handlePointerEnter}
+      on:pointerleave={handlePointerLeave}
       on:touchstart|preventDefault={handleTouchStart}
       on:touchend|preventDefault={handleTouchEnd}
-      on:touchcancel|preventDefault={handleTouchEnd}>
+      on:touchcancel|preventDefault={handleTouchEnd}
+      role="button"
+      tabindex="0"
+      aria-label="Interactive lantern - hover or touch to light">
       <div class="lantern-glow"></div>
       <img
         src={currentLanternImage}
