@@ -2,9 +2,10 @@
 	import '../app.css';
 	import MobileNav from '$lib/components/MobileNav.svelte';
 	import { onMount } from 'svelte';
+	import ResponsiveImage from '$lib/components/ResponsiveImage.svelte';
 	let { children } = $props();
 
-  let bannerActive = false;
+  let bannerActive = $state(false);
   let mobileMenuOpen = false;
 
   function toggleBanner() {
@@ -21,6 +22,8 @@
   onMount(() => {
     // Fix for any potential mobile menu issues
     document.body.classList.remove('no-scroll');
+    // Reset banner state on each mount
+    bannerActive = false;
   });
 </script>
 
@@ -76,8 +79,14 @@
 
   .logo img {
     height: 40px;
+    width: auto;
     margin-right: 0.75rem;
     filter: drop-shadow(0 0 2px rgba(189, 150, 72, 0.5));
+  }
+
+  .logo picture {
+    display: flex;
+    align-items: center;
   }
 
   .nav-link {
@@ -174,7 +183,7 @@
     }
 
     .logo img {
-      height: 32px;
+      height: 35px;
     }
   }
 
@@ -184,7 +193,7 @@
     }
 
     .logo img {
-      height: 35px;
+      height: 38px;
       margin-right: 0;
     }
   }
@@ -228,7 +237,20 @@
 <nav>
   <div class="nav-left">
     <a href="/" class="logo">
-      <img src="/treasure-tavern-logo-small.png" alt="Treasure Tavern" />
+      <picture>
+        <source srcset="/treasure-tavern-logo-small.webp" type="image/webp">
+        <source srcset="/treasure-tavern-logo-small.png" type="image/png">
+        <img
+          src="/treasure-tavern-logo-small.png"
+          alt="Treasure Tavern"
+          class="logo-image"
+          onerror={(e) => {
+            // If all sources fail, try the favicon as a last resort
+            const imgElement = e.currentTarget as HTMLImageElement;
+            imgElement.src = "/favicon.png";
+          }}
+        />
+      </picture>
       <span>Treasure Tavern</span>
     </a>
   </div>
@@ -246,7 +268,7 @@
   <MobileNav on:stateChange={(e) => mobileMenuOpen = e.detail.isOpen} />
 </nav>
 
-<a href="/about" class="banner" class:active={bannerActive} on:click={toggleBanner}>
+<a href="/about" class="banner" class:active={bannerActive} onclick={toggleBanner}>
   <h1 class="banner-text">Treasure Tavern HQ</h1>
 </a>
 

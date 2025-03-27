@@ -3,6 +3,13 @@
   import AnnouncementCta from '$lib/components/AnnouncementCta.svelte';
   import { fade, fly } from 'svelte/transition';
   import { quintOut } from 'svelte/easing';
+  import ResponsiveImage from '$lib/components/ResponsiveImage.svelte';
+  import {
+    getAllTales,
+    getFeaturedTales,
+    getRecentTales,
+    getCategories
+  } from '$lib/data/tales';
 
   // Define interfaces for the data types
   interface Category {
@@ -143,12 +150,16 @@
 
   .hero-title {
     font-family: 'Cinzel Decorative', 'Luminari', fantasy;
-    font-size: clamp(2.5rem, 8vw, 5rem);
-    margin-bottom: 0.5rem;
+    font-size: clamp(2.5rem, 8vw, 4rem);
+    margin: 0 0 1rem;
     font-weight: 700;
+    line-height: 1.15;
     color: #F7E8D4;
     text-shadow: 0 0 15px rgba(231, 206, 143, 0.35);
-    line-height: 1.2;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    width: 100%;
+    overflow: visible;
   }
 
   .hero-subtitle {
@@ -194,6 +205,8 @@
     display: flex;
     align-items: center;
     gap: 1rem;
+    white-space: nowrap;
+    overflow: visible;
   }
 
   .section-title::after {
@@ -268,6 +281,8 @@
     color: #BD9648;
     line-height: 1.3;
     transition: color 0.3s ease;
+    white-space: nowrap;
+    overflow: visible;
   }
 
   .featured-card:hover .card-title {
@@ -699,7 +714,7 @@
       <div class="featured-grid">
         {#each featuredTales as tale (tale.slug)}
           <a href={`/tavern-tales/${tale.slug}`} class="featured-card">
-            <img src={tale.coverImage} alt={tale.title} class="card-image" />
+            <ResponsiveImage src={tale.coverImage} alt={tale.title} className="card-image" />
             <div class="card-overlay"></div>
             <div class="card-content">
               <div class="card-meta">
@@ -771,7 +786,7 @@
             <div class="tales-grid">
               {#each searchResults as tale (tale.slug)}
                 <a href={`/tavern-tales/${tale.slug}`} class="tale-card">
-                  <img src={tale.coverImage} alt={tale.title} class="tale-card-image" />
+                  <ResponsiveImage src={tale.coverImage} alt={tale.title} className="tale-card-image" />
                   <div class="tale-card-content">
                     <div class="tale-card-meta">
                       <span>{tale.author}</span>
@@ -799,7 +814,7 @@
         <div class="tales-grid">
           {#each filteredTales as tale (tale.slug)}
             <a href={`/tavern-tales/${tale.slug}`} class="tale-card">
-              <img src={tale.coverImage} alt={tale.title} class="tale-card-image" />
+              <ResponsiveImage src={tale.coverImage} alt={tale.title} className="tale-card-image" />
               <div class="tale-card-content">
                 <div class="tale-card-meta">
                   <span>{tale.author}</span>
@@ -830,7 +845,7 @@
       <div class="tales-grid">
         {#each recentTales as tale (tale.slug)}
           <a href={`/tavern-tales/${tale.slug}`} class="tale-card">
-            <img src={tale.coverImage} alt={tale.title} class="tale-card-image" />
+            <ResponsiveImage src={tale.coverImage} alt={tale.title} className="tale-card-image" />
             <div class="tale-card-content">
               <div class="tale-card-meta">
                 <span>{tale.author}</span>

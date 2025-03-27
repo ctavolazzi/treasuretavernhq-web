@@ -53,33 +53,88 @@
     width: 100%;
     z-index: 2;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   h1 {
     font-family: 'Cinzel Decorative', 'Luminari', fantasy;
-    font-size: clamp(2.5rem, 6vw, 3.5rem);
     margin: 0 0 1.5rem;
     font-weight: 700;
     line-height: 1.15;
     color: #F7E8D4;
     text-shadow: 0 0 15px rgba(231, 206, 143, 0.35);
-    letter-spacing: 0.02em;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    padding-bottom: 1rem;
+  }
+
+  h1::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 1px;
+    background: linear-gradient(90deg,
+      rgba(189, 150, 72, 0) 0%,
+      rgba(189, 150, 72, 0.6) 50%,
+      rgba(189, 150, 72, 0) 100%
+    );
+  }
+
+  .title-line {
+    display: block;
+    text-align: center;
+    width: 100%;
+  }
+
+  .title-first {
+    font-size: 4.5rem;
+    letter-spacing: 0.2em;
+    padding-right: 0.2em;
+    text-shadow: 0 0 20px rgba(231, 206, 143, 0.45);
+  }
+
+  .title-second {
+    font-size: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.4em;
+    padding-right: 0.4em;
+    margin-top: 0.2rem;
+    color: #e1d4c0;
   }
 
   .subtitle {
     font-family: 'Cinzel', serif;
-    font-size: clamp(1.1rem, 2vw, 1.4rem);
+    font-size: min(3.5vw, 1.4rem);
     color: #BD9648;
-    margin-bottom: 2rem;
+    margin-bottom: 3rem;
     text-align: center;
     opacity: 0.95;
+    width: 80%;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+    position: relative;
+  }
+
+  .subtitle-line {
+    display: block;
+    margin-bottom: 0.3rem;
   }
 
   .announcements {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1.75rem;
     width: 100%;
   }
 
@@ -89,12 +144,32 @@
     border: 1px solid rgba(247, 232, 212, 0.1);
     padding: 1.5rem;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .announcement::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background: linear-gradient(to bottom, #BD9648, rgba(189, 150, 72, 0.1));
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
   }
 
   .announcement:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+    border-color: rgba(189, 150, 72, 0.3);
+    background: rgba(31, 27, 45, 0.6);
+  }
+
+  .announcement:hover::before {
+    opacity: 1;
   }
 
   .announcement-date {
@@ -102,14 +177,19 @@
     font-size: 0.9rem;
     color: rgba(247, 232, 212, 0.6);
     margin-bottom: 0.5rem;
+    letter-spacing: 0.03em;
   }
 
   .announcement-title {
     font-family: 'Cinzel', serif;
-    font-size: 1.5rem;
+    font-size: clamp(1.25rem, 2vw, 1.5rem);
     color: #BD9648;
     margin: 0 0 1rem;
     font-weight: 600;
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
   }
 
   .announcement-content {
@@ -128,9 +208,8 @@
   }
 
   .back-button {
-    margin-top: 2rem;
-    align-self: center;
-    padding: 0.75rem 1.5rem;
+    margin-top: 3rem;
+    padding: 0.75rem 2rem;
     border: none;
     border-radius: 6px;
     background: linear-gradient(135deg, #9E61E3 0%, #7A3CA3 100%);
@@ -142,14 +221,41 @@
     cursor: pointer;
     transition: all 0.3s ease;
     text-decoration: none;
-    display: inline-block;
+    display: block;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
     box-shadow: 0 4px 12px rgba(122, 60, 163, 0.3);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .back-button::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.1) 50%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    transform: rotate(30deg);
+    transition: transform 0.6s ease;
+    pointer-events: none;
   }
 
   .back-button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(122, 60, 163, 0.4);
+    box-shadow: 0 8px 20px rgba(122, 60, 163, 0.4);
     background: linear-gradient(135deg, #AF71F4 0%, #8547B0 100%);
+  }
+
+  .back-button:hover::after {
+    transform: rotate(30deg) translate(150%, -150%);
   }
 
   .announcement-link {
@@ -165,8 +271,8 @@
 
   .read-more-button {
     display: inline-block;
-    margin-top: 1rem;
-    padding: 0.5rem 1rem;
+    margin-top: 1.25rem;
+    padding: 0.5rem 1.25rem;
     background: rgba(158, 97, 227, 0.15);
     border: 1px solid rgba(158, 97, 227, 0.3);
     border-radius: 4px;
@@ -179,21 +285,43 @@
 
   .read-more-button:hover {
     background: rgba(158, 97, 227, 0.25);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px) translateX(3px);
+    box-shadow: 0 4px 12px rgba(158, 97, 227, 0.2);
   }
 
   @media (max-width: 768px) {
     main {
       padding: 1.5rem;
     }
+
+    .title-first {
+      font-size: 11vw;
+      letter-spacing: 0.2em;
+      padding-right: 0.2em;
+    }
+
+    .title-second {
+      font-size: 5vw;
+      letter-spacing: 0.4em;
+      padding-right: 0.4em;
+    }
+
+    h1::after {
+      width: 60px;
+    }
   }
 </style>
 
 <main>
   <div class="container">
-    <h1>Tavern Announcements</h1>
-    <p class="subtitle">The latest news from our growing fantasy universe</p>
+    <h1>
+      <span class="title-line title-first">Tavern</span>
+      <span class="title-line title-second">Announcements</span>
+    </h1>
+    <p class="subtitle">
+      <span class="subtitle-line">The latest news</span>
+      <span class="subtitle-line">from our growing fantasy universe</span>
+    </p>
 
     <div class="announcements">
       {#if announcements.length > 0}

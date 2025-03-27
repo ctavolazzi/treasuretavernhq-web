@@ -2,6 +2,9 @@
   import { onMount } from 'svelte';
   import { fade } from 'svelte/transition';
   import AnnouncementCta from '$lib/components/AnnouncementCta.svelte';
+  import { page } from '$app/stores';
+  import { getTaleBySlug, getRelatedTales } from '$lib/data/tales';
+  import ResponsiveImage from '$lib/components/ResponsiveImage.svelte';
 
   // Define Tale interface to fix type errors
   interface Tale {
@@ -610,8 +613,8 @@
 
   <main class="tale-container">
     <!-- Featured image -->
-    <div class="tale-featured-image">
-      <img src={tale.coverImage} alt={tale.title} />
+    <div class="tale-cover">
+      <ResponsiveImage src={tale.coverImage} alt={tale.title} className="tale-cover-image" />
     </div>
 
     <!-- Media display, if applicable -->
@@ -688,7 +691,7 @@
                 }
               }}
             >
-              <img src={relatedTale.coverImage} alt={relatedTale.title} class="related-tale-image">
+              <ResponsiveImage src={relatedTale.coverImage} alt={relatedTale.title} className="related-tale-image" />
               <div class="related-tale-content">
                 <h3 class="related-tale-title">{relatedTale.title}</h3>
                 <p class="related-tale-type">{relatedTale.type}</p>

@@ -9,6 +9,11 @@
   let error = '';
   let supabaseConfigured = true;
   let newsletterOptIn = true; // Default to checked for better conversion
+  let audioPlayer: HTMLAudioElement; // Reference to audio player
+  let audioControlsElement: HTMLElement; // Reference to audio controls
+  let footerElement: HTMLElement; // Reference to footer element
+  let audioControlsBottomOffset = 20; // Default bottom position
+  let audioControlsVisible = true; // Control visibility of audio controls
 
   // Lantern animation
   let lanternState: 'out' | 'animate' | 'success' = 'out';
@@ -16,6 +21,12 @@
   let lanternAnimationFrame: number | null = null; // Fix the type by allowing null
   let animationStep = 0;
   let lanternImages = [
+    '/images/tavern-lantern-out.webp',
+    '/images/tavern-lantern-2.webp',
+    '/images/tavern-lantern.webp'
+  ];
+  // Fallback PNG images for browsers that don't support WebP
+  let lanternImagesFallback = [
     '/images/tavern-lantern-out.png',
     '/images/tavern-lantern-2.png',
     '/images/tavern-lantern.png'
@@ -23,6 +34,22 @@
   let currentImageIndex = 0;
   let currentLanternImage = lanternImages[0];
   let isTouch = false; // Track if the device primarily uses touch
+  let supportsWebP = true; // Will be set in onMount
+  let isMuted = false; // Default to unmuted for audio to play on load
+
+  // Audio control functions
+  function toggleMute() {
+    if (audioPlayer) {
+      isMuted = !isMuted;
+      audioPlayer.muted = isMuted;
+
+      if (isMuted) {
+        audioPlayer.pause();
+      } else if (audioPlayer.paused) {
+        audioPlayer.play();
+      }
+    }
+  }
 
   // Handle form submission
   async function handleSubmit() {
@@ -87,23 +114,32 @@
 
   // Start lantern animation
   function startLanternAnimation() {
-    if (lanternState === 'success') return; // Don't animate if subscription successful
-
+    // Remove the success state check to allow hover animation always
     lanternState = 'animate';
     lanternAnimating = true;
+
+    // Store previous state to restore it when hover ends
+    const previousIndex = currentImageIndex;
 
     // Cancel any existing animation
     if (lanternAnimationFrame !== null) {
       cancelAnimationFrame(lanternAnimationFrame);
     }
 
+    // Reset animation step for smooth start
+    animationStep = 0;
+
+    // Force image to lantern-2 to start with a visible change
+    currentImageIndex = 1;
+    currentLanternImage = lanternImages[currentImageIndex];
+
     // Animation function
     const animate = () => {
       animationStep++;
 
-      // Cycle between the spark (1) and lit (2) images rapidly
-      // We use modulo to alternate between 1 and 2 (second and third images)
-      if (animationStep % 5 === 0) { // Change image every 5 frames for a nice effect
+      // Slower flickering - only change every 4 frames instead of 2
+      if (animationStep % 4 === 0) {
+        // Alternate between image 1 and 2 (spark and lit states)
         currentImageIndex = currentImageIndex === 1 ? 2 : 1;
         currentLanternImage = lanternImages[currentImageIndex];
       }
@@ -119,40 +155,75 @@
 
   // Stop lantern animation
   function stopLanternAnimation() {
-    if (lanternState === 'success') return; // Don't stop if subscription successful
+    // Only go back to "out" state if we weren't in success state
+    if (lanternState !== 'success') {
+      lanternState = 'out';
+      currentImageIndex = 0;
+      currentLanternImage = lanternImages[0];
+    } else {
+      // If we were in success state, go back to fully lit
+      currentImageIndex = 2;
+      currentLanternImage = lanternImages[2];
+    }
 
     lanternAnimating = false;
-    lanternState = 'out';
-    currentImageIndex = 0;
-    currentLanternImage = lanternImages[0];
 
     if (lanternAnimationFrame !== null) {
       cancelAnimationFrame(lanternAnimationFrame);
-      lanternAnimationFrame = null; // Set to null instead of undefined
+      lanternAnimationFrame = null;
     }
   }
 
   // Use pointer events for unified handling of mouse and touch
   function handlePointerEnter(event: PointerEvent) {
-    if (isTouch && event.pointerType === 'touch') return; // Skip for touch devices to avoid conflicts
+    // Always start with the spark image (index 1) for immediate visual feedback
+    currentImageIndex = 1;
+    currentLanternImage = lanternImages[currentImageIndex];
+    // Then start the animation
     startLanternAnimation();
   }
 
   function handlePointerLeave(event: PointerEvent) {
-    if (isTouch && event.pointerType === 'touch') return; // Skip for touch devices to avoid conflicts
     stopLanternAnimation();
   }
 
   // Event handlers for touch
   function handleTouchStart(event: TouchEvent) {
     event.preventDefault();
-    isTouch = true; // Mark as touch device
+    // Always start with the spark image (index 1) for immediate visual feedback
+    currentImageIndex = 1;
+    currentLanternImage = lanternImages[currentImageIndex];
     startLanternAnimation();
   }
 
   function handleTouchEnd(event: TouchEvent) {
     event.preventDefault();
     stopLanternAnimation();
+  }
+
+  // Function to handle scroll and prevent audio controls from overlapping footer
+  function handleScroll() {
+    if (!audioControlsElement) return;
+
+    // Get the footer element every time to ensure we have the latest reference
+    const footer = document.querySelector('footer.footer');
+    if (!footer) return;
+
+    const footerRect = footer.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+    const audioControlsHeight = audioControlsElement.offsetHeight;
+
+    // Check if footer is visible in the viewport
+    if (footerRect.top < viewportHeight) {
+      // Calculate how much space the footer is taking in the viewport
+      const footerVisibleHeight = viewportHeight - footerRect.top;
+
+      // Move audio controls above the footer with a 25px gap (reduced from 40px)
+      audioControlsElement.style.bottom = `${footerVisibleHeight + 25}px`;
+    } else {
+      // Reset to default position
+      audioControlsElement.style.bottom = `${audioControlsBottomOffset}px`;
+    }
   }
 
   onMount(() => {
@@ -162,14 +233,91 @@
       console.warn('Supabase is not properly configured. Email submission will be simulated.');
     }
 
-    // Detect touch capability
-    isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    // We don't need to set isTouch to true for all devices with touch capability
+    // Just detect if touch is being used actively, which happens in handleTouchStart
+    isTouch = false;
+
+    // Check WebP support directly without using the utility function
+    const webP = new Image();
+    webP.src = 'data:image/webp;base64,UklGRhoAAABXRUJQVlA4TA0AAAAvAAAAEAcQERGIiP4HAA==';
+
+    webP.onload = () => {
+      // WebP is supported
+      supportsWebP = true;
+      currentLanternImage = lanternImages[currentImageIndex];
+      // Start the lantern animation on page load
+      startLanternAnimation();
+    };
+
+    webP.onerror = () => {
+      // WebP is not supported, use PNG fallbacks
+      supportsWebP = false;
+      lanternImages = lanternImagesFallback;
+      currentLanternImage = lanternImages[currentImageIndex];
+      // Start the lantern animation on page load
+      startLanternAnimation();
+    };
+
+    // Initialize audio player and attempt autoplay with multiple approaches
+    if (audioPlayer) {
+      audioPlayer.volume = 0.3; // Set initial volume to 30%
+
+      // Force unmuted state
+      audioPlayer.muted = false;
+      isMuted = false;
+
+      // Try to play audio immediately
+      const playPromise = audioPlayer.play();
+
+      // Handle autoplay promise (might be rejected due to browser policies)
+      if (playPromise !== undefined) {
+        playPromise.catch(error => {
+          console.warn('Initial autoplay attempt failed:', error);
+
+          // Try again with user interaction simulation
+          document.addEventListener('click', function autoplayHandler() {
+            audioPlayer.play().then(() => {
+              // Remove the event listener once we've successfully started playback
+              document.removeEventListener('click', autoplayHandler);
+            }).catch(e => console.warn('Autoplay still failed after user interaction'));
+          }, { once: true });
+
+          // Also try with a slight delay as fallback
+          setTimeout(() => {
+            if (audioPlayer.paused) {
+              audioPlayer.play().catch(e => console.warn('Delayed autoplay attempt also failed'));
+            }
+          }, 1000);
+        });
+      }
+    }
+
+    // Add Font Awesome for icons
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
+    document.head.appendChild(link);
+
+    // Set up scroll handling without relying on finding the footer immediately
+    window.addEventListener('scroll', handleScroll);
+
+    // Run initial position check after a longer delay to ensure DOM is fully loaded
+    setTimeout(handleScroll, 1000);
+
+    // Also check position on window resize
+    window.addEventListener('resize', handleScroll);
 
     // Clean up animation on unmount
     return () => {
       if (lanternAnimationFrame !== null) {
         cancelAnimationFrame(lanternAnimationFrame);
       }
+      // Stop audio on unmount
+      if (audioPlayer) {
+        audioPlayer.pause();
+      }
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
     };
   });
 </script>
@@ -219,6 +367,10 @@
     color: #F7E8D4;
     text-shadow: 0 0 15px rgba(231, 206, 143, 0.35);
     letter-spacing: 0.02em;
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
   }
 
   .brand-heading {
@@ -231,6 +383,10 @@
     font-weight: 500;
     text-shadow: 0 0 8px rgba(189, 150, 72, 0.3);
     opacity: 0.95;
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
   }
 
   p {
@@ -538,14 +694,14 @@
     width: 180px;
     height: 180px;
     cursor: pointer;
-    transition: transform 0.2s ease;
+    transition: transform 0.3s ease;
     user-select: none;
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation; /* Improve touch behavior */
   }
 
   .lantern-container:hover {
-    transform: translateY(-3px);
+    transform: translateY(-5px);
   }
 
   .lantern-container:active {
@@ -556,8 +712,8 @@
     width: 100%;
     height: 100%;
     object-fit: contain;
-    transition: all 0.1s ease;
-    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
+    transition: all 0.2s ease;
+    filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.5));
     will-change: transform, opacity; /* Hint for browser optimization */
   }
 
@@ -569,7 +725,7 @@
     height: 100%;
     background: radial-gradient(circle, rgba(255, 215, 107, 0.4) 0%, rgba(255, 215, 107, 0) 70%);
     opacity: 0;
-    transition: opacity 0.2s ease;
+    transition: opacity 0.3s ease;
     pointer-events: none;
     z-index: -1;
     will-change: opacity, transform; /* Hint for browser optimization */
@@ -583,30 +739,32 @@
 
     @keyframes subtle-pulse {
       0% { transform: translateY(0); }
-      100% { transform: translateY(-2px); }
+      100% { transform: translateY(-3px); }
     }
   }
 
   .lantern-animate .lantern-glow {
-    opacity: 0.7;
-    background: radial-gradient(circle, rgba(255, 180, 80, 0.6) 0%, rgba(255, 180, 80, 0) 60%);
-    animation: flicker 0.3s ease-in-out infinite alternate;
+    opacity: 0.9;
+    background: radial-gradient(circle, rgba(255, 180, 80, 0.8) 0%, rgba(255, 180, 80, 0) 65%);
+    animation: flicker 0.4s ease-in-out infinite alternate;
   }
 
   .lantern-success .lantern-glow {
     opacity: 1;
-    background: radial-gradient(circle, rgba(255, 215, 107, 0.7) 0%, rgba(255, 215, 107, 0) 70%);
+    background: radial-gradient(circle, rgba(255, 215, 107, 0.8) 0%, rgba(255, 215, 107, 0) 75%);
     animation: pulse 3s infinite alternate;
   }
 
   @keyframes pulse {
-    0% { transform: scale(1); opacity: 0.5; }
-    100% { transform: scale(1.15); opacity: 0.8; }
+    0% { transform: scale(1); opacity: 0.6; }
+    100% { transform: scale(1.2); opacity: 0.9; }
   }
 
   @keyframes flicker {
-    0% { opacity: 0.4; transform: scale(0.98); }
-    100% { opacity: 0.7; transform: scale(1.02); }
+    0% { opacity: 0.5; transform: scale(0.98); }
+    30% { opacity: 0.75; transform: scale(1.02); }
+    60% { opacity: 0.6; transform: scale(1.00); }
+    100% { opacity: 0.8; transform: scale(1.03); }
   }
 
   /* Exploration Section Styles */
@@ -630,6 +788,10 @@
     color: #BD9648;
     text-shadow: 0 0 8px rgba(189, 150, 72, 0.3);
     text-align: center;
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
   }
 
   .exploration-description {
@@ -677,6 +839,10 @@
     margin: 0.75rem 0 0.5rem;
     color: #BD9648;
     font-weight: 600;
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
   }
 
   .exploration-card p {
@@ -703,14 +869,345 @@
       grid-template-columns: 1fr;
     }
   }
+
+  /* Tavern Tales Lead-in Section */
+  .tavern-tales-lead {
+    margin-top: 4rem;
+    margin-bottom: 3rem;
+    text-align: center;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 1rem;
+  }
+
+  .tavern-tales-image {
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+    border-radius: 8px;
+    margin: 2rem auto;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(247, 232, 212, 0.1);
+  }
+
+  .tavern-tales-image-link {
+    display: block;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .tavern-tales-image-link:hover {
+    transform: translateY(-5px);
+  }
+
+  .tavern-tales-image-link:hover .tavern-tales-image {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+  }
+
+  .tavern-tales-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    margin: 0 0 1rem;
+    font-weight: 700;
+    color: #BD9648;
+    text-shadow: 0 0 8px rgba(189, 150, 72, 0.3);
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
+  }
+
+  .tavern-tales-description {
+    font-family: 'Spectral', serif;
+    font-size: clamp(1.1rem, 2vw, 1.3rem);
+    margin: 0 auto 1.5rem;
+    text-align: center;
+    max-width: 700px;
+    color: rgba(247, 232, 212, 0.92);
+    line-height: 1.5;
+  }
+
+  .tavern-tales-button {
+    display: inline-block;
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, #9E61E3 0%, #7A3CA3 100%);
+    color: #F7E8D4;
+    font-family: 'Cinzel', serif;
+    font-size: 1.2rem;
+    font-weight: 500;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(122, 60, 163, 0.3);
+    margin-top: 1rem;
+  }
+
+  .tavern-tales-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(122, 60, 163, 0.4);
+    background: linear-gradient(135deg, #AF71F4 0%, #8547B0 100%);
+  }
+
+  @media (max-width: 768px) {
+    .tavern-tales-lead {
+      margin-top: 3rem;
+      margin-bottom: 2rem;
+    }
+
+    .tavern-tales-image {
+      margin: 1.5rem auto;
+    }
+  }
+
+  /* Welcome Section Styles */
+  .welcome-section {
+    margin-top: 1.5rem;
+    margin-bottom: 2rem;
+    padding: 2rem 1.5rem;
+    border-radius: 10px;
+    background: rgba(31, 27, 45, 0.4);
+    border: 1px solid rgba(247, 232, 212, 0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+
+  .welcome-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    margin: 0 0 1rem;
+    font-weight: 700;
+    color: #BD9648;
+    text-shadow: 0 0 8px rgba(189, 150, 72, 0.3);
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
+  }
+
+  .welcome-description {
+    font-family: 'Spectral', serif;
+    font-size: clamp(1.1rem, 2vw, 1.3rem);
+    margin: 0 auto 1.5rem;
+    text-align: center;
+    max-width: 700px;
+    color: rgba(247, 232, 212, 0.92);
+    line-height: 1.5;
+  }
+
+  .welcome-image-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto 1.5rem;
+    position: relative;
+  }
+
+  .welcome-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(247, 232, 212, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .welcome-footer {
+    font-family: 'Spectral', serif;
+    font-size: clamp(1.05rem, 2vw, 1.2rem);
+    font-style: italic;
+    margin: 0.5rem auto 0;
+    text-align: center;
+    max-width: 700px;
+    color: rgba(247, 232, 212, 0.85);
+    line-height: 1.4;
+  }
+
+  @media (max-width: 768px) {
+    .welcome-section {
+      padding: 1.25rem;
+      margin-top: 2rem;
+    }
+  }
+
+  /* Audio Player Styles */
+  .audio-controls {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(31, 27, 45, 0.6);
+    padding: 8px 12px;
+    border-radius: 30px;
+    border: 1px solid rgba(189, 150, 72, 0.3);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(4px);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .audio-controls:hover {
+    background: rgba(31, 27, 45, 0.8);
+    border-color: rgba(189, 150, 72, 0.5);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+    transform: translateY(-2px);
+  }
+
+  .mute-button {
+    background: none;
+    border: none;
+    color: #F7E8D4;
+    font-size: 1.2rem;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    padding: 0;
+    box-shadow: none;
+    pointer-events: none; /* Allow clicks to pass through to parent */
+  }
+
+  .audio-title {
+    font-family: 'Spectral', serif;
+    font-size: 0.9rem;
+    color: rgba(247, 232, 212, 0.9);
+    margin: 0;
+    white-space: nowrap;
+  }
+
+  /* Tavern Atmosphere Section */
+  .tavern-atmosphere {
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+    padding: 2rem 1rem;
+    background: rgba(31, 27, 45, 0.4);
+    border-top: 1px solid rgba(189, 150, 72, 0.2);
+    border-bottom: 1px solid rgba(189, 150, 72, 0.2);
+    text-align: center;
+    width: 100%;
+    max-width: 1000px;
+  }
+
+  .atmosphere-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    margin: 0 0 1.5rem;
+    font-weight: 700;
+    color: #BD9648;
+    text-shadow: 0 0 8px rgba(189, 150, 72, 0.3);
+  }
+
+  .atmosphere-quote {
+    font-family: 'Spectral', serif;
+    font-style: italic;
+    font-size: clamp(1.1rem, 2vw, 1.4rem);
+    line-height: 1.6;
+    margin: 0 auto 1.5rem;
+    max-width: 700px;
+    color: rgba(247, 232, 212, 0.95);
+    position: relative;
+    padding: 0 1.5rem;
+  }
+
+  .atmosphere-quote::before,
+  .atmosphere-quote::after {
+    content: '"';
+    font-size: 2.5rem;
+    color: rgba(189, 150, 72, 0.6);
+    position: absolute;
+    line-height: 1;
+  }
+
+  .atmosphere-quote::before {
+    left: 0;
+    top: -0.2rem;
+  }
+
+  .atmosphere-quote::after {
+    right: 0;
+    bottom: -0.8rem;
+  }
+
+  .quote-attribution {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.95rem;
+    color: rgba(247, 232, 212, 0.7);
+    margin-bottom: 2rem;
+  }
+
+  .atmosphere-description {
+    font-family: 'Spectral', serif;
+    font-size: clamp(1rem, 2vw, 1.1rem);
+    line-height: 1.5;
+    margin: 0 auto;
+    max-width: 800px;
+    color: rgba(247, 232, 212, 0.85);
+  }
+
+  .music-note {
+    display: inline-block;
+    font-size: 1.2rem;
+    animation: float 3s infinite ease-in-out;
+    margin: 0 0.5rem;
+    color: rgba(158, 97, 227, 0.7);
+  }
+
+  @keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+    100% { transform: translateY(0); }
+  }
 </style>
 
 <main>
+  <!-- Audio player -->
+  <audio bind:this={audioPlayer} src="/audio/TheTavernOak.mp3" preload="auto" loop></audio>
+
+  <div class="audio-controls" bind:this={audioControlsElement} on:click={toggleMute} role="button" tabindex="0" aria-label={isMuted ? "Unmute tavern music" : "Mute tavern music"} on:keydown={(e) => e.key === 'Enter' && toggleMute()}>
+    <div class="mute-button">
+      {#if isMuted}
+        <i class="fas fa-volume-mute"></i>
+      {:else}
+        <i class="fas fa-volume-up"></i>
+      {/if}
+    </div>
+    <span class="audio-title">Tavern Music</span>
+  </div>
+
   <div class="container">
     <h1>The Door Is Opening</h1>
 
+    <!-- Welcome to the Tavern Section -->
+    <div class="welcome-section">
+      <div class="welcome-image-container">
+        <picture>
+          <source srcset="/images/tavern-90s-main-ad.webp" type="image/webp">
+          <img
+            src="/images/tavern-90s-main-ad.png"
+            alt="Welcome to Treasure Tavern - A fantastical tavern where adventures await"
+            class="welcome-image"
+            loading="lazy"
+          />
+        </picture>
+      </div>
+      <h2 class="welcome-title">Welcome to Treasure Tavern</h2>
+      <p class="welcome-description">
+        Step through our magical doorway and find yourself in a realm where legends come alive, treasures await discovery,
+        and fellow adventurers gather to share their tales by the hearth.
+      </p>
+      <p class="welcome-footer">
+        Pull up a chair, order your favorite brew, and make yourself at home. The Tavern Keeper has been expecting you.
+      </p>
+    </div>
+
     <!-- Interactive Lantern with unified pointer events and touch handling -->
-    <div class="lantern-container lantern-{lanternState}"
+    <a href="/announcements" class="lantern-container lantern-{lanternState}"
       on:pointerenter={handlePointerEnter}
       on:pointerleave={handlePointerLeave}
       on:touchstart|preventDefault={handleTouchStart}
@@ -718,15 +1215,23 @@
       on:touchcancel|preventDefault={handleTouchEnd}
       role="button"
       tabindex="0"
-      aria-label="Interactive lantern - hover or touch to light">
+      aria-label="Interactive lantern - click to read announcements">
       <div class="lantern-glow"></div>
       <img
         src={currentLanternImage}
         alt="Tavern Lantern"
         class="lantern-image"
         draggable="false"
+        on:error={(e) => {
+          // Try to handle error gracefully by falling back to PNG if WebP fails
+          const imgElement = e.currentTarget as HTMLImageElement;
+          if (imgElement.src.endsWith('.webp')) {
+            const fallbackSrc = imgElement.src.replace('.webp', '.png');
+            imgElement.src = fallbackSrc;
+          }
+        }}
       />
-    </div>
+    </a>
 
     <p class="subheading" style="text-align: center; margin-left: auto; margin-right: auto;">An amusing fantasy universe is coming. Join early to unlock the Tavern.</p>
 
@@ -778,6 +1283,27 @@
 
     <p>Become a Friend of the Tavern and receive tales, secrets, and early access to a growing fantasy universe.</p>
 
+    <!-- Tavern Tales Lead-in Section -->
+    <div class="tavern-tales-lead">
+      <h2 class="tavern-tales-title">Discover the Tavern Tales</h2>
+      <p class="tavern-tales-description">
+        Step into a world of fantasy and adventure with our collection of tales, poems, and songs.
+        Each story is a unique journey waiting to be explored.
+      </p>
+      <a href="/tavern-tales" class="tavern-tales-image-link">
+        <picture>
+          <source srcset="/images/tavern-90s-landscape-tavern-girl-ad.webp" type="image/webp">
+          <img
+            src="/images/tavern-90s-landscape-tavern-girl-ad.png"
+            alt="A mystical tavern landscape with a welcoming tavern girl"
+            class="tavern-tales-image"
+            loading="lazy"
+          />
+        </picture>
+      </a>
+      <a href="/tavern-tales" class="tavern-tales-button">Read the Lore</a>
+    </div>
+
     <!-- Exploration Section -->
     <div class="exploration-section">
       <h2 class="exploration-title">Discover the Tavern</h2>
@@ -820,6 +1346,20 @@
           <p>Experience interactive previews of upcoming features</p>
         </a>
       </div>
+    </div>
+
+    <!-- Tavern Atmosphere Section -->
+    <div class="tavern-atmosphere">
+      <h2 class="atmosphere-title">The Tavern Whispers</h2>
+
+      <p class="atmosphere-quote">
+        As shadows grow long and the tavern fire burns low, all souls gather 'round the hearth to hear the bard's sweet melodies. For in the embers of tale and tune, the true magic of the Tavern comes alive.
+      </p>
+      <p class="quote-attribution">— Esmeralda Brightquill, Tavern Chronicler</p>
+
+      <p class="atmosphere-description">
+        <span class="music-note">♫</span> The old oak creaks with stories untold, and music fills the corners of our magical tavern. Listen closely, traveler, for the melodies may reveal secrets only the most attentive guests will discover. <span class="music-note">♪</span>
+      </p>
     </div>
   </div>
 </main>

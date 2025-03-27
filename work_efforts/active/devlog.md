@@ -239,3 +239,125 @@ The tale will be written in a fantasy style similar to existing tales. It will e
   - Styling that matches the site's theme with proper borders and colors
 - The footer enhances site navigation and provides a more complete, professional look
 - Work effort marked as completed
+
+## 2025-04-09 15:00: Svelte Warnings Debug
+
+### Development Plan
+1. Fix deprecated event directives in layout.svelte:
+   - Replace `on:error` with `onerror`
+   - Replace `on:click` with `onclick`
+2. Fix non-reactive state update for bannerActive in layout.svelte:
+   - Add `$state(...)` declaration
+3. Fix accessibility issues in MobileNav.svelte:
+   - Add keyboard event handlers for click events
+   - Add appropriate ARIA roles to divs with click handlers
+4. Test all changes to ensure functionality remains intact
+
+### Progress
+- Created work effort to track the debugging task
+- Identified three main categories of warnings:
+  1. Deprecated event directive syntax
+  2. Non-reactive state updates
+  3. Accessibility issues
+- Fixed all issues:
+  1. Updated event handlers to use new syntax in both layout.svelte and MobileNav.svelte
+  2. Added $state declaration for bannerActive
+  3. Added keyboard event handlers and ARIA roles to improve accessibility
+  4. Added proper ARIA labels and roles to navigation elements
+  5. Made icons decorative with aria-hidden="true"
+
+### Final Status
+- Successfully fixed all Svelte warnings
+- Improved accessibility of the mobile navigation
+- Maintained existing functionality while updating to newer syntax
+- Added proper keyboard support for overlay interaction
+- Enhanced screen reader support with appropriate ARIA attributes
+- Work effort marked as completed
+
+## 2025-04-09 15:00: Image Conversion and Placement
+
+### Development Plan
+1. Convert the tavern-90s-landscape-tavern-girl-ad.png to WebP format using appropriate tools
+2. Analyze potential locations for the image:
+   - Home page hero section
+   - Tavern Tales section
+   - About page
+3. Implement the image in the chosen location with proper responsive behavior
+4. Test the implementation across different devices and screen sizes
+
+### Progress
+- Created work effort to track the image conversion and placement task
+- Identified the image location at /static/images/tavern-90s-landscape-tavern-girl-ad.png
+- Noted that the site already uses WebP format for other images
+- Planning to maintain the site's fantasy theme and aesthetic
+- Will ensure proper responsive design implementation
+
+### Current Status
+- Work effort created and development plan documented
+- Awaiting user confirmation on preferred image placement location
+- Ready to proceed with WebP conversion once confirmed
+
+## 2025-04-09 16:00: Welcome Image Addition to Home Page
+
+### Feature Request
+Add the tavern-90s-main-ad.png image to the home page with appropriate welcome text to introduce users to the Treasure Tavern.
+
+### Development Plan
+1. Examine the current home page structure to determine the best placement
+2. Convert the PNG image to WebP format for better performance
+3. Add the image with proper WebP/PNG fallback pattern
+4. Create welcoming text that maintains the fantasy theme
+5. Ensure responsive design across different device sizes
+6. Test the implementation on various screen sizes
+
+### Progress
+- Created work effort to track the addition of the welcome image to the home page
+- Analyzed the home page layout to identify the optimal placement for the image and text
+- Planning to implement a welcome section between the newsletter subscription area and the tavern tales section
+
+### Final Status
+- Implementation completed successfully
+- Converted the PNG image to WebP format using the project's existing script (80% file size reduction)
+- Added a new "Welcome to Treasure Tavern" section between the newsletter form and tavern tales section
+- Later repositioned the welcome section to appear directly under the main title for better visual flow
+- Finally reorganized the welcome section to place the image at the top with welcome text below it
+- Created engaging fantasy-themed text that introduces visitors to the concept of Treasure Tavern
+- Implemented the image with WebP/PNG fallback pattern for better browser compatibility
+- Added a warm, inviting closing message to enhance the tavern atmosphere
+- Ensured responsive design with appropriate styling for all device sizes
+- Maintained visual consistency with the site's existing fantasy theme
+- Work effort marked as completed
+
+## 2025-04-09 17:00: Audio Player and Content Addition
+
+### Feature Request
+Add the TheTavernOak.mp3 song to play on page load and create additional content at the bottom of the home page above the footer.
+
+### Development Plan
+1. Add an audio element for TheTavernOak.mp3 to the home page
+2. Implement audio controls with mute/unmute functionality
+3. Style the audio controls to match the site's fantasy theme
+4. Create a new "Tavern Atmosphere" section at the bottom of the page
+5. Add thematic content to the new section
+6. Ensure all elements are responsive and match the site's design language
+
+### Progress
+- Created work effort to track the addition of audio player and new content
+- Added an audio element with proper attributes (loop, preload, muted by default)
+- Implemented audio controls with mute/unmute functionality
+- Added Font Awesome icons for the audio controls
+- Created a fixed control panel in the bottom right corner of the screen
+- Added a new "Tavern Whispers" section at the bottom of the page
+
+### Final Status
+- Implementation completed successfully
+- Added TheTavernOak.mp3 as background music that plays when unmuted
+- Created user-friendly audio controls with appropriate icons
+- Set initial volume to 30% for better user experience
+- Added a new "Tavern Whispers" section with:
+  - An atmospheric quote from a fictional tavern chronicler
+  - Description that ties into the audio theme
+  - Animated musical notes for visual interest
+- Fixed a linter error related to multiple script tags
+- Ensured all new elements match the site's fantasy aesthetic
+- Work effort marked as completed

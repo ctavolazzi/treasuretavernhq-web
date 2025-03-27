@@ -9,7 +9,11 @@
 		"preview": "vite preview",
 		"prepare": "svelte-kit sync || echo ''",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"convert-webp": "node scripts/convert-to-webp.js",
+		"convert-all-images": "node scripts/convert-to-webp.js static/images",
+		"optimize-images": "node scripts/convert-to-webp.js static/images && node scripts/convert-to-webp.js static/favicon && echo 'All images optimized successfully!'",
+		"generate-sitemap": "node scripts/generate-sitemap.js"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^4.0.0",

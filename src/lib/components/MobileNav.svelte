@@ -294,7 +294,7 @@
 <button
   class="hamburger-button"
   class:open={isOpen}
-  on:click={toggleMenu}
+  onclick={toggleMenu}
   aria-label="Toggle menu"
 >
   {#if !isOpen}
@@ -311,32 +311,45 @@
 </button>
 
 <!-- Overlay rendered before mobile menu -->
-<div class="overlay" class:open={isOpen} on:click={toggleMenu}></div>
+<div
+  class="overlay"
+  class:open={isOpen}
+  onclick={toggleMenu}
+  onkeydown={(e) => e.key === 'Escape' && toggleMenu()}
+  role="button"
+  tabindex="0"
+  aria-label="Close menu"
+></div>
 
 <!-- Mobile menu -->
-<div class="mobile-menu" class:open={isOpen}>
-  <a href="/newsletter" class="mobile-nav-link" on:click={closeMenu}>
-    <span class="mobile-nav-icon"><i class="fas fa-scroll"></i></span>
+<div
+  class="mobile-menu"
+  class:open={isOpen}
+  role="navigation"
+  aria-label="Mobile navigation"
+>
+  <a href="/newsletter" class="mobile-nav-link" onclick={closeMenu}>
+    <span class="mobile-nav-icon" aria-hidden="true"><i class="fas fa-scroll"></i></span>
     Newsletter
   </a>
-  <a href="/tavern-tales" class="mobile-nav-link" on:click={closeMenu}>
-    <span class="mobile-nav-icon"><i class="fas fa-book-open"></i></span>
+  <a href="/tavern-tales" class="mobile-nav-link" onclick={closeMenu}>
+    <span class="mobile-nav-icon" aria-hidden="true"><i class="fas fa-book-open"></i></span>
     Tales
   </a>
-  <a href="/demo" class="mobile-nav-link" on:click={closeMenu}>
-    <span class="mobile-nav-icon"><i class="fas fa-flask"></i></span>
+  <a href="/demo" class="mobile-nav-link" onclick={closeMenu}>
+    <span class="mobile-nav-icon" aria-hidden="true"><i class="fas fa-flask"></i></span>
     Demo
   </a>
-  <a href="/announcements" class="mobile-nav-link" on:click={closeMenu}>
-    <span class="mobile-nav-icon"><i class="fas fa-bullhorn"></i></span>
+  <a href="/announcements" class="mobile-nav-link" onclick={closeMenu}>
+    <span class="mobile-nav-icon" aria-hidden="true"><i class="fas fa-bullhorn"></i></span>
     Announcements
   </a>
-  <a href="/about" class="mobile-nav-link" on:click={closeMenu}>
-    <span class="mobile-nav-icon"><i class="fas fa-info-circle"></i></span>
+  <a href="/about" class="mobile-nav-link" onclick={closeMenu}>
+    <span class="mobile-nav-icon" aria-hidden="true"><i class="fas fa-info-circle"></i></span>
     About
   </a>
-  <a href="/contact" class="mobile-nav-link" on:click={closeMenu}>
-    <span class="mobile-nav-icon"><i class="fas fa-envelope"></i></span>
+  <a href="/contact" class="mobile-nav-link" onclick={closeMenu}>
+    <span class="mobile-nav-icon" aria-hidden="true"><i class="fas fa-envelope"></i></span>
     Contact
   </a>
 </div>
