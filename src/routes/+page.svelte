@@ -1103,13 +1103,25 @@
     text-shadow: 0 0 8px rgba(189, 150, 72, 0.3);
   }
 
+  .testimonials-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .testimonial {
+    position: relative;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
   .atmosphere-quote {
     font-family: 'Spectral', serif;
     font-style: italic;
-    font-size: clamp(1.1rem, 2vw, 1.4rem);
+    font-size: clamp(1rem, 2vw, 1.2rem);
     line-height: 1.6;
-    margin: 0 auto 1.5rem;
-    max-width: 700px;
+    margin: 0 auto 0.5rem;
     color: rgba(247, 232, 212, 0.95);
     position: relative;
     padding: 0 1.5rem;
@@ -1118,7 +1130,7 @@
   .atmosphere-quote::before,
   .atmosphere-quote::after {
     content: '"';
-    font-size: 2.5rem;
+    font-size: 2rem;
     color: rgba(189, 150, 72, 0.6);
     position: absolute;
     line-height: 1;
@@ -1138,14 +1150,16 @@
     font-family: 'Inter', system-ui, sans-serif;
     font-size: 0.95rem;
     color: rgba(247, 232, 212, 0.7);
-    margin-bottom: 2rem;
+    margin: 0;
+    text-align: right;
+    padding-right: 1.5rem;
   }
 
   .atmosphere-description {
     font-family: 'Spectral', serif;
     font-size: clamp(1rem, 2vw, 1.1rem);
     line-height: 1.5;
-    margin: 0 auto;
+    margin: 1.5rem auto 0;
     max-width: 800px;
     color: rgba(247, 232, 212, 0.85);
   }
@@ -1162,6 +1176,74 @@
     0% { transform: translateY(0); }
     50% { transform: translateY(-5px); }
     100% { transform: translateY(0); }
+  }
+
+  @media (min-width: 768px) {
+    .testimonials-container {
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+
+    .testimonial {
+      flex: 1;
+      min-width: 280px;
+      max-width: 350px;
+    }
+  }
+
+  /* Tavern Song Styles */
+  .tavern-song {
+    margin: 2rem auto 0;
+    max-width: 700px;
+    text-align: center;
+    position: relative;
+    padding: 1rem;
+    background: rgba(31, 27, 45, 0.5);
+    border-radius: 8px;
+    border: 1px solid rgba(189, 150, 72, 0.2);
+  }
+
+  .song-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1.4rem;
+    color: #BD9648;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 0 8px rgba(189, 150, 72, 0.3);
+  }
+
+  .song-lyrics {
+    font-family: 'Spectral', serif;
+    font-style: italic;
+    font-size: clamp(1rem, 2vw, 1.1rem);
+    line-height: 1.8;
+    color: rgba(247, 232, 212, 0.95);
+  }
+
+  .song-lyrics p {
+    margin-bottom: 1.5rem;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    color: inherit;
+    max-width: 100%;
+  }
+
+  .song-lyrics p:last-child {
+    margin-bottom: 0.5rem;
+  }
+
+  .song-notes {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 600px;
+    margin: 1rem auto 0;
+  }
+
+  .delayed {
+    animation-delay: 1.5s;
   }
 </style>
 
@@ -1350,16 +1432,67 @@
 
     <!-- Tavern Atmosphere Section -->
     <div class="tavern-atmosphere">
-      <h2 class="atmosphere-title">The Tavern Whispers</h2>
+      <h2 class="atmosphere-title">Tales from Patrons</h2>
 
-      <p class="atmosphere-quote">
-        As shadows grow long and the tavern fire burns low, all souls gather 'round the hearth to hear the bard's sweet melodies. For in the embers of tale and tune, the true magic of the Tavern comes alive.
-      </p>
-      <p class="quote-attribution">— Esmeralda Brightquill, Tavern Chronicler</p>
+      <div class="testimonials-container">
+        <div class="testimonial">
+          <p class="atmosphere-quote">
+            Lost my lucky dagger in a bet with a goblin last spring. Found it hanging above the hearth at Treasure Tavern three moons later. This place has a way of gathering lost treasures and wayward souls alike. Best mead in seven kingdoms too!
+          </p>
+          <p class="quote-attribution">— Durnin Axebeard, Dwarven Merchant</p>
+        </div>
 
-      <p class="atmosphere-description">
-        <span class="music-note">♫</span> The old oak creaks with stories untold, and music fills the corners of our magical tavern. Listen closely, traveler, for the melodies may reveal secrets only the most attentive guests will discover. <span class="music-note">♪</span>
-      </p>
+        <div class="testimonial">
+          <p class="atmosphere-quote">
+            My songs have echoed in the halls of emperors, but nowhere do they resonate with such magic as within these tavern walls. The patrons here don't just listen to tales—they live them, breathe them, become part of them.
+          </p>
+          <p class="quote-attribution">— Lyra Silverstring, Elven Bard</p>
+        </div>
+
+        <div class="testimonial">
+          <p class="atmosphere-quote">
+            Been traversing the Shadowlands for nigh on forty years. Only place where both the living and spectral feel welcome is Treasure Tavern. The keeper doesn't ask questions when you order two ales but drink alone.
+          </p>
+          <p class="quote-attribution">— Morvath the Gray, Spirit Walker</p>
+        </div>
+      </div>
+
+      <div class="tavern-song">
+        <h3 class="song-title">The Tavern Oak</h3>
+        <div class="song-lyrics">
+          <p>
+            Raise tankards high and spill your ale!<br>
+            The Tavern's where our stories blend.<br>
+            Where bards embellish every tale,<br>
+            And foes by midnight become friends.
+          </p>
+
+          <p>
+            Heroes boast of dragons slain,<br>
+            While nabbing someone else's stew.<br>
+            The thief claims he's reformed—again!<br>
+            As barkeep's brew goes missing too.
+          </p>
+
+          <p>
+            A wizard burps up sparks of blue,<br>
+            A dwarf snores 'neath the table loud.<br>
+            The elf's still on verse twenty-two,<br>
+            The barmaid sighs amidst the crowd.
+          </p>
+
+          <p>
+            So join our band of misfits dear,<br>
+            We'll laugh and have our fill.<br>
+            For in this hall we know no fear,<br>
+            (Except the bloody bill!)
+          </p>
+        </div>
+        <div class="song-notes">
+          <span class="music-note">♫</span>
+          <span class="music-note delayed">♪</span>
+        </div>
+      </div>
     </div>
   </div>
 </main>
