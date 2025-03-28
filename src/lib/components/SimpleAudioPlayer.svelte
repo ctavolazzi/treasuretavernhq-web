@@ -34,6 +34,27 @@
     }
   }
 
+  // Handle seeking when progress bar is clicked
+  function handleSeek(event: MouseEvent) {
+    if (audio && duration) {
+      const progressContainer = event.currentTarget as HTMLElement;
+      const rect = progressContainer.getBoundingClientRect();
+      const clickPosition = event.clientX - rect.left;
+      const percentageClicked = clickPosition / rect.width;
+      const seekTime = percentageClicked * duration;
+
+      // Set the audio time to the calculated time
+      audio.currentTime = seekTime;
+
+      // If audio was playing, continue playing after seek
+      if (isPlaying) {
+        audio.play().catch(error => {
+          console.warn('Failed to play audio after seeking:', error);
+        });
+      }
+    }
+  }
+
   // Format time in MM:SS format
   function formatTime(seconds: number): string {
     if (isNaN(seconds)) return '0:00';
@@ -76,71 +97,115 @@
 <style>
   .audio-player {
     width: 100%;
-    max-width: 600px;
-    background: rgba(31, 27, 45, 0.6);
-    border-radius: 8px;
-    padding: 0.75rem 1rem;
+    max-width: 100%;
+    background: rgba(19, 17, 28, 0.8);
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
     color: #F7E8D4;
-    border: 1px solid rgba(189, 150, 72, 0.2);
+    border: 1px solid rgba(158, 97, 227, 0.2);
     font-family: 'Inter', system-ui, sans-serif;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+    margin: 1.5rem 0;
   }
 
   .audio-title {
-    margin: 0 0 0.5rem;
-    font-size: 1rem;
+    margin: 0 0 1rem;
+    font-size: 1.1rem;
     font-weight: 500;
     color: #BD9648;
+    font-family: 'Cinzel', serif;
   }
 
   .audio-controls {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 1.25rem;
   }
 
   .play-button {
     background: none;
     border: none;
     cursor: pointer;
-    width: 36px;
-    height: 36px;
+    width: 48px;
+    height: 48px;
     padding: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.25rem;
+    font-size: 1.5rem;
     color: #F7E8D4;
     border-radius: 50%;
-    background: rgba(158, 97, 227, 0.2);
+    background: linear-gradient(135deg, #9E61E3 0%, #7A3CA3 100%);
     transition: all 0.2s ease;
     flex-shrink: 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
   }
 
   .play-button:hover {
-    background: rgba(158, 97, 227, 0.3);
+    transform: scale(1.05);
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.35);
   }
 
   .progress-container {
     flex-grow: 1;
-    height: 4px;
-    background: rgba(247, 232, 212, 0.15);
-    border-radius: 2px;
-    overflow: hidden;
+    height: 8px;
+    background: rgba(247, 232, 212, 0.1);
+    border-radius: 4px;
+    overflow: visible;
     position: relative;
+    cursor: pointer;
   }
 
   .progress-bar {
     height: 100%;
-    background: #9E61E3;
-    border-radius: 2px;
+    background: linear-gradient(90deg, #9E61E3 0%, #BD9648 100%);
+    border-radius: 4px;
     transition: width 0.1s linear;
+    position: relative;
+  }
+
+  .progress-indicator {
+    position: absolute;
+    top: 50%;
+    right: -6px;
+    width: 12px;
+    height: 12px;
+    background: #F7E8D4;
+    border-radius: 50%;
+    transform: translateY(-50%);
+    box-shadow: 0 0 6px rgba(158, 97, 227, 0.8);
+    border: 2px solid rgba(158, 97, 227, 1);
+    z-index: 2;
   }
 
   .time-display {
-    font-size: 0.8rem;
-    color: rgba(247, 232, 212, 0.7);
-    margin-left: 0.5rem;
+    font-size: 0.95rem;
+    color: rgba(247, 232, 212, 0.9);
+    margin-left: 0.75rem;
     white-space: nowrap;
+    min-width: 90px;
+    text-align: right;
+  }
+
+  @media (max-width: 600px) {
+    .audio-player {
+      padding: 1rem;
+    }
+
+    .audio-controls {
+      gap: 0.75rem;
+    }
+
+    .play-button {
+      width: 40px;
+      height: 40px;
+      font-size: 1.2rem;
+    }
+
+    .time-display {
+      font-size: 0.85rem;
+      min-width: 80px;
+    }
   }
 </style>
 
@@ -156,13 +221,15 @@
   <div class="audio-controls">
     <button class="play-button" on:click={togglePlay} aria-label={isPlaying ? 'Pause' : 'Play'}>
       {#if isPlaying}
-        ❚❚
+        <i class="fas fa-pause"></i>
       {:else}
-        ▶
+        <i class="fas fa-play"></i>
       {/if}
     </button>
-    <div class="progress-container">
-      <div class="progress-bar" style="width: {progress}%"></div>
+    <div class="progress-container" on:click={handleSeek}>
+      <div class="progress-bar" style="width: {progress}%">
+        <div class="progress-indicator"></div>
+      </div>
     </div>
     <div class="time-display">
       {formatTime(currentTime)} / {formatTime(duration)}

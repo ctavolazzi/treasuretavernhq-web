@@ -1488,7 +1488,7 @@
       />
     </a>
 
-    <p class="subheading-emphasis" style="text-align: center; margin-left: auto; margin-right: auto;">Light the Lantern</p>
+    <p class="subheading-emphasis" style="text-align: center; margin-left: auto; margin-right: auto; margin-top: 2rem;">Light the Lantern</p>
     <p class="subheading" style="text-align: center; margin-left: auto; margin-right: auto;">An amusing fantasy universe is coming. Join early to unlock the Tavern.</p>
 
     {#if !subscribed}

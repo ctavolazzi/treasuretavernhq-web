@@ -2,10 +2,7 @@
   import { onMount, onDestroy } from 'svelte';
   import { fade } from 'svelte/transition';
   import AnnouncementCta from '$lib/components/AnnouncementCta.svelte';
-  import { page } from '$app/stores';
-  import { getTaleBySlug, getRelatedTales } from '$lib/data/tales';
   import ResponsiveImage from '$lib/components/ResponsiveImage.svelte';
-  import AudioPlayer from '$lib/components/AudioPlayer.svelte';
   import SimpleAudioPlayer from '$lib/components/SimpleAudioPlayer.svelte';
 
   // Define Tale interface to fix type errors
@@ -398,29 +395,40 @@
   }
 
   .tale-container {
-    max-width: min(90%, 1200px);
+    max-width: 1400px;
     width: 100%;
     margin: 0 auto;
     padding: clamp(1.5rem, 5vw, 3rem) clamp(1rem, 3vw, 2rem);
     display: grid;
     grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
 
   @media (min-width: 1024px) {
     .tale-container {
-      grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
       gap: 3rem;
       align-items: start;
     }
 
     .tale-main-content {
       grid-column: 1;
+      background: rgba(31, 27, 45, 0.3);
+      border-radius: 12px;
+      border: 1px solid rgba(189, 150, 72, 0.15);
+      padding: 2rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
     }
 
     .tale-sidebar {
       grid-column: 2;
       position: sticky;
       top: 2rem;
+      padding: 1rem 1.5rem;
+      background: rgba(31, 27, 45, 0.4);
+      border-radius: 12px;
+      border: 1px solid rgba(189, 150, 72, 0.15);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
     }
   }
 
@@ -444,8 +452,13 @@
     font-size: clamp(1rem, 2vw, 1.2rem);
     line-height: 1.6;
     color: rgba(247, 232, 212, 0.92);
-    max-width: 800px;
     margin: 0 auto;
+  }
+
+  @media (min-width: 1024px) {
+    .tale-content {
+      max-width: 800px;
+    }
   }
 
   .tale-content :global(p) {
@@ -566,19 +579,37 @@
     overflow: hidden;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(189, 150, 72, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(19, 17, 28, 0.5);
   }
 
   @media (min-width: 1024px) {
     .tale-cover {
-      max-height: 500px;
-      object-fit: cover;
+      min-height: 300px;
+      max-height: 600px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .tale-cover img {
-      max-height: 500px;
-      object-fit: cover;
-      width: 100%;
+      object-fit: contain;
+      max-width: 100%;
+      max-height: 600px;
+      width: auto;
+      height: auto;
     }
+  }
+
+  .tale-cover :global(img) {
+    display: block;
+    object-fit: contain;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    image-rendering: pixelated; /* Better display for pixel art */
   }
 
   .media-container {
@@ -630,7 +661,7 @@
   }
 
   .related-tales {
-    margin: clamp(2rem, 6vw, 4rem) 0;
+    margin: 0;
   }
 
   .related-tales-grid {
@@ -642,6 +673,11 @@
   @media (min-width: 1024px) {
     .related-tales-grid {
       grid-template-columns: 1fr;
+    }
+
+    .related-tales h2 {
+      margin-top: 0;
+      margin-bottom: 0.75rem;
     }
   }
 
@@ -743,6 +779,7 @@
     padding: clamp(1.5rem, 4vw, 2rem);
     text-align: center;
     border-top: 1px solid rgba(189, 150, 72, 0.2);
+    margin-top: 3rem;
   }
 
   .footer-text {
@@ -1020,12 +1057,10 @@
           </div>
         </div>
       {:else if tale.mediaType === 'audio' && mediaReady}
-        <div class="media-container">
-          <SimpleAudioPlayer
-            audioSrc={tale.mediaContent || ''}
-            audioTitle={`Audio Narration: ${tale.title}`}
-          />
-        </div>
+        <SimpleAudioPlayer
+          audioSrc={tale.mediaContent || ''}
+          audioTitle={`Audio Narration: ${tale.title}`}
+        />
       {:else if tale.mediaType === 'interactive'}
         <div class="media-container">
           <div class="interactive-container">
