@@ -398,10 +398,30 @@
   }
 
   .tale-container {
-    max-width: 800px;
+    max-width: min(90%, 1200px);
     width: 100%;
     margin: 0 auto;
     padding: clamp(1.5rem, 5vw, 3rem) clamp(1rem, 3vw, 2rem);
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 1024px) {
+    .tale-container {
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+      gap: 3rem;
+      align-items: start;
+    }
+
+    .tale-main-content {
+      grid-column: 1;
+    }
+
+    .tale-sidebar {
+      grid-column: 2;
+      position: sticky;
+      top: 2rem;
+    }
   }
 
   h2 {
@@ -424,6 +444,8 @@
     font-size: clamp(1rem, 2vw, 1.2rem);
     line-height: 1.6;
     color: rgba(247, 232, 212, 0.92);
+    max-width: 800px;
+    margin: 0 auto;
   }
 
   .tale-content :global(p) {
@@ -546,6 +568,19 @@
     border: 1px solid rgba(189, 150, 72, 0.3);
   }
 
+  @media (min-width: 1024px) {
+    .tale-cover {
+      max-height: 500px;
+      object-fit: cover;
+    }
+
+    .tale-cover img {
+      max-height: 500px;
+      object-fit: cover;
+      width: 100%;
+    }
+  }
+
   .media-container {
     margin: clamp(1.5rem, 5vw, 3rem) 0;
     width: 100%;
@@ -602,6 +637,12 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr));
     gap: clamp(1rem, 3vw, 1.5rem);
+  }
+
+  @media (min-width: 1024px) {
+    .related-tales-grid {
+      grid-template-columns: 1fr;
+    }
   }
 
   .related-tale-card {
@@ -856,6 +897,7 @@
     gap: 1rem;
     margin: 1.75rem auto 2.25rem;
     flex-wrap: wrap;
+    max-width: 800px; /* Match text content width */
   }
 
   .copy-button {
@@ -958,126 +1000,132 @@
   </header>
 
   <main class="tale-container">
-    <!-- Featured image -->
-    <div class="tale-cover">
-      <ResponsiveImage src={tale.coverImage} alt={tale.title} className="tale-cover-image" />
-    </div>
+    <!-- Main content area -->
+    <div class="tale-main-content">
+      <!-- Featured image -->
+      <div class="tale-cover">
+        <ResponsiveImage src={tale.coverImage} alt={tale.title} className="tale-cover-image" />
+      </div>
 
-    <!-- Media display, if applicable -->
-    {#if tale.mediaType === 'video' && mediaReady}
-      <div class="media-container">
-        <div class="video-container">
-          <iframe
-            src={tale.mediaContent}
-            title={tale.title}
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
-          ></iframe>
+      <!-- Media display, if applicable -->
+      {#if tale.mediaType === 'video' && mediaReady}
+        <div class="media-container">
+          <div class="video-container">
+            <iframe
+              src={tale.mediaContent}
+              title={tale.title}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+            ></iframe>
+          </div>
         </div>
-      </div>
-    {:else if tale.mediaType === 'audio' && mediaReady}
-      <div class="media-container">
-        <SimpleAudioPlayer
-          audioSrc={tale.mediaContent || ''}
-          audioTitle={`Audio Narration: ${tale.title}`}
-        />
-      </div>
-    {:else if tale.mediaType === 'interactive'}
-      <div class="media-container">
-        <div class="interactive-container">
-          <p>This tale contains interactive elements. {tale.mediaContent === 'riddles' ? 'Try to solve the riddles before revealing the answers!' : ''}</p>
-          {#if tale.mediaContent === 'riddles'}
-            <button class="reveal-button" on:click={() => {
-              // This would toggle the visibility of answers in a real implementation
-              document.querySelectorAll('.riddle-answer').forEach(el => {
-                el.classList.toggle('hidden');
-              });
-              showRiddleAnswers = !showRiddleAnswers;
-            }}>
-              {showRiddleAnswers ? 'Hide Answers' : 'Reveal Answers'}
-            </button>
+      {:else if tale.mediaType === 'audio' && mediaReady}
+        <div class="media-container">
+          <SimpleAudioPlayer
+            audioSrc={tale.mediaContent || ''}
+            audioTitle={`Audio Narration: ${tale.title}`}
+          />
+        </div>
+      {:else if tale.mediaType === 'interactive'}
+        <div class="media-container">
+          <div class="interactive-container">
+            <p>This tale contains interactive elements. {tale.mediaContent === 'riddles' ? 'Try to solve the riddles before revealing the answers!' : ''}</p>
+            {#if tale.mediaContent === 'riddles'}
+              <button class="reveal-button" on:click={() => {
+                // This would toggle the visibility of answers in a real implementation
+                document.querySelectorAll('.riddle-answer').forEach(el => {
+                  el.classList.toggle('hidden');
+                });
+                showRiddleAnswers = !showRiddleAnswers;
+              }}>
+                {showRiddleAnswers ? 'Hide Answers' : 'Reveal Answers'}
+              </button>
+            {/if}
+          </div>
+        </div>
+      {/if}
+
+      <!-- Action buttons below media but above content -->
+      <div class="button-container">
+        <button class="copy-button" on:click={copyTaleContent}>
+          <i class="fas fa-copy"></i> Copy Story Text
+          {#if copySuccess}
+            <span class="copy-success"><i class="fas fa-check"></i> Copied!</span>
           {/if}
-        </div>
+        </button>
       </div>
-    {/if}
 
-    <!-- Action buttons below media but above content -->
-    <div class="button-container">
-      <button class="copy-button" on:click={copyTaleContent}>
-        <i class="fas fa-copy"></i> Copy Story Text
-        {#if copySuccess}
-          <span class="copy-success"><i class="fas fa-check"></i> Copied!</span>
-        {/if}
-      </button>
+      <!-- Tale content -->
+      <div class="tale-content">
+        {@html tale.content}
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- CTA Section -->
+      <AnnouncementCta
+        title="Join the Tavern's Inner Circle"
+        description="Subscribe to our Chronicles newsletter to receive exclusive tales, early access to new stories, and special invitations to Tavern events. Be part of our community of storytellers and adventurers."
+        buttonText="Subscribe to Chronicles"
+        demoLink="/newsletter"
+      />
+
+      <div class="navigation">
+        <a href="/tavern-tales" class="nav-button">
+          <i class="fas fa-arrow-left" style="margin-right: 0.5rem;"></i>
+          All Chronicles
+        </a>
+        <a href="/" class="nav-button">
+          Return to Tavern
+          <i class="fas fa-home" style="margin-left: 0.5rem;"></i>
+        </a>
+      </div>
     </div>
 
-    <!-- Tale content -->
-    <div class="tale-content">
-      {@html tale.content}
-    </div>
+    <!-- Sidebar content -->
+    <div class="tale-sidebar">
+      <!-- Related tales section -->
+      {#if relatedTales && relatedTales.length > 0}
+        <div class="related-tales">
+          <h2>Related Chronicles</h2>
+          <div class="related-tales-grid">
+            {#each relatedTales as relatedTale}
+              <a
+                href={`/tavern-tales/${encodeURIComponent(relatedTale.slug)}`}
+                class="related-tale-card"
+                data-sveltekit-preload-data="hover"
+                on:click={(e) => {
+                  // Prevent default link behavior
+                  e.preventDefault();
 
-    <!-- Related tales section -->
-    {#if relatedTales && relatedTales.length > 0}
-      <div class="related-tales">
-        <h2>Related Chronicles</h2>
-        <div class="related-tales-grid">
-          {#each relatedTales as relatedTale}
-            <a
-              href={`/tavern-tales/${encodeURIComponent(relatedTale.slug)}`}
-              class="related-tale-card"
-              data-sveltekit-preload-data="hover"
-              on:click={(e) => {
-                // Prevent default link behavior
-                e.preventDefault();
+                  if (typeof window !== 'undefined') {
+                    // Show loading state
+                    isLoading = true;
 
-                if (typeof window !== 'undefined') {
-                  // Show loading state
-                  isLoading = true;
+                    // Scroll to top immediately
+                    window.scrollTo({ top: 0, behavior: 'auto' });
 
-                  // Scroll to top immediately
-                  window.scrollTo({ top: 0, behavior: 'auto' });
-
-                  // Short delay for visual feedback, then navigate
-                  setTimeout(() => {
-                    window.location.href = `/tavern-tales/${encodeURIComponent(relatedTale.slug)}`;
-                  }, 300);
-                }
-              }}
-            >
-              <ResponsiveImage src={relatedTale.coverImage} alt={relatedTale.title} />
-              <div class="related-tale-content">
-                <h3 class="related-tale-title">{relatedTale.title}</h3>
-                <p class="related-tale-type">{relatedTale.type}</p>
-                <div class="read-more">
-                  <span>Read Chronicle</span>
-                  <i class="fas fa-arrow-right"></i>
+                    // Short delay for visual feedback, then navigate
+                    setTimeout(() => {
+                      window.location.href = `/tavern-tales/${encodeURIComponent(relatedTale.slug)}`;
+                    }, 300);
+                  }
+                }}
+              >
+                <ResponsiveImage src={relatedTale.coverImage} alt={relatedTale.title} />
+                <div class="related-tale-content">
+                  <h3 class="related-tale-title">{relatedTale.title}</h3>
+                  <p class="related-tale-type">{relatedTale.type}</p>
+                  <div class="read-more">
+                    <span>Read Chronicle</span>
+                    <i class="fas fa-arrow-right"></i>
+                  </div>
                 </div>
-              </div>
-            </a>
-          {/each}
+              </a>
+            {/each}
+          </div>
         </div>
-      </div>
-    {/if}
-
-    <div class="divider"></div>
-
-    <!-- CTA Section -->
-    <AnnouncementCta
-      title="Join the Tavern's Inner Circle"
-      description="Subscribe to our Chronicles newsletter to receive exclusive tales, early access to new stories, and special invitations to Tavern events. Be part of our community of storytellers and adventurers."
-      buttonText="Subscribe to Chronicles"
-      demoLink="/newsletter"
-    />
-
-    <div class="navigation">
-      <a href="/tavern-tales" class="nav-button">
-        <i class="fas fa-arrow-left" style="margin-right: 0.5rem;"></i>
-        All Chronicles
-      </a>
-      <a href="/" class="nav-button">
-        Return to Tavern
-        <i class="fas fa-home" style="margin-left: 0.5rem;"></i>
-      </a>
+      {/if}
     </div>
   </main>
 

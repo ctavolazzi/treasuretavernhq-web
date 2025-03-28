@@ -28,12 +28,12 @@
 
   .hero {
     position: relative;
-    min-height: 40vh;
+    min-height: 25vh;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 4rem max(1rem, 5vw);
+    padding: 1.5rem max(1rem, 5vw);
     overflow: hidden;
   }
 
@@ -77,7 +77,7 @@
   .hero-subtitle {
     font-family: 'Spectral', serif;
     font-size: clamp(1.1rem, 3vw, 1.5rem);
-    margin-bottom: 2rem;
+    margin-bottom: 0.5rem;
     color: rgba(247, 232, 212, 0.9);
     max-width: 800px;
     margin-left: auto;
@@ -88,22 +88,23 @@
 
   .main-content {
     flex: 1;
-    padding: clamp(2rem, 5vw, 4rem) max(1rem, 5vw);
-    max-width: 1200px;
+    padding: 0 max(1rem, 5vw);
+    max-width: 1000px;
     margin: 0 auto;
     width: 100%;
   }
 
   .about-section {
-    margin-bottom: clamp(3rem, 8vw, 5rem);
+    margin-bottom: clamp(2rem, 4vw, 3rem);
   }
 
   .section-title {
     font-family: 'Cinzel', serif;
     font-size: clamp(1.75rem, 4vw, 2.5rem);
-    margin-bottom: clamp(1.5rem, 4vw, 2rem);
+    margin-bottom: clamp(1rem, 3vw, 1.5rem);
     color: #BD9648;
     text-shadow: 0 0 8px rgba(189, 150, 72, 0.3);
+    text-align: center;
   }
 
   .section-content {
@@ -111,7 +112,8 @@
     font-size: clamp(1rem, 2vw, 1.2rem);
     line-height: 1.7;
     color: rgba(247, 232, 212, 0.92);
-    max-width: 900px;
+    max-width: 800px;
+    margin: 0 auto;
   }
 
   .section-content p {
@@ -120,17 +122,37 @@
 
   .features-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: clamp(1.5rem, 4vw, 2.5rem);
-    margin-top: clamp(2rem, 5vw, 3rem);
+    grid-template-columns: repeat(1, 1fr);
+    gap: 2rem;
+    margin-top: clamp(1.5rem, 4vw, 2.5rem);
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  @media (min-width: 640px) {
+    .features-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .features-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2.5rem;
+    }
   }
 
   .feature-card {
     background: rgba(31, 27, 45, 0.4);
     border-radius: 10px;
-    padding: clamp(1.5rem, 4vw, 2rem);
+    padding: 1.75rem;
     border: 1px solid rgba(189, 150, 72, 0.2);
     transition: all 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .feature-card:hover {
@@ -140,31 +162,38 @@
   }
 
   .feature-icon {
-    font-size: 2rem;
+    font-size: 2.2rem;
     color: #9E61E3;
     margin-bottom: 1rem;
+    text-align: center;
   }
 
   .feature-title {
     font-family: 'Cinzel', serif;
-    font-size: 1.4rem;
-    margin-bottom: 1rem;
+    font-size: 1.3rem;
+    margin-bottom: 0.75rem;
     color: #BD9648;
+    text-align: center;
   }
 
   .feature-description {
     font-family: 'Spectral', serif;
     color: rgba(247, 232, 212, 0.85);
     line-height: 1.6;
+    font-size: 0.95rem;
+    text-align: center;
   }
 
   .cta-section {
     text-align: center;
-    margin-top: clamp(2rem, 6vw, 4rem);
+    margin-top: clamp(1rem, 4vw, 2rem);
     padding: clamp(2rem, 5vw, 3rem);
     background: rgba(31, 27, 45, 0.6);
     border-radius: 10px;
     border: 1px solid rgba(189, 150, 72, 0.2);
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .cta-title {

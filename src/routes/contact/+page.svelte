@@ -127,12 +127,12 @@
 
   .hero {
     position: relative;
-    min-height: 30vh;
+    min-height: 25vh;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 2rem max(1rem, 3vw);
+    padding: 1.5rem max(1rem, 3vw);
     overflow: hidden;
   }
 
@@ -187,7 +187,7 @@
 
   .main-content {
     flex: 1;
-    padding: clamp(1.5rem, 3vw, 2.5rem) max(1rem, 3vw);
+    padding: clamp(1rem, 2vw, 1.5rem) max(1rem, 3vw);
     max-width: 1200px;
     margin: 0 auto;
     width: 100%;
@@ -196,7 +196,7 @@
   .contact-container {
     display: flex;
     justify-content: center;
-    margin-top: clamp(0.5rem, 2vw, 1rem);
+    margin-top: 0;
   }
 
   .contact-form {
