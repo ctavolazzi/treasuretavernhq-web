@@ -11,19 +11,30 @@
   let audioControlsElement: HTMLDivElement | null = null;
   let audioPlayer: HTMLAudioElement | null = null;
   let isMuted: boolean = startMuted;
-  let isPlaying = false;
-  let hintVisible = true;
-  let audioProgress = 0;
-  let audioDuration = 0;
+  let showHint = true;
 
   // Toggle mute/unmute
-  function toggleMute(e?: Event) {
-    if (e) e.stopPropagation();
-
+  function toggleMute() {
     if (!audioPlayer) return;
 
+    if (isMuted) {
+      audioPlayer.muted = false;
+      audioPlayer.play().catch(error => {
+        console.warn('Failed to play audio:', error);
+        // Fallback if autoplay is blocked
+        isMuted = true;
+        audioPlayer.muted = true;
+      });
+    } else {
+      audioPlayer.muted = true;
+    }
+
     isMuted = !isMuted;
-    audioPlayer.volume = isMuted ? 0 : 0.5;
+
+    // Hide hint after first interaction
+    if (showHint) {
+      showHint = false;
+    }
   }
 
   // Handle scroll behavior - show/hide based on scroll position
@@ -63,9 +74,16 @@
     if (typeof window !== 'undefined') {
       // Auto-play as muted (needed for mobile and modern browsers)
       if (audioPlayer) {
-        audioPlayer.muted = startMuted;
-        audioPlayer.volume = startMuted ? 0 : 0.5;
+        audioPlayer.volume = 0.5; // Set initial volume to 50%
 
+        // Always start muted if specified
+        audioPlayer.muted = startMuted;
+        isMuted = startMuted;
+
+        // Load the audio
+        audioPlayer.load();
+
+        // Try to autoplay (will likely be blocked if not muted)
         audioPlayer.play().catch(e => {
           console.log('Audio autoplay was prevented:', e);
         });
@@ -74,59 +92,25 @@
       // Add scroll event handler
       window.addEventListener('scroll', handleScroll);
 
+      // Initial position check
+      setTimeout(handleScroll, 300);
+
       // Check position on window resize
       window.addEventListener('resize', handleScroll);
-
-      // Find the elements after the component is mounted
-      audioControlsElement = document.querySelector('.audio-controls');
-      audioPlayer = document.querySelector('#audio-player');
-
-      if (audioPlayer) {
-        // Set initial volume to 0 if startMuted is true
-        audioPlayer.volume = startMuted ? 0 : 0.5;
-
-        // Update progress when the time changes
-        audioPlayer.addEventListener('timeupdate', () => {
-          if (audioPlayer) {
-            audioProgress = audioPlayer.currentTime;
-            audioDuration = audioPlayer.duration || 0;
-          }
-        });
-
-        // Update duration once metadata is loaded
-        audioPlayer.addEventListener('loadedmetadata', () => {
-          if (audioPlayer) {
-            audioDuration = audioPlayer.duration;
-          }
-        });
-      }
     }
 
     return () => {
       if (typeof window !== 'undefined') {
         window.removeEventListener('scroll', handleScroll);
         window.removeEventListener('resize', handleScroll);
+
+        // Clean up
+        if (audioPlayer) {
+          audioPlayer.pause();
+        }
       }
     };
   });
-
-  // Function to toggle play/pause
-  function toggleAudio() {
-    if (!audioPlayer) return;
-
-    if (audioPlayer.paused) {
-      audioPlayer.play();
-      isPlaying = true;
-    } else {
-      audioPlayer.pause();
-      isPlaying = false;
-    }
-
-    // Hide hint after first play
-    if (hintVisible) {
-      hintVisible = false;
-    }
-  }
 </script>
 
 <style>
@@ -139,9 +123,9 @@
     z-index: 100;
     display: flex;
     align-items: center;
-    gap: 8px;
-    background: rgba(31, 27, 45, 0.6);
-    padding: 8px 12px;
+    gap: 12px;
+    background: rgba(31, 27, 45, 0.8);
+    padding: 10px 16px;
     border-radius: 30px;
     border: 1px solid rgba(189, 150, 72, 0.3);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
@@ -150,143 +134,68 @@
     transition: all 0.2s ease, opacity 0.3s ease, bottom 0.2s ease;
     opacity: 0;
     pointer-events: none;
-    flex-wrap: wrap;
   }
 
   .audio-controls:hover {
-    background: rgba(31, 27, 45, 0.8);
+    background: rgba(31, 27, 45, 0.9);
     border-color: rgba(189, 150, 72, 0.5);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
     transform: translateX(-50%) translateY(-2px);
   }
 
-  .control-icon {
+  .mute-button {
+    color: #BD9648;
+    font-size: 1.1rem;
+    width: 20px;
+    text-align: center;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 30px;
-    height: 30px;
-    color: #F7E8D4;
-    font-size: 1rem;
-  }
-
-  .audio-info {
-    display: flex;
-    flex-direction: column;
   }
 
   .audio-title {
     font-family: 'Cinzel', serif;
-    font-size: 0.85rem;
     color: #BD9648;
-    margin: 0;
+    font-size: 0.9rem;
+    margin: 0 4px;
   }
 
   .audio-hint {
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     color: rgba(247, 232, 212, 0.7);
     font-style: italic;
-    margin-top: 2px;
-  }
-
-  .mute-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 24px;
-    height: 24px;
-    color: #9E61E3;
-    font-size: 0.95rem;
-    margin-left: 4px;
-    transition: color 0.2s ease;
-  }
-
-  .mute-button:hover {
-    color: #BD9648;
-  }
-
-  /* Progress bar styles */
-  .progress-container {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background: rgba(247, 232, 212, 0.2);
-    border-radius: 0 0 30px 30px;
-    overflow: hidden;
-  }
-
-  .progress-bar {
-    height: 100%;
-    background: linear-gradient(to right, #9E61E3, #BD9648);
-    transition: width 0.1s linear;
   }
 
   /* Mobile responsive styles */
   @media (max-width: 480px) {
     .audio-controls {
-      padding: 6px 10px;
-      gap: 6px;
+      padding: 8px 12px;
+      gap: 8px;
     }
 
     .audio-title {
-      font-size: 0.75rem;
+      font-size: 0.8rem;
     }
 
     .audio-hint {
-      font-size: 0.65rem;
-    }
-
-    .control-icon, .mute-button {
-      width: 24px;
-      height: 24px;
-      font-size: 0.85rem;
+      font-size: 0.7rem;
     }
   }
 </style>
 
-<div
-  class="audio-controls"
-  on:click={toggleAudio}
-  bind:this={audioControlsElement}
-  role="button"
-  tabindex="0"
-  aria-label={isPlaying ? "Pause audio" : "Play audio"}
-  on:keydown={e => e.key === 'Enter' && toggleAudio()}
->
-  <!-- Audio element -->
-  <audio src={audioSrc} id="audio-player" preload="metadata" bind:this={audioPlayer} loop></audio>
+<!-- Audio player -->
+<audio bind:this={audioPlayer} src={audioSrc} preload="auto" loop></audio>
 
-  <!-- Play/Pause button -->
-  <div class="control-icon">
-    <i class={isPlaying ? "fas fa-pause" : "fas fa-play"}></i>
-  </div>
-
-  <!-- Title text -->
-  <div class="audio-info">
-    <div class="audio-title">{audioTitle}</div>
-    {#if hintVisible}
-      <div class="audio-hint">{hintText}</div>
+<div class="audio-controls" bind:this={audioControlsElement} on:click={toggleMute} role="button" tabindex="0" aria-label={isMuted ? `Play ${audioTitle}` : `Mute ${audioTitle}`} on:keydown={(e) => e.key === 'Enter' && toggleMute()}>
+  <div class="mute-button">
+    {#if isMuted}
+      <i class="fas fa-volume-mute"></i>
+    {:else}
+      <i class="fas fa-volume-up"></i>
     {/if}
   </div>
-
-  <!-- Mute button -->
-  <div
-    class="mute-button"
-    on:click|stopPropagation={toggleMute}
-    role="button"
-    tabindex="0"
-    aria-label={isMuted ? "Unmute audio" : "Mute audio"}
-    on:keydown={e => e.key === 'Enter' && toggleMute()}
-  >
-    <i class={isMuted ? "fas fa-volume-mute" : "fas fa-volume-up"}></i>
-  </div>
-
-  <!-- Progress bar - only show when playing or has progressed -->
-  {#if isPlaying || audioProgress > 0}
-    <div class="progress-container">
-      <div class="progress-bar" style="width: {(audioProgress / audioDuration * 100) || 0}%"></div>
-    </div>
+  <span class="audio-title">{audioTitle}</span>
+  {#if isMuted && showHint}
+    <span class="audio-hint">{hintText}</span>
   {/if}
 </div>
