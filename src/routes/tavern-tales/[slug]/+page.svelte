@@ -1155,7 +1155,7 @@
   <FloatingAudioPlayer
     audioSrc="/audio/The-Bone-KingdomHe-Waits.mp3"
     audioTitle="The Bone Kingdom Theme"
-    hintText="(Click to enhance your reading)"
+    hintText="Click to enhance your reading"
     startMuted={true}
   />
 {/if}
