@@ -8,6 +8,8 @@ const announcements = [
     slug: "goblin-infestation-cleanup",
     date: "March 10, 2025",
     title: "Goblin Infestation Cleanup Complete",
+    category: "Event",
+    type: "event",
     content: "After weeks of battling the unexpected goblin infestation in our cellar, our brave adventurers have finally cleared out the last of the vermin. Special thanks to the Dwarven Extermination Guild for their assistance with the particularly stubborn goblin king who had established a throne made entirely of stolen silverware.",
     fullContent: `
       <p>After weeks of battling the unexpected goblin infestation in our cellar, our brave adventurers have finally cleared out the last of the vermin. Special thanks to the Dwarven Extermination Guild for their assistance with the particularly stubborn goblin king who had established a throne made entirely of stolen silverware.</p>
@@ -25,13 +27,16 @@ const announcements = [
     cta: {
       text: "Sign Up for Pest Prevention Workshop",
       link: "/demo"
-    }
+    },
+    relatedAnnouncements: [2, 5]
   },
   {
     id: 2,
     slug: "machine-elves-strike-resolved",
     date: "March 15, 2025",
     title: "Machine Elves Strike Resolved",
+    category: "News",
+    type: "news",
     content: "The labor dispute with our Machine Elves kitchen staff has finally been settled. Their demands for 'chronologically flexible lunch breaks' and 'interdimensional vacation days' have been accommodated. Patrons may notice our menu now includes several dishes that technically don't exist on this plane of reality.",
     fullContent: `
       <p>The labor dispute with our Machine Elves kitchen staff has finally been settled. Their demands for 'chronologically flexible lunch breaks' and 'interdimensional vacation days' have been accommodated. Patrons may notice our menu now includes several dishes that technically don't exist on this plane of reality.</p>
@@ -57,13 +62,16 @@ const announcements = [
     cta: {
       text: "Try Our New Interdimensional Menu",
       link: "/demo"
-    }
+    },
+    relatedAnnouncements: [5, 3]
   },
   {
     id: 3,
     slug: "dragon-mating-season",
     date: "March 22, 2025",
     title: "Warning: Dragon Mating Season",
+    category: "Alert",
+    type: "alert",
     content: "Patrons are advised to use the eastern entrance until further notice, as a pair of adolescent copper dragons have claimed our western tower for courtship rituals. The local Dragonriders Guild assures us this is temporary, though the occasional rain of molten copper may continue through the month. Complimentary fireproof umbrellas available at the coat check.",
     fullContent: `
       <p>Patrons are advised to use the eastern entrance until further notice, as a pair of adolescent copper dragons have claimed our western tower for courtship rituals. The local Dragonriders Guild assures us this is temporary, though the occasional rain of molten copper may continue through the month. Complimentary fireproof umbrellas available at the coat check.</p>
@@ -97,7 +105,102 @@ const announcements = [
     cta: {
       text: "Reserve Dragon Watching Experience",
       link: "/demo"
-    }
+    },
+    relatedAnnouncements: [1, 4]
+  },
+  {
+    id: 4,
+    slug: "bardic-competition",
+    date: "April 5, 2025",
+    title: "Annual Bardic Competition",
+    category: "Event",
+    type: "event",
+    content: "Calling all bards, minstrels, and musical enthusiasts! The annual Bardic Competition will be held in the Great Hall next month. Categories include traditional ballads, magical music, instrumental innovation, and comedy. Grand prize is a masterwork instrument crafted by the legendary luthier Harmonius Strings.",
+    fullContent: `
+      <p>Calling all bards, minstrels, and musical enthusiasts! The annual Bardic Competition will be held in the Great Hall next month. Categories include traditional ballads, magical music, instrumental innovation, and comedy. Grand prize is a masterwork instrument crafted by the legendary luthier Harmonius Strings.</p>
+
+      <p>Now in its 27th year, the Treasure Tavern Bardic Competition has become one of the most prestigious musical events in the realm. Previous winners have gone on to become court musicians for royalty, enchanted forest guides, and in one notable case, the musical familiar of an eccentric archmage.</p>
+
+      <p>This year's competition will feature four categories:</p>
+
+      <ul>
+        <li><strong>Traditional Ballads</strong> - Renditions of classic tales and songs passed down through generations</li>
+        <li><strong>Magical Musicality</strong> - Compositions that incorporate magical effects or are enhanced by spellcraft</li>
+        <li><strong>Instrumental Innovation</strong> - Original instruments or novel playing techniques</li>
+        <li><strong>Comedic Performance</strong> - Humorous songs, stories, or acts that amuse and delight</li>
+      </ul>
+
+      <p>Our distinguished panel of judges includes:</p>
+
+      <ul>
+        <li>Lady Melodia Silverstring, Royal Court Composer</li>
+        <li>Gaxin the Whisper, Three-time Bardic Competition Champion</li>
+        <li>Master Harmonius Strings, Legendary Instrument Crafter</li>
+        <li>Professor Cadence, Dean of Musical Studies at the Arcane Academy</li>
+      </ul>
+
+      <p>The grand prize winner will receive a custom masterwork instrument crafted by Harmonius Strings himself, valued at over 5,000 gold pieces. Category winners will receive enchanted instrument strings that never break and always stay in tune, plus a guaranteed performance slot at the Midsummer Festival.</p>
+
+      <p>Registration is open now through the end of the month. Entry fee is 5 gold pieces per category, or 15 gold pieces for all four categories. Apprentice rates (for performers under 18 years of age) are available at half price.</p>
+
+      <p>Accommodations can be arranged at Treasure Tavern at a special competitor's rate. Please mention your registration when booking.</p>
+    `,
+    cta: {
+      text: "Register for Competition",
+      link: "/demo"
+    },
+    relatedAnnouncements: [1, 3]
+  },
+  {
+    id: 5,
+    slug: "menu-expansion",
+    date: "April 8, 2025",
+    title: "New Spring Menu Items",
+    category: "News",
+    type: "news",
+    content: "Chef Gnarl is proud to introduce our spring menu featuring fresh ingredients from the Enchanted Forest. Try our new Fey-Touched Mushroom Stew, Unicorn Tear Tea, or the popular Phoenix Egg Benedict. Available for a limited time while magical ingredients last.",
+    fullContent: `
+      <p>Chef Gnarl is proud to introduce our spring menu featuring fresh ingredients from the Enchanted Forest. Try our new Fey-Touched Mushroom Stew, Unicorn Tear Tea, or the popular Phoenix Egg Benedict. Available for a limited time while magical ingredients last.</p>
+
+      <p>Spring has arrived in the Enchanted Forest, bringing with it a bounty of rare and magical ingredients. Our head chef Gnarl Stonekettle, along with our interdimensional kitchen staff, has developed a special seasonal menu to showcase these exceptional flavors.</p>
+
+      <p>Highlights from our new spring menu include:</p>
+
+      <ul>
+        <li>
+          <strong>Fey-Touched Mushroom Stew</strong> - A hearty blend of luminescent mushrooms harvested under the full moon, slow-cooked with roots and herbs in a cauldron blessed by forest sprites. Each bowl shifts color according to the mood of the diner and is garnished with edible flowers that softly hum when you're about to take a particularly delicious bite.
+        </li>
+        <li>
+          <strong>Unicorn Tear Tea</strong> - Don't worry! No unicorns were harmed in the collection of these tears. Our conservation partners at the Magical Creature Sanctuary collect tears naturally shed during unicorn meditation sessions. This iridescent tea grants temporary enhanced color vision and has been known to cause spontaneous poetry recitation in some patrons.
+        </li>
+        <li>
+          <strong>Phoenix Egg Benedict</strong> - Unfertilized phoenix eggs (certified by the Magical Creature Conservation Society) poached to perfection and served on toasted mana-grain bread with smoked chimera ham and hollandaise sauce infused with saffron harvested from flowers grown in dragon's breath. Garnished with herbs that periodically burst into tiny, harmless flames.
+        </li>
+        <li>
+          <strong>Dryad's Delight Salad</strong> - A mix of forest greens that continue to grow on your plate, meaning your salad is always fresh and never ending! Dressed with millennium-aged treant sap vinaigrette and topped with petals that change flavor with each bite.
+        </li>
+      </ul>
+
+      <p>For dessert, try our:</p>
+
+      <ul>
+        <li>
+          <strong>Shifting Seasons Sorbet</strong> - Each spoonful transitions through the four seasons of flavor, from spring's delicate floral notes to summer's bright berries, autumn's rich harvest fruits, and winter's deep spices.
+        </li>
+        <li>
+          <strong>Time-Twisted Tart</strong> - Created by our Machine Elf pastry chef, this remarkable dessert ages backwards. It starts as a perfectly aged tart and becomes progressively fresher as you eat it, until the final bite tastes as if it just came out of the oven.
+        </li>
+      </ul>
+
+      <p>Our new spring menu will be available until the summer solstice, or while magical ingredients last. Reservation is recommended, especially for weekend dining, as we expect high demand for these limited-time offerings.</p>
+
+      <p>Please inform your server of any magical allergies or dietary restrictions. We can accommodate most needs, including anti-transmutation diets and ectoplasm-free options for our ghostly patrons.</p>
+    `,
+    cta: {
+      text: "Reserve a Tasting Experience",
+      link: "/demo"
+    },
+    relatedAnnouncements: [1, 2]
   }
 ];
 
@@ -110,7 +213,15 @@ export function load({ params }) {
     });
   }
 
+  // Get related announcements data
+  const relatedAnnouncements = announcement.relatedAnnouncements
+    ? announcement.relatedAnnouncements.map(id =>
+        announcements.find(a => a.id === id)
+      ).filter(Boolean)
+    : [];
+
   return {
-    announcement
+    announcement,
+    relatedAnnouncements
   };
 }

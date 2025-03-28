@@ -6,6 +6,7 @@
   import SimpleAudioPlayer from '$lib/components/SimpleAudioPlayer.svelte';
   import Breadcrumb from '$lib/components/Breadcrumb.svelte';
   import FloatingAudioPlayer from '$lib/components/FloatingAudioPlayer.svelte';
+  import { getTaleSocialMeta, type SocialMetadata } from '$lib/data/social-meta';
 
   // Define Tale interface to fix type errors
   interface Tale {
@@ -37,6 +38,9 @@
   };
 
   const { tale, relatedTales } = data;
+
+  // Get social sharing metadata for this tale
+  const socialMeta: SocialMetadata = getTaleSocialMeta(tale);
 
   // Breadcrumb configuration
   $: breadcrumbItems = [
@@ -1138,6 +1142,34 @@
 <svelte:head>
   <title>{tale.title} - Tavern Tales - Treasure Tavern</title>
   <meta name="description" content={tale.excerpt} />
+
+  <!-- Basic Meta Tags -->
+  <meta property="og:title" content={socialMeta.title} />
+  <meta property="og:description" content={socialMeta.description} />
+  <meta property="og:image" content={socialMeta.image} />
+  <meta property="og:url" content={socialMeta.url} />
+  <meta property="og:type" content={socialMeta.type} />
+  <meta property="og:site_name" content={socialMeta.siteName} />
+
+  <!-- Twitter Card Tags -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={socialMeta.title} />
+  <meta name="twitter:description" content={socialMeta.description} />
+  <meta name="twitter:image" content={socialMeta.image} />
+
+  <!-- Additional Open Graph Tags -->
+  <meta property="og:image:width" content={socialMeta.imageWidth.toString()} />
+  <meta property="og:image:height" content={socialMeta.imageHeight.toString()} />
+  {#if socialMeta.author}
+    <meta property="article:author" content={socialMeta.author} />
+  {/if}
+  {#if socialMeta.publishedTime}
+    <meta property="article:published_time" content={socialMeta.publishedTime} />
+  {/if}
+  {#each socialMeta.tags as tag}
+    <meta property="article:tag" content={tag} />
+  {/each}
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </svelte:head>
 
