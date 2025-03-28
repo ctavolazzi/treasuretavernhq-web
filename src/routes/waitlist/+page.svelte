@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { fade, fly } from 'svelte/transition';
+  import { fade } from 'svelte/transition';
   import Breadcrumb from '$lib/components/Breadcrumb.svelte';
 
   // Form state
@@ -26,15 +26,14 @@
   }
 
   // Breadcrumb configuration
-  const breadcrumbItems = [
+  $: breadcrumbItems = [
     { label: 'Home', href: '/', icon: 'fa-home' },
-    { label: 'Waitlist', icon: 'fa-user-plus' }
+    { label: isSuccess ? 'Waitlist Joined' : 'Waitlist', icon: 'fa-user-plus' }
   ];
 
   onMount(() => {
-    setTimeout(() => {
-      isReady = true;
-    }, 300);
+    // Reduce timeout delay for faster initial render
+    isReady = true;
   });
 </script>
 
@@ -83,11 +82,13 @@
     max-width: 900px;
     width: 100%;
     z-index: 1;
-    transition: all 0.5s ease;
+    /* Optimize animation properties */
+    transition: opacity 0.3s ease, transform 0.3s ease;
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(10px);
     padding: 2rem;
     position: relative;
+    will-change: opacity, transform;
   }
 
   .hero-content::before {
@@ -211,12 +212,14 @@
     font-family: 'Cinzel', serif;
     font-size: 1.1rem;
     cursor: pointer;
-    transition: all 0.3s ease;
+    /* Optimize button hover transition */
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
     margin-top: 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
+    will-change: transform;
   }
 
   .submit-button:hover:not(:disabled) {
@@ -328,7 +331,9 @@
     border: 2px solid rgba(247, 232, 212, 0.3);
     border-top-color: #F7E8D4;
     border-radius: 50%;
-    animation: spin 1s linear infinite;
+    /* Optimize spinner animation */
+    animation: spin 0.8s linear infinite;
+    will-change: transform;
   }
 
   @keyframes spin {
@@ -342,14 +347,27 @@
   <section class="hero">
     <div class="hero-bg"></div>
     <div class="hero-content" class:visible={isReady}>
-      <h1 class="hero-title">Join Waitlist</h1>
-      <p class="hero-subtitle">Be first in line when accounts launch</p>
+      {#if !isSuccess}
+        <!-- Use Svelte's fade transition instead of CSS transitions for smoother effect -->
+        {#if isReady}
+          <div in:fade={{ duration: 300 }}>
+            <h1 class="hero-title">Join Waitlist</h1>
+            <p class="hero-subtitle">Be first in line when accounts launch</p>
+          </div>
+        {/if}
+      {:else}
+        <!-- Use Svelte's fade transition for success state too -->
+        <div in:fade={{ duration: 300 }}>
+          <h1 class="hero-title">Waitlist Joined</h1>
+          <p class="hero-subtitle">Thanks for your interest!</p>
+        </div>
+      {/if}
     </div>
   </section>
 
   <div class="main-content">
     {#if !isSuccess}
-      <div class="waitlist-container">
+      <div class="waitlist-container" in:fade={{ duration: 300, delay: 100 }}>
         <div class="waitlist-info">
           <h2 class="waitlist-heading">Account Creation Soon</h2>
           <p class="waitlist-description">
@@ -414,8 +432,8 @@
         </form>
       </div>
     {:else}
-      <div class="waitlist-container success-message">
-        <h2 class="success-title">Spot Reserved!</h2>
+      <div class="waitlist-container success-message" in:fade={{ duration: 300, delay: 100 }}>
+        <h2 class="success-title">Successfully Joined!</h2>
         <p class="success-text">
           {successMessage}
         </p>
