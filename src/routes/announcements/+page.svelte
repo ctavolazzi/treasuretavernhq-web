@@ -100,11 +100,10 @@
   let searchQuery = "";
   let filteredAnnouncements = [...announcements];
 
-  // Pagination settings
-  const announcementsPerPage = 4;
-  let currentPage = 1;
-  let totalPages = Math.ceil(filteredAnnouncements.length / announcementsPerPage);
-  let paginatedAnnouncements: typeof announcements = [];
+  // Display settings
+  const initialDisplayCount = 4;
+  let displayCount = initialDisplayCount;
+  let visibleAnnouncements: typeof announcements = [];
 
   // Filter announcements based on category and search
   $: {
@@ -117,38 +116,22 @@
       return matchesCategory && matchesSearch;
     });
 
-    // Reset to first page when filters change
-    currentPage = 1;
-    totalPages = Math.ceil(filteredAnnouncements.length / announcementsPerPage);
-    updatePaginatedAnnouncements();
+    // Reset display count when filters change
+    displayCount = initialDisplayCount;
   }
 
-  // Update the paginated announcements when page or filters change
-  $: {
-    updatePaginatedAnnouncements();
-  }
-
-  // Function to paginate announcements
-  function updatePaginatedAnnouncements() {
-    const startIndex = (currentPage - 1) * announcementsPerPage;
-    const endIndex = startIndex + announcementsPerPage;
-    paginatedAnnouncements = filteredAnnouncements.slice(startIndex, endIndex);
-  }
+  // Update the visible announcements when displayCount or filteredAnnouncements change
+  $: visibleAnnouncements = filteredAnnouncements.slice(0, displayCount);
 
   // Function to handle category selection
   function selectCategory(category: string) {
     selectedCategory = category;
   }
 
-  // Pagination functions
-  function goToPage(page: number) {
-    if (page >= 1 && page <= totalPages) {
-      currentPage = page;
-    }
+  // Function to load more announcements
+  function loadMore() {
+    displayCount += initialDisplayCount;
   }
-
-  // Generate array of page numbers for pagination
-  $: pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
 </script>
 
 <svelte:head>
@@ -203,7 +186,7 @@
 
       <div class="announcements">
         {#if filteredAnnouncements.length > 0}
-          {#each paginatedAnnouncements as announcement (announcement.id)}
+          {#each visibleAnnouncements as announcement (announcement.id)}
             <div class="announcement">
               <div class="announcement-meta">
                 <div class="announcement-date">{announcement.date}</div>
@@ -219,35 +202,15 @@
             </div>
           {/each}
 
-          {#if totalPages > 1}
-            <div class="pagination">
-              <button
-                class="pagination-button"
-                on:click={() => goToPage(currentPage - 1)}
-                disabled={currentPage === 1}
-              >
-                <i class="fas fa-chevron-left"></i>
-              </button>
-
-              {#each pageNumbers as page}
-                <button
-                  class="pagination-button {currentPage === page ? 'active' : ''}"
-                  on:click={() => goToPage(page)}
-                >
-                  {page}
-                </button>
-              {/each}
-
-              <button
-                class="pagination-button"
-                on:click={() => goToPage(currentPage + 1)}
-                disabled={currentPage === totalPages}
-              >
-                <i class="fas fa-chevron-right"></i>
-              </button>
-            </div>
-            <div class="page-info">
-              Page {currentPage} of {totalPages} ({filteredAnnouncements.length} announcements)
+          {#if visibleAnnouncements.length < filteredAnnouncements.length}
+            <button class="load-more-button" on:click={loadMore}>
+              <span>Load More Announcements</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+          {:else if filteredAnnouncements.length > initialDisplayCount}
+            <div class="all-loaded">
+              <span>You've reached the end of the announcements</span>
+              <i class="fas fa-scroll"></i>
             </div>
           {/if}
         {:else}
@@ -600,6 +563,58 @@
     font-size: 0.85rem;
     color: rgba(247, 232, 212, 0.6);
     margin-top: 0.75rem;
+  }
+
+  .load-more-button {
+    margin-top: 2rem;
+    width: 100%;
+    max-width: 300px;
+    padding: 0.75rem 1.5rem;
+    background: rgba(158, 97, 227, 0.15);
+    border: 1px dashed rgba(158, 97, 227, 0.3);
+    border-radius: 6px;
+    color: #9E61E3;
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .load-more-button:hover {
+    background: rgba(158, 97, 227, 0.25);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(158, 97, 227, 0.2);
+  }
+
+  .load-more-button i {
+    transition: transform 0.3s ease;
+  }
+
+  .load-more-button:hover i {
+    transform: translateY(3px);
+  }
+
+  .all-loaded {
+    margin-top: 2rem;
+    text-align: center;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.95rem;
+    color: rgba(247, 232, 212, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .all-loaded i {
+    color: #BD9648;
+    opacity: 0.7;
   }
 
   .empty-state {

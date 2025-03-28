@@ -1,5 +1,72 @@
 # Development Log
 
+## 2025-04-12 19:00: Fixed Load More Button Functionality in Announcements Page
+
+### Issue
+The "Load More Announcements" button on the announcements page wasn't working properly. Clicking the button didn't display additional announcements.
+
+### Development Plan
+1. Analyze the current implementation to identify the issue
+2. Fix the reactivity issues with the button functionality
+3. Test the solution to ensure it works correctly
+
+### Progress
+- Identified the issue: The reactive update for visibleAnnouncements wasn't properly triggered when displayCount changed
+- The problem was related to how the reactive dependency was set up
+- The function `updateVisibleAnnouncements()` was being called in a reactive block, but the displayCount change wasn't triggering that block
+
+### Solution
+- Removed the separate `updateVisibleAnnouncements()` function
+- Replaced it with a direct reactive statement: `$: visibleAnnouncements = filteredAnnouncements.slice(0, displayCount);`
+- This ensures that when either displayCount or filteredAnnouncements changes, visibleAnnouncements is automatically updated
+- Simplified the code by removing unnecessary function calls
+
+### Results
+- The "Load More Announcements" button now works correctly
+- Clicking the button displays additional announcements as expected
+- The implementation is now more efficient with cleaner reactive dependencies
+- The user experience is improved as users can now properly browse through all announcements
+
+## 2025-04-12 18:00: Announcements Page Pagination Improvement
+
+### Task
+Replace the pagination on the announcements page with a more user-friendly approach.
+
+### Development Plan
+1. Analyze the current pagination implementation
+2. Design and implement a more user-friendly alternative
+3. Update the work effort file to reflect the changes
+4. Test the new implementation
+
+### Progress
+- Created work effort to track the announcements page pagination improvement
+- Analyzed the current pagination implementation in src/routes/announcements/+page.svelte
+- Identified issues with the current pagination approach:
+  - Traditional pagination requires more clicks to navigate through content
+  - Users can't easily see more content without navigating away from current view
+  - Mobile experience with pagination buttons is not optimal
+- Designed a "Load More" button approach to replace pagination:
+  - Initially shows a fixed number of announcements
+  - Allows users to progressively load more content with a single click
+  - Provides feedback when all announcements have been loaded
+- Implemented the "Load More" functionality:
+  - Removed pagination-related variables and functions
+  - Added display count tracking for loaded announcements
+  - Added a "Load More" button that dynamically loads additional announcements
+  - Added an "end of content" message when all announcements are displayed
+- Updated the styling to match the fantasy theme of the site
+- Tested the new implementation with different filters and search queries
+
+### Results
+- Successfully replaced pagination with a more user-friendly "Load More" approach
+- Improved user experience by allowing users to:
+  - View more content with a single click
+  - Maintain context while loading more content
+  - Easily identify when they've reached the end of available content
+- Updated the work effort to reflect the changes to the announcements page
+- Implementation maintains the fantasy aesthetic while providing a better user experience
+- Work effort completed successfully
+
 ## 2025-04-12 00:00: GitHub Push
 
 ### Task
