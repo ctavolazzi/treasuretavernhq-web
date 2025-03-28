@@ -326,6 +326,5 @@
     <a href="/contact" class="footer-link">Contact</a>
     <a href="/tavern-tales" class="footer-link">Tales</a>
     <a href="/newsletter" class="footer-link">Newsletter</a>
-    <a href="/waitlist" class="footer-link">Create Account</a>
   </div>
 </footer>

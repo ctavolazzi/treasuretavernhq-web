@@ -27,3 +27,6 @@ Add a simple footer element and component to the layout page that will appear co
   - Proper spacing and responsive behavior
 - The footer now appears on all pages of the site
 - Work effort marked as completed
+
+### Updates
+- 2025-04-10: Removed "Create Account" link from the footer to simplify navigation options

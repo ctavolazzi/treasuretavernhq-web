@@ -701,3 +701,20 @@ All enhancements are now complete. The announcements page has been transformed f
 The current implementation uses hardcoded data but is structured in a way that will make integration with a real database straightforward in the future.
 
 Work effort has been marked as completed.
+
+## 2025-04-10 12:00: Footer Update - Removed Create Account Link
+
+### Change Request
+Remove the "Create Account" link from the footer to simplify the navigation options.
+
+### Implementation
+- Identified the footer component in the layout.svelte file
+- Removed the "Create Account" link from the footer-links section
+- Maintained the existing styling and layout of the footer
+- Verified the change appears consistently across all pages
+
+### Final Status
+- Successfully removed the "Create Account" link from the footer
+- Footer now contains only four essential links: About, Contact, Tales, and Newsletter
+- The footer maintains its clean, minimal design aligned with the site's theme
+- Change implemented with no impact on other site functionality
