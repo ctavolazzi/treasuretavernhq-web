@@ -430,9 +430,9 @@
   </p>
 
   <div style="margin: 1.5rem auto;">
-    <a href="/#newsletter-signup" class="magic-button" style="display: inline-flex; align-items: center; gap: 0.5rem;">
+    <a href="/#lantern" class="magic-button" style="display: inline-flex; align-items: center; gap: 0.5rem;">
       <i class="fas fa-envelope"></i>
-      Join Our Newsletter
+      Light the Lantern
     </a>
   </div>
 
@@ -548,9 +548,9 @@
 
   <AnnouncementCta
     title="Leave Your Mark Upon the Threshold"
-    description="Those who sign the ancient ledger may be remembered when the tavern's doors finally creak open. Perhaps a message might find its way to you."
-    buttonText="Sign the Ledger"
-    demoLink="/#newsletter-signup"
+    description="Those who light the lantern may be remembered when the tavern's doors finally creak open. Perhaps a message might find its way to you."
+    buttonText="Light the Lantern"
+    demoLink="/#lantern"
   />
 
   <a href="/" class="back-link">← Return to the Tavern</a>

@@ -527,10 +527,67 @@
   }
 
   .no-results {
-    padding: 2rem;
+    padding: clamp(2rem, 5vw, 3rem);
     text-align: center;
-    color: rgba(247, 232, 212, 0.7);
+    font-family: 'Spectral', serif;
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: rgba(247, 232, 212, 0.8);
+  }
+
+  .no-results p {
+    margin-bottom: 1rem;
+  }
+
+  .no-results .coming-soon {
+    color: #9E61E3;
     font-style: italic;
+    font-size: clamp(0.95rem, 2vw, 1.1rem);
+  }
+
+  .no-tales-message {
+    padding: clamp(2rem, 5vw, 3rem);
+    margin: 1rem 0 2rem;
+    text-align: center;
+    background: rgba(31, 27, 45, 0.4);
+    border-radius: 8px;
+    border: 1px solid rgba(158, 97, 227, 0.2);
+    animation: pulse 2s infinite alternate;
+  }
+
+  @keyframes pulse {
+    0% {
+      box-shadow: 0 0 0 rgba(158, 97, 227, 0.1);
+    }
+    100% {
+      box-shadow: 0 0 15px rgba(158, 97, 227, 0.3);
+    }
+  }
+
+  .no-tales-message p {
+    font-family: 'Spectral', serif;
+    font-size: clamp(1.1rem, 2vw, 1.3rem);
+    color: rgba(247, 232, 212, 0.9);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .check-back-message {
+    margin: 2rem auto 1rem;
+    padding: 1rem;
+    text-align: center;
+    background: rgba(31, 27, 45, 0.3);
+    border-top: 1px solid rgba(158, 97, 227, 0.15);
+    border-bottom: 1px solid rgba(158, 97, 227, 0.15);
+  }
+
+  .check-back-message p {
+    font-family: 'Spectral', serif;
+    font-size: clamp(0.95rem, 2vw, 1.1rem);
+    color: #9E61E3;
+    font-style: italic;
+    margin: 0;
+    line-height: 1.5;
+    text-shadow: 0 0 5px rgba(158, 97, 227, 0.3);
   }
 
   .load-more {
@@ -790,9 +847,14 @@
                 </a>
               {/each}
             </div>
+            <!-- New message for all search results -->
+            <div class="check-back-message" in:fade={{ duration: 800, delay: 300 }}>
+              <p><i class="fas fa-magic"></i> New tales are added regularly. Check back soon for fresh adventures!</p>
+            </div>
           {:else}
             <div class="no-results">
               <p>No tales found matching "{searchTerm}". Try a different search term.</p>
+              <p class="coming-soon">More chronicles are being added regularly. Check back soon!</p>
             </div>
           {/if}
         </div>
@@ -818,6 +880,30 @@
             </a>
           {/each}
         </div>
+
+        <!-- Add message at the bottom of all filtered results -->
+        {#if filteredTales.length > 0}
+          <div class="check-back-message" in:fade={{ duration: 800, delay: 300 }}>
+            <p><i class="fas fa-magic"></i> New tales are added regularly. Check back soon for fresh adventures!</p>
+          </div>
+        {/if}
+
+        <!-- Add a message when no tales are found for a category filter -->
+        {#if filteredTales.length === 0}
+          <div class="no-tales-message" in:fade={{ duration: 300 }}>
+            <p>
+              {#if activeFilter === 'all'}
+                More tales coming soon! Check back frequently for new content.
+              {:else}
+                {#each categories as category}
+                  {#if category.id === activeFilter}
+                    More {category.name} coming soon! Check back frequently for new content.
+                  {/if}
+                {/each}
+              {/if}
+            </p>
+          </div>
+        {/if}
 
         <!-- Load more button - would connect to pagination in a real implementation -->
         {#if filteredTales.length > 12}

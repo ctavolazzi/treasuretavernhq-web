@@ -151,6 +151,43 @@
     }
   }
 
+  // Function to smoothly scroll to the newsletter signup form
+  function scrollToNewsletterForm() {
+    // Get the newsletter signup form element
+    const newsletterForm = document.getElementById('newsletter-signup');
+    if (newsletterForm) {
+      // Calculate position to ensure form is fully visible
+      const rect = newsletterForm.getBoundingClientRect();
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+      // Get viewport height to ensure proper positioning on different devices
+      const viewportHeight = window.innerHeight;
+      const formHeight = rect.height;
+
+      // Calculate ideal scroll position:
+      // - On small screens, position at the top with padding
+      // - On larger screens, center the form if it's small enough
+      let targetPosition;
+
+      if (formHeight > viewportHeight * 0.8) {
+        // Form is large compared to viewport, position at top with small padding
+        targetPosition = rect.top + scrollTop - 30;
+      } else {
+        // Form can be centered or positioned with more padding
+        targetPosition = rect.top + scrollTop - ((viewportHeight - formHeight) / 3);
+      }
+
+      // Ensure we don't scroll past the top
+      targetPosition = Math.max(0, targetPosition);
+
+      // Smooth scroll to the target position
+      window.scrollTo({
+        top: targetPosition,
+        behavior: 'smooth'
+      });
+    }
+  }
+
   onMount(() => {
     // Check if Supabase is configured properly
     supabaseConfigured = isSupabaseConfigured();
@@ -521,7 +558,7 @@
 
   .newsletter-opt-in {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     gap: 0.4rem;
     cursor: pointer;
     font-family: 'Inter', system-ui, sans-serif;
@@ -537,15 +574,14 @@
   .newsletter-opt-in input[type="checkbox"] {
     appearance: none;
     -webkit-appearance: none;
-    width: 1.15rem;
-    height: 1.15rem;
+    width: 0.9rem;
+    height: 0.9rem;
     border: 1px solid rgba(189, 150, 72, 0.5);
     border-radius: 4px;
     background: rgba(19, 17, 28, 0.5);
     display: inline-block;
     position: relative;
     margin: 0;
-    margin-top: 0.15rem;
     cursor: pointer;
     flex-shrink: 0;
   }
@@ -557,7 +593,7 @@
 
   .newsletter-opt-in input[type="checkbox"]:checked::after {
     content: '✓';
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     color: #F7E8D4;
     position: absolute;
     top: 50%;
@@ -948,6 +984,15 @@
     position: relative;
   }
 
+  .welcome-image-container a {
+    display: block;
+    transition: transform 0.3s ease;
+  }
+
+  .welcome-image-container a:hover {
+    transform: translateY(-3px);
+  }
+
   .welcome-image {
     width: 100%;
     height: auto;
@@ -955,6 +1000,10 @@
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(247, 232, 212, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .welcome-image-container a:hover .welcome-image {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
   }
 
   .welcome-footer {
@@ -968,10 +1017,70 @@
     line-height: 1.4;
   }
 
+  /* Welcome navigation buttons */
+  .welcome-nav-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 1.75rem auto 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .welcome-nav-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.85rem 1.5rem;
+    background: rgba(31, 27, 45, 0.7);
+    color: #F7E8D4;
+    border: 1px solid rgba(189, 150, 72, 0.5);
+    border-radius: 8px;
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    min-width: 200px;
+    gap: 0.75rem;
+  }
+
+  .welcome-nav-icon {
+    color: #BD9648;
+    font-size: 1.1rem;
+    transition: transform 0.3s ease;
+  }
+
+  .welcome-nav-button:hover {
+    background: rgba(31, 27, 45, 0.9);
+    border-color: #BD9648;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3), 0 0 10px rgba(189, 150, 72, 0.2);
+  }
+
+  .welcome-nav-button:hover .welcome-nav-icon {
+    transform: translateX(-2px);
+  }
+
+  .welcome-nav-button:active {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+  }
+
   @media (max-width: 768px) {
     .welcome-section {
       padding: 1.25rem;
       margin-top: 2rem;
+    }
+
+    .welcome-nav-buttons {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .welcome-nav-button {
+      width: 100%;
+      max-width: 280px;
     }
   }
 
@@ -1308,15 +1417,17 @@
     <!-- Welcome to the Tavern Section -->
     <div class="welcome-section">
       <div class="welcome-image-container">
-        <picture>
-          <source srcset="/images/tavern-90s-main-ad.webp" type="image/webp">
-          <img
-            src="/images/tavern-90s-main-ad.png"
-            alt="Welcome to Treasure Tavern - A fantastical tavern where adventures await"
-            class="welcome-image"
-            loading="lazy"
-          />
-        </picture>
+        <a href="/tavern-tales">
+          <picture>
+            <source srcset="/images/tavern-90s-main-ad.webp" type="image/webp">
+            <img
+              src="/images/tavern-90s-main-ad.png"
+              alt="Welcome to Treasure Tavern - A fantastical tavern where adventures await"
+              class="welcome-image"
+              loading="lazy"
+            />
+          </picture>
+        </a>
       </div>
       <h2 class="welcome-title">The Door Is Opening</h2>
       <p class="welcome-description">
@@ -1329,15 +1440,34 @@
       <p class="welcome-footer">
         Pull up a chair, order your favorite brew, and make yourself at home. The Tavern Keeper has been expecting you.
       </p>
+
+      <!-- Navigation buttons -->
+      <div class="welcome-nav-buttons">
+        <a href="/tavern-tales" class="welcome-nav-button">
+          <i class="fas fa-book-open welcome-nav-icon"></i>
+          <span>Read Tavern Tales</span>
+        </a>
+        <a href="/about" class="welcome-nav-button">
+          <i class="fas fa-info-circle welcome-nav-icon"></i>
+          <span>What is the Treasure Tavern?</span>
+        </a>
+      </div>
     </div>
 
     <!-- Interactive Lantern with unified pointer events and touch handling -->
-    <a href="#newsletter-signup" class="lantern-container lantern-{lanternState}"
+    <a href="#newsletter-signup" id="lantern" class="lantern-container lantern-{lanternState}"
       on:pointerenter={handlePointerEnter}
       on:pointerleave={handlePointerLeave}
       on:touchstart|preventDefault={handleTouchStart}
       on:touchend|preventDefault={handleTouchEnd}
       on:touchcancel|preventDefault={handleTouchEnd}
+      on:click|preventDefault={() => scrollToNewsletterForm()}
+      on:keydown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          scrollToNewsletterForm();
+        }
+      }}
       role="button"
       tabindex="0"
       aria-label="Interactive lantern - click to sign up to the newsletter">
