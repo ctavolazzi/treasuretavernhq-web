@@ -1,0 +1,169 @@
+<script lang="ts">
+  import { onMount, onDestroy } from 'svelte';
+
+  // Props
+  export let audioSrc: string;
+  export let audioTitle: string = 'Background Music';
+  export let showHint: boolean = true;
+  export let hintText: string = '(Click to play)';
+  export let startMuted: boolean = true;
+
+  // State
+  let audioPlayer: HTMLAudioElement;
+  let audioControlsElement: HTMLDivElement;
+  let isMuted: boolean = startMuted;
+
+  // Toggle mute/unmute
+  function toggleMute() {
+    if (!audioPlayer) return;
+
+    if (isMuted) {
+      audioPlayer.muted = false;
+      audioPlayer.play().catch(error => {
+        console.warn('Failed to play audio:', error);
+        // Fallback if autoplay is blocked
+        isMuted = true;
+        audioPlayer.muted = true;
+      });
+    } else {
+      audioPlayer.muted = true;
+    }
+
+    isMuted = !isMuted;
+  }
+
+  // Handle scroll behavior - show/hide based on scroll position
+  function handleScroll() {
+    if (!audioControlsElement) return;
+
+    // Show audio controls when scrolled down
+    if (window.scrollY > 300) {
+      audioControlsElement.style.opacity = '1';
+      audioControlsElement.style.pointerEvents = 'auto';
+    } else {
+      audioControlsElement.style.opacity = '0';
+      audioControlsElement.style.pointerEvents = 'none';
+    }
+
+    // Check if near footer to adjust position
+    const footer = document.querySelector('.footer');
+    if (footer) {
+      const footerRect = footer.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+
+      // If footer is becoming visible in the viewport
+      if (footerRect.top < windowHeight) {
+        // Calculate how much of the footer is visible
+        const footerVisibleHeight = windowHeight - footerRect.top;
+        // Adjust the bottom position of the audio controls
+        audioControlsElement.style.bottom = `${Math.min(footerVisibleHeight + 20, 120)}px`;
+      } else {
+        // Reset to default position
+        audioControlsElement.style.bottom = '20px';
+      }
+    }
+  }
+
+  onMount(() => {
+    if (audioPlayer) {
+      audioPlayer.volume = 0.3; // Set initial volume to 30%
+
+      // Always start muted if specified
+      audioPlayer.muted = startMuted;
+      isMuted = startMuted;
+
+      // Load the audio
+      audioPlayer.load();
+
+      // Set up scroll handling
+      window.addEventListener('scroll', handleScroll);
+
+      // Initial position check
+      setTimeout(handleScroll, 1000);
+
+      // Check position on window resize
+      window.addEventListener('resize', handleScroll);
+    }
+
+    return () => {
+      // Clean up
+      if (audioPlayer) {
+        audioPlayer.pause();
+      }
+
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+    };
+  });
+</script>
+
+<style>
+  /* Audio Player Styles */
+  .audio-controls {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(31, 27, 45, 0.6);
+    padding: 8px 12px;
+    border-radius: 30px;
+    border: 1px solid rgba(189, 150, 72, 0.3);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(4px);
+    cursor: pointer;
+    transition: all 0.2s ease, opacity 0.3s ease, bottom 0.2s ease;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .audio-controls:hover {
+    background: rgba(31, 27, 45, 0.8);
+    border-color: rgba(189, 150, 72, 0.5);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+    transform: translateX(-50%) translateY(-2px);
+  }
+
+  .mute-button {
+    color: #BD9648;
+    font-size: 1.1rem;
+    width: 20px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .audio-title {
+    font-family: 'Cinzel', serif;
+    color: #F7E8D4;
+    font-size: 0.9rem;
+    margin: 0 4px;
+  }
+
+  .audio-hint {
+    font-size: 0.75rem;
+    color: rgba(247, 232, 212, 0.7);
+    font-style: italic;
+  }
+</style>
+
+<!-- Audio player -->
+<audio bind:this={audioPlayer} src={audioSrc} preload="auto" loop muted></audio>
+
+<div class="audio-controls" bind:this={audioControlsElement} on:click={toggleMute} role="button" tabindex="0" aria-label={isMuted ? `Play ${audioTitle}` : `Mute ${audioTitle}`} on:keydown={(e) => e.key === 'Enter' && toggleMute()}>
+  <div class="mute-button">
+    {#if isMuted}
+      <i class="fas fa-volume-mute"></i>
+    {:else}
+      <i class="fas fa-volume-up"></i>
+    {/if}
+  </div>
+  <span class="audio-title">{audioTitle}</span>
+  {#if isMuted && showHint}
+    <span class="audio-hint">{hintText}</span>
+  {/if}
+</div>

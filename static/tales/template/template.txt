@@ -1,0 +1,53 @@
+# Your Tale Title Here
+*A subtitle or flavor text*
+
+---
+
+## Chapter or Section Title
+
+This is a template for your tale content. You can use **bold text** and *italic text* for emphasis.
+
+You can write multiple paragraphs separated by blank lines.
+
+"This will appear as dialog thanks to the quotes."
+
+### Markdown Features
+
+You can use various Markdown features in your tales:
+
+1. Ordered lists like this one
+2. With multiple points
+3. And automatic numbering
+
+* Unordered lists work too
+* Just start with an asterisk or dash
+* For each bullet point
+
+Add horizontal rules with three dashes:
+
+---
+
+Create [links to other pages](https://treasuretavern.com) if needed.
+
+Use `inline code` for special terms or references.
+
+> This is a blockquote.
+> Great for quotes from characters or important passages.
+
+Here's a code block example:
+
+```
+function magicSpell() {
+  return "✨Magic!✨";
+}
+```
+
+You can add images too:
+
+![Image description](https://example.com/image.jpg)
+
+And ~~strikethrough~~ text for revisions or humor.
+
+- This will appear as a signature or attribution because it starts with a dash.
+
+Remember to replace this text with your actual tale content and enjoy the formatting options!

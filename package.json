@@ -13,7 +13,9 @@
 		"convert-webp": "node utils/convert-to-webp.js",
 		"convert-all-images": "node utils/convert-to-webp.js static/images",
 		"optimize-images": "node utils/convert-to-webp.js static/images && node utils/convert-to-webp.js static/favicon && echo 'All images optimized successfully!'",
-		"generate-sitemap": "node utils/generate-sitemap.js"
+		"generate-sitemap": "node utils/generate-sitemap.js",
+		"add-tale": "bash scripts/add-tale.sh",
+		"generate-tale": "node src/lib/scripts/tale-generator.js"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^4.0.0",

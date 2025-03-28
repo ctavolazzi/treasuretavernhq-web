@@ -5,6 +5,7 @@
   import ResponsiveImage from '$lib/components/ResponsiveImage.svelte';
   import SimpleAudioPlayer from '$lib/components/SimpleAudioPlayer.svelte';
   import Breadcrumb from '$lib/components/Breadcrumb.svelte';
+  import FloatingAudioPlayer from '$lib/components/FloatingAudioPlayer.svelte';
 
   // Define Tale interface to fix type errors
   interface Tale {
@@ -457,10 +458,107 @@
 
   .tale-content {
     font-family: 'Spectral', serif;
-    font-size: clamp(1rem, 2vw, 1.2rem);
-    line-height: 1.6;
-    color: rgba(247, 232, 212, 0.92);
+    font-size: clamp(1.1rem, 3vw, 1.2rem);
+    line-height: 1.7;
+    color: #F7E8D4;
+    max-width: 800px;
     margin: 0 auto;
+  }
+
+  /* Markdown styles for headers */
+  .tale-content :global(.tale-h1),
+  .tale-content :global(.tale-h2),
+  .tale-content :global(.tale-h3),
+  .tale-content :global(.tale-h4) {
+    font-family: 'Cinzel', serif;
+    color: #BD9648;
+    margin: 1.5em 0 0.8em 0;
+    line-height: 1.3;
+  }
+
+  .tale-content :global(.tale-h1) {
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    border-bottom: 1px solid rgba(189, 150, 72, 0.3);
+    padding-bottom: 0.5rem;
+  }
+
+  .tale-content :global(.tale-h2) {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+  }
+
+  .tale-content :global(.tale-h3) {
+    font-size: clamp(1.3rem, 2.5vw, 1.7rem);
+  }
+
+  .tale-content :global(.tale-h4) {
+    font-size: clamp(1.1rem, 2vw, 1.4rem);
+  }
+
+  /* Markdown styles for lists */
+  .tale-content :global(.tale-list) {
+    margin: 1rem 0 1.5rem 2rem;
+  }
+
+  .tale-content :global(.tale-list li) {
+    margin-bottom: 0.5rem;
+  }
+
+  /* Markdown styles for links */
+  .tale-content :global(.tale-link) {
+    color: #9E61E3;
+    text-decoration: none;
+    border-bottom: 1px dotted rgba(158, 97, 227, 0.5);
+    transition: all 0.2s ease;
+  }
+
+  .tale-content :global(.tale-link:hover) {
+    color: #BD9648;
+    border-bottom-color: #BD9648;
+  }
+
+  /* Markdown styles for code */
+  .tale-content :global(.tale-code) {
+    font-family: 'Courier New', monospace;
+    background: rgba(19, 17, 28, 0.5);
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-size: 0.9em;
+  }
+
+  /* Markdown styles for horizontal rule */
+  .tale-content :global(.tale-divider) {
+    border: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(189, 150, 72, 0.6), transparent);
+    margin: 2rem 0;
+  }
+
+  /* Enhance existing styles for dialog and signature */
+  .tale-content :global(.dialog) {
+    font-style: italic;
+    border-left: 3px solid rgba(158, 97, 227, 0.5);
+    padding-left: 1rem;
+    margin: 1.5rem 0;
+  }
+
+  .tale-content :global(.signature) {
+    font-style: italic;
+    text-align: right;
+    color: rgba(247, 232, 212, 0.8);
+    margin-top: 2rem;
+  }
+
+  .tale-content p {
+    margin-bottom: 1.5rem;
+  }
+
+  .tale-content :global(strong) {
+    color: #BD9648;
+    font-weight: 600;
+  }
+
+  .tale-content :global(em) {
+    font-style: italic;
   }
 
   @media (min-width: 1024px) {
@@ -469,20 +567,10 @@
     }
   }
 
-  .tale-content :global(p) {
-    margin-bottom: 1.5rem;
-  }
-
   .tale-content :global(.journal-entry) {
     margin-bottom: 1.5rem;
     padding-left: clamp(0.5rem, 2vw, 1rem);
     border-left: 3px solid rgba(158, 97, 227, 0.4);
-  }
-
-  .tale-content :global(.signature) {
-    text-align: right;
-    font-style: italic;
-    margin-top: 2rem;
   }
 
   .tale-content :global(.poem) {
@@ -1000,6 +1088,51 @@
     from { opacity: 0; }
     to { opacity: 1; }
   }
+
+  /* Markdown styles for blockquotes */
+  .tale-content :global(.tale-blockquote) {
+    border-left: 4px solid rgba(189, 150, 72, 0.5);
+    padding: 0.5rem 0 0.5rem 1.5rem;
+    margin: 1.5rem 0;
+    font-style: italic;
+    color: rgba(247, 232, 212, 0.85);
+  }
+
+  /* Markdown styles for code blocks */
+  .tale-content :global(.tale-pre) {
+    background: rgba(19, 17, 28, 0.7);
+    border-radius: 5px;
+    padding: 1rem;
+    margin: 1.5rem 0;
+    overflow-x: auto;
+    border: 1px solid rgba(158, 97, 227, 0.3);
+  }
+
+  .tale-content :global(.tale-pre .tale-code) {
+    background: transparent;
+    padding: 0;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9em;
+    color: #e2d1f9;
+    display: block;
+    line-height: 1.6;
+  }
+
+  /* Markdown styles for images */
+  .tale-content :global(.tale-image) {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+    margin: 1.5rem 0;
+    border: 1px solid rgba(189, 150, 72, 0.3);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Markdown styles for strikethrough */
+  .tale-content :global(del) {
+    text-decoration: line-through;
+    color: rgba(247, 232, 212, 0.6);
+  }
 </style>
 
 <svelte:head>
@@ -1016,6 +1149,17 @@
   <p class="loading-text">Loading Chronicle...</p>
 </div>
 {/if}
+
+<!-- Floating audio player for Bone Kingdom -->
+{#if tale.slug === 'the-bone-kingdom'}
+  <FloatingAudioPlayer
+    audioSrc="/audio/The-Bone-KingdomHe-Waits.mp3"
+    audioTitle="The Bone Kingdom Theme"
+    hintText="(Click to enhance your reading)"
+    startMuted={true}
+  />
+{/if}
+
 <div class="page-container">
   <Breadcrumb items={breadcrumbItems} />
 

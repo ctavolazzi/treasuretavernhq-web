@@ -1,4 +1,5 @@
 // Mock data for Tavern Tales
+import { parseMarkdown } from '$lib/utils/markdown';
 
 // Categories of tales
 const taleCategories = [
@@ -23,30 +24,33 @@ async function loadTaleContentFromFile(slug, fetchFn) {
 
         const rawText = await response.text();
 
-        // Process text into HTML paragraphs
-        // Split by newlines and filter out empty lines
-        const paragraphs = rawText.split('\n').filter(line => line.trim().length > 0);
-
-        // Convert to HTML, adding appropriate classes for special paragraphs
-        const htmlContent = paragraphs.map(paragraph => {
-            // Check for special paragraph types
-            if (paragraph.startsWith('- ')) {
-                // For signature/attribution paragraphs
-                return `<p class="signature">${paragraph.substring(2)}</p>`;
-            } else if (paragraph.startsWith('"') && paragraph.endsWith('"')) {
-                // For dialog
-                return `<p class="dialog">${paragraph}</p>`;
-            } else {
-                // Regular paragraphs
-                return `<p>${paragraph}</p>`;
-            }
-        }).join('\n');
+        // Use our Markdown parser to process the content
+        const htmlContent = parseMarkdown(rawText);
 
         return htmlContent;
     } catch (error) {
         console.error(`Error loading tale content for ${slug}:`, error);
         return `<p>Error loading tale content: ${error.message}. Please try again later.</p>`;
     }
+}
+
+// Helper function to format markdown inline elements
+function formatMarkdown(text) {
+    // Handle bold (**text** or __text__)
+    text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    text = text.replace(/__(.*?)__/g, '<strong>$1</strong>');
+
+    // Handle italic (*text* or _text_)
+    text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
+    text = text.replace(/_(.*?)_/g, '<em>$1</em>');
+
+    // Handle links [text](url)
+    text = text.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" class="tale-link">$1</a>');
+
+    // Handle inline code (`code`)
+    text = text.replace(/`(.*?)`/g, '<code class="tale-code">$1</code>');
+
+    return text;
 }
 
 // Mock tales data with content directly embedded
@@ -77,6 +81,21 @@ const talesData = [
         coverImage: '/images/tales/sorceress-of-storms.png',
         featured: true,
         tags: ['sorceress', 'storms', 'bargain', 'weather', 'magic'],
+        mediaType: null,
+        mediaContent: null,
+        useExternalContent: true
+    },
+    {
+        slug: 'the-bone-kingdom',
+        title: 'The Bone Kingdom',
+        type: 'Story',
+        category: 'story',
+        date: 'Hollow Moon',
+        author: 'Ellara Moonquill',
+        excerpt: 'Far beneath the living world lies the Bone Kingdom, where a silent ruler passes judgment on the dead and living alike, and a traveler seeks what was stolen.',
+        coverImage: '/images/tales/the-bone-kingdom.png',
+        featured: true,
+        tags: ['undead', 'king', 'judgment', 'souls', 'necropolis'],
         mediaType: null,
         mediaContent: null,
         useExternalContent: true
