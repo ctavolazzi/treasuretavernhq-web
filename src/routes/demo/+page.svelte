@@ -1,6 +1,7 @@
-<script>
+<script lang="ts">
   import { onMount } from 'svelte';
   import AnnouncementCta from '$lib/components/AnnouncementCta.svelte';
+  import Breadcrumb from '$lib/components/Breadcrumb.svelte';
 
   // Demo page features
   const features = [
@@ -68,6 +69,12 @@
 
   // For particle effect on magic success
   let showParticles = false;
+
+  // Breadcrumb configuration
+  const breadcrumbItems = [
+    { label: 'Home', href: '/', icon: 'fa-home' },
+    { label: 'Demo', icon: 'fa-flask' }
+  ];
 
   onMount(() => {
     // Any initialization can go here
@@ -420,138 +427,144 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </svelte:head>
 
-<main class="demo-container">
-  <h1>Treasure Tavern</h1>
-  <div class="coming-soon">The Doors Are Yet to Open</div>
+<div class="page-container">
+  <Breadcrumb items={breadcrumbItems} />
 
-  <p>
-    Hail, wanderer. You've found your way to our threshold earlier than fate intended. Beyond these doors lies
-    a realm of mysteries still taking shape in the mists of creation.
-  </p>
+  <div class="hero">
+    <main class="demo-container">
+      <h1>Treasure Tavern</h1>
+      <div class="coming-soon">The Doors Are Yet to Open</div>
 
-  <div style="margin: 1.5rem auto;">
-    <a href="/#lantern" class="magic-button" style="display: inline-flex; align-items: center; gap: 0.5rem;">
-      <i class="fas fa-envelope"></i>
-      Light the Lantern
-    </a>
-  </div>
+      <p>
+        Hail, wanderer. You've found your way to our threshold earlier than fate intended. Beyond these doors lies
+        a realm of mysteries still taking shape in the mists of creation.
+      </p>
 
-  <p>
-    <strong>The Treasure Tavern</strong> exists between realms, a gathering place for those who seek wonder,
-    adventure, and the fellowship of kindred spirits. The hearth fire is being stoked, and ancient spells of
-    welcome are being woven into the very foundations.
-  </p>
+      <div style="margin: 1.5rem auto;">
+        <a href="/#lantern" class="magic-button" style="display: inline-flex; align-items: center; gap: 0.5rem;">
+          <i class="fas fa-envelope"></i>
+          Light the Lantern
+        </a>
+      </div>
 
-  <h2>Whispers of What Awaits</h2>
-  <div class="features-grid">
-    {#each features as feature}
-      <div class="feature-card">
-        <div class="feature-icon">
-          <i class="fas {feature.icon}"></i>
+      <p>
+        <strong>The Treasure Tavern</strong> exists between realms, a gathering place for those who seek wonder,
+        adventure, and the fellowship of kindred spirits. The hearth fire is being stoked, and ancient spells of
+        welcome are being woven into the very foundations.
+      </p>
+
+      <h2>Whispers of What Awaits</h2>
+      <div class="features-grid">
+        {#each features as feature}
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas {feature.icon}"></i>
+            </div>
+            <h3 class="feature-title">{feature.title}</h3>
+            <p class="feature-description">{feature.description}</p>
+          </div>
+        {/each}
+      </div>
+
+      <h2>What Our Tavern Patrons Say</h2>
+      <div class="testimonials">
+        {#each testimonials as testimonial}
+          <div class="testimonial-card">
+            <p class="testimonial-quote">{testimonial.quote}</p>
+            <p class="testimonial-author">— {testimonial.name}</p>
+          </div>
+        {/each}
+      </div>
+
+      <h2>A Test of Arcane Knowledge</h2>
+      <div class="interactive-section">
+        <p>
+          Ancient runes flicker across the tavern doors. Perhaps they respond to certain words of power?
+          Whisper an enchantment and see if the tavern recognizes you as one of its own.
+        </p>
+
+        <form class="magic-word-form" on:submit|preventDefault={checkMagicWord}>
+          <input
+            type="text"
+            class="magic-input"
+            bind:value={magicWordAttempt}
+            placeholder="Speak a word of power..."
+            autocomplete="off"
+          />
+          <button type="submit" class="magic-button">Whisper</button>
+        </form>
+
+        <div class="magic-result">
+          {#if hasTriedMagicWord}
+            {#if magicWordSuccess}
+              <p class="magic-success">
+                ✨ The runes flicker and glow with recognition... ✨<br>
+                Something stirs in the shadows. The tavern has marked your passing.
+              </p>
+            {:else}
+              <p class="magic-failure">
+                The runes remain dormant. Perhaps another word will awaken them?
+              </p>
+            {/if}
+          {/if}
         </div>
-        <h3 class="feature-title">{feature.title}</h3>
-        <p class="feature-description">{feature.description}</p>
-      </div>
-    {/each}
-  </div>
 
-  <h2>What Our Tavern Patrons Say</h2>
-  <div class="testimonials">
-    {#each testimonials as testimonial}
-      <div class="testimonial-card">
-        <p class="testimonial-quote">{testimonial.quote}</p>
-        <p class="testimonial-author">— {testimonial.name}</p>
-      </div>
-    {/each}
-  </div>
-
-  <h2>A Test of Arcane Knowledge</h2>
-  <div class="interactive-section">
-    <p>
-      Ancient runes flicker across the tavern doors. Perhaps they respond to certain words of power?
-      Whisper an enchantment and see if the tavern recognizes you as one of its own.
-    </p>
-
-    <form class="magic-word-form" on:submit|preventDefault={checkMagicWord}>
-      <input
-        type="text"
-        class="magic-input"
-        bind:value={magicWordAttempt}
-        placeholder="Speak a word of power..."
-        autocomplete="off"
-      />
-      <button type="submit" class="magic-button">Whisper</button>
-    </form>
-
-    <div class="magic-result">
-      {#if hasTriedMagicWord}
-        {#if magicWordSuccess}
-          <p class="magic-success">
-            ✨ The runes flicker and glow with recognition... ✨<br>
-            Something stirs in the shadows. The tavern has marked your passing.
-          </p>
-        {:else}
-          <p class="magic-failure">
-            The runes remain dormant. Perhaps another word will awaken them?
-          </p>
+        {#if hasTriedMagicWord && !magicWordSuccess}
+          <p class="hint">Hint: Try classic magical phrases from ancient tales, words that might open doors or create wonders.</p>
         {/if}
+      </div>
+
+      {#if showParticles}
+        <div class="particles">
+          <!-- Particles would be rendered here with a proper particle library -->
+        </div>
       {/if}
-    </div>
 
-    {#if hasTriedMagicWord && !magicWordSuccess}
-      <p class="hint">Hint: Try classic magical phrases from ancient tales, words that might open doors or create wonders.</p>
-    {/if}
+      <h2>Tales Whispered at the Bar</h2>
+      <p>
+        The shadows in the corners of the tavern seem to shift and murmur. Fragments of conversations
+        drift through the air, tales of things that may come to pass:
+      </p>
+
+      <div class="events-list">
+        {#each upcomingEvents as event}
+          <a href={`/tavern-tales/${event.slug}`} class="event-card">
+            <div class="event-date">{event.date}</div>
+            <h3 class="event-title">{event.title}</h3>
+            <p class="event-description">{event.description}</p>
+          </a>
+        {/each}
+      </div>
+
+      <div class="explore-more" style="margin-top: 1.5rem; text-align: center;">
+        <a href="/tavern-tales" class="magic-button">
+          <i class="fas fa-book-open" style="margin-right: 0.5rem;"></i>
+          Explore All Chronicles
+        </a>
+      </div>
+
+      <div class="newsletter-preview">
+        <h3>Echoes from the Chronicles</h3>
+        <div class="preview-image">
+          <!-- Placeholder for a newsletter preview image -->
+          <img src="https://placehold.co/800x400/2B1D34/F7E8D4?text=Tavern+Chronicles" alt="Chronicles Preview" width="800" height="400" />
+        </div>
+        <p>
+          The Tavern keeps its own records, tales of heroes and monsters, secrets and revelations.
+          Those who have earned the tavern's trust may find such Chronicles delivered by mysterious means.
+        </p>
+      </div>
+
+      <div class="divider"></div>
+
+      <AnnouncementCta
+        title="Leave Your Mark Upon the Threshold"
+        description="Those who light the lantern may be remembered when the tavern's doors finally creak open. Perhaps a message might find its way to you."
+        buttonText="Light the Lantern"
+        demoLink="/#lantern"
+      />
+
+      <a href="/" class="back-link">← Return to the Tavern</a>
+    </main>
   </div>
-
-  {#if showParticles}
-    <div class="particles">
-      <!-- Particles would be rendered here with a proper particle library -->
-    </div>
-  {/if}
-
-  <h2>Tales Whispered at the Bar</h2>
-  <p>
-    The shadows in the corners of the tavern seem to shift and murmur. Fragments of conversations
-    drift through the air, tales of things that may come to pass:
-  </p>
-
-  <div class="events-list">
-    {#each upcomingEvents as event}
-      <a href={`/tavern-tales/${event.slug}`} class="event-card">
-        <div class="event-date">{event.date}</div>
-        <h3 class="event-title">{event.title}</h3>
-        <p class="event-description">{event.description}</p>
-      </a>
-    {/each}
-  </div>
-
-  <div class="explore-more" style="margin-top: 1.5rem; text-align: center;">
-    <a href="/tavern-tales" class="magic-button">
-      <i class="fas fa-book-open" style="margin-right: 0.5rem;"></i>
-      Explore All Chronicles
-    </a>
-  </div>
-
-  <div class="newsletter-preview">
-    <h3>Echoes from the Chronicles</h3>
-    <div class="preview-image">
-      <!-- Placeholder for a newsletter preview image -->
-      <img src="https://placehold.co/800x400/2B1D34/F7E8D4?text=Tavern+Chronicles" alt="Chronicles Preview" width="800" height="400" />
-    </div>
-    <p>
-      The Tavern keeps its own records, tales of heroes and monsters, secrets and revelations.
-      Those who have earned the tavern's trust may find such Chronicles delivered by mysterious means.
-    </p>
-  </div>
-
-  <div class="divider"></div>
-
-  <AnnouncementCta
-    title="Leave Your Mark Upon the Threshold"
-    description="Those who light the lantern may be remembered when the tavern's doors finally creak open. Perhaps a message might find its way to you."
-    buttonText="Light the Lantern"
-    demoLink="/#lantern"
-  />
-
-  <a href="/" class="back-link">← Return to the Tavern</a>
-</main>
+</div>

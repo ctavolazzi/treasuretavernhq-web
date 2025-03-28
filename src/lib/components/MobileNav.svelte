@@ -254,6 +254,10 @@
     animation-delay: 0.35s;
   }
 
+  .mobile-menu.open .mobile-nav-link:nth-child(7) {
+    animation-delay: 0.4s;
+  }
+
   @keyframes slideIn {
     to {
       opacity: 1;
@@ -287,6 +291,18 @@
     .hamburger-button {
       display: flex;
     }
+  }
+
+  .special-link {
+    border-bottom: 1px solid rgba(189, 150, 72, 0.3);
+    margin-bottom: 0.5rem;
+    padding-bottom: 1rem;
+    color: #BD9648;
+    font-weight: 500;
+  }
+
+  .special-link .mobile-nav-icon {
+    color: #BD9648;
   }
 </style>
 
@@ -328,6 +344,10 @@
   role="navigation"
   aria-label="Mobile navigation"
 >
+  <a href="/waitlist" class="mobile-nav-link special-link" onclick={closeMenu}>
+    <span class="mobile-nav-icon" aria-hidden="true"><i class="fas fa-user-plus"></i></span>
+    Create Account
+  </a>
   <a href="/newsletter" class="mobile-nav-link" onclick={closeMenu}>
     <span class="mobile-nav-icon" aria-hidden="true"><i class="fas fa-scroll"></i></span>
     Newsletter

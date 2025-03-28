@@ -1,5 +1,12 @@
-<script>
+<script lang="ts">
   import { onMount } from 'svelte';
+  import Breadcrumb from '$lib/components/Breadcrumb.svelte';
+
+  // Breadcrumb configuration
+  const breadcrumbItems = [
+    { label: 'Home', href: '/', icon: 'fa-home' },
+    { label: 'Announcements', icon: 'fa-bullhorn' }
+  ];
 
   // Sample announcements data - in a real app, this would come from a database or API
   const announcements = [
@@ -26,6 +33,48 @@
     }
   ];
 </script>
+
+<svelte:head>
+  // Rest of head content
+</svelte:head>
+
+<div class="page-container">
+  <Breadcrumb items={breadcrumbItems} />
+
+  <div class="hero">
+    <div class="container">
+      <h1>
+        <span class="title-line title-first">Tavern</span>
+        <span class="title-line title-second">Announcements</span>
+      </h1>
+      <p class="subtitle">
+        <span class="subtitle-line">The latest news</span>
+        <span class="subtitle-line">from our growing fantasy universe</span>
+      </p>
+
+      <div class="announcements">
+        {#if announcements.length > 0}
+          {#each announcements as announcement (announcement.id)}
+            <div class="announcement">
+              <div class="announcement-date">{announcement.date}</div>
+              <h2 class="announcement-title">
+                <a href="/announcements/{announcement.slug}" class="announcement-link">{announcement.title}</a>
+              </h2>
+              <p class="announcement-content">{announcement.content.slice(0, 180)}...</p>
+              <a href="/announcements/{announcement.slug}" class="read-more-button">Read Full Announcement</a>
+            </div>
+          {/each}
+        {:else}
+          <div class="empty-state">
+            <p>No announcements yet, but the tavern keeper will have news soon!</p>
+          </div>
+        {/if}
+      </div>
+
+      <a href="/" class="back-button">Return to Tavern</a>
+    </div>
+  </div>
+</div>
 
 <style>
   :global(body) {
@@ -311,37 +360,3 @@
     }
   }
 </style>
-
-<main>
-  <div class="container">
-    <h1>
-      <span class="title-line title-first">Tavern</span>
-      <span class="title-line title-second">Announcements</span>
-    </h1>
-    <p class="subtitle">
-      <span class="subtitle-line">The latest news</span>
-      <span class="subtitle-line">from our growing fantasy universe</span>
-    </p>
-
-    <div class="announcements">
-      {#if announcements.length > 0}
-        {#each announcements as announcement (announcement.id)}
-          <div class="announcement">
-            <div class="announcement-date">{announcement.date}</div>
-            <h2 class="announcement-title">
-              <a href="/announcements/{announcement.slug}" class="announcement-link">{announcement.title}</a>
-            </h2>
-            <p class="announcement-content">{announcement.content.slice(0, 180)}...</p>
-            <a href="/announcements/{announcement.slug}" class="read-more-button">Read Full Announcement</a>
-          </div>
-        {/each}
-      {:else}
-        <div class="empty-state">
-          <p>No announcements yet, but the tavern keeper will have news soon!</p>
-        </div>
-      {/if}
-    </div>
-
-    <a href="/" class="back-button">Return to Tavern</a>
-  </div>
-</main>

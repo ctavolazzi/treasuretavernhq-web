@@ -1,6 +1,7 @@
 <script lang="ts">
   import { page } from '$app/stores';
   import { onMount } from 'svelte';
+  import Breadcrumb from '$lib/components/Breadcrumb.svelte';
 
   // Define newsletter ID type
   type NewsletterID = 'january-2025' | 'february-2025' | 'march-2025';
@@ -122,6 +123,16 @@
     // Check if the Web Share API is available
     canShare = !!navigator.share;
   });
+
+  // Export the data prop
+  export let data;
+
+  // Breadcrumb configuration with dynamic newsletter title
+  $: breadcrumbItems = [
+    { label: 'Home', href: '/', icon: 'fa-home' },
+    { label: 'Newsletter', href: '/newsletter', icon: 'fa-envelope-open-text' },
+    { label: `Issue #${data.id}` }
+  ];
 </script>
 
 <style>
@@ -358,6 +369,8 @@
 </svelte:head>
 
 <div class="newsletter-page">
+  <Breadcrumb items={breadcrumbItems} />
+
   <div class="header-actions">
     <a href="/newsletter" class="back-link">
       <i class="fas fa-arrow-left"></i> Back to Tavern Chronicles

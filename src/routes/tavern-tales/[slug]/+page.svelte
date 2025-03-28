@@ -4,6 +4,7 @@
   import AnnouncementCta from '$lib/components/AnnouncementCta.svelte';
   import ResponsiveImage from '$lib/components/ResponsiveImage.svelte';
   import SimpleAudioPlayer from '$lib/components/SimpleAudioPlayer.svelte';
+  import Breadcrumb from '$lib/components/Breadcrumb.svelte';
 
   // Define Tale interface to fix type errors
   interface Tale {
@@ -35,6 +36,13 @@
   };
 
   const { tale, relatedTales } = data;
+
+  // Breadcrumb configuration
+  $: breadcrumbItems = [
+    { label: 'Home', href: '/', icon: 'fa-home' },
+    { label: 'Tavern Tales', href: '/tavern-tales', icon: 'fa-book-open' },
+    { label: tale.title }
+  ];
 
   // For handling the interactive media component if applicable
   let showRiddleAnswers = false;
@@ -1009,17 +1017,7 @@
 </div>
 {/if}
 <div class="page-container">
-  <!-- Standalone back button navigation -->
-  <div class="back-nav-container">
-    <a href="/tavern-tales" class="back-button">
-      <i class="fas fa-arrow-left"></i>
-      <span>BACK TO TALES</span>
-    </a>
-    <a href="/" class="back-button home-button">
-      <span>MAIN TAVERN</span>
-      <i class="fas fa-home"></i>
-    </a>
-  </div>
+  <Breadcrumb items={breadcrumbItems} />
 
   <header class="tale-header">
     <h1>{tale.title}</h1>

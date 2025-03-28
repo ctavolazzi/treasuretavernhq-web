@@ -1,19 +1,48 @@
-<script>
+<script lang="ts">
+  import { onMount } from 'svelte';
+  import Breadcrumb from '$lib/components/Breadcrumb.svelte';
   import AnnouncementCta from '$lib/components/AnnouncementCta.svelte';
 
-  // Get the data from the loader
+  // Get the announcement data from the page data prop
   export let data;
   const { announcement } = data;
 
-  // Prepare CTA text based on the announcement type
-  let ctaDescription = '';
-  let ctaButtonText = announcement.cta.text;
+  // Breadcrumb configuration with dynamic announcement title
+  $: breadcrumbItems = [
+    { label: 'Home', href: '/', icon: 'fa-home' },
+    { label: 'Announcements', href: '/announcements', icon: 'fa-bullhorn' },
+    { label: announcement.title }
+  ];
 
-  if (announcement.slug === 'goblin-infestation-cleanup') {
-    ctaDescription = 'Learn how to protect your own property from magical pests! Our expert team of pest hunters will teach you everything you need to know.';
-  } else if (announcement.slug === 'machine-elves-strike-resolved') {
-    ctaDescription = 'Experience our innovative new menu items crafted by our interdimensional chefs. Taste flavors that defy conventional culinary physics!';
-  } else if (announcement.slug === 'dragon-mating-season') {
+  let isReady = false;
+
+  onMount(() => {
+    setTimeout(() => {
+      isReady = true;
+    }, 300);
+  });
+
+  // CTA content logic
+  let ctaTitle = "";
+  let ctaButton = "";
+  let ctaDemoLink = "";
+  let ctaDescription = "";
+
+  // Set CTA content based on announcement type
+  if (announcement.type === "event") {
+    ctaTitle = "Join Us At This Event!";
+    ctaButton = "RSVP Now";
+    ctaDemoLink = "/#newsletter";
+    ctaDescription = "Limited spots available. Reserve your place at this exclusive tavern gathering and be part of the magic.";
+  } else if (announcement.type === "product") {
+    ctaTitle = "Pre-Order Now Available";
+    ctaButton = "Secure Your Copy";
+    ctaDemoLink = "/#newsletter";
+    ctaDescription = "Be among the first to receive this limited edition item. Early bird offers end soon!";
+  } else {
+    ctaTitle = "Stay Connected";
+    ctaButton = "Subscribe to Updates";
+    ctaDemoLink = "/#newsletter";
     ctaDescription = "Don't miss this rare opportunity to observe dragons in their natural courtship behaviors from our specially constructed viewing platforms.";
   }
 </script>
@@ -140,44 +169,38 @@
 
 <svelte:head>
   <title>{announcement.title} - Treasure Tavern</title>
-  <meta name="description" content={announcement.content.substring(0, 155)} />
+  <meta name="description" content={announcement.content.slice(0, 160)} />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </svelte:head>
 
-<main>
+<div class="page-container">
+  <Breadcrumb items={breadcrumbItems} />
+
   <div class="container">
     <div class="announcement-header">
       <a href="/announcements" class="nav-button">
-        <i class="fas fa-arrow-left" style="margin-right: 0.5rem;"></i>
-        Back to All Announcements
+        <i class="fas fa-arrow-left"></i> All Announcements
       </a>
-      <h1>{announcement.title}</h1>
-      <div class="announcement-date">{announcement.date}</div>
-    </div>
-
-    <div class="announcement-card">
-      <div class="announcement-content">
-        <!-- Use @html to render the HTML content -->
-        {@html announcement.fullContent}
+      <div class="announcement-meta">
+        <div class="announcement-type">{announcement.type}</div>
+        <div class="announcement-date">{announcement.date}</div>
       </div>
     </div>
 
-    <AnnouncementCta
-      title="Ready to Take Action?"
-      description={ctaDescription}
-      buttonText={ctaButtonText}
-      demoLink="/demo"
-    />
+    <article class="announcement-detail" class:visible={isReady}>
+      <h1>{announcement.title}</h1>
+      <div class="announcement-content">
+        {@html announcement.content}
+      </div>
+    </article>
 
-    <div class="navigation">
-      <a href="/announcements" class="nav-button">
-        <i class="fas fa-list" style="margin-right: 0.5rem;"></i>
-        All Announcements
-      </a>
-      <a href="/" class="nav-button">
-        Return to Tavern
-        <i class="fas fa-home" style="margin-left: 0.5rem;"></i>
-      </a>
+    <div class="announcement-footer">
+      <AnnouncementCta
+        title={ctaTitle}
+        description={ctaDescription}
+        buttonText={ctaButton}
+        demoLink={ctaDemoLink}
+      />
     </div>
   </div>
-</main>
+</div>

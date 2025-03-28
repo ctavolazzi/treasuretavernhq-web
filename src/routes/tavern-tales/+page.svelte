@@ -4,6 +4,7 @@
   import { fade, fly } from 'svelte/transition';
   import { quintOut } from 'svelte/easing';
   import ResponsiveImage from '$lib/components/ResponsiveImage.svelte';
+  import Breadcrumb from '$lib/components/Breadcrumb.svelte';
   import {
     getAllTales,
     getFeaturedTales,
@@ -28,6 +29,12 @@
     coverImage: string;
     tags: string[];
   }
+
+  // Breadcrumb configuration
+  const breadcrumbItems = [
+    { label: 'Home', href: '/', icon: 'fa-home' },
+    { label: 'Tavern Tales', icon: 'fa-book-open' }
+  ];
 
   // Get data from the loader with proper type annotations
   export let data: {
@@ -740,6 +747,8 @@
 </svelte:head>
 
 <div class="page-container">
+  <Breadcrumb items={breadcrumbItems} />
+
   <div class="hero">
     <div class="hero-bg"></div>
     <div class="hero-content">

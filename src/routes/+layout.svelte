@@ -36,9 +36,31 @@
   @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;500;600;700&family=Inter:wght@300;400;500;700&family=Spectral:wght@400;500;600&display=swap');
 
   :global(body) {
-    font-family: 'Spectral', Georgia, serif;
     margin: 0;
     padding: 0;
+    overflow-x: hidden;
+    min-height: 100vh;
+    background: linear-gradient(145deg, #13111C 0%, #1F1B2D 60%, #2B1D34 100%);
+    color: #F7E8D4;
+    font-family: 'Spectral', Georgia, serif;
+    line-height: 1.4;
+  }
+
+  :global(*, *::before, *::after) {
+    box-sizing: border-box;
+  }
+
+  /* Simple page container */
+  :global(.page-container) {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  :global(main) {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
   }
 
   :global(body.no-scroll) {
@@ -118,6 +140,27 @@
 
   .nav-link:hover:after {
     width: 100%;
+  }
+
+  .nav-link.special {
+    color: #BD9648;
+    font-weight: 500;
+    border: 1px solid rgba(189, 150, 72, 0.5);
+    border-radius: 4px;
+    padding: 0.25rem 0.75rem;
+    margin-left: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .nav-link.special:hover {
+    background: rgba(189, 150, 72, 0.1);
+    text-shadow: 0 0 8px rgba(189, 150, 72, 0.4);
+  }
+
+  .nav-link.special:after {
+    display: none;
   }
 
   .banner {
@@ -262,6 +305,7 @@
     <a href="/announcements" class="nav-link">Announcements</a>
     <a href="/about" class="nav-link">About</a>
     <a href="/contact" class="nav-link">Contact</a>
+    <a href="/waitlist" class="nav-link special"><i class="fas fa-user-plus"></i> Create Account</a>
   </div>
 
   <!-- Mobile Menu Component -->
@@ -282,5 +326,6 @@
     <a href="/contact" class="footer-link">Contact</a>
     <a href="/tavern-tales" class="footer-link">Tales</a>
     <a href="/newsletter" class="footer-link">Newsletter</a>
+    <a href="/waitlist" class="footer-link">Create Account</a>
   </div>
 </footer>
