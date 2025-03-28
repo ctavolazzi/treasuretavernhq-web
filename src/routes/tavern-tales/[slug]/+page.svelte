@@ -1248,11 +1248,11 @@
       />
 
       <div class="navigation">
-        <a href="/tavern-tales" class="nav-button">
+        <a href="/tavern-tales" class="nav-button" data-sveltekit-preload-data="hover">
           <i class="fas fa-arrow-left" style="margin-right: 0.5rem;"></i>
           All Chronicles
         </a>
-        <a href="/" class="nav-button">
+        <a href="/" class="nav-button" data-sveltekit-preload-data="hover">
           Return to Tavern
           <i class="fas fa-home" style="margin-left: 0.5rem;"></i>
         </a>
@@ -1282,10 +1282,8 @@
                     // Scroll to top immediately
                     window.scrollTo({ top: 0, behavior: 'auto' });
 
-                    // Short delay for visual feedback, then navigate
-                    setTimeout(() => {
-                      window.location.href = `/tavern-tales/${encodeURIComponent(relatedTale.slug)}`;
-                    }, 300);
+                    // Navigate using proper SvelteKit navigation to ensure title updates
+                    window.location.href = `/tavern-tales/${encodeURIComponent(relatedTale.slug)}`;
                   }
                 }}
               >

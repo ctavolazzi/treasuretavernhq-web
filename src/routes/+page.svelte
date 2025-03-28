@@ -261,6 +261,295 @@
   });
 </script>
 
+<svelte:head>
+  <title>Treasure Tavern - Immersive Fantasy Tales & Adventures</title>
+  <meta name="description" content="Discover immersive fantasy stories, interactive adventures, and a vibrant community of storytellers at Treasure Tavern." />
+</svelte:head>
+
+<main>
+  <!-- Audio player -->
+  <audio bind:this={audioPlayer} src="/audio/TheTavernOak.mp3" preload="auto" loop muted></audio>
+
+  <!-- Image Modal -->
+  <ImageModal
+    bind:open={scrollModalOpen}
+    imgSrc={supportsWebP ? scrollImgWebpSrc : scrollImgSrc}
+    altText="The Tavern Oak - A tavern song written on a scroll"
+  />
+
+  <div class="audio-controls" bind:this={audioControlsElement} on:click={toggleMute} role="button" tabindex="0" aria-label={isMuted ? "Unmute tavern music" : "Mute tavern music"} on:keydown={(e) => e.key === 'Enter' && toggleMute()}>
+    <div class="mute-button">
+      {#if isMuted}
+        <i class="fas fa-volume-mute"></i>
+      {:else}
+        <i class="fas fa-volume-up"></i>
+      {/if}
+    </div>
+    <span class="audio-title">Tavern Music</span>
+    {#if isMuted}
+      <span class="audio-hint">(Click to play)</span>
+    {/if}
+  </div>
+
+  <div class="container">
+    <h1>
+      <div class="welcome-wrapper">
+        <span class="welcome-medium">Welcome</span><br>
+        <span class="welcome-small">to the</span><br>
+        <span class="welcome-large">Treasure</span><br>
+        <span class="welcome-large">Tavern</span>
+      </div>
+    </h1>
+
+    <!-- Welcome to the Tavern Section -->
+    <div class="welcome-section">
+      <div class="welcome-image-container">
+        <a href="/tavern-tales">
+          <picture>
+            <source srcset="/images/tavern-90s-main-ad.webp" type="image/webp">
+            <img
+              src="/images/tavern-90s-main-ad.png"
+              alt="Welcome to Treasure Tavern - A fantastical tavern where adventures await"
+              class="welcome-image"
+              loading="lazy"
+            />
+          </picture>
+        </a>
+      </div>
+      <h2 class="welcome-title">The Door Is Opening</h2>
+      <p class="welcome-description">
+        Step through our magical doorway and find yourself in a realm where legends come alive, treasures await discovery,
+        and fellow adventurers gather to share their tales by the hearth.
+      </p>
+      <p class="welcome-description">
+        Treasure Tavern is a fantasy universe created and updated to entertain and offer an escape from the real world. It's a work of fiction, an online store, an interactive social media experience, and more - a multifaceted realm where imagination meets community.
+      </p>
+      <p class="welcome-footer">
+        Pull up a chair, order your favorite brew, and make yourself at home. The Tavern Keeper has been expecting you.
+      </p>
+
+      <!-- Navigation buttons -->
+      <div class="welcome-nav-buttons">
+        <a href="/tavern-tales" class="welcome-nav-button">
+          <i class="fas fa-book-open welcome-nav-icon"></i>
+          <span>Read Tavern Tales</span>
+        </a>
+        <a href="/about" class="welcome-nav-button">
+          <i class="fas fa-info-circle welcome-nav-icon"></i>
+          <span>What is the Treasure Tavern?</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Interactive Lantern with unified pointer events and touch handling -->
+    <a href="#newsletter-signup" id="lantern" class="lantern-container lantern-{lanternState}"
+      on:pointerenter={handlePointerEnter}
+      on:pointerleave={handlePointerLeave}
+      on:touchstart|preventDefault={handleTouchStart}
+      on:touchend|preventDefault={handleTouchEnd}
+      on:touchcancel|preventDefault={handleTouchEnd}
+      on:click|preventDefault={() => scrollToNewsletterForm()}
+      on:keydown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          scrollToNewsletterForm();
+        }
+      }}
+      role="button"
+      tabindex="0"
+      aria-label="Interactive lantern - click to sign up to the newsletter">
+      <div class="lantern-glow"></div>
+      <img
+        src={currentLanternImage}
+        alt="Tavern Lantern"
+        class="lantern-image"
+        draggable="false"
+        on:error={(e) => {
+          // Try to handle error gracefully by falling back to PNG if WebP fails
+          const imgElement = e.currentTarget as HTMLImageElement;
+          if (imgElement.src.endsWith('.webp')) {
+            const fallbackSrc = imgElement.src.replace('.webp', '.png');
+            imgElement.src = fallbackSrc;
+          }
+        }}
+      />
+    </a>
+
+    <p class="subheading-emphasis" style="text-align: center; margin-left: auto; margin-right: auto; margin-top: 2rem;">Light the Lantern</p>
+    <p class="subheading" style="text-align: center; margin-left: auto; margin-right: auto;">An amusing fantasy universe is coming. Join early to unlock the Tavern.</p>
+
+    {#if !subscribed}
+      <form id="newsletter-signup" class="cta-form" on:submit|preventDefault={handleSubmit}>
+        <p class="form-intro">Be the first to know - put your email below!</p>
+
+        <div class="input-wrapper">
+          <input
+            type="email"
+            bind:value={email}
+            placeholder="Enter your email address"
+            required
+          />
+          <input
+            type="text"
+            bind:value={name}
+            placeholder="Your name (optional)"
+          />
+          {#if error}
+            <div class="error-message">{error}</div>
+          {/if}
+
+          <div class="checkbox-wrapper">
+            <label class="newsletter-opt-in">
+              <input
+                type="checkbox"
+                bind:checked={newsletterOptIn}
+              />
+              <span class="checkbox-text">Send me magical updates from the Tavern</span>
+            </label>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="submit" disabled={loading}>
+            Join the Email List
+            {#if loading}
+              <span class="loading"></span>
+            {/if}
+          </button>
+        </div>
+      </form>
+    {:else}
+      <div class="success-message">
+        <p>Welcome, traveler! You'll receive word when the Tavern doors open.</p>
+        <a href="/announcements" class="announcement-button">Read the Announcements</a>
+      </div>
+    {/if}
+
+    <p>Become a Friend of the Tavern and receive tales, secrets, and early access to a growing fantasy universe.</p>
+
+    <!-- Tavern Tales Lead-in Section -->
+    <div class="tavern-tales-lead">
+      <h2 class="tavern-tales-title">Discover the Tavern Tales</h2>
+      <p class="tavern-tales-description">
+        Step into a world of fantasy and adventure with our collection of tales, poems, and songs.
+        Each story is a unique journey waiting to be explored.
+      </p>
+      <a href="/tavern-tales" class="tavern-tales-image-link">
+        <picture>
+          <source srcset="/images/tavern-90s-landscape-tavern-girl-ad.webp" type="image/webp">
+          <img
+            src="/images/tavern-90s-landscape-tavern-girl-ad.png"
+            alt="A mystical tavern landscape with a welcoming tavern girl"
+            class="tavern-tales-image"
+            loading="lazy"
+          />
+        </picture>
+      </a>
+      <a href="/tavern-tales" class="tavern-tales-button">Read the Lore</a>
+    </div>
+
+    <!-- Exploration Section -->
+    <div class="exploration-section">
+      <h2 class="exploration-title">Explore the Tavern</h2>
+      <p class="exploration-description">Treasure Tavern is a fantastical universe filled with mythical characters, magical artifacts, and extraordinary tales. Explore our world through the links below and begin your journey.</p>
+
+      <div class="exploration-links">
+        <a href="/tavern-tales" class="exploration-card">
+          <div class="card-icon">📜</div>
+          <h3>Tavern Tales</h3>
+          <p>Immerse yourself in fantastical stories from across the realm</p>
+        </a>
+
+        <a href="/about" class="exploration-card">
+          <div class="card-icon">🏮</div>
+          <h3>About</h3>
+          <p>Learn the history and purpose of the mystical Treasure Tavern</p>
+        </a>
+
+        <a href="/newsletter" class="exploration-card">
+          <div class="card-icon">📯</div>
+          <h3>Newsletter</h3>
+          <p>Subscribe to receive magical updates and exclusive content</p>
+        </a>
+
+        <a href="/announcements" class="exploration-card">
+          <div class="card-icon">📣</div>
+          <h3>Announcements</h3>
+          <p>Hear the latest news and upcoming events from the Tavern</p>
+        </a>
+
+        <a href="/contact" class="exploration-card">
+          <div class="card-icon">💌</div>
+          <h3>Contact</h3>
+          <p>Send a message to the Tavern Keepers with questions or tales</p>
+        </a>
+
+        <a href="/demo" class="exploration-card">
+          <div class="card-icon">✨</div>
+          <h3>Demo</h3>
+          <p>Experience interactive previews of upcoming features</p>
+        </a>
+      </div>
+    </div>
+
+    <!-- Tavern Atmosphere Section -->
+    <div class="tavern-atmosphere">
+      <h2 class="atmosphere-title">Tales from Patrons</h2>
+
+      <div class="testimonials-container">
+        <div class="testimonial">
+          <p class="atmosphere-quote">
+            Lost my lucky dagger in a bet with a goblin last spring. Found it hanging above the hearth at Treasure Tavern three moons later. This place has a way of gathering lost treasures and wayward souls alike. Best mead in seven kingdoms too!
+          </p>
+          <p class="quote-attribution">— Durnin Axebeard, Dwarven Merchant</p>
+        </div>
+
+        <div class="testimonial">
+          <p class="atmosphere-quote">
+            My songs have echoed in the halls of emperors, but nowhere do they resonate with such magic as within these tavern walls. The patrons here don't just listen to tales—they live them, breathe them, become part of them.
+          </p>
+          <p class="quote-attribution">— Lyra Silverstring, Elven Bard</p>
+        </div>
+
+        <div class="testimonial">
+          <p class="atmosphere-quote">
+            Been traversing the Shadowlands for nigh on forty years. Only place where both the living and spectral feel welcome is Treasure Tavern. The keeper doesn't ask questions when you order two ales but drink alone.
+          </p>
+          <p class="quote-attribution">— Morvath the Gray, Spirit Walker</p>
+        </div>
+      </div>
+
+      <div class="tavern-song">
+        <h3 class="song-title">The Tavern Oak</h3>
+        <div
+          class="scroll-image-container"
+          on:click={() => scrollModalOpen = true}
+          role="button"
+          tabindex="0"
+          on:keydown={(e) => e.key === 'Enter' && (scrollModalOpen = true)}
+          aria-label="Open tavern song scroll"
+        >
+          <picture>
+            <source srcset={scrollImgWebpSrc} type="image/webp">
+            <img
+              src={scrollImgSrc}
+              alt="The Tavern Oak - A tavern song written on a scroll"
+              class="tavern-song-scroll"
+              loading="lazy"
+            />
+          </picture>
+          <div class="view-larger-hint">
+            <span>Click to enlarge</span>
+          </div>
+        </div>
+        <div class="song-notes">
+          <span class="music-note">♫</span>
+          <span class="music-note delayed">♪</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
 <style>
   :global(body) {
     margin: 0;
@@ -1378,287 +1667,3 @@
     text-shadow: 0 0 10px rgba(189, 150, 72, 0.4);
   }
 </style>
-
-<main>
-  <!-- Audio player -->
-  <audio bind:this={audioPlayer} src="/audio/TheTavernOak.mp3" preload="auto" loop muted></audio>
-
-  <!-- Image Modal -->
-  <ImageModal
-    bind:open={scrollModalOpen}
-    imgSrc={supportsWebP ? scrollImgWebpSrc : scrollImgSrc}
-    altText="The Tavern Oak - A tavern song written on a scroll"
-  />
-
-  <div class="audio-controls" bind:this={audioControlsElement} on:click={toggleMute} role="button" tabindex="0" aria-label={isMuted ? "Unmute tavern music" : "Mute tavern music"} on:keydown={(e) => e.key === 'Enter' && toggleMute()}>
-    <div class="mute-button">
-      {#if isMuted}
-        <i class="fas fa-volume-mute"></i>
-      {:else}
-        <i class="fas fa-volume-up"></i>
-      {/if}
-    </div>
-    <span class="audio-title">Tavern Music</span>
-    {#if isMuted}
-      <span class="audio-hint">(Click to play)</span>
-    {/if}
-  </div>
-
-  <div class="container">
-    <h1>
-      <div class="welcome-wrapper">
-        <span class="welcome-medium">Welcome</span><br>
-        <span class="welcome-small">to the</span><br>
-        <span class="welcome-large">Treasure</span><br>
-        <span class="welcome-large">Tavern</span>
-      </div>
-    </h1>
-
-    <!-- Welcome to the Tavern Section -->
-    <div class="welcome-section">
-      <div class="welcome-image-container">
-        <a href="/tavern-tales">
-          <picture>
-            <source srcset="/images/tavern-90s-main-ad.webp" type="image/webp">
-            <img
-              src="/images/tavern-90s-main-ad.png"
-              alt="Welcome to Treasure Tavern - A fantastical tavern where adventures await"
-              class="welcome-image"
-              loading="lazy"
-            />
-          </picture>
-        </a>
-      </div>
-      <h2 class="welcome-title">The Door Is Opening</h2>
-      <p class="welcome-description">
-        Step through our magical doorway and find yourself in a realm where legends come alive, treasures await discovery,
-        and fellow adventurers gather to share their tales by the hearth.
-      </p>
-      <p class="welcome-description">
-        Treasure Tavern is a fantasy universe created and updated to entertain and offer an escape from the real world. It's a work of fiction, an online store, an interactive social media experience, and more - a multifaceted realm where imagination meets community.
-      </p>
-      <p class="welcome-footer">
-        Pull up a chair, order your favorite brew, and make yourself at home. The Tavern Keeper has been expecting you.
-      </p>
-
-      <!-- Navigation buttons -->
-      <div class="welcome-nav-buttons">
-        <a href="/tavern-tales" class="welcome-nav-button">
-          <i class="fas fa-book-open welcome-nav-icon"></i>
-          <span>Read Tavern Tales</span>
-        </a>
-        <a href="/about" class="welcome-nav-button">
-          <i class="fas fa-info-circle welcome-nav-icon"></i>
-          <span>What is the Treasure Tavern?</span>
-        </a>
-      </div>
-    </div>
-
-    <!-- Interactive Lantern with unified pointer events and touch handling -->
-    <a href="#newsletter-signup" id="lantern" class="lantern-container lantern-{lanternState}"
-      on:pointerenter={handlePointerEnter}
-      on:pointerleave={handlePointerLeave}
-      on:touchstart|preventDefault={handleTouchStart}
-      on:touchend|preventDefault={handleTouchEnd}
-      on:touchcancel|preventDefault={handleTouchEnd}
-      on:click|preventDefault={() => scrollToNewsletterForm()}
-      on:keydown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          scrollToNewsletterForm();
-        }
-      }}
-      role="button"
-      tabindex="0"
-      aria-label="Interactive lantern - click to sign up to the newsletter">
-      <div class="lantern-glow"></div>
-      <img
-        src={currentLanternImage}
-        alt="Tavern Lantern"
-        class="lantern-image"
-        draggable="false"
-        on:error={(e) => {
-          // Try to handle error gracefully by falling back to PNG if WebP fails
-          const imgElement = e.currentTarget as HTMLImageElement;
-          if (imgElement.src.endsWith('.webp')) {
-            const fallbackSrc = imgElement.src.replace('.webp', '.png');
-            imgElement.src = fallbackSrc;
-          }
-        }}
-      />
-    </a>
-
-    <p class="subheading-emphasis" style="text-align: center; margin-left: auto; margin-right: auto; margin-top: 2rem;">Light the Lantern</p>
-    <p class="subheading" style="text-align: center; margin-left: auto; margin-right: auto;">An amusing fantasy universe is coming. Join early to unlock the Tavern.</p>
-
-    {#if !subscribed}
-      <form id="newsletter-signup" class="cta-form" on:submit|preventDefault={handleSubmit}>
-        <p class="form-intro">Be the first to know - put your email below!</p>
-
-        <div class="input-wrapper">
-          <input
-            type="email"
-            bind:value={email}
-            placeholder="Enter your email address"
-            required
-          />
-          <input
-            type="text"
-            bind:value={name}
-            placeholder="Your name (optional)"
-          />
-          {#if error}
-            <div class="error-message">{error}</div>
-          {/if}
-
-          <div class="checkbox-wrapper">
-            <label class="newsletter-opt-in">
-              <input
-                type="checkbox"
-                bind:checked={newsletterOptIn}
-              />
-              <span class="checkbox-text">Send me magical updates from the Tavern</span>
-            </label>
-          </div>
-        </div>
-        <div class="form-actions">
-          <button type="submit" disabled={loading}>
-            Join the Email List
-            {#if loading}
-              <span class="loading"></span>
-            {/if}
-          </button>
-        </div>
-      </form>
-    {:else}
-      <div class="success-message">
-        <p>Welcome, traveler! You'll receive word when the Tavern doors open.</p>
-        <a href="/announcements" class="announcement-button">Read the Announcements</a>
-      </div>
-    {/if}
-
-    <p>Become a Friend of the Tavern and receive tales, secrets, and early access to a growing fantasy universe.</p>
-
-    <!-- Tavern Tales Lead-in Section -->
-    <div class="tavern-tales-lead">
-      <h2 class="tavern-tales-title">Discover the Tavern Tales</h2>
-      <p class="tavern-tales-description">
-        Step into a world of fantasy and adventure with our collection of tales, poems, and songs.
-        Each story is a unique journey waiting to be explored.
-      </p>
-      <a href="/tavern-tales" class="tavern-tales-image-link">
-        <picture>
-          <source srcset="/images/tavern-90s-landscape-tavern-girl-ad.webp" type="image/webp">
-          <img
-            src="/images/tavern-90s-landscape-tavern-girl-ad.png"
-            alt="A mystical tavern landscape with a welcoming tavern girl"
-            class="tavern-tales-image"
-            loading="lazy"
-          />
-        </picture>
-      </a>
-      <a href="/tavern-tales" class="tavern-tales-button">Read the Lore</a>
-    </div>
-
-    <!-- Exploration Section -->
-    <div class="exploration-section">
-      <h2 class="exploration-title">Explore the Tavern</h2>
-      <p class="exploration-description">Treasure Tavern is a fantastical universe filled with mythical characters, magical artifacts, and extraordinary tales. Explore our world through the links below and begin your journey.</p>
-
-      <div class="exploration-links">
-        <a href="/tavern-tales" class="exploration-card">
-          <div class="card-icon">📜</div>
-          <h3>Tavern Tales</h3>
-          <p>Immerse yourself in fantastical stories from across the realm</p>
-        </a>
-
-        <a href="/about" class="exploration-card">
-          <div class="card-icon">🏮</div>
-          <h3>About</h3>
-          <p>Learn the history and purpose of the mystical Treasure Tavern</p>
-        </a>
-
-        <a href="/newsletter" class="exploration-card">
-          <div class="card-icon">📯</div>
-          <h3>Newsletter</h3>
-          <p>Subscribe to receive magical updates and exclusive content</p>
-        </a>
-
-        <a href="/announcements" class="exploration-card">
-          <div class="card-icon">📣</div>
-          <h3>Announcements</h3>
-          <p>Hear the latest news and upcoming events from the Tavern</p>
-        </a>
-
-        <a href="/contact" class="exploration-card">
-          <div class="card-icon">💌</div>
-          <h3>Contact</h3>
-          <p>Send a message to the Tavern Keepers with questions or tales</p>
-        </a>
-
-        <a href="/demo" class="exploration-card">
-          <div class="card-icon">✨</div>
-          <h3>Demo</h3>
-          <p>Experience interactive previews of upcoming features</p>
-        </a>
-      </div>
-    </div>
-
-    <!-- Tavern Atmosphere Section -->
-    <div class="tavern-atmosphere">
-      <h2 class="atmosphere-title">Tales from Patrons</h2>
-
-      <div class="testimonials-container">
-        <div class="testimonial">
-          <p class="atmosphere-quote">
-            Lost my lucky dagger in a bet with a goblin last spring. Found it hanging above the hearth at Treasure Tavern three moons later. This place has a way of gathering lost treasures and wayward souls alike. Best mead in seven kingdoms too!
-          </p>
-          <p class="quote-attribution">— Durnin Axebeard, Dwarven Merchant</p>
-        </div>
-
-        <div class="testimonial">
-          <p class="atmosphere-quote">
-            My songs have echoed in the halls of emperors, but nowhere do they resonate with such magic as within these tavern walls. The patrons here don't just listen to tales—they live them, breathe them, become part of them.
-          </p>
-          <p class="quote-attribution">— Lyra Silverstring, Elven Bard</p>
-        </div>
-
-        <div class="testimonial">
-          <p class="atmosphere-quote">
-            Been traversing the Shadowlands for nigh on forty years. Only place where both the living and spectral feel welcome is Treasure Tavern. The keeper doesn't ask questions when you order two ales but drink alone.
-          </p>
-          <p class="quote-attribution">— Morvath the Gray, Spirit Walker</p>
-        </div>
-      </div>
-
-      <div class="tavern-song">
-        <h3 class="song-title">The Tavern Oak</h3>
-        <div
-          class="scroll-image-container"
-          on:click={() => scrollModalOpen = true}
-          role="button"
-          tabindex="0"
-          on:keydown={(e) => e.key === 'Enter' && (scrollModalOpen = true)}
-          aria-label="Open tavern song scroll"
-        >
-          <picture>
-            <source srcset={scrollImgWebpSrc} type="image/webp">
-            <img
-              src={scrollImgSrc}
-              alt="The Tavern Oak - A tavern song written on a scroll"
-              class="tavern-song-scroll"
-              loading="lazy"
-            />
-          </picture>
-          <div class="view-larger-hint">
-            <span>Click to enlarge</span>
-          </div>
-        </div>
-        <div class="song-notes">
-          <span class="music-note">♫</span>
-          <span class="music-note delayed">♪</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</main>
