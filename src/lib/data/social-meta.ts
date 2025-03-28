@@ -4,21 +4,13 @@
  */
 
 /**
- * Interface for social sharing metadata
+ * Interface for social sharing metadata - simplified for clean implementation
  */
 export interface SocialMetadata {
   title: string;
   description: string;
   image: string;
   url: string;
-  type: string;
-  imageWidth: number;
-  imageHeight: number;
-  author: string;
-  siteName: string;
-  publishedTime?: string;
-  tags: string[];
-  articleSection?: string;
 }
 
 /**
@@ -30,11 +22,8 @@ export interface TaleSummary {
   excerpt?: string;
   coverImage?: string;
   author?: string;
-  date?: string;
-  type?: string;
   tags?: string[];
-  publishedTime?: string;
-  url?: string; // Optional URL that may be provided
+  url?: string;
 }
 
 /**
@@ -45,23 +34,14 @@ export interface TaleSummary {
 export function getTaleSocialMeta(tale: TaleSummary): SocialMetadata {
   if (!tale) return getDefaultSocialMeta();
 
-  // Create a consistent structure for social sharing
+  // Create a clean structure focused only on the tale's image
   return {
-    title: `${tale.title} - Tavern Tales`,
-    description: tale.excerpt || 'Discover enchanting stories from the Treasure Tavern',
-    // Use the existing image directly - no special formatting needed
+    title: tale.title,
+    description: tale.excerpt || 'A tale from Treasure Tavern',
+    // Use the tale's cover image directly
     image: tale.coverImage || '/images/tales/default-tale.png',
     // Use provided URL if available, otherwise construct one
     url: tale.url || `https://treasuretavernhq.com/tavern-tales/${tale.slug}`,
-    type: 'article',
-    imageWidth: 1200, // Standard OG image dimensions
-    imageHeight: 630,
-    author: tale.author || 'Treasure Tavern',
-    siteName: 'Treasure Tavern',
-    // Additional metadata specific to the tale
-    publishedTime: tale.publishedTime || tale.date || '',
-    tags: tale.tags || [],
-    articleSection: tale.type || 'Story',
   };
 }
 
@@ -71,15 +51,9 @@ export function getTaleSocialMeta(tale: TaleSummary): SocialMetadata {
  */
 export function getDefaultSocialMeta(): SocialMetadata {
   return {
-    title: 'Tavern Tales - Treasure Tavern',
-    description: 'Explore magical stories, legends, and songs from the Treasure Tavern archives.',
+    title: 'Tavern Tales',
+    description: 'Explore stories from the Treasure Tavern archives.',
     image: '/images/tales/default-tale.png',
     url: 'https://treasuretavernhq.com/tavern-tales',
-    type: 'website',
-    imageWidth: 1200,
-    imageHeight: 630,
-    author: 'Treasure Tavern',
-    siteName: 'Treasure Tavern',
-    tags: []
   };
 }
