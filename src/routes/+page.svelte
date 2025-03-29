@@ -2,6 +2,8 @@
   import { onMount } from 'svelte';
   import { subscribeEmail, isSupabaseConfigured, supabase } from '$lib/supabaseClient';
   import ImageModal from '$lib/components/ImageModal.svelte'; // Import the modal component
+  import ImageCarousel from '$lib/components/ImageCarousel.svelte'; // Import the new carousel component
+  import ClientOnly from '$lib/components/ClientOnly.svelte'; // Import the ClientOnly wrapper
 
   let email = '';
   let name = '';
@@ -13,6 +15,35 @@
   let scrollModalOpen = false; // Track if the scroll modal is open
   let scrollImgSrc = '/images/tavern-song-scroll-transparent.png'; // Image source for the modal
   let scrollImgWebpSrc = '/images/tavern-song-scroll-transparent.webp'; // WebP version
+
+  // Carousel images
+  const carouselImages = [
+    {
+      src: '/images/tales/the-bone-kingdom.png',
+      webpSrc: '/images/tales/the-bone-kingdom.webp',
+      alt: 'The Bone Kingdom - A mysterious realm built from bones that serves as an archive of memories'
+    },
+    {
+      src: '/images/tales/dragon-wizard-music.png',
+      webpSrc: '/images/tales/dragon-wizard-music.webp',
+      alt: 'Dragon Wizard Music - A magical composition that bridges worlds'
+    },
+    {
+      src: '/images/tales/the-void-boy.png',
+      webpSrc: '/images/tales/the-void-boy.webp',
+      alt: 'The Void Boy - A tale from the darker corners of the Treasure Tavern universe'
+    },
+    {
+      src: '/images/tales/sorceress-of-storms.png',
+      webpSrc: '/images/tales/sorceress-of-storms.webp',
+      alt: 'Sorceress of Storms - A powerful mage who commands the elements'
+    },
+    {
+      src: '/images/tales/the-goblin-kings-bet.png',
+      webpSrc: '/images/tales/the-goblin-kings-bet.webp',
+      alt: 'The Goblin King\'s Bet - A tale of risk and reward in the goblin realm'
+    }
+  ];
 
   // Lantern animation
   let lanternState: 'out' | 'animate' | 'success' = 'out';
@@ -177,6 +208,17 @@
   />
 
   <div class="container">
+    <!-- Hero Carousel -->
+    <div class="hero-carousel">
+      <ClientOnly --height="auto" --aspect-ratio="21:9">
+        <ImageCarousel
+          images={carouselImages}
+          aspectRatio="21:9"
+          autoplayInterval={6000}
+        />
+      </ClientOnly>
+    </div>
+
     <h1>
       <div class="welcome-wrapper">
         <span class="welcome-medium">Welcome</span><br>
@@ -226,6 +268,62 @@
       </div>
     </div>
 
+    <!-- Benefits Section -->
+    <section class="benefits">
+      <div class="benefits-pattern"></div>
+      <h2 class="benefits-title">What You'll Discover</h2>
+      <p class="benefits-subtitle">
+        Step into a world of imagination and adventure, where every visit to the Treasure Tavern brings new experiences.
+      </p>
+
+      <div class="benefits-grid">
+        <div class="benefit-card">
+          <span class="benefit-icon">
+            <i class="fas fa-book-open"></i>
+          </span>
+          <h3 class="benefit-title">Immersive Stories</h3>
+          <p class="benefit-desc">
+            Dive into captivating tales set in our rich, detailed fantasy world created by our community of storytellers.
+          </p>
+        </div>
+
+        <div class="benefit-card">
+          <span class="benefit-icon">
+            <i class="fas fa-users"></i>
+          </span>
+          <h3 class="benefit-title">Vibrant Community</h3>
+          <p class="benefit-desc">
+            Join fellow adventurers, storytellers, and creators who share your passion for fantasy and adventure.
+          </p>
+        </div>
+
+        <div class="benefit-card">
+          <span class="benefit-icon">
+            <i class="fas fa-magic"></i>
+          </span>
+          <h3 class="benefit-title">Magical Experiences</h3>
+          <p class="benefit-desc">
+            Encounter wonders, mysteries, and magical moments that will transport you to realms beyond imagination.
+          </p>
+        </div>
+
+        <div class="benefit-card">
+          <span class="benefit-icon">
+            <i class="fas fa-paint-brush"></i>
+          </span>
+          <h3 class="benefit-title">Creative Freedom</h3>
+          <p class="benefit-desc">
+            Express yourself through stories, art, and collaborative world-building in our ever-expanding universe.
+          </p>
+        </div>
+      </div>
+
+      <!-- Benefits CTA -->
+      <div class="benefits-cta">
+        <a href="/about" class="benefits-button">Explore All Benefits</a>
+      </div>
+    </section>
+
     <!-- Interactive Lantern with unified pointer events and touch handling -->
     <a href="#newsletter-signup" id="lantern" class="lantern-container lantern-{lanternState}"
       on:pointerenter={handlePointerEnter}
@@ -263,8 +361,35 @@
     <p class="subheading-emphasis" style="text-align: center; margin-left: auto; margin-right: auto; margin-top: 2rem;">Light the Lantern</p>
     <p class="subheading" style="text-align: center; margin-left: auto; margin-right: auto;">An amusing fantasy universe is coming. Join early to unlock the Tavern.</p>
 
-    {#if !subscribed}
-      <form id="newsletter-signup" class="cta-form" on:submit|preventDefault={handleSubmit}>
+    <!-- Tavern Tales Promotion Section -->
+    <section class="tales-promotion">
+      <div class="tales-promotion-container">
+        <div class="tales-promotion-image-container">
+          <img
+            src="/images/treasure-tavern-tales.png"
+            alt="Treasure Tavern Tales - A collection of magical stories from our fantasy universe"
+            class="tales-promotion-image"
+            loading="lazy"
+          />
+        </div>
+        <div class="tales-promotion-content">
+          <h2 class="tales-promotion-title">Embark on Magical Journeys</h2>
+          <p class="tales-promotion-text">
+            Discover a growing collection of enchanting tales from the Treasure Tavern universe.
+            From the mysterious Bone Kingdom to the mischievous Goblin King, each story offers
+            a window into our rich fantasy world filled with magic, adventure, and wonder.
+          </p>
+          <a href="/tavern-tales" class="tales-promotion-button">
+            <span>Explore Tavern Tales</span>
+            <i class="fas fa-book-open"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Newsletter Sign-up Form -->
+    <form id="newsletter-signup" class="cta-form" on:submit|preventDefault={handleSubmit}>
+      {#if !subscribed}
         <p class="form-intro">Be the first to know - put your email below!</p>
 
         <div class="input-wrapper">
@@ -301,13 +426,13 @@
             {/if}
           </button>
         </div>
-      </form>
-    {:else}
-      <div class="success-message">
-        <p>Welcome, traveler! You'll receive word when the Tavern doors open.</p>
-        <a href="/announcements" class="announcement-button">Read the Announcements</a>
-      </div>
-    {/if}
+      {:else}
+        <div class="success-message">
+          <p>Welcome, traveler! You'll receive word when the Tavern doors open.</p>
+          <a href="/announcements" class="announcement-button">Read the Announcements</a>
+        </div>
+      {/if}
+    </form>
 
     <p>Become a Friend of the Tavern and receive tales, secrets, and early access to a growing fantasy universe.</p>
 
@@ -1224,541 +1349,448 @@
   /* Welcome navigation buttons */
   .welcome-nav-buttons {
     display: flex;
-    justify-content: center;
-    gap: 1rem;
-    margin: 1.75rem auto 0.5rem;
     flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1rem;
   }
 
   .welcome-nav-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.85rem 1.5rem;
     background: rgba(31, 27, 45, 0.7);
+    border: 1px solid rgba(189, 150, 72, 0.2);
+    border-radius: 6px;
+    padding: 0.75rem 1rem;
     color: #F7E8D4;
-    border: 1px solid rgba(189, 150, 72, 0.5);
-    border-radius: 8px;
-    font-family: 'Cinzel', serif;
-    font-size: 1rem;
-    font-weight: 500;
     text-decoration: none;
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    min-width: 200px;
-    gap: 0.75rem;
-  }
-
-  .welcome-nav-icon {
-    color: #BD9648;
-    font-size: 1.1rem;
-    transition: transform 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex: 1;
+    min-width: 180px;
+    max-width: 220px;
+    justify-content: center;
   }
 
   .welcome-nav-button:hover {
     background: rgba(31, 27, 45, 0.9);
-    border-color: #BD9648;
-    transform: translateY(-3px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3), 0 0 10px rgba(189, 150, 72, 0.2);
-  }
-
-  .welcome-nav-button:hover .welcome-nav-icon {
-    transform: translateX(-2px);
-  }
-
-  .welcome-nav-button:active {
-    transform: translateY(-1px);
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
-  }
-
-  @media (max-width: 768px) {
-    .welcome-section {
-      padding: 1.25rem;
-      margin-top: 2rem;
-    }
-
-    .welcome-nav-buttons {
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .welcome-nav-button {
-      width: 100%;
-      max-width: 280px;
-    }
-  }
-
-  /* Audio Player Styles */
-  .audio-controls {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: rgba(31, 27, 45, 0.6);
-    padding: 8px 12px;
-    border-radius: 30px;
-    border: 1px solid rgba(189, 150, 72, 0.3);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(4px);
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-
-  .audio-controls:hover {
-    background: rgba(31, 27, 45, 0.8);
-    border-color: rgba(189, 150, 72, 0.5);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+    border-color: rgba(189, 150, 72, 0.4);
     transform: translateY(-2px);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
   }
 
-  .mute-button {
-    background: none;
-    border: none;
-    color: #F7E8D4;
-    font-size: 1.2rem;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    padding: 0;
-    box-shadow: none;
-    pointer-events: none; /* Allow clicks to pass through to parent */
+  .welcome-nav-icon {
+    color: #BD9648;
   }
 
-  .audio-title {
-    font-family: 'Spectral', serif;
-    font-size: 0.9rem;
-    color: rgba(247, 232, 212, 0.9);
-    margin: 0;
-    white-space: nowrap;
-  }
-
-  /* Tavern Atmosphere Section */
-  .tavern-atmosphere {
-    margin-top: 4rem;
-    margin-bottom: 2rem;
+  /* Benefits Section Styles */
+  .benefits-section {
+    width: 100%;
+    max-width: 1100px;
+    margin: 4rem auto 5rem;
     padding: 2rem 1rem;
-    background: rgba(31, 27, 45, 0.4);
-    border-top: 1px solid rgba(189, 150, 72, 0.2);
-    border-bottom: 1px solid rgba(189, 150, 72, 0.2);
-    text-align: center;
-    width: 100%;
-    max-width: 1000px;
-  }
-
-  .atmosphere-title {
-    font-family: 'Cinzel', serif;
-    font-size: clamp(1.5rem, 3vw, 2rem);
-    margin: 0 0 1.5rem;
-    font-weight: 700;
-    color: #BD9648;
-    text-shadow: 0 0 8px rgba(189, 150, 72, 0.3);
-  }
-
-  .testimonials-container {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    margin-bottom: 2rem;
-  }
-
-  .testimonial {
     position: relative;
-    max-width: 700px;
-    margin: 0 auto;
   }
 
-  .atmosphere-quote {
-    font-family: 'Spectral', serif;
-    font-style: italic;
-    font-size: clamp(1rem, 2vw, 1.2rem);
-    line-height: 1.6;
-    margin: 0 auto 0.5rem;
-    color: rgba(247, 232, 212, 0.95);
-    position: relative;
-    padding: 0 1.5rem;
-  }
-
-  .atmosphere-quote::before,
-  .atmosphere-quote::after {
-    content: '"';
-    font-size: 2rem;
-    color: rgba(189, 150, 72, 0.6);
-    position: absolute;
-    line-height: 1;
-  }
-
-  .atmosphere-quote::before {
-    left: 0;
-    top: -0.2rem;
-  }
-
-  .atmosphere-quote::after {
-    right: 0;
-    bottom: -0.8rem;
-  }
-
-  .quote-attribution {
-    font-family: 'Inter', system-ui, sans-serif;
-    font-size: 0.95rem;
-    color: rgba(247, 232, 212, 0.7);
-    margin: 0;
-    text-align: right;
-    padding-right: 1.5rem;
-  }
-
-  .atmosphere-description {
-    font-family: 'Spectral', serif;
-    font-size: clamp(1rem, 2vw, 1.1rem);
-    line-height: 1.5;
-    margin: 1.5rem auto 0;
-    max-width: 800px;
-    color: rgba(247, 232, 212, 0.85);
-  }
-
-  .music-note {
-    display: inline-block;
-    font-size: 1.2rem;
-    animation: float 3s infinite ease-in-out;
-    margin: 0 0.5rem;
-    color: rgba(158, 97, 227, 0.7);
-  }
-
-  @keyframes float {
-    0% { transform: translateY(0); }
-    50% { transform: translateY(-5px); }
-    100% { transform: translateY(0); }
-  }
-
-  @media (min-width: 768px) {
-    .testimonials-container {
-      flex-direction: row;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1.5rem;
-    }
-
-    .testimonial {
-      flex: 1;
-      min-width: 280px;
-      max-width: 350px;
-    }
-  }
-
-  /* Tavern Song Styles */
-  .tavern-song {
-    margin: 2rem auto 0;
-    max-width: 700px;
-    text-align: center;
-    position: relative;
-    padding: 1.5rem 1rem;
-    background: rgba(31, 27, 45, 0.5);
-    border-radius: 8px;
-    border: 1px solid rgba(189, 150, 72, 0.2);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .song-title {
-    font-family: 'Cinzel', serif;
-    font-size: 1.4rem;
-    color: #BD9648;
-    margin-bottom: 1rem;
-    text-shadow: 0 0 8px rgba(189, 150, 72, 0.3);
-  }
-
-  .song-lyrics {
-    font-family: 'Spectral', serif;
-    font-style: italic;
-    font-size: clamp(1rem, 2vw, 1.1rem);
-    line-height: 1.8;
-    color: rgba(247, 232, 212, 0.95);
-  }
-
-  .song-lyrics p {
-    margin-bottom: 1.5rem;
-    font-family: inherit;
-    font-size: inherit;
-    line-height: inherit;
-    color: inherit;
-    max-width: 100%;
-  }
-
-  .song-lyrics p:last-child {
-    margin-bottom: 0.5rem;
-  }
-
-  .song-notes {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    max-width: 600px;
-    margin: 1rem auto 0;
-  }
-
-  .delayed {
-    animation-delay: 1.5s;
-  }
-
-  .tavern-song-scroll {
-    width: auto;
-    max-width: 100%;
-    height: auto;
-    max-height: min(70vh, 600px);
-    margin: 0 auto;
-    display: block;
-    transition: transform 0.3s ease;
-    object-fit: contain;
-  }
-
-  .scroll-image-container {
-    position: relative;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    max-width: 700px;
-    margin: 0 auto 1rem;
-    transition: transform 0.3s ease;
-    border-radius: 8px;
-    overflow: hidden;
-  }
-
-  .scroll-image-container:hover .tavern-song-scroll {
-    transform: scale(1.02);
-  }
-
-  .scroll-image-container:hover .view-larger-hint {
-    opacity: 1;
-  }
-
-  .view-larger-hint {
-    position: absolute;
-    bottom: 10px;
-    left: 0;
-    right: 0;
-    color: #F7E8D4;
-    padding: 8px;
-    font-family: 'Inter', system-ui, sans-serif;
-    font-size: 0.9rem;
-    text-align: center;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    text-shadow: 0 0 10px rgba(0, 0, 0, 0.9), 0 0 5px rgba(0, 0, 0, 0.9);
-  }
-
-  @media (max-width: 768px) {
-    .view-larger-hint {
-      opacity: 0.8;
-      font-size: 0.8rem;
-      padding: 6px;
-    }
-
-    .tavern-song-scroll {
-      max-height: min(60vh, 500px);
-    }
-  }
-
-  /* Add style for the hint text */
-  .audio-hint {
-    font-family: 'Inter', system-ui, sans-serif;
-    font-size: 0.75rem;
-    color: rgba(247, 232, 212, 0.7);
-    font-style: italic;
-    margin-left: 4px;
-  }
-
-  .subheading-emphasis {
-    font-family: 'Cinzel', serif;
-    font-size: clamp(1.2rem, 3vw, 1.6rem);
-    color: #BD9648;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-    text-shadow: 0 0 10px rgba(189, 150, 72, 0.4);
-  }
-
-  /* Ultimate Vision Section Styles */
-  .vision-section {
-    margin-top: 4rem;
-    margin-bottom: 4rem;
-    padding: 2.5rem 2rem;
-    background: linear-gradient(145deg, rgba(31, 27, 45, 0.5) 0%, rgba(43, 29, 52, 0.5) 100%);
-    border-radius: 12px;
-    border: 1px solid rgba(189, 150, 72, 0.2);
-    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.3), 0 0 15px rgba(189, 150, 72, 0.1);
-    max-width: 1000px;
-    margin-left: auto;
-    margin-right: auto;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .vision-section::before {
+  .benefits-section::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239e61e3' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23bd9648' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
     opacity: 0.5;
     z-index: -1;
   }
 
-  .vision-content {
+  .benefits-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    color: #BD9648;
+    margin-bottom: 0.25rem;
+    text-shadow: 0 0 8px rgba(189, 150, 72, 0.3);
+    position: relative;
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .benefits-title::after {
+    content: '';
+    position: absolute;
+    bottom: -0.25rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(189, 150, 72, 0), rgba(189, 150, 72, 0.6), rgba(189, 150, 72, 0));
+  }
+
+  .benefits-subtitle {
+    font-family: 'Spectral', serif;
+    font-size: clamp(1.1rem, 2.5vw, 1.25rem);
+    color: rgba(247, 232, 212, 0.9);
+    margin-bottom: 2rem;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  @media (min-width: 640px) {
+    .benefits-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .benefits-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .benefit-card {
+    background: rgba(31, 27, 45, 0.7);
+    border: 1px solid rgba(189, 150, 72, 0.3);
+    border-radius: 10px;
+    padding: 1.5rem;
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .benefit-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    border-color: rgba(189, 150, 72, 0.6);
+  }
+
+  .benefit-card:hover .benefit-icon {
+    text-shadow: 0 0 20px rgba(153, 102, 204, 0.9);
+  }
+
+  .benefit-icon {
+    color: #9966CC;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    transition: text-shadow 0.3s ease;
+  }
+
+  .benefit-title {
+    font-family: 'Cinzel', serif;
+    color: #BD9648;
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+    text-align: center;
+  }
+
+  .benefit-desc {
+    color: rgba(247, 232, 212, 0.8);
+    text-align: center;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .benefits-cta {
+    margin-top: 1rem;
+    margin-bottom: 2.5rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  .benefits-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #BD9648 0%, #E5C989 50%, #BD9648 100%);
+    color: #1c1c1c;
+    font-family: 'Cinzel', serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    padding: 0.9rem 2.2rem;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3), 0 0 12px rgba(189, 150, 72, 0.5);
+    border: 2px solid rgba(189, 150, 72, 0.2);
+    position: relative;
+    overflow: hidden;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.3);
+    letter-spacing: 0.5px;
+    gap: 10px;
+  }
+
+  .benefits-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.7s ease;
+  }
+
+  .benefits-button::after {
+    content: '→';
+    margin-left: 8px;
+    font-size: 1.3rem;
+    transition: transform 0.3s ease;
+  }
+
+  .benefits-button:hover {
+    transform: translateY(-5px) scale(1.03);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4), 0 0 15px rgba(189, 150, 72, 0.6);
+    border-color: rgba(189, 150, 72, 0.4);
+  }
+
+  .benefits-button:hover::before {
+    left: 100%;
+  }
+
+  .benefits-button:hover::after {
+    transform: translateX(4px);
+  }
+
+  /* Hero Carousel Styles */
+  .hero-carousel {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto 2rem;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  }
+
+  /* On smaller screens, adjust margin */
+  @media (max-width: 768px) {
+    .hero-carousel {
+      margin-bottom: 1.5rem;
+    }
+
+    .container {
+      max-width: 100%;
+      padding: 0 0.5rem;
+    }
+  }
+
+  /* Tavern Tales Promotion Section */
+  .tales-promotion {
+    margin: 3rem 0;
+    padding: 3rem 1rem;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(145deg, rgba(31, 27, 45, 0.95) 0%, rgba(43, 29, 52, 0.95) 100%);
+    background-size: cover;
+    background-position: center;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  }
+
+  .tales-promotion::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, rgba(189, 150, 72, 0.1), rgba(189, 150, 72, 0.7), rgba(189, 150, 72, 0.1));
+  }
+
+  .tales-promotion-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
     gap: 2rem;
   }
 
-  @media (min-width: 768px) {
-    .vision-content {
+  @media (min-width: 900px) {
+    .tales-promotion-container {
       flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .vision-text {
-      flex: 1;
-      text-align: left;
-      margin-bottom: 0;
-      padding-right: 2rem;
-    }
-
-    .vision-image-container {
-      flex: 1;
-      margin: 0;
     }
   }
 
-  .vision-text {
-    text-align: center;
+  .tales-promotion-image-container {
+    flex: 1;
+    max-width: 100%;
+  }
+
+  .tales-promotion-image {
+    width: 100%;
+    height: auto;
+    max-width: 500px;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(189, 150, 72, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .tales-promotion-image:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6), 0 0 15px rgba(189, 150, 72, 0.4);
+  }
+
+  .tales-promotion-content {
+    flex: 1;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1rem;
+  }
+
+  .tales-promotion-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    color: #BD9648;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 8px rgba(189, 150, 72, 0.3);
+  }
+
+  .tales-promotion-text {
+    color: rgba(247, 232, 212, 0.9);
+    font-family: 'Spectral', serif;
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    line-height: 1.6;
     margin-bottom: 2rem;
   }
 
-  .vision-title {
+  .tales-promotion-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #5e4a9c 0%, #9966CC 100%);
+    color: #FFFFFF;
     font-family: 'Cinzel', serif;
-    font-size: clamp(1.75rem, 3vw, 2.25rem);
-    margin: 0 0 1rem;
-    font-weight: 700;
-    color: #BD9648;
-    text-shadow: 0 0 8px rgba(189, 150, 72, 0.3);
-    position: relative;
-    padding-bottom: 1rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 0.9rem 2rem;
+    border-radius: 50px;
+    border: none;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    width: fit-content;
+    gap: 0.75rem;
   }
 
-  .vision-title::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80px;
-    height: 3px;
-    background: linear-gradient(90deg, rgba(158, 97, 227, 0) 0%, rgba(158, 97, 227, 0.8) 50%, rgba(158, 97, 227, 0) 100%);
+  .tales-promotion-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), 0 0 15px rgba(153, 102, 204, 0.4);
+    background: linear-gradient(135deg, #6a54b2 0%, #a575e0 100%);
   }
 
-  @media (min-width: 768px) {
-    .vision-title::after {
-      left: 0;
-      transform: none;
-    }
+  /* Newsletter form styles */
+  .newsletter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto 1.25rem;
+    background: rgba(20, 17, 30, 0.4);
+    padding: 1.25rem;
+    padding-top: 0.85rem;
+    border-radius: 8px;
+    border: 1px solid rgba(247, 232, 212, 0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
   }
 
-  .vision-description {
-    font-family: 'Spectral', serif;
-    font-size: clamp(1.1rem, 2vw, 1.25rem);
-    margin: 0 auto 1.8rem;
+  .newsletter-header {
     text-align: center;
-    max-width: 700px;
-    color: rgba(247, 232, 212, 0.92);
-    line-height: 1.6;
+    margin-bottom: 1rem;
   }
 
-  @media (min-width: 768px) {
-    .vision-description {
-      margin-left: 0;
-      margin-right: 0;
-      text-align: left;
-    }
+  .newsletter-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
   }
 
-  .vision-buttons {
+  .input-wrapper {
+    position: relative;
+    width: 100%;
+  }
+
+  input {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    border: 1px solid rgba(247, 232, 212, 0.25);
+    border-radius: 6px;
+    background: rgba(19, 17, 28, 0.6);
+    color: #F7E8D4;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.25s ease;
+  }
+
+  input:focus {
+    border-color: rgba(189, 150, 72, 0.6);
+    box-shadow: 0 0 12px rgba(189, 150, 72, 0.25);
+  }
+
+  input::placeholder {
+    color: rgba(247, 232, 212, 0.45);
+    font-weight: 300;
+  }
+
+  input:last-of-type {
+    margin-bottom: 0.35rem;
+  }
+
+  .form-actions {
     display: flex;
     justify-content: center;
-    gap: 1rem;
-    flex-wrap: wrap;
+    margin-top: 0.5rem;
   }
 
-  @media (min-width: 768px) {
-    .vision-buttons {
-      justify-content: flex-start;
-    }
-  }
-
-  .vision-button {
+  button {
+    width: 100%;
     padding: 0.85rem 1.5rem;
     border: none;
     border-radius: 6px;
-    font-family: 'Cinzel', serif;
-    font-size: 1rem;
-    font-weight: 500;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    min-width: 180px;
-    justify-content: center;
-  }
-
-  .vision-button.primary {
     background: linear-gradient(135deg, #9E61E3 0%, #7A3CA3 100%);
     color: #F7E8D4;
+    font-family: 'Cinzel', serif;
+    font-size: 1.15rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    transition: all 0.3s ease;
   }
 
-  .vision-button.primary:hover {
+  button:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 18px rgba(122, 60, 163, 0.4);
     background: linear-gradient(135deg, #AF71F4 0%, #8547B0 100%);
   }
 
-  .vision-button.secondary {
-    background: linear-gradient(135deg, #BD9648 0%, #9A7A3D 100%);
-    color: #F7E8D4;
+  button:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 8px rgba(122, 60, 163, 0.3);
   }
 
-  .vision-button.secondary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(189, 150, 72, 0.4);
-    background: linear-gradient(135deg, #D4A852 0%, #B99148 100%);
-  }
-
-  .vision-image-container {
-    width: 100%;
-    max-width: 400px;
-    margin: 0 auto;
-    position: relative;
-  }
-
-  .vision-image {
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(189, 150, 72, 0.2);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-
-  .vision-image:hover {
-    transform: scale(1.02);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4), 0 0 15px rgba(189, 150, 72, 0.2);
+  button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
   }
 </style>
