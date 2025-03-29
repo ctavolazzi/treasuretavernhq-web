@@ -1,12 +1,21 @@
 <script lang="ts">
 	import '../app.css';
 	import MobileNav from '$lib/components/MobileNav.svelte';
+	import BottomNav from '$lib/components/BottomNav.svelte';
 	import { onMount } from 'svelte';
 	import ResponsiveImage from '$lib/components/ResponsiveImage.svelte';
+	import { pageAudio } from '$lib/stores/audioStore';
 	let { children } = $props();
 
   let bannerActive = $state(false);
   let mobileMenuOpen = false;
+
+  // Default navigation options for the bottom nav
+  const navOptions = [
+    { label: 'Home', href: '/' },
+    { label: 'Tales', href: '/tavern-tales' },
+    { label: 'Newsletter', href: '/newsletter' }
+  ];
 
   function toggleBanner() {
     bannerActive = !bannerActive;
@@ -328,3 +337,13 @@
     <a href="/newsletter" class="footer-link">Newsletter</a>
   </div>
 </footer>
+
+<!-- Bottom Nav Component -->
+{#if $pageAudio.enabled && $pageAudio.audioAvailable}
+  <BottomNav
+    navOptions={navOptions}
+    enableMusicControl={true}
+    audioSrc={$pageAudio.src}
+    audioTitle={$pageAudio.title}
+  />
+{/if}

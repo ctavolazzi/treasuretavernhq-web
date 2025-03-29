@@ -10,11 +10,6 @@
   let error = '';
   let supabaseConfigured = true;
   let newsletterOptIn = true; // Default to checked for better conversion
-  let audioPlayer: HTMLAudioElement; // Reference to audio player
-  let audioControlsElement: HTMLElement; // Reference to audio controls
-  let footerElement: HTMLElement; // Reference to footer element
-  let audioControlsBottomOffset = 20; // Default bottom position
-  let audioControlsVisible = true; // Control visibility of audio controls
   let scrollModalOpen = false; // Track if the scroll modal is open
   let scrollImgSrc = '/images/tavern-song-scroll-transparent.png'; // Image source for the modal
   let scrollImgWebpSrc = '/images/tavern-song-scroll-transparent.webp'; // WebP version
@@ -35,32 +30,8 @@
   let currentLanternImage = lanternAnimationGif;
   let isTouch = false; // Track if the device primarily uses touch
   let supportsWebP = true; // Will be set in onMount
-  let isMuted = true; // Start muted to comply with browser autoplay policies
-  let audioInitialized = false; // Track if audio has been initialized
-
-  // Audio control functions
-  function toggleMute() {
-    if (audioPlayer) {
-      isMuted = !isMuted;
-      audioPlayer.muted = isMuted;
-
-      if (isMuted) {
-        audioPlayer.pause();
-      } else {
-        // Play and handle any errors gracefully
-        audioPlayer.play().catch(error => {
-          console.warn('Still unable to play audio after user interaction:', error);
-          // Fall back to muted state if still having issues
-          isMuted = true;
-          audioPlayer.muted = true;
-        });
-      }
-
-      // Remove localStorage storage
-      // Update initialized state
-      audioInitialized = true;
-    }
-  }
+  let isMuted = true; // This will be removed but kept to avoid errors elsewhere
+  let audioInitialized = false; // This will be removed but kept to avoid errors elsewhere
 
   // Handle form submission
   async function handleSubmit() {
@@ -126,31 +97,6 @@
     // No action needed - animation is handled by the GIF
   }
 
-  // Function to handle scroll and prevent audio controls from overlapping footer
-  function handleScroll() {
-    if (!audioControlsElement) return;
-
-    // Get the footer element every time to ensure we have the latest reference
-    const footer = document.querySelector('footer.footer');
-    if (!footer) return;
-
-    const footerRect = footer.getBoundingClientRect();
-    const viewportHeight = window.innerHeight;
-    const audioControlsHeight = audioControlsElement.offsetHeight;
-
-    // Check if footer is visible in the viewport
-    if (footerRect.top < viewportHeight) {
-      // Calculate how much space the footer is taking in the viewport
-      const footerVisibleHeight = viewportHeight - footerRect.top;
-
-      // Move audio controls above the footer with a 25px gap (reduced from 40px)
-      audioControlsElement.style.bottom = `${footerVisibleHeight + 25}px`;
-    } else {
-      // Reset to default position
-      audioControlsElement.style.bottom = `${audioControlsBottomOffset}px`;
-    }
-  }
-
   // Function to smoothly scroll to the newsletter signup form
   function scrollToNewsletterForm() {
     // Get the newsletter signup form element
@@ -199,65 +145,21 @@
     // Just detect if touch is being used actively, which happens in handleTouchStart
     isTouch = false;
 
-    // Check WebP support directly without using the utility function
-    const webP = new Image();
-    webP.src = 'data:image/webp;base64,UklGRhoAAABXRUJQVlA4TA0AAAAvAAAAEAcQERGIiP4HAA==';
+    // Check for WebP support
+    const webpSupport = document.createElement('canvas')
+      .toDataURL('image/webp')
+      .indexOf('data:image/webp') === 0;
 
-    webP.onload = () => {
-      // WebP is supported
-      supportsWebP = true;
-    };
+    supportsWebP = webpSupport;
 
-    webP.onerror = () => {
-      // WebP is not supported, use fallbacks
-      supportsWebP = false;
-      lanternStaticImage = lanternStaticImageFallback;
-    };
+    // Begin with the static lantern image
+    currentLanternImage = lanternAnimationGif;
 
-    // If user has subscribed, show success state
-    if (subscribed) {
-      lanternState = 'success';
-      currentLanternImage = lanternSuccessGif;
-    }
-
-    // Initialize audio player
-    if (audioPlayer) {
-      audioPlayer.volume = 0.3; // Set initial volume to 30%
-
-      // Remove localStorage check - always start muted
-      // Always start muted
-      audioPlayer.muted = true;
-      isMuted = true; // Force isMuted to true on every page load
-
-      // Load the audio
-      audioPlayer.load();
-
-      // Add Font Awesome for icons
-      const link = document.createElement('link');
-      link.rel = 'stylesheet';
-      link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
-      document.head.appendChild(link);
-
-      // Set up scroll handling without relying on finding the footer immediately
-      window.addEventListener('scroll', handleScroll);
-
-      // Run initial position check after a longer delay to ensure DOM is fully loaded
-      setTimeout(handleScroll, 1000);
-
-      // Also check position on window resize
-      window.addEventListener('resize', handleScroll);
-
-      // Clean up animation on unmount
-      return () => {
-        // Stop audio on unmount
-        if (audioPlayer) {
-          audioPlayer.pause();
-        }
-
-        window.removeEventListener('scroll', handleScroll);
-        window.removeEventListener('resize', handleScroll);
-      };
-    }
+    // Add Font Awesome for icons
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
+    document.head.appendChild(link);
   });
 </script>
 
@@ -267,29 +169,12 @@
 </svelte:head>
 
 <main>
-  <!-- Audio player -->
-  <audio bind:this={audioPlayer} src="/audio/TheTavernOak.mp3" preload="auto" loop muted></audio>
-
   <!-- Image Modal -->
   <ImageModal
     bind:open={scrollModalOpen}
     imgSrc={supportsWebP ? scrollImgWebpSrc : scrollImgSrc}
     altText="The Tavern Oak - A tavern song written on a scroll"
   />
-
-  <div class="audio-controls" bind:this={audioControlsElement} on:click={toggleMute} role="button" tabindex="0" aria-label={isMuted ? "Unmute tavern music" : "Mute tavern music"} on:keydown={(e) => e.key === 'Enter' && toggleMute()}>
-    <div class="mute-button">
-      {#if isMuted}
-        <i class="fas fa-volume-mute"></i>
-      {:else}
-        <i class="fas fa-volume-up"></i>
-      {/if}
-    </div>
-    <span class="audio-title">Tavern Music</span>
-    {#if isMuted}
-      <span class="audio-hint">(Click to play)</span>
-    {/if}
-  </div>
 
   <div class="container">
     <h1>

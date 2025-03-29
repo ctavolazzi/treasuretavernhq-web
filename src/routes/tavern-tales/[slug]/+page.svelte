@@ -5,7 +5,7 @@
   import ResponsiveImage from '$lib/components/ResponsiveImage.svelte';
   import SimpleAudioPlayer from '$lib/components/SimpleAudioPlayer.svelte';
   import Breadcrumb from '$lib/components/Breadcrumb.svelte';
-  import FloatingAudioPlayer from '$lib/components/FloatingAudioPlayer.svelte';
+  import { setPageAudio, resetPageAudio, disablePageAudio } from '$lib/stores/audioStore';
   import { getTaleSocialMeta, type SocialMetadata } from '$lib/data/social-meta';
 
   // Define Tale interface to fix type errors
@@ -65,6 +65,29 @@
   let copyTimeout: ReturnType<typeof setTimeout> | null = null;
 
   onMount(() => {
+    // If this is the Bone Kingdom tale, set its custom audio
+    if (tale.slug === 'the-bone-kingdom') {
+      // Verify the audio file exists before setting it
+      const audioSrc = '/audio/The-Bone-KingdomHe-Waits.mp3';
+      const audio = new Audio(audioSrc);
+
+      // Add event listeners to check if the file is valid
+      audio.addEventListener('canplaythrough', () => {
+        // Audio file exists and can be played
+        setPageAudio(audioSrc, 'The Bone Kingdom Theme', true);
+        console.log('Bone Kingdom audio loaded successfully');
+      });
+
+      audio.addEventListener('error', () => {
+        // Audio file doesn't exist or can't be played
+        console.warn('Bone Kingdom audio failed to load');
+        disablePageAudio();
+      });
+
+      // Start loading the audio file
+      audio.load();
+    }
+
     // Handle any client-side initialization
     mediaReady = true;
 
@@ -156,10 +179,16 @@
     }
   }
 
-  // Clear timeout on component destroy
+  // Clean up timeout on component destroy
   onDestroy(() => {
     if (copyTimeout) {
       clearTimeout(copyTimeout);
+    }
+
+    // Only reset audio when leaving the Bone Kingdom page
+    // This prevents disrupting audio when navigating between other pages
+    if (tale && tale.slug === 'the-bone-kingdom') {
+      resetPageAudio();
     }
   });
 </script>
@@ -1164,16 +1193,6 @@
   <div class="spinner"></div>
   <p class="loading-text">Loading Chronicle...</p>
 </div>
-{/if}
-
-<!-- Floating audio player for Bone Kingdom -->
-{#if tale.slug === 'the-bone-kingdom'}
-  <FloatingAudioPlayer
-    audioSrc="/audio/The-Bone-KingdomHe-Waits.mp3"
-    audioTitle="The Bone Kingdom Theme"
-    hintText="Click to enhance your reading"
-    startMuted={true}
-  />
 {/if}
 
 <div class="page-container">

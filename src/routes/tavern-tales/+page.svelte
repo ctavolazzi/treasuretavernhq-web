@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import { onMount, onDestroy } from 'svelte';
   import AnnouncementCta from '$lib/components/AnnouncementCta.svelte';
   import { fade, fly } from 'svelte/transition';
   import { quintOut } from 'svelte/easing';
@@ -103,6 +103,12 @@
     setTimeout(() => {
       isReady = true;
     }, 300);
+
+    // Don't set custom audio for the tales page since there's no audio file
+  });
+
+  onDestroy(() => {
+    // No need to reset audio since we didn't set it
   });
 </script>
 
