@@ -15,7 +15,8 @@
     { label: 'Home', href: '/' },
     { label: 'Tales', href: '/tavern-tales' },
     { label: 'Newsletter', href: '/newsletter' },
-    { label: 'Contact', href: '/contact' }
+    { label: 'Contact', href: '/contact' },
+    { label: 'Sign Up', href: '/waitlist' }
   ];
 
   function toggleBanner() {
