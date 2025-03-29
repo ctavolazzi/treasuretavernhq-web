@@ -100,10 +100,10 @@
       if (footerRect.top < windowHeight) {
         // Calculate distance to shift the nav up
         const footerVisibleHeight = windowHeight - footerRect.top;
-        bottomNavElement.style.bottom = `${footerVisibleHeight}px`;
+        bottomNavElement.style.bottom = `${Math.max(40, footerVisibleHeight)}px`;
       } else {
         // Reset to default position
-        bottomNavElement.style.bottom = '0';
+        bottomNavElement.style.bottom = '40px';
       }
     }
   }
@@ -178,7 +178,7 @@
     }
   }
 
-  function handleAudioError(e) {
+  function handleAudioError(e: Event) {
     console.error('Audio error:', e);
     isMusicPlaying = false;
     resumeAfterLoad = false;
@@ -250,10 +250,10 @@
 </script>
 
 <style>
-  /* Bottom Nav Container */
+  /* Bottom Nav Container with filigree */
   .bottom-nav {
     position: fixed;
-    bottom: 20px;
+    bottom: 40px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 9999;
@@ -261,6 +261,49 @@
     align-items: center;
     justify-content: center;
     transition: bottom 0.3s ease;
+    padding: 0 20px;
+  }
+
+  /* Filigree decorations */
+  .bottom-nav::before,
+  .bottom-nav::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 80px;
+    height: 24px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    filter: drop-shadow(0 0 3px rgba(207, 167, 93, 0.6));
+    opacity: 0.85;
+    transition: all 0.3s ease;
+  }
+
+  .bottom-nav::before {
+    right: calc(100% - 10px);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 30' width='100' height='30'%3E%3Cpath d='M100,15 C90,15 85,5 80,5 C75,5 75,15 70,15 C65,15 65,10 60,10 C55,10 55,15 50,15 C45,15 40,5 30,5 C20,5 10,15 0,15' stroke='%23cfa75d' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='78' cy='15' r='3' fill='%23cfa75d' opacity='0.8'/%3E%3Ccircle cx='60' cy='10' r='2' fill='%23cfa75d' opacity='0.6'/%3E%3Ccircle cx='40' cy='10' r='2' fill='%23cfa75d' opacity='0.6'/%3E%3C/svg%3E");
+  }
+
+  .bottom-nav::after {
+    left: calc(100% - 10px);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 30' width='100' height='30'%3E%3Cpath d='M0,15 C10,15 15,5 20,5 C25,5 25,15 30,15 C35,15 35,10 40,10 C45,10 45,15 50,15 C55,15 60,5 70,5 C80,5 90,15 100,15' stroke='%23cfa75d' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='22' cy='15' r='3' fill='%23cfa75d' opacity='0.8'/%3E%3Ccircle cx='40' cy='10' r='2' fill='%23cfa75d' opacity='0.6'/%3E%3Ccircle cx='60' cy='10' r='2' fill='%23cfa75d' opacity='0.6'/%3E%3C/svg%3E");
+  }
+
+  .bottom-nav:hover::before,
+  .bottom-nav:hover::after {
+    opacity: 1;
+    filter: drop-shadow(0 0 5px rgba(207, 167, 93, 0.8));
+  }
+
+  /* Mobile responsiveness adjustments */
+  @media (max-width: 768px) {
+    .bottom-nav::before,
+    .bottom-nav::after {
+      width: 60px;
+      height: 20px;
+    }
   }
 
   /* Expand/Collapse Button */
@@ -391,7 +434,7 @@
   /* Mobile responsiveness */
   @media (max-width: 768px) {
     .bottom-nav {
-      bottom: 15px;
+      bottom: 30px;
     }
 
     .expand-btn {
