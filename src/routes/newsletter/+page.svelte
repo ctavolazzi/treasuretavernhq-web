@@ -456,8 +456,6 @@
     font-weight: 600;
     color: #BD9648;
     font-family: 'Inter', system-ui, sans-serif;
-  }
-
     font-size: 0.9rem;
     color: rgba(247, 232, 212, 0.6);
     font-family: 'Inter', system-ui, sans-serif;
