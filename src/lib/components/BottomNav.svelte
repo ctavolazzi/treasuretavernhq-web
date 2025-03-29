@@ -18,6 +18,26 @@
   // Toggle the expandable menu
   function toggleMenu() {
     isMenuOpen = !isMenuOpen;
+
+    // If menu is now open, check for top edge of screen
+    if (isMenuOpen && menuElement) {
+      // Wait a tiny bit for the menu to be rendered
+      setTimeout(() => {
+        const menuRect = menuElement.getBoundingClientRect();
+        if (menuRect.top < 10) {
+          // Menu would be cut off at top, adjust to display below the button
+          menuElement.style.bottom = 'auto';
+          menuElement.style.top = '60px'; // Height of button + some space
+          // Move the pointer to point upward
+          menuElement.classList.add('flip-pointer');
+        } else {
+          // Reset to default position
+          menuElement.style.bottom = '70px';
+          menuElement.style.top = 'auto';
+          menuElement.classList.remove('flip-pointer');
+        }
+      }, 10);
+    }
   }
 
   // Toggle music playback
@@ -256,12 +276,20 @@
     bottom: 40px;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 9999;
+    z-index: 99999;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: bottom 0.3s ease;
-    padding: 0 20px;
+    padding: 0 30px;
+    pointer-events: none;
+  }
+
+  /* Expand/Collapse Button and filigree should receive pointer events */
+  .expand-btn,
+  .bottom-nav::before,
+  .bottom-nav::after {
+    pointer-events: auto;
   }
 
   /* Filigree decorations */
@@ -271,38 +299,107 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    width: 80px;
-    height: 24px;
+    width: 90px;
+    height: 40px;
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
     filter: drop-shadow(0 0 3px rgba(207, 167, 93, 0.6));
     opacity: 0.85;
     transition: all 0.3s ease;
+    animation: shimmer 3s infinite ease-in-out;
+    max-width: 30vw;
   }
 
   .bottom-nav::before {
     right: calc(100% - 10px);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 30' width='100' height='30'%3E%3Cpath d='M100,15 C90,15 85,5 80,5 C75,5 75,15 70,15 C65,15 65,10 60,10 C55,10 55,15 50,15 C45,15 40,5 30,5 C20,5 10,15 0,15' stroke='%23cfa75d' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='78' cy='15' r='3' fill='%23cfa75d' opacity='0.8'/%3E%3Ccircle cx='60' cy='10' r='2' fill='%23cfa75d' opacity='0.6'/%3E%3Ccircle cx='40' cy='10' r='2' fill='%23cfa75d' opacity='0.6'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 40' width='140' height='40'%3E%3Cpath d='M140,20 C130,20 125,10 115,10 C105,10 100,20 90,20 C80,20 75,15 65,15 C55,15 50,20 40,20 C30,20 20,10 10,10 C0,10 0,20 0,20' stroke='%23cfa75d' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3Cpath d='M0,20 C2,15 0,10 0,20 M0,20 C-2,25 0,30 0,20' stroke='%23cfa75d' stroke-width='1' fill='none'/%3E%3C!-- Left spiral decorations --%3E%3Cpath d='M10,10 C8,8 6,7 4,7 C2,7 1,8 1,10 C1,12 2,14 4,14 C6,14 8,12 8,10 C8,8 7,6 5,6 C3,6 1,8 2,10 C3,12 5,12 7,11' stroke='%23cfa75d' stroke-width='0.8' fill='none'/%3E%3C!-- Right spiral decorations --%3E%3Cpath d='M115,10 C118,8 119,6 119,4 C119,2 118,1 116,1 C114,1 112,2 112,4 C112,6 114,8 116,8 C118,8 120,7 120,5 C120,3 118,1 116,2 C114,3 114,5 115,7 C116,9 118,10 120,9' stroke='%23cfa75d' stroke-width='0.8' fill='none'/%3E%3C!-- Center spiral decoration --%3E%3Cpath d='M64,15 C62,13 60,12 59,12 C58,12 57,13 57,14 C57,15 58,16 59,16 C60,16 61,15.5 61,14.5 C61,13.5 60.5,13 59.5,13 C58.5,13 58,13.5 58.5,14.5 C59,15.5 60,15.5 61,15' stroke='%23cfa75d' stroke-width='0.7' fill='none'/%3E%3C!-- Decorative circles --%3E%3Ccircle cx='90' cy='20' r='1.5' fill='%23cfa75d' opacity='0.9'/%3E%3Ccircle cx='65' cy='15' r='1.5' fill='%23cfa75d' opacity='0.9'/%3E%3Ccircle cx='40' cy='20' r='1.5' fill='%23cfa75d' opacity='0.9'/%3E%3Ccircle cx='115' cy='10' r='1.2' fill='%23cfa75d' opacity='0.8'/%3E%3Ccircle cx='10' cy='10' r='1.2' fill='%23cfa75d' opacity='0.8'/%3E%3C!-- Small dots pattern --%3E%3Ccircle cx='80' cy='18' r='0.8' fill='%23cfa75d' opacity='0.7'/%3E%3Ccircle cx='75' cy='17' r='0.6' fill='%23cfa75d' opacity='0.7'/%3E%3Ccircle cx='70' cy='16' r='0.7' fill='%23cfa75d' opacity='0.8'/%3E%3Ccircle cx='55' cy='16' r='0.7' fill='%23cfa75d' opacity='0.8'/%3E%3Ccircle cx='50' cy='17' r='0.6' fill='%23cfa75d' opacity='0.7'/%3E%3Ccircle cx='45' cy='18' r='0.8' fill='%23cfa75d' opacity='0.7'/%3E%3C!-- Decorative flourishes --%3E%3Cpath d='M140,20 L135,15 M140,20 L135,25' stroke='%23cfa75d' stroke-width='0.8' opacity='0.8'/%3E%3Cpath d='M0,20 L5,15 M0,20 L5,25' stroke='%23cfa75d' stroke-width='0.8' opacity='0.8'/%3E%3Cpath d='M135,15 C133,12 131,12 132,15 M135,25 C133,28 131,28 132,25' stroke='%23cfa75d' stroke-width='0.6' opacity='0.7' stroke-linecap='round'/%3E%3Cpath d='M5,15 C7,12 9,12 8,15 M5,25 C7,28 9,28 8,25' stroke='%23cfa75d' stroke-width='0.6' opacity='0.7' stroke-linecap='round'/%3E%3C/svg%3E");
   }
 
   .bottom-nav::after {
     left: calc(100% - 10px);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 30' width='100' height='30'%3E%3Cpath d='M0,15 C10,15 15,5 20,5 C25,5 25,15 30,15 C35,15 35,10 40,10 C45,10 45,15 50,15 C55,15 60,5 70,5 C80,5 90,15 100,15' stroke='%23cfa75d' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='22' cy='15' r='3' fill='%23cfa75d' opacity='0.8'/%3E%3Ccircle cx='40' cy='10' r='2' fill='%23cfa75d' opacity='0.6'/%3E%3Ccircle cx='60' cy='10' r='2' fill='%23cfa75d' opacity='0.6'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 40' width='140' height='40'%3E%3Cpath d='M0,20 C10,20 15,10 25,10 C35,10 40,20 50,20 C60,20 65,15 75,15 C85,15 90,20 100,20 C110,20 120,10 130,10 C140,10 140,20 140,20' stroke='%23cfa75d' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3Cpath d='M140,20 C138,15 140,10 140,20 M140,20 C142,25 140,30 140,20' stroke='%23cfa75d' stroke-width='1' fill='none'/%3E%3C!-- Right spiral decorations --%3E%3Cpath d='M130,10 C132,8 134,7 136,7 C138,7 139,8 139,10 C139,12 138,14 136,14 C134,14 132,12 132,10 C132,8 133,6 135,6 C137,6 139,8 138,10 C137,12 135,12 133,11' stroke='%23cfa75d' stroke-width='0.8' fill='none'/%3E%3C!-- Left spiral decorations --%3E%3Cpath d='M25,10 C22,8 21,6 21,4 C21,2 22,1 24,1 C26,1 28,2 28,4 C28,6 26,8 24,8 C22,8 20,7 20,5 C20,3 22,1 24,2 C26,3 26,5 25,7 C24,9 22,10 20,9' stroke='%23cfa75d' stroke-width='0.8' fill='none'/%3E%3C!-- Center spiral decoration --%3E%3Cpath d='M76,15 C78,13 80,12 81,12 C82,12 83,13 83,14 C83,15 82,16 81,16 C80,16 79,15.5 79,14.5 C79,13.5 79.5,13 80.5,13 C81.5,13 82,13.5 81.5,14.5 C81,15.5 80,15.5 79,15' stroke='%23cfa75d' stroke-width='0.7' fill='none'/%3E%3C!-- Decorative circles --%3E%3Ccircle cx='50' cy='20' r='1.5' fill='%23cfa75d' opacity='0.9'/%3E%3Ccircle cx='75' cy='15' r='1.5' fill='%23cfa75d' opacity='0.9'/%3E%3Ccircle cx='100' cy='20' r='1.5' fill='%23cfa75d' opacity='0.9'/%3E%3Ccircle cx='25' cy='10' r='1.2' fill='%23cfa75d' opacity='0.8'/%3E%3Ccircle cx='130' cy='10' r='1.2' fill='%23cfa75d' opacity='0.8'/%3E%3C!-- Small dots pattern --%3E%3Ccircle cx='60' cy='18' r='0.8' fill='%23cfa75d' opacity='0.7'/%3E%3Ccircle cx='65' cy='17' r='0.6' fill='%23cfa75d' opacity='0.7'/%3E%3Ccircle cx='70' cy='16' r='0.7' fill='%23cfa75d' opacity='0.8'/%3E%3Ccircle cx='85' cy='16' r='0.7' fill='%23cfa75d' opacity='0.8'/%3E%3Ccircle cx='90' cy='17' r='0.6' fill='%23cfa75d' opacity='0.7'/%3E%3Ccircle cx='95' cy='18' r='0.8' fill='%23cfa75d' opacity='0.7'/%3E%3C!-- Decorative flourishes --%3E%3Cpath d='M0,20 L5,15 M0,20 L5,25' stroke='%23cfa75d' stroke-width='0.8' opacity='0.8'/%3E%3Cpath d='M140,20 L135,15 M140,20 L135,25' stroke='%23cfa75d' stroke-width='0.8' opacity='0.8'/%3E%3Cpath d='M5,15 C7,12 9,12 8,15 M5,25 C7,28 9,28 8,25' stroke='%23cfa75d' stroke-width='0.6' opacity='0.7' stroke-linecap='round'/%3E%3Cpath d='M135,15 C133,12 131,12 132,15 M135,25 C133,28 131,28 132,25' stroke='%23cfa75d' stroke-width='0.6' opacity='0.7' stroke-linecap='round'/%3E%3C/svg%3E");
   }
 
+  /* Add shimmer animation to filigree */
+  @keyframes shimmer {
+    0% { filter: drop-shadow(0 0 3px rgba(207, 167, 93, 0.6)); }
+    50% { filter: drop-shadow(0 0 5px rgba(207, 167, 93, 0.9)); }
+    100% { filter: drop-shadow(0 0 3px rgba(207, 167, 93, 0.6)); }
+  }
+
+  /* Make the filigree larger on hover */
   .bottom-nav:hover::before,
   .bottom-nav:hover::after {
+    animation: none;
+    filter: drop-shadow(0 0 7px rgba(207, 167, 93, 1.0));
+    width: 100px;
     opacity: 1;
-    filter: drop-shadow(0 0 5px rgba(207, 167, 93, 0.8));
   }
 
   /* Mobile responsiveness adjustments */
   @media (max-width: 768px) {
+    .bottom-nav {
+      bottom: 30px;
+      padding: 0 20px; /* Slightly reduced padding on mobile */
+    }
+
+    .expand-btn {
+      width: 48px;
+      height: 48px;
+      font-size: 1.5rem;
+    }
+
     .bottom-nav::before,
     .bottom-nav::after {
-      width: 60px;
-      height: 20px;
+      width: 70px;
+      height: 30px;
+      max-width: 25vw; /* Ensure they're proportionally sized on mobile */
+    }
+
+    .bottom-nav:hover::before,
+    .bottom-nav:hover::after {
+      width: 80px;
+    }
+
+    .menu {
+      width: 230px;
+      padding: 15px;
+      max-width: 80vw; /* Ensure menu isn't wider than screen */
+    }
+
+    .music-control button {
+      padding: 6px 12px;
+      font-size: 0.9rem;
+    }
+
+    .menu a {
+      font-size: 1rem;
+    }
+  }
+
+  /* Ultra small screens */
+  @media (max-width: 360px) {
+    .bottom-nav {
+      padding: 0 15px;
+    }
+
+    .bottom-nav::before,
+    .bottom-nav::after {
+      width: 50px;
+      height: 25px;
+      max-width: 20vw;
+    }
+
+    .expand-btn {
+      width: 44px;
+      height: 44px;
+      font-size: 1.3rem;
+    }
+
+    .menu {
+      max-width: 90vw;
+      width: 200px;
     }
   }
 
@@ -346,6 +443,8 @@
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), 0 0 10px rgba(207, 167, 93, 0.2);
     opacity: 0;
     transition: transform 0.3s ease, opacity 0.3s ease;
+    z-index: 2;
+    pointer-events: auto;
   }
 
   /* Speech bubble pointer */
@@ -360,6 +459,15 @@
     border-left: 10px solid transparent;
     border-right: 10px solid transparent;
     border-top: 10px solid #cfa75d;
+    transition: all 0.3s ease;
+  }
+
+  /* Flipped pointer when menu is below the button */
+  .menu.flip-pointer::after {
+    bottom: auto;
+    top: -10px;
+    border-top: none;
+    border-bottom: 10px solid #cfa75d;
   }
 
   /* When menu is open */
@@ -431,35 +539,20 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   }
 
-  /* Mobile responsiveness */
-  @media (max-width: 768px) {
-    .bottom-nav {
-      bottom: 30px;
-    }
+  /* Animation for filigree when menu is toggled */
+  @keyframes filigreeExpand {
+    0% { transform: translateY(-50%) scale(0.9); opacity: 0.7; }
+    50% { transform: translateY(-50%) scale(1.1); opacity: 1; }
+    100% { transform: translateY(-50%) scale(1); opacity: 0.85; }
+  }
 
-    .expand-btn {
-      width: 48px;
-      height: 48px;
-      font-size: 1.5rem;
-    }
-
-    .menu {
-      width: 230px;
-      padding: 15px;
-    }
-
-    .music-control button {
-      padding: 6px 12px;
-      font-size: 0.9rem;
-    }
-
-    .menu a {
-      font-size: 1rem;
-    }
+  .bottom-nav.menu-open::before,
+  .bottom-nav.menu-open::after {
+    animation: filigreeExpand 0.5s ease forwards;
   }
 </style>
 
-<div class="bottom-nav" bind:this={bottomNavElement}>
+<div class="bottom-nav" class:menu-open={isMenuOpen} bind:this={bottomNavElement}>
   <!-- Expand/Collapse Button -->
   <button
     class="expand-btn"
