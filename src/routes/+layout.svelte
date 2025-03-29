@@ -14,7 +14,8 @@
   const navOptions = [
     { label: 'Home', href: '/' },
     { label: 'Tales', href: '/tavern-tales' },
-    { label: 'Newsletter', href: '/newsletter' }
+    { label: 'Newsletter', href: '/newsletter' },
+    { label: 'Contact', href: '/contact' }
   ];
 
   function toggleBanner() {
