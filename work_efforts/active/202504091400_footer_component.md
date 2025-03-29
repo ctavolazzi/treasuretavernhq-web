@@ -30,3 +30,6 @@ Add a simple footer element and component to the layout page that will appear co
 
 ### Updates
 - 2025-04-10: Removed "Create Account" link from the footer to simplify navigation options
+- 2025-04-10: Removed redundant footer from newsletter page since the global footer from layout is already displayed
+- 2025-04-10: Removed redundant footer from tavern tales page for consistency with other pages
+- 2025-04-10: Fixed excessive spacing at the bottom of the newsletter page by reducing CTA section bottom padding

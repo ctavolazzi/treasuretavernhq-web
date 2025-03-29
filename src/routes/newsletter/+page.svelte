@@ -160,7 +160,7 @@
 
   .cta-section {
     background: rgba(19, 17, 28, 0.95);
-    padding-bottom: 6rem;
+    padding-bottom: 2rem;
   }
 
   .container {
@@ -458,14 +458,6 @@
     font-family: 'Inter', system-ui, sans-serif;
   }
 
-  .footer {
-    background: rgba(19, 17, 28, 1);
-    padding: 2rem;
-    text-align: center;
-    border-top: 1px solid rgba(189, 150, 72, 0.2);
-  }
-
-  .footer-text {
     font-size: 0.9rem;
     color: rgba(247, 232, 212, 0.6);
     font-family: 'Inter', system-ui, sans-serif;
@@ -935,9 +927,4 @@
       </div>
     </div>
   </section>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <p class="footer-text">© {currentYear} Treasure Tavern. All rights reserved.</p>
-  </footer>
 </div>

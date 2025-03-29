@@ -975,8 +975,4 @@
       </div>
     </section>
   </main>
-
-  <footer class="footer">
-    <p class="footer-text">© {new Date().getFullYear()} Treasure Tavern. All rights reserved.</p>
-  </footer>
 </div>
