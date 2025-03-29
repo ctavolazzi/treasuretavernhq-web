@@ -281,8 +281,10 @@
     align-items: center;
     justify-content: center;
     transition: bottom 0.3s ease;
-    padding: 0 30px;
+    padding: 0 20px; /* Reduced padding - we'll position the filigree better */
     pointer-events: none;
+    width: auto; /* No longer spanning full width */
+    max-width: 300px; /* Constrain the width to keep filigree close */
   }
 
   /* Expand/Collapse Button and filigree should receive pointer events */
@@ -299,49 +301,53 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    width: 90px;
-    height: 40px;
+    width: 100px;
+    height: 28px;
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
     filter: drop-shadow(0 0 3px rgba(207, 167, 93, 0.6));
-    opacity: 0.85;
+    opacity: 0.9;
     transition: all 0.3s ease;
-    animation: shimmer 3s infinite ease-in-out;
-    max-width: 30vw;
+    animation: shimmer 4s infinite ease-in-out;
   }
 
   .bottom-nav::before {
-    right: calc(100% - 10px);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 40' width='140' height='40'%3E%3Cpath d='M140,20 C130,20 125,10 115,10 C105,10 100,20 90,20 C80,20 75,15 65,15 C55,15 50,20 40,20 C30,20 20,10 10,10 C0,10 0,20 0,20' stroke='%23cfa75d' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3Cpath d='M0,20 C2,15 0,10 0,20 M0,20 C-2,25 0,30 0,20' stroke='%23cfa75d' stroke-width='1' fill='none'/%3E%3C!-- Left spiral decorations --%3E%3Cpath d='M10,10 C8,8 6,7 4,7 C2,7 1,8 1,10 C1,12 2,14 4,14 C6,14 8,12 8,10 C8,8 7,6 5,6 C3,6 1,8 2,10 C3,12 5,12 7,11' stroke='%23cfa75d' stroke-width='0.8' fill='none'/%3E%3C!-- Right spiral decorations --%3E%3Cpath d='M115,10 C118,8 119,6 119,4 C119,2 118,1 116,1 C114,1 112,2 112,4 C112,6 114,8 116,8 C118,8 120,7 120,5 C120,3 118,1 116,2 C114,3 114,5 115,7 C116,9 118,10 120,9' stroke='%23cfa75d' stroke-width='0.8' fill='none'/%3E%3C!-- Center spiral decoration --%3E%3Cpath d='M64,15 C62,13 60,12 59,12 C58,12 57,13 57,14 C57,15 58,16 59,16 C60,16 61,15.5 61,14.5 C61,13.5 60.5,13 59.5,13 C58.5,13 58,13.5 58.5,14.5 C59,15.5 60,15.5 61,15' stroke='%23cfa75d' stroke-width='0.7' fill='none'/%3E%3C!-- Decorative circles --%3E%3Ccircle cx='90' cy='20' r='1.5' fill='%23cfa75d' opacity='0.9'/%3E%3Ccircle cx='65' cy='15' r='1.5' fill='%23cfa75d' opacity='0.9'/%3E%3Ccircle cx='40' cy='20' r='1.5' fill='%23cfa75d' opacity='0.9'/%3E%3Ccircle cx='115' cy='10' r='1.2' fill='%23cfa75d' opacity='0.8'/%3E%3Ccircle cx='10' cy='10' r='1.2' fill='%23cfa75d' opacity='0.8'/%3E%3C!-- Small dots pattern --%3E%3Ccircle cx='80' cy='18' r='0.8' fill='%23cfa75d' opacity='0.7'/%3E%3Ccircle cx='75' cy='17' r='0.6' fill='%23cfa75d' opacity='0.7'/%3E%3Ccircle cx='70' cy='16' r='0.7' fill='%23cfa75d' opacity='0.8'/%3E%3Ccircle cx='55' cy='16' r='0.7' fill='%23cfa75d' opacity='0.8'/%3E%3Ccircle cx='50' cy='17' r='0.6' fill='%23cfa75d' opacity='0.7'/%3E%3Ccircle cx='45' cy='18' r='0.8' fill='%23cfa75d' opacity='0.7'/%3E%3C!-- Decorative flourishes --%3E%3Cpath d='M140,20 L135,15 M140,20 L135,25' stroke='%23cfa75d' stroke-width='0.8' opacity='0.8'/%3E%3Cpath d='M0,20 L5,15 M0,20 L5,25' stroke='%23cfa75d' stroke-width='0.8' opacity='0.8'/%3E%3Cpath d='M135,15 C133,12 131,12 132,15 M135,25 C133,28 131,28 132,25' stroke='%23cfa75d' stroke-width='0.6' opacity='0.7' stroke-linecap='round'/%3E%3Cpath d='M5,15 C7,12 9,12 8,15 M5,25 C7,28 9,28 8,25' stroke='%23cfa75d' stroke-width='0.6' opacity='0.7' stroke-linecap='round'/%3E%3C/svg%3E");
+    right: 100%; /* Position at the right edge of the container */
+    margin-right: 8px; /* Increased margin for better visual spacing */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 40' width='140' height='40'%3E%3Cdefs%3E%3ClinearGradient id='gold1' x1='0%25' y1='0%25' x2='100%25' y2='0%25'%3E%3Cstop offset='0%25' stop-color='%23cfa75d' stop-opacity='0.3'/%3E%3Cstop offset='50%25' stop-color='%23e5c989' stop-opacity='0.8'/%3E%3Cstop offset='100%25' stop-color='%23cfa75d' stop-opacity='0.7'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M140,20 C130,20 125,10 115,10 C105,10 100,20 90,20 C80,20 75,15 65,15 C55,15 50,20 40,20 C30,20 20,10 10,10 C0,10 0,20 0,20' stroke='url(%23gold1)' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3Cpath d='M10,10 C8,8 6,7 4,7 C2,7 1,8 1,10 C1,12 2,14 4,14 C6,14 8,12 8,10 C8,8 7,6 5,6 C3,6 1,8 2,10 C3,12 5,12 7,11' stroke='%23cfa75d' stroke-width='0.8' fill='none'/%3E%3Cpath d='M115,10 C118,8 119,6 119,4 C119,2 118,1 116,1 C114,1 112,2 112,4 C112,6 114,8 116,8 C118,8 120,7 120,5 C120,3 118,1 116,2 C114,3 114,5 115,7 C116,9 118,10 120,9' stroke='%23cfa75d' stroke-width='0.8' fill='none'/%3E%3Cpath d='M65,15 C63,13 61,12 60,11 C59,10 59,8 61,8 C63,8 65,10 65,12 C65,14 63,16 61,15 C59,14 60,12 62,12 C64,12 64,14 62,15' stroke='%23e0b66d' stroke-width='0.7' fill='none'/%3E%3Cpath d='M40,20 C38,18 36,17 35,16 C34,15 34,13 36,13 C38,13 40,15 40,17 C40,19 38,21 36,20 C34,19 35,17 37,17 C39,17 39,19 37,20' stroke='%23e0b66d' stroke-width='0.7' fill='none'/%3E%3Ccircle cx='90' cy='20' r='1.5' fill='%23e0b66d' opacity='0.9'/%3E%3Ccircle cx='65' cy='15' r='1.5' fill='%23e0b66d' opacity='0.9'/%3E%3Ccircle cx='40' cy='20' r='1.5' fill='%23e0b66d' opacity='0.9'/%3E%3Ccircle cx='115' cy='10' r='1.2' fill='%23e0b66d' opacity='0.8'/%3E%3Ccircle cx='10' cy='10' r='1.2' fill='%23e0b66d' opacity='0.8'/%3E%3Ccircle cx='80' cy='18' r='0.8' fill='%23e0b66d' opacity='0.7'/%3E%3Ccircle cx='75' cy='17' r='0.6' fill='%23e0b66d' opacity='0.7'/%3E%3Ccircle cx='70' cy='16' r='0.7' fill='%23e0b66d' opacity='0.8'/%3E%3Ccircle cx='55' cy='16' r='0.7' fill='%23e0b66d' opacity='0.8'/%3E%3Ccircle cx='50' cy='17' r='0.6' fill='%23e0b66d' opacity='0.7'/%3E%3Ccircle cx='45' cy='18' r='0.8' fill='%23e0b66d' opacity='0.7'/%3E%3Cpath d='M140,20 L135,16 M140,20 L135,24' stroke='%23e0b66d' stroke-width='0.8' opacity='0.8'/%3E%3Cpath d='M0,20 L5,16 M0,20 L5,24' stroke='%23e0b66d' stroke-width='0.8' opacity='0.8'/%3E%3Cpath d='M135,16 C134,14 132,14 133,16 C134,18 136,18 137,16 M135,24 C134,26 132,26 133,24 C134,22 136,22 137,24' stroke='%23cfa75d' stroke-width='0.6' opacity='0.7' stroke-linecap='round'/%3E%3Cpath d='M5,16 C6,14 8,14 7,16 C6,18 4,18 3,16 M5,24 C6,26 8,26 7,24 C6,22 4,22 3,24' stroke='%23cfa75d' stroke-width='0.6' opacity='0.7' stroke-linecap='round'/%3E%3C/svg%3E");
   }
 
   .bottom-nav::after {
-    left: calc(100% - 10px);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 40' width='140' height='40'%3E%3Cpath d='M0,20 C10,20 15,10 25,10 C35,10 40,20 50,20 C60,20 65,15 75,15 C85,15 90,20 100,20 C110,20 120,10 130,10 C140,10 140,20 140,20' stroke='%23cfa75d' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3Cpath d='M140,20 C138,15 140,10 140,20 M140,20 C142,25 140,30 140,20' stroke='%23cfa75d' stroke-width='1' fill='none'/%3E%3C!-- Right spiral decorations --%3E%3Cpath d='M130,10 C132,8 134,7 136,7 C138,7 139,8 139,10 C139,12 138,14 136,14 C134,14 132,12 132,10 C132,8 133,6 135,6 C137,6 139,8 138,10 C137,12 135,12 133,11' stroke='%23cfa75d' stroke-width='0.8' fill='none'/%3E%3C!-- Left spiral decorations --%3E%3Cpath d='M25,10 C22,8 21,6 21,4 C21,2 22,1 24,1 C26,1 28,2 28,4 C28,6 26,8 24,8 C22,8 20,7 20,5 C20,3 22,1 24,2 C26,3 26,5 25,7 C24,9 22,10 20,9' stroke='%23cfa75d' stroke-width='0.8' fill='none'/%3E%3C!-- Center spiral decoration --%3E%3Cpath d='M76,15 C78,13 80,12 81,12 C82,12 83,13 83,14 C83,15 82,16 81,16 C80,16 79,15.5 79,14.5 C79,13.5 79.5,13 80.5,13 C81.5,13 82,13.5 81.5,14.5 C81,15.5 80,15.5 79,15' stroke='%23cfa75d' stroke-width='0.7' fill='none'/%3E%3C!-- Decorative circles --%3E%3Ccircle cx='50' cy='20' r='1.5' fill='%23cfa75d' opacity='0.9'/%3E%3Ccircle cx='75' cy='15' r='1.5' fill='%23cfa75d' opacity='0.9'/%3E%3Ccircle cx='100' cy='20' r='1.5' fill='%23cfa75d' opacity='0.9'/%3E%3Ccircle cx='25' cy='10' r='1.2' fill='%23cfa75d' opacity='0.8'/%3E%3Ccircle cx='130' cy='10' r='1.2' fill='%23cfa75d' opacity='0.8'/%3E%3C!-- Small dots pattern --%3E%3Ccircle cx='60' cy='18' r='0.8' fill='%23cfa75d' opacity='0.7'/%3E%3Ccircle cx='65' cy='17' r='0.6' fill='%23cfa75d' opacity='0.7'/%3E%3Ccircle cx='70' cy='16' r='0.7' fill='%23cfa75d' opacity='0.8'/%3E%3Ccircle cx='85' cy='16' r='0.7' fill='%23cfa75d' opacity='0.8'/%3E%3Ccircle cx='90' cy='17' r='0.6' fill='%23cfa75d' opacity='0.7'/%3E%3Ccircle cx='95' cy='18' r='0.8' fill='%23cfa75d' opacity='0.7'/%3E%3C!-- Decorative flourishes --%3E%3Cpath d='M0,20 L5,15 M0,20 L5,25' stroke='%23cfa75d' stroke-width='0.8' opacity='0.8'/%3E%3Cpath d='M140,20 L135,15 M140,20 L135,25' stroke='%23cfa75d' stroke-width='0.8' opacity='0.8'/%3E%3Cpath d='M5,15 C7,12 9,12 8,15 M5,25 C7,28 9,28 8,25' stroke='%23cfa75d' stroke-width='0.6' opacity='0.7' stroke-linecap='round'/%3E%3Cpath d='M135,15 C133,12 131,12 132,15 M135,25 C133,28 131,28 132,25' stroke='%23cfa75d' stroke-width='0.6' opacity='0.7' stroke-linecap='round'/%3E%3C/svg%3E");
+    left: 100%; /* Position at the left edge of the container */
+    margin-left: 8px; /* Increased margin for better visual spacing */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 40' width='140' height='40'%3E%3Cdefs%3E%3ClinearGradient id='gold2' x1='100%25' y1='0%25' x2='0%25' y2='0%25'%3E%3Cstop offset='0%25' stop-color='%23cfa75d' stop-opacity='0.3'/%3E%3Cstop offset='50%25' stop-color='%23e5c989' stop-opacity='0.8'/%3E%3Cstop offset='100%25' stop-color='%23cfa75d' stop-opacity='0.7'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M0,20 C10,20 15,10 25,10 C35,10 40,20 50,20 C60,20 65,15 75,15 C85,15 90,20 100,20 C110,20 120,10 130,10 C140,10 140,20 140,20' stroke='url(%23gold2)' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3Cpath d='M130,10 C132,8 134,7 136,7 C138,7 139,8 139,10 C139,12 138,14 136,14 C134,14 132,12 132,10 C132,8 133,6 135,6 C137,6 139,8 138,10 C137,12 135,12 133,11' stroke='%23cfa75d' stroke-width='0.8' fill='none'/%3E%3Cpath d='M25,10 C22,8 21,6 21,4 C21,2 22,1 24,1 C26,1 28,2 28,4 C28,6 26,8 24,8 C22,8 20,7 20,5 C20,3 22,1 24,2 C26,3 26,5 25,7 C24,9 22,10 20,9' stroke='%23cfa75d' stroke-width='0.8' fill='none'/%3E%3Cpath d='M75,15 C77,13 79,12 80,11 C81,10 81,8 79,8 C77,8 75,10 75,12 C75,14 77,16 79,15 C81,14 80,12 78,12 C76,12 76,14 78,15' stroke='%23e0b66d' stroke-width='0.7' fill='none'/%3E%3Cpath d='M100,20 C102,18 104,17 105,16 C106,15 106,13 104,13 C102,13 100,15 100,17 C100,19 102,21 104,20 C106,19 105,17 103,17 C101,17 101,19 103,20' stroke='%23e0b66d' stroke-width='0.7' fill='none'/%3E%3Ccircle cx='50' cy='20' r='1.5' fill='%23e0b66d' opacity='0.9'/%3E%3Ccircle cx='75' cy='15' r='1.5' fill='%23e0b66d' opacity='0.9'/%3E%3Ccircle cx='100' cy='20' r='1.5' fill='%23e0b66d' opacity='0.9'/%3E%3Ccircle cx='25' cy='10' r='1.2' fill='%23e0b66d' opacity='0.8'/%3E%3Ccircle cx='130' cy='10' r='1.2' fill='%23e0b66d' opacity='0.8'/%3E%3Ccircle cx='60' cy='18' r='0.8' fill='%23e0b66d' opacity='0.7'/%3E%3Ccircle cx='65' cy='17' r='0.6' fill='%23e0b66d' opacity='0.7'/%3E%3Ccircle cx='70' cy='16' r='0.7' fill='%23e0b66d' opacity='0.8'/%3E%3Ccircle cx='85' cy='16' r='0.7' fill='%23e0b66d' opacity='0.8'/%3E%3Ccircle cx='90' cy='17' r='0.6' fill='%23e0b66d' opacity='0.7'/%3E%3Ccircle cx='95' cy='18' r='0.8' fill='%23e0b66d' opacity='0.7'/%3E%3Cpath d='M0,20 L5,16 M0,20 L5,24' stroke='%23e0b66d' stroke-width='0.8' opacity='0.8'/%3E%3Cpath d='M140,20 L135,16 M140,20 L135,24' stroke='%23e0b66d' stroke-width='0.8' opacity='0.8'/%3E%3Cpath d='M5,16 C6,14 8,14 7,16 C6,18 4,18 3,16 M5,24 C6,26 8,26 7,24 C6,22 4,22 3,24' stroke='%23cfa75d' stroke-width='0.6' opacity='0.7' stroke-linecap='round'/%3E%3Cpath d='M135,16 C134,14 132,14 133,16 C134,18 136,18 137,16 M135,24 C134,26 132,26 133,24 C134,22 136,22 137,24' stroke='%23cfa75d' stroke-width='0.6' opacity='0.7' stroke-linecap='round'/%3E%3C/svg%3E");
   }
 
   /* Add shimmer animation to filigree */
   @keyframes shimmer {
-    0% { filter: drop-shadow(0 0 3px rgba(207, 167, 93, 0.6)); }
-    50% { filter: drop-shadow(0 0 5px rgba(207, 167, 93, 0.9)); }
-    100% { filter: drop-shadow(0 0 3px rgba(207, 167, 93, 0.6)); }
+    0% { filter: drop-shadow(0 0 3px rgba(207, 167, 93, 0.6)); opacity: 0.85; }
+    25% { filter: drop-shadow(0 0 4px rgba(207, 167, 93, 0.7)); opacity: 0.9; }
+    50% { filter: drop-shadow(0 0 6px rgba(229, 201, 137, 0.9)); opacity: 1; }
+    75% { filter: drop-shadow(0 0 4px rgba(207, 167, 93, 0.7)); opacity: 0.9; }
+    100% { filter: drop-shadow(0 0 3px rgba(207, 167, 93, 0.6)); opacity: 0.85; }
   }
 
   /* Make the filigree larger on hover */
   .bottom-nav:hover::before,
   .bottom-nav:hover::after {
     animation: none;
-    filter: drop-shadow(0 0 7px rgba(207, 167, 93, 1.0));
-    width: 100px;
+    filter: drop-shadow(0 0 8px rgba(229, 201, 137, 1.0));
+    width: 110px;
     opacity: 1;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* More bouncy animation */
   }
 
   /* Mobile responsiveness adjustments */
   @media (max-width: 768px) {
     .bottom-nav {
       bottom: 30px;
-      padding: 0 20px; /* Slightly reduced padding on mobile */
+      max-width: 220px; /* Smaller container on mobile */
     }
 
     .expand-btn {
@@ -353,8 +359,7 @@
     .bottom-nav::before,
     .bottom-nav::after {
       width: 70px;
-      height: 30px;
-      max-width: 25vw; /* Ensure they're proportionally sized on mobile */
+      height: 25px;
     }
 
     .bottom-nav:hover::before,
@@ -381,14 +386,15 @@
   /* Ultra small screens */
   @media (max-width: 360px) {
     .bottom-nav {
-      padding: 0 15px;
+      max-width: 180px; /* Even smaller container on tiny screens */
     }
 
     .bottom-nav::before,
     .bottom-nav::after {
       width: 50px;
-      height: 25px;
-      max-width: 20vw;
+      height: 20px;
+      margin-right: 5px;
+      margin-left: 5px;
     }
 
     .expand-btn {
@@ -405,8 +411,8 @@
 
   /* Expand/Collapse Button */
   .expand-btn {
-    background-color: #cfa75d;
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    background: radial-gradient(circle, #e0b66d 0%, #cfa75d 60%, #bd9648 100%);
+    border: 1px solid rgba(0, 0, 0, 0.15);
     border-radius: 50%;
     width: 56px;
     height: 56px;
@@ -417,13 +423,52 @@
     color: #1c1c1c;
     font-size: 1.8rem;
     font-weight: bold;
-    transition: all 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3), 0 0 15px rgba(207, 167, 93, 0.4);
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.3);
+    position: relative;
+    z-index: 3;
+  }
+
+  /* Enhanced styling for open state */
+  .expand-btn.open {
+    background: radial-gradient(circle, #e5c989 0%, #cfa75d 70%, #bd9648 100%);
+    box-shadow: 0 0 20px rgba(229, 201, 137, 0.7);
+    transform: scale(1.05);
+  }
+
+  .expand-btn::before {
+    content: "";
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(229, 201, 137, 0), rgba(229, 201, 137, 0.5) 50%, rgba(229, 201, 137, 0) 100%);
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .expand-btn.open::before {
+    opacity: 1;
+    animation: rotate 10s linear infinite;
+  }
+
+  @keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
   }
 
   .expand-btn:hover {
-    transform: scale(1.05);
+    transform: scale(1.08) translateY(-2px);
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4), 0 0 20px rgba(207, 167, 93, 0.5);
+  }
+
+  .expand-btn:active {
+    transform: scale(1.02) translateY(0);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4), 0 0 12px rgba(207, 167, 93, 0.4);
   }
 
   /* Hidden menu that appears above the nav */
@@ -475,6 +520,7 @@
     display: flex;
     opacity: 1;
     transform: translateX(-50%) scale(1);
+    transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
 
   /* Links in the expanded menu */
@@ -541,14 +587,15 @@
 
   /* Animation for filigree when menu is toggled */
   @keyframes filigreeExpand {
-    0% { transform: translateY(-50%) scale(0.9); opacity: 0.7; }
-    50% { transform: translateY(-50%) scale(1.1); opacity: 1; }
-    100% { transform: translateY(-50%) scale(1); opacity: 0.85; }
+    0% { transform: translateY(-50%) scale(0.95); opacity: 0.7; filter: drop-shadow(0 0 3px rgba(207, 167, 93, 0.6)); }
+    50% { transform: translateY(-50%) scale(1.15); opacity: 1; filter: drop-shadow(0 0 8px rgba(229, 201, 137, 0.9)); }
+    100% { transform: translateY(-50%) scale(1); opacity: 0.9; filter: drop-shadow(0 0 5px rgba(207, 167, 93, 0.8)); }
   }
 
   .bottom-nav.menu-open::before,
   .bottom-nav.menu-open::after {
-    animation: filigreeExpand 0.5s ease forwards;
+    animation: filigreeExpand 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    width: 110px;
   }
 </style>
 
@@ -556,6 +603,7 @@
   <!-- Expand/Collapse Button -->
   <button
     class="expand-btn"
+    class:open={isMenuOpen}
     on:click={toggleMenu}
     aria-label={isMenuOpen ? "Close menu" : "Open menu"}
   >
