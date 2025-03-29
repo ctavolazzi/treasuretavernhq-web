@@ -10,6 +10,7 @@
     questions: false,
     story: false,
     features: false,
+    vision: false,
     cta: false
   };
 
@@ -230,8 +231,18 @@
     margin-right: auto;
   }
 
+  .vision-features-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 2rem;
+    margin-top: clamp(1.5rem, 4vw, 2.5rem);
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   @media (min-width: 640px) {
-    .features-grid {
+    .features-grid, .vision-features-grid {
       grid-template-columns: repeat(2, 1fr);
     }
   }
@@ -241,9 +252,14 @@
       grid-template-columns: repeat(3, 1fr);
       gap: 2.5rem;
     }
+
+    .vision-features-grid {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
   }
 
-  .feature-card {
+  .feature-card, .vision-feature-card {
     background: rgba(31, 27, 45, 0.4);
     border-radius: 10px;
     padding: 1.75rem;
@@ -258,7 +274,7 @@
     overflow: hidden;
   }
 
-  .feature-card::before {
+  .feature-card::before, .vision-feature-card::before {
     content: '';
     position: absolute;
     top: 0;
@@ -271,13 +287,13 @@
     transition: transform 0.3s ease;
   }
 
-  .feature-card:hover {
+  .feature-card:hover, .vision-feature-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
     border-color: rgba(189, 150, 72, 0.4);
   }
 
-  .feature-card:hover::before {
+  .feature-card:hover::before, .vision-feature-card:hover::before {
     transform: scaleX(1);
   }
 
@@ -298,7 +314,7 @@
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   }
 
-  .feature-card:hover .feature-icon {
+  .feature-card:hover .feature-icon, .vision-feature-card:hover .feature-icon {
     transform: scale(1.1);
     background: rgba(158, 97, 227, 0.15);
     box-shadow: 0 5px 15px rgba(158, 97, 227, 0.2);
@@ -699,6 +715,11 @@
           <h3>Is this family-friendly?</h3>
           <p>Yes! Our content is designed to be enjoyed by fantasy fans of all ages. While some tales may have mild fantasy elements, we maintain a family-friendly atmosphere.</p>
         </div>
+        <div class="question-item" in:fly={{ y: 30, duration: 500, delay: 575 }}>
+          <i class="fas fa-gamepad"></i>
+          <h3>What is your future vision?</h3>
+          <p>We're building toward an interactive AI-generated gaming experience where users can contribute to our shared universe through writing, art creation, and gameplay, all within the canonical Treasure Tavern world.</p>
+        </div>
         <div class="question-item" in:fly={{ y: 30, duration: 500, delay: 600 }}>
           <i class="fas fa-globe"></i>
           <h3>Is this available worldwide?</h3>
@@ -808,6 +829,71 @@
     <div class="section-divider">
       <div class="divider-icon">
         <i class="fas fa-crown"></i>
+      </div>
+    </div>
+
+    <section class="about-section" data-section="vision">
+      {#if sectionsVisible.vision}
+        <h2 class="section-title" in:fade={{ duration: 500 }}>Our Ultimate Vision</h2>
+        <div class="section-content" in:fly={{ y: 20, duration: 500, delay: 100 }}>
+          <p>
+            The ultimate vision of Treasure Tavern is to create a groundbreaking interactive AI-generated gaming experience where many patrons can collaboratively contribute to our shared universe in real-time through writing, art generation, and gameplay.
+          </p>
+          <p>
+            Imagine a world where you don't just read stories - you help create them. Where the art you envision can be brought to life instantly. Where your decisions and contributions shape the canonical history of our ever-expanding realm. This is the future we're building toward.
+          </p>
+          <p>
+            Soon, you'll be able to collaborate with fellow adventurers on epic sagas, generate stunning artwork of characters and locations, play through interactive adventures set in our shared universe, and watch as your creations become woven into the fabric of the Tavern's official lore.
+          </p>
+        </div>
+
+        <div class="vision-features-grid">
+          <div class="vision-feature-card" in:fly={{ y: 20, duration: 500, delay: 150 }}>
+            <div class="feature-icon">
+              <i class="fas fa-pen-fancy"></i>
+            </div>
+            <h3 class="feature-title">Collaborative Storytelling</h3>
+            <p class="feature-description">
+              Work with AI assistance to craft tales that become part of our shared universe, with full creative control and guidance.
+            </p>
+          </div>
+
+          <div class="vision-feature-card" in:fly={{ y: 20, duration: 500, delay: 200 }}>
+            <div class="feature-icon">
+              <i class="fas fa-paint-brush"></i>
+            </div>
+            <h3 class="feature-title">Instant Art Creation</h3>
+            <p class="feature-description">
+              Bring your characters, locations, and scenes to life through AI-powered art generation tools tailored to our fantasy aesthetic.
+            </p>
+          </div>
+
+          <div class="vision-feature-card" in:fly={{ y: 20, duration: 500, delay: 250 }}>
+            <div class="feature-icon">
+              <i class="fas fa-dice-d20"></i>
+            </div>
+            <h3 class="feature-title">Interactive Adventures</h3>
+            <p class="feature-description">
+              Play through dynamically generated quests and scenarios with friends, where each decision impacts the story's direction.
+            </p>
+          </div>
+
+          <div class="vision-feature-card" in:fly={{ y: 20, duration: 500, delay: 300 }}>
+            <div class="feature-icon">
+              <i class="fas fa-users"></i>
+            </div>
+            <h3 class="feature-title">Real-Time Collaboration</h3>
+            <p class="feature-description">
+              Join fellow tavern patrons in live events where you collectively shape the future of our shared universe through your actions.
+            </p>
+          </div>
+        </div>
+      {/if}
+    </section>
+
+    <div class="section-divider">
+      <div class="divider-icon">
+        <i class="fas fa-book-open"></i>
       </div>
     </div>
 

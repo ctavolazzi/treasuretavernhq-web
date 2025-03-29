@@ -376,6 +376,36 @@
       </div>
     </div>
 
+    <!-- Ultimate Vision Section -->
+    <div class="vision-section">
+      <div class="vision-content">
+        <div class="vision-text">
+          <h2 class="vision-title">Our Ultimate Vision</h2>
+          <p class="vision-description">
+            The ultimate vision of Treasure Tavern is to create an interactive AI-generated gaming experience where you can contribute to our shared universe through writing, art, and gameplay—all within our canonical world.
+          </p>
+          <div class="vision-buttons">
+            <a href="/about#vision" class="vision-button primary">
+              <i class="fas fa-crown"></i> Learn About Our Vision
+            </a>
+            <a href="/waitlist" class="vision-button secondary">
+              <i class="fas fa-user-plus"></i> Join the Waitlist
+            </a>
+          </div>
+        </div>
+        <div class="vision-image-container">
+          <picture>
+            <img
+              src="/images/the-bone-king-rune-sword.png"
+              alt="The Bone King's Rune Sword - A legendary artifact from the Treasure Tavern universe"
+              class="vision-image"
+              loading="lazy"
+            />
+          </picture>
+        </div>
+      </div>
+    </div>
+
     <!-- Tavern Atmosphere Section -->
     <div class="tavern-atmosphere">
       <h2 class="atmosphere-title">Tales from Patrons</h2>
@@ -1550,5 +1580,185 @@
     margin-bottom: 0.5rem;
     font-weight: 600;
     text-shadow: 0 0 10px rgba(189, 150, 72, 0.4);
+  }
+
+  /* Ultimate Vision Section Styles */
+  .vision-section {
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+    padding: 2.5rem 2rem;
+    background: linear-gradient(145deg, rgba(31, 27, 45, 0.5) 0%, rgba(43, 29, 52, 0.5) 100%);
+    border-radius: 12px;
+    border: 1px solid rgba(189, 150, 72, 0.2);
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.3), 0 0 15px rgba(189, 150, 72, 0.1);
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .vision-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239e61e3' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    opacity: 0.5;
+    z-index: -1;
+  }
+
+  .vision-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  @media (min-width: 768px) {
+    .vision-content {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .vision-text {
+      flex: 1;
+      text-align: left;
+      margin-bottom: 0;
+      padding-right: 2rem;
+    }
+
+    .vision-image-container {
+      flex: 1;
+      margin: 0;
+    }
+  }
+
+  .vision-text {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .vision-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
+    margin: 0 0 1rem;
+    font-weight: 700;
+    color: #BD9648;
+    text-shadow: 0 0 8px rgba(189, 150, 72, 0.3);
+    position: relative;
+    padding-bottom: 1rem;
+  }
+
+  .vision-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(90deg, rgba(158, 97, 227, 0) 0%, rgba(158, 97, 227, 0.8) 50%, rgba(158, 97, 227, 0) 100%);
+  }
+
+  @media (min-width: 768px) {
+    .vision-title::after {
+      left: 0;
+      transform: none;
+    }
+  }
+
+  .vision-description {
+    font-family: 'Spectral', serif;
+    font-size: clamp(1.1rem, 2vw, 1.25rem);
+    margin: 0 auto 1.8rem;
+    text-align: center;
+    max-width: 700px;
+    color: rgba(247, 232, 212, 0.92);
+    line-height: 1.6;
+  }
+
+  @media (min-width: 768px) {
+    .vision-description {
+      margin-left: 0;
+      margin-right: 0;
+      text-align: left;
+    }
+  }
+
+  .vision-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  @media (min-width: 768px) {
+    .vision-buttons {
+      justify-content: flex-start;
+    }
+  }
+
+  .vision-button {
+    padding: 0.85rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 180px;
+    justify-content: center;
+  }
+
+  .vision-button.primary {
+    background: linear-gradient(135deg, #9E61E3 0%, #7A3CA3 100%);
+    color: #F7E8D4;
+  }
+
+  .vision-button.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(122, 60, 163, 0.4);
+    background: linear-gradient(135deg, #AF71F4 0%, #8547B0 100%);
+  }
+
+  .vision-button.secondary {
+    background: linear-gradient(135deg, #BD9648 0%, #9A7A3D 100%);
+    color: #F7E8D4;
+  }
+
+  .vision-button.secondary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(189, 150, 72, 0.4);
+    background: linear-gradient(135deg, #D4A852 0%, #B99148 100%);
+  }
+
+  .vision-image-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .vision-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(189, 150, 72, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .vision-image:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4), 0 0 15px rgba(189, 150, 72, 0.2);
   }
 </style>
