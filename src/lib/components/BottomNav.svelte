@@ -2,7 +2,7 @@
   import { onMount, onDestroy } from 'svelte';
 
   // Props for customization
-  export let navOptions: { label: string; href: string; action?: () => void }[] = [];
+  export let navOptions: { label: string; href: string; action?: () => void; special?: boolean; icon?: string }[] = [];
   export let enableMusicControl: boolean = true;
   export let audioSrc: string = '/audio/TheTavernOak.mp3';
   export let audioTitle: string = 'Tavern Music';
@@ -550,6 +550,60 @@
     color: #cfa75d;
   }
 
+  /* Special styling for gold highlighted links */
+  .menu a.special {
+    color: #e0b66d;
+    background: linear-gradient(to right, rgba(189, 150, 72, 0), rgba(189, 150, 72, 0.15), rgba(189, 150, 72, 0));
+    border-radius: 4px;
+    font-weight: 600;
+    text-shadow: 0 0 8px rgba(189, 150, 72, 0.4);
+    position: relative;
+    overflow: hidden;
+    padding: 12px 0;
+    margin: 5px 0;
+    border: 1px solid rgba(189, 150, 72, 0.2);
+  }
+
+  .menu a.special i {
+    margin-right: 8px;
+    font-size: 0.9em;
+  }
+
+  .menu a.special::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(229, 201, 137, 0.2),
+      transparent
+    );
+    transition: left 0.8s ease;
+  }
+
+  .menu a.special:hover {
+    color: #e5c989;
+    text-shadow: 0 0 12px rgba(229, 201, 137, 0.7);
+    background: linear-gradient(to right, rgba(189, 150, 72, 0), rgba(189, 150, 72, 0.25), rgba(189, 150, 72, 0));
+    transform: translateY(-2px);
+    border: 1px solid rgba(189, 150, 72, 0.4);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2), 0 0 15px rgba(189, 150, 72, 0.2);
+  }
+
+  .menu a.special:hover::before {
+    left: 100%;
+    animation: shimmerEffect 1.5s infinite;
+  }
+
+  @keyframes shimmerEffect {
+    0% { left: -100%; }
+    100% { left: 100%; }
+  }
+
   /* Music control row at top of the expanded menu */
   .music-control {
     display: flex;
@@ -626,6 +680,7 @@
     {#each navOptions as option}
       <a
         href={option.href || 'javascript:void(0)'}
+        class={option.special ? 'special' : ''}
         on:click={(e) => {
           const shouldPrevent = !handleOptionClick(option);
           if (shouldPrevent) {
@@ -633,7 +688,7 @@
           }
         }}
       >
-        {option.label}
+        {#if option.icon}<i class={`fas ${option.icon}`}></i> {/if}{option.label}
       </a>
     {/each}
   </div>
