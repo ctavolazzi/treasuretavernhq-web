@@ -506,6 +506,7 @@
       <div class="vision-content">
         <div class="vision-text">
           <h2 class="vision-title">Our Ultimate Vision</h2>
+          <div class="vision-title-decoration"></div>
           <p class="vision-description">
             The ultimate vision of Treasure Tavern is to create an interactive AI-generated gaming experience where you can contribute to our shared universe through writing, art, and gameplay—all within our canonical world.
           </p>
@@ -534,32 +535,37 @@
     <!-- Tavern Atmosphere Section -->
     <div class="tavern-atmosphere">
       <h2 class="atmosphere-title">Tales from Patrons</h2>
+      <div class="atmosphere-title-decoration"></div>
 
       <div class="testimonials-container">
         <div class="testimonial">
+          <div class="quote-icon">❝</div>
           <p class="atmosphere-quote">
             Lost my lucky dagger in a bet with a goblin last spring. Found it hanging above the hearth at Treasure Tavern three moons later. This place has a way of gathering lost treasures and wayward souls alike. Best mead in seven kingdoms too!
           </p>
-          <p class="quote-attribution">— Durnin Axebeard, Dwarven Merchant</p>
+          <p class="quote-attribution">— Durnin Axebeard, <span class="attribution-title">Dwarven Merchant</span></p>
         </div>
 
         <div class="testimonial">
+          <div class="quote-icon">❝</div>
           <p class="atmosphere-quote">
             My songs have echoed in the halls of emperors, but nowhere do they resonate with such magic as within these tavern walls. The patrons here don't just listen to tales—they live them, breathe them, become part of them.
           </p>
-          <p class="quote-attribution">— Lyra Silverstring, Elven Bard</p>
+          <p class="quote-attribution">— Lyra Silverstring, <span class="attribution-title">Elven Bard</span></p>
         </div>
 
         <div class="testimonial">
+          <div class="quote-icon">❝</div>
           <p class="atmosphere-quote">
             Been traversing the Shadowlands for nigh on forty years. Only place where both the living and spectral feel welcome is Treasure Tavern. The keeper doesn't ask questions when you order two ales but drink alone.
           </p>
-          <p class="quote-attribution">— Morvath the Gray, Spirit Walker</p>
+          <p class="quote-attribution">— Morvath the Gray, <span class="attribution-title">Spirit Walker</span></p>
         </div>
       </div>
 
       <div class="tavern-song">
         <h3 class="song-title">The Tavern Oak</h3>
+        <div class="song-title-decoration"></div>
         <div
           class="scroll-image-container"
           on:click={() => scrollModalOpen = true}
@@ -568,15 +574,17 @@
           on:keydown={(e) => e.key === 'Enter' && (scrollModalOpen = true)}
           aria-label="Open tavern song scroll"
         >
-          <picture>
-            <source srcset={scrollImgWebpSrc} type="image/webp">
-            <img
-              src={scrollImgSrc}
-              alt="The Tavern Oak - A tavern song written on a scroll"
-              class="tavern-song-scroll"
-              loading="lazy"
-            />
-          </picture>
+          <div class="scroll-frame">
+            <picture>
+              <source srcset={scrollImgWebpSrc} type="image/webp">
+              <img
+                src={scrollImgSrc}
+                alt="The Tavern Oak - A tavern song written on a scroll"
+                class="tavern-song-scroll"
+                loading="lazy"
+              />
+            </picture>
+          </div>
           <div class="view-larger-hint">
             <span>Click to enlarge</span>
           </div>
@@ -1792,5 +1800,370 @@
     opacity: 0.7;
     cursor: not-allowed;
     transform: none;
+  }
+
+  /* Add styles for vision section */
+  .vision-section {
+    margin: 4rem auto;
+    padding: 2.5rem 1.5rem;
+    background: linear-gradient(145deg, rgba(31, 27, 45, 0.7) 0%, rgba(43, 29, 52, 0.7) 100%);
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(189, 150, 72, 0.2);
+    max-width: 1100px;
+  }
+
+  .vision-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, rgba(189, 150, 72, 0.1), rgba(189, 150, 72, 0.7), rgba(189, 150, 72, 0.1));
+  }
+
+  .vision-section::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(189, 150, 72, 0.05), rgba(189, 150, 72, 0.3), rgba(189, 150, 72, 0.05));
+  }
+
+  .vision-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  @media (min-width: 768px) {
+    .vision-content {
+      flex-direction: row;
+      align-items: center;
+    }
+  }
+
+  .vision-text {
+    flex: 1;
+    text-align: center;
+  }
+
+  @media (min-width: 768px) {
+    .vision-text {
+      text-align: left;
+      padding-right: 2rem;
+    }
+  }
+
+  .vision-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    color: #D5A44C;
+    margin-bottom: 0.75rem;
+    text-shadow: 0 0 10px rgba(213, 164, 76, 0.4);
+    position: relative;
+    display: inline-block;
+  }
+
+  .vision-title-decoration {
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(90deg, rgba(213, 164, 76, 0.2), rgba(213, 164, 76, 0.8), rgba(213, 164, 76, 0.2));
+    margin: 0 auto 1.5rem;
+    border-radius: 2px;
+  }
+
+  @media (min-width: 768px) {
+    .vision-title-decoration {
+      margin: 0 0 1.5rem;
+    }
+  }
+
+  .vision-description {
+    font-family: 'Spectral', serif;
+    font-size: clamp(1.1rem, 2vw, 1.25rem);
+    color: rgba(247, 232, 212, 0.95);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  @media (min-width: 768px) {
+    .vision-description {
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+
+  .vision-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+  }
+
+  @media (min-width: 768px) {
+    .vision-buttons {
+      justify-content: flex-start;
+    }
+  }
+
+  .vision-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.85rem 1.5rem;
+    border-radius: 6px;
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    letter-spacing: 0.03em;
+  }
+
+  .vision-button.primary {
+    background: linear-gradient(135deg, #BD9648 0%, #E5C989 100%);
+    color: #1F1B2D;
+    border: 1px solid rgba(229, 201, 137, 0.3);
+  }
+
+  .vision-button.primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3), 0 0 15px rgba(229, 201, 137, 0.3);
+    background: linear-gradient(135deg, #E5C989 0%, #BD9648 100%);
+  }
+
+  .vision-button.secondary {
+    background: rgba(31, 27, 45, 0.6);
+    color: #F7E8D4;
+    border: 1px solid rgba(247, 232, 212, 0.2);
+  }
+
+  .vision-button.secondary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    background: rgba(31, 27, 45, 0.8);
+    border-color: rgba(247, 232, 212, 0.3);
+  }
+
+  .vision-image-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .vision-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    border: 1px solid rgba(189, 150, 72, 0.3);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3), 0 0 20px rgba(189, 150, 72, 0.2);
+    transform: rotate(2deg);
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+  }
+
+  .vision-image:hover {
+    transform: rotate(0deg) scale(1.02);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4), 0 0 30px rgba(189, 150, 72, 0.3);
+  }
+
+  /* Tales from Patrons styles */
+  .tavern-atmosphere {
+    margin: 5rem auto;
+    max-width: 1000px;
+    padding: 0 1.5rem;
+  }
+
+  .atmosphere-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    color: #D5A44C;
+    margin-bottom: 0.75rem;
+    text-shadow: 0 0 10px rgba(213, 164, 76, 0.4);
+    text-align: center;
+  }
+
+  .atmosphere-title-decoration {
+    width: 100px;
+    height: 3px;
+    background: linear-gradient(90deg, rgba(213, 164, 76, 0.1), rgba(213, 164, 76, 0.7), rgba(213, 164, 76, 0.1));
+    margin: 0 auto 3rem;
+    border-radius: 2px;
+  }
+
+  .testimonials-container {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 2rem;
+    margin-bottom: 4rem;
+  }
+
+  @media (min-width: 768px) {
+    .testimonials-container {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .testimonial {
+    background: rgba(31, 27, 45, 0.6);
+    padding: 2rem;
+    border-radius: 10px;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(189, 150, 72, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .testimonial:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    border-color: rgba(189, 150, 72, 0.3);
+  }
+
+  .quote-icon {
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    font-size: 3rem;
+    color: rgba(213, 164, 76, 0.3);
+    font-family: serif;
+    line-height: 1;
+  }
+
+  .atmosphere-quote {
+    font-family: 'Spectral', serif;
+    font-size: clamp(1rem, 2vw, 1.1rem);
+    color: rgba(247, 232, 212, 0.9);
+    line-height: 1.6;
+    font-style: italic;
+    margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .quote-attribution {
+    font-family: 'Cinzel', serif;
+    font-size: 0.95rem;
+    color: #BD9648;
+    text-align: right;
+    margin: 0;
+  }
+
+  .attribution-title {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.85rem;
+    color: rgba(247, 232, 212, 0.7);
+    font-style: italic;
+  }
+
+  /* Tavern Oak styling */
+  .tavern-song {
+    margin: 3rem auto;
+    max-width: 600px;
+    text-align: center;
+    position: relative;
+  }
+
+  .song-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    color: #D5A44C;
+    margin-bottom: 0.75rem;
+    text-shadow: 0 0 10px rgba(213, 164, 76, 0.4);
+  }
+
+  .song-title-decoration {
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(213, 164, 76, 0.1), rgba(213, 164, 76, 0.7), rgba(213, 164, 76, 0.1));
+    margin: 0 auto 2rem;
+    border-radius: 2px;
+  }
+
+  .scroll-image-container {
+    position: relative;
+    max-width: 450px;
+    margin: 0 auto;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+
+  .scroll-image-container:hover {
+    transform: translateY(-5px);
+  }
+
+  .scroll-frame {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(189, 150, 72, 0.2);
+    border: 1px solid rgba(189, 150, 72, 0.3);
+  }
+
+  .tavern-song-scroll {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.5s ease;
+  }
+
+  .scroll-image-container:hover .tavern-song-scroll {
+    transform: scale(1.02);
+  }
+
+  .view-larger-hint {
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(31, 27, 45, 0.85);
+    padding: 0.5rem 1rem;
+    border-radius: 30px;
+    font-size: 0.85rem;
+    color: rgba(247, 232, 212, 0.9);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border: 1px solid rgba(189, 150, 72, 0.2);
+  }
+
+  .scroll-image-container:hover .view-larger-hint {
+    opacity: 1;
+  }
+
+  .song-notes {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 2rem;
+    color: rgba(213, 164, 76, 0.6);
+    text-shadow: 0 0 10px rgba(213, 164, 76, 0.3);
+    transform: rotate(10deg);
+  }
+
+  .music-note {
+    display: inline-block;
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .music-note.delayed {
+    animation-delay: 1.5s;
+    font-size: 1.5rem;
+    margin-left: -5px;
+  }
+
+  @keyframes float {
+    0% { transform: translateY(0) rotate(0); }
+    50% { transform: translateY(-8px) rotate(5deg); }
+    100% { transform: translateY(0) rotate(0); }
   }
 </style>
