@@ -1167,3 +1167,195 @@ Polish the home page by enhancing the styling on specific sections including "Ou
 - **Plan:** Analyze desktop layout, identify issues (spacing, alignment, element sizing), implement targeted CSS adjustments using `min-width` media queries, test thoroughly on desktop resolutions.
 - **Outcome:** Successfully implemented CSS adjustments using `@media (min-width: 1200px)` to increase container width and refine section layouts for larger desktop screens, preserving the mobile layout.
 - **Refinement:** Further adjusted desktop styles (`@media (min-width: 1024px)` and up) to reduce the size of the interactive lantern and tighten the spacing of the main title.
+
+## 2023-03-30 20:00: Implemented Responsive 90s Ad Display
+
+### Task
+Implement responsive image display for the 90s ad on the homepage, showing landscape version on desktop and portrait version on mobile, and convert the landscape PNG to WebP format.
+
+### Development Plan
+1. Convert the tavern-90s-main-ad-landscape.png image to WebP format
+2. Modify the welcome section in +page.svelte to implement responsive image switching
+3. Ensure proper fallbacks for browsers that don't support WebP
+4. Test the implementation on different screen sizes
+
+### Progress
+- Created a work effort to track the implementation of responsive 90s ad display
+- Analyzed the current welcome section implementation
+- Used cwebp command-line tool to convert the PNG to WebP format with 80% quality
+- Modified the picture element in the welcome section to use media queries for responsive image selection
+- Added source elements for both desktop (landscape) and mobile (portrait) versions
+- Maintained proper WebP/PNG fallbacks for browser compatibility
+- Added appropriate comments in the code for better maintainability
+
+### Results
+- Successfully converted tavern-90s-main-ad-landscape.png to WebP format (471KB file size)
+- Implemented responsive image switching in the welcome section:
+  - Displays landscape version on tablets and desktops (min-width: 768px)
+  - Displays portrait version on mobile devices (below 768px)
+- Maintained proper image fallbacks for browsers that don't support WebP
+- No changes to styling were needed as the existing CSS already handled the image display properly
+- Implementation ensures smooth responsive behavior and maintains semantic HTML structure
+
+## 2023-03-30 20:30: Fixed "The Door Is Opening" Text Wrapping
+
+### Task
+Ensure the "The Door Is Opening" text in the welcome section doesn't wrap awkwardly on smaller screens but instead breaks cleanly to a second line.
+
+### Development Plan
+1. Analyze the current heading behavior on smaller screens
+2. Determine the best approach to control line breaks
+3. Implement a solution that works across all device sizes
+4. Test the implementation on various screen widths
+
+### Progress
+- Identified that the "The Door Is Opening" heading was wrapping unpredictably on smaller screens
+- Determined that a controlled line break would provide a better visual appearance
+- Added a conditional `<br>` element with a "mobile-break" class between "The Door" and "Is Opening"
+- Implemented CSS to control the display of the break based on screen size:
+  - Hidden on desktop (display: none)
+  - Visible on mobile (display: block)
+- Improved the title styling with white-space: nowrap to prevent unwanted wrapping
+- Set the breakpoint at 768px to match other mobile/desktop transitions
+
+### Results
+- Successfully fixed the text wrapping issue for the welcome section heading
+- The heading now displays as a single line on desktop screens
+- On mobile screens, the heading breaks cleanly after "The Door"
+- The solution is responsive and provides a consistent visual appearance across all screen sizes
+- The implementation uses minimal code and maintains the existing styling
+
+## 2023-03-30 21:00: Fixed Navigation Button Icons and Enhanced Tales Button
+
+### Task
+Fix misaligned icons in the welcome navigation buttons and add a subtle gold glow to the "Read Tavern Tales" button for better visual emphasis.
+
+### Development Plan
+1. Analyze the current button styles to identify the cause of icon misalignment
+2. Implement CSS fixes to properly center and align the icons with text
+3. Create a special style for the Tales button with a subtle gold glow effect
+4. Test the changes on various screen sizes to ensure proper display
+
+### Progress
+- Identified that the icons in the navigation buttons were misaligned with the text
+- The issue was due to inconsistent sizing and positioning of the icons
+- Fixed the alignment by applying the following CSS to icons:
+  - Added flexbox properties (`display: flex`, `align-items: center`, `justify-content: center`)
+  - Set fixed dimensions (width/height: 1rem) and consistent font size
+- Created a special `tales-button` class for the "Read Tavern Tales" button with:
+  - A subtle gold glow effect using `box-shadow` with gold color (rgba(189, 150, 72, 0.2))
+  - A slightly more visible gold border
+  - An enhanced hover state with stronger gold glow
+  - A special icon treatment with golden drop-shadow
+
+### Results
+- Successfully fixed the icon alignment in both navigation buttons
+- Icons are now properly centered and aligned with the text
+- Added a subtle but noticeable gold glow effect to the Tales button
+- The Tales button now has a more distinguished appearance that draws attention
+- The overall appearance of the buttons is more polished and professional
+- The elegant design aesthetic is maintained with subtle, non-distracting effects
+
+## 2023-03-30 21:15: Refined Navigation Button Styling and Position
+
+### Task
+Swap the navigation button positions so "What is the Treasure Tavern?" appears first, further improve icon alignment, and enhance the gold styling on the Tales button.
+
+### Development Plan
+1. Reorder the navigation buttons in the HTML
+2. Add vertical adjustments to fix the remaining icon alignment issues
+3. Enhance the gold styling on the Tales button for better visual emphasis
+4. Test the changes for visual consistency across devices
+
+### Progress
+- Swapped the order of the navigation buttons - "What is the Treasure Tavern?" now appears first
+- Fixed the remaining icon alignment issues with a subtle vertical adjustment (`margin-top: 2px`)
+- Enhanced the visual appearance of the Tales button with more prominent gold styling:
+  - Increased the gold glow effect with stronger shadow values
+  - Added a subtle gold gradient background
+  - Used a brighter gold color for the icon (#D4A74F)
+  - Made the border more visible with increased opacity
+  - Enhanced the hover state with more noticeable effects
+
+### Results
+- Successfully reordered the navigation buttons according to the requested sequence
+- Fixed the remaining icon alignment issues - icons now align perfectly with text
+- Enhanced the Tales button with a more noticeable but still elegant gold styling
+- Maintained visual consistency with the site's overall design language
+- All changes remain responsive and work well across different screen sizes
+
+## 2023-03-30 21:30: Fine-tuned Navigation Button Icon Alignment
+
+### Task
+Improve the alignment of icons in the welcome navigation buttons to ensure perfect vertical alignment with text.
+
+### Development Plan
+1. Analyze the current icon alignment approach that still results in misalignment
+2. Implement a more precise alignment technique
+3. Apply icon-specific adjustments as needed
+4. Test the changes across different browsers and screen sizes
+
+### Progress
+- Identified that the previous approach using fixed dimensions was still causing alignment issues
+- Changed the approach to use more flexible positioning:
+  - Switched from `display: flex` to `display: inline-flex`
+  - Removed the fixed width and height constraints
+  - Added `vertical-align: middle` for better baseline alignment
+  - Used `position: relative` with specific `top` offsets for precise positioning
+- Created icon-specific CSS rules to handle different icon shapes:
+  - Applied a -1.5px top offset for the info-circle icon
+  - Applied a -1px top offset for the book-open icon
+- Slightly increased icon size to 1.1rem for better visibility
+
+### Results
+- Successfully fixed the icon alignment issues in both navigation buttons
+- Icons now align perfectly with their accompanying text
+- The solution is more flexible and handles different icon shapes appropriately
+- Maintained consistent appearance across different browsers and screen sizes
+
+## 2023-03-30 21:45: Standardized Navigation Button Icons Alignment
+
+### Task
+Fix the inconsistent icon alignment between the two welcome navigation buttons where one icon appeared far to the left while the other was correctly positioned next to the text.
+
+### Development Plan
+1. Analyze the current button structure to identify why the icons are inconsistently positioned
+2. Design a more standardized approach to button layout
+3. Implement a nested structure that ensures consistent icon-text alignment
+4. Test the implementation on both buttons to verify consistency
+
+### Progress
+- Identified the root cause: inconsistent HTML structure between buttons causing different positioning
+- Created a standardized approach using a nested container:
+  - Added a `button-content` div inside each button
+  - Moved both the icon and text into this container
+  - Applied flexbox layout to the container instead of directly to the button
+- Simplified the CSS:
+  - Removed individually targeted positioning for different icon types
+  - Removed complex positioning with relative positions and offsets
+  - Applied consistent gap spacing between icon and text
+
+### Results
+- Successfully fixed the inconsistent icon alignment between buttons
+- Both icons now appear at the same consistent position relative to their text
+- Maintained the visual styling including the gold glow on the Tales button
+- Simplified the CSS for better maintainability
+- Created a more robust button structure that's less prone to alignment issues
+- Preserved responsive behavior on all screen sizes
+
+## 2023-03-30 22:00: Removed Info Icon from "What is" Button
+
+### Task
+Resolve the persistent issue with inconsistent icon positioning by removing the "i" icon from the "What is the Treasure Tavern?" button.
+
+### Implementation
+- Removed the `<i class="fas fa-info-circle welcome-nav-icon"></i>` element from the top button
+- Kept the book icon in the "Read Tavern Tales" button to maintain visual emphasis
+- This simple solution eliminates alignment issues by removing the problematic element
+- The resulting interface is cleaner with less visual clutter
+
+### Results
+- Successfully resolved the icon alignment issue by removing the problematic icon
+- The interface now has consistent appearance with no misaligned elements
+- The Tales button maintains its enhanced styling with gold glow and book icon
+- The solution is simple and eliminates the need for complex CSS positioning fixes

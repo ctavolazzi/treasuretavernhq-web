@@ -233,7 +233,22 @@
       <div class="welcome-image-container">
         <a href="/tavern-tales">
           <picture>
-            <source srcset="/images/tavern-90s-main-ad.webp" type="image/webp">
+            <!-- Desktop (landscape) version -->
+            <source
+              media="(min-width: 768px)"
+              srcset="/images/tavern-90s-main-ad-landscape.webp"
+              type="image/webp"
+            >
+            <source
+              media="(min-width: 768px)"
+              srcset="/images/tavern-90s-main-ad-landscape.png"
+              type="image/png"
+            >
+            <!-- Mobile (portrait) version -->
+            <source
+              srcset="/images/tavern-90s-main-ad.webp"
+              type="image/webp"
+            >
             <img
               src="/images/tavern-90s-main-ad.png"
               alt="Welcome to Treasure Tavern - A fantastical tavern where adventures await"
@@ -243,7 +258,7 @@
           </picture>
         </a>
       </div>
-      <h2 class="welcome-title">The Door Is Opening</h2>
+      <h2 class="welcome-title">The Door<br class="mobile-break">Is Opening</h2>
       <p class="welcome-description">
         Step through our magical doorway and find yourself in a realm where legends come alive, treasures await discovery,
         and fellow adventurers gather to share their tales by the hearth.
@@ -257,13 +272,16 @@
 
       <!-- Navigation buttons -->
       <div class="welcome-nav-buttons">
-        <a href="/tavern-tales" class="welcome-nav-button">
-          <i class="fas fa-book-open welcome-nav-icon"></i>
-          <span>Read Tavern Tales</span>
-        </a>
         <a href="/about" class="welcome-nav-button">
-          <i class="fas fa-info-circle welcome-nav-icon"></i>
-          <span>What is the Treasure Tavern?</span>
+          <div class="button-content">
+            <span class="button-text">What is the Treasure Tavern?</span>
+          </div>
+        </a>
+        <a href="/tavern-tales" class="welcome-nav-button tales-button">
+          <div class="button-content">
+            <i class="fas fa-book-open welcome-nav-icon"></i>
+            <span class="button-text">Read Tavern Tales</span>
+          </div>
         </a>
       </div>
     </div>
@@ -1389,9 +1407,19 @@
     color: #BD9648;
     text-shadow: 0 0 8px rgba(189, 150, 72, 0.3);
     max-width: 100%;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-    hyphens: auto;
+    line-height: 1.3;
+    white-space: nowrap;
+    display: inline-block;
+  }
+
+  .mobile-break {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .mobile-break {
+      display: block;
+    }
   }
 
   .welcome-description {
@@ -1454,33 +1482,76 @@
   }
 
   .welcome-nav-button {
-    background: rgba(31, 27, 45, 0.7);
-    border: 1px solid rgba(189, 150, 72, 0.2);
+    background: rgba(31, 27, 45, 0.8); /* Slightly darker base */
+    border: 1px solid rgba(189, 150, 72, 0.3); /* Slightly more visible border */
     border-radius: 6px;
-    padding: 0.75rem 1rem;
+    padding: 0.75rem 1rem; /* Base padding */
     color: #F7E8D4;
     text-decoration: none;
     font-family: 'Cinzel', serif;
-    font-size: 0.9rem;
+    font-size: 0.9rem; /* Base font size */
     transition: all 0.3s ease;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    justify-content: center;
     flex: 1;
     min-width: 180px;
     max-width: 220px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); /* Subtle base shadow */
+  }
+
+  .button-content {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     justify-content: center;
   }
 
   .welcome-nav-button:hover {
-    background: rgba(31, 27, 45, 0.9);
-    border-color: rgba(189, 150, 72, 0.4);
-    transform: translateY(-2px);
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    background: rgba(31, 27, 45, 0.9); /* Slightly lighter hover bg */
+    border-color: rgba(189, 150, 72, 0.6); /* Brighter hover border */
+    transform: translateY(-2px) scale(1.02); /* Add subtle scale */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25); /* Slightly stronger hover shadow */
   }
 
   .welcome-nav-icon {
     color: #BD9648;
+    filter: drop-shadow(0 1px 1px rgba(0,0,0,0.3)); /* Subtle icon shadow */
+    font-size: 1.1rem; /* Slightly increased size */
+  }
+
+  /* Special style for Tales button with gold glow */
+  .tales-button {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15), 0 0 12px rgba(189, 150, 72, 0.3); /* Base shadow with stronger glow */
+    border-color: rgba(189, 150, 72, 0.5); /* More visible gold border */
+    background: linear-gradient(to bottom, rgba(31, 27, 45, 0.8) 0%, rgba(31, 27, 45, 0.8) 98%, rgba(189, 150, 72, 0.2) 100%); /* Subtle gold bottom edge */
+  }
+
+  .tales-button:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25), 0 0 20px rgba(189, 150, 72, 0.5); /* Stronger hover shadow with enhanced glow */
+    border-color: rgba(189, 150, 72, 0.7); /* Brighter border on hover */
+  }
+
+  .tales-button .welcome-nav-icon {
+    filter: drop-shadow(0 0 4px rgba(189, 150, 72, 0.6)); /* Enhanced gold glow for the icon */
+    color: #D4A74F; /* Brighter gold color for icon */
+  }
+
+  /* Mobile specific adjustments for welcome nav buttons */
+  @media (max-width: 768px) {
+    .welcome-nav-buttons {
+      flex-direction: column; /* Stack buttons vertically */
+      align-items: stretch; /* Make buttons take full width */
+      gap: 0.75rem; /* Slightly reduce gap for vertical stacking */
+    }
+
+    .welcome-nav-button {
+      padding: 1rem 1.25rem; /* Increase padding for larger touch target */
+      font-size: 1rem; /* Increase font size slightly */
+      min-width: unset; /* Remove min-width constraint */
+      max-width: unset; /* Remove max-width constraint */
+      flex-basis: auto; /* Allow button height to adjust to content */
+    }
   }
 
   /* Benefits Section Styles */
