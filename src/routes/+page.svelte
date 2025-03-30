@@ -347,6 +347,7 @@
         alt="Tavern Lantern"
         class="lantern-image"
         draggable="false"
+        style="max-width:300px; max-height:300px; width:300px; height:300px;"
         on:error={(e) => {
           // Try to handle error gracefully by falling back to PNG if WebP fails
           const imgElement = e.currentTarget as HTMLImageElement;
@@ -661,7 +662,7 @@
     letter-spacing: 0.05em;
     font-weight: 600;
     display: block;
-    margin-bottom: -0.1em;
+    margin-bottom: -0.25em;
     padding-top: 0.3em;
     line-height: 1;
     white-space: nowrap;
@@ -673,13 +674,13 @@
     opacity: 0.85;
     font-weight: 400;
     display: block;
-    margin-bottom: -0.1em;
+    margin-bottom: -0.25em;
     line-height: 1;
     white-space: nowrap;
   }
 
   .welcome-large {
-    font-size: clamp(3.2rem, 7vw, 5.5rem);
+    font-size: clamp(3.2rem, 7vw, 5.0rem);
     letter-spacing: 0.04em;
     line-height: 1;
     display: block;
@@ -975,8 +976,21 @@
 
     h1 {
       font-size: clamp(3.5rem, 6vw, 4.75rem);
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.25rem; /* Minimal margin */
     }
+
+    /* ADDED */
+    h1 .welcome-wrapper {
+      line-height: 0.75; /* Extremely tight */
+    }
+    /* END ADDED */
+
+    /* ADDED - Tighter inter-line spacing */
+    .welcome-medium,
+    .welcome-small {
+      margin-bottom: -0.25em; /* Very large negative margin */
+    }
+    /* END ADDED */
 
     .subheading {
       font-size: clamp(1.1rem, 2.5vw, 1.25rem);
@@ -989,10 +1003,83 @@
       padding: 2.5rem;
     }
 
+    /* ADDED */
+    h1 {
+        margin-bottom: 0.1rem; /* Almost zero margin */
+    }
+
+    h1 .welcome-wrapper {
+        line-height: 0.7; /* Extremely tight */
+    }
+
+    /* ADDED - Tighter inter-line spacing */
+    .welcome-medium,
+    .welcome-small {
+        margin-bottom: -0.3em; /* Very large negative margin */
+    }
+    /* END ADDED */
+
+    .lantern-container {
+      width: 300px; /* Updated to 300px as requested */
+      height: 300px; /* Updated to 300px as requested */
+      margin: 0 auto 0.25rem; /* Center horizontally with auto margins */
+    }
+    /* END ADDED */
+
     .cta-form {
       padding: 1.75rem;
     }
   }
+
+  /* ADDED NEW BLOCK */
+  @media (min-width: 1200px) {
+    .container {
+      max-width: 1100px; /* Increase max-width for larger screens */
+    }
+
+    main {
+      padding: 3rem 4rem; /* Adjust padding for larger screens */
+    }
+
+    h1 {
+        margin-bottom: 0; /* Zero margin */
+    }
+
+    h1 .welcome-wrapper {
+        line-height: 0.65; /* Extremely tight */
+    }
+
+    /* ADDED - Tighter inter-line spacing */
+    .welcome-medium,
+    .welcome-small {
+        margin-bottom: -0.35em; /* Very large negative margin */
+    }
+    /* END ADDED */
+
+    h1 .welcome-large {
+        font-size: clamp(3.5rem, 7vw, 4.5rem); /* Reduced max font size */
+    }
+
+    .lantern-container {
+      width: 300px; /* Updated to 300px as requested */
+      height: 300px; /* Updated to 300px as requested */
+      margin: 0 auto 0.1rem; /* Center horizontally with auto margins */
+    }
+
+    /* Adjust section widths to match wider container */
+    .welcome-section,
+    .exploration-section,
+    .vision-section,
+    .tavern-atmosphere,
+    .testimonials-container {
+      max-width: 1100px;
+    }
+
+    .vision-content {
+        gap: 3rem; /* Increase gap between text and image in vision section */
+    }
+  }
+  /* END ADDED NEW BLOCK */
 
   @media (max-width: 767px) {
     main {
@@ -1008,13 +1095,14 @@
   .lantern-container {
     position: relative;
     margin: 0 auto 1.5rem;
-    width: 180px;
-    height: 180px;
+    width: 300px; /* Updated to 300px as requested */
+    height: 300px; /* Updated to 300px as requested */
     cursor: pointer;
     transition: transform 0.3s ease;
     user-select: none;
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation; /* Improve touch behavior */
+    display: block; /* Ensure block display for centering */
   }
 
   .lantern-container:hover {
@@ -1032,6 +1120,8 @@
     transition: all 0.2s ease;
     filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.5));
     will-change: transform, opacity; /* Hint for browser optimization */
+    max-width: 300px; /* Match container size */
+    max-height: 300px; /* Match container size */
   }
 
   .lantern-glow {
@@ -1409,7 +1499,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23bd9648' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23bd9648' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2V6h4V4H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
     opacity: 0.5;
     z-index: -1;
   }
@@ -2165,5 +2255,39 @@
     0% { transform: translateY(0) rotate(0); }
     50% { transform: translateY(-8px) rotate(5deg); }
     100% { transform: translateY(0) rotate(0); }
+  }
+
+  /* ADDED - Reduce space above H1 */
+  .hero-carousel {
+    margin-bottom: 1rem; /* Reduce space after carousel */
+  }
+  /* END ADDED */
+
+  /* ADDED - Reduce space above H1 */
+  .hero-carousel {
+      margin-bottom: 0.75rem; /* Further reduce space */
+  }
+  /* END ADDED */
+
+  .lantern-container {
+    width: 300px; /* Updated to 300px as requested */
+    height: 300px; /* Updated to 300px as requested */
+    margin: 0 auto 0.25rem; /* Center horizontally with auto margins */
+  }
+
+  /* ADDED - Reduce space above H1 */
+  .hero-carousel {
+      margin-bottom: 0.5rem; /* Minimal space */
+  }
+  /* END ADDED */
+
+  h1 .welcome-large {
+    font-size: clamp(3.5rem, 7vw, 4.5rem); /* Reduced max font size */
+  }
+
+  .lantern-container {
+    width: 300px; /* Updated to 300px as requested */
+    height: 300px; /* Updated to 300px as requested */
+    margin: 0 auto 0.1rem; /* Center horizontally with auto margins */
   }
 </style>
