@@ -1211,7 +1211,7 @@ Ensure the "The Door Is Opening" text in the welcome section doesn't wrap awkwar
 ### Progress
 - Identified that the "The Door Is Opening" heading was wrapping unpredictably on smaller screens
 - Determined that a controlled line break would provide a better visual appearance
-- Added a conditional `<br>` element with a "mobile-break" class between "The Door" and "Is Opening"
+- Added a conditional `<br>` element with a "mobile-break" class between "The" and "Door"
 - Implemented CSS to control the display of the break based on screen size:
   - Hidden on desktop (display: none)
   - Visible on mobile (display: block)
@@ -1221,7 +1221,7 @@ Ensure the "The Door Is Opening" text in the welcome section doesn't wrap awkwar
 ### Results
 - Successfully fixed the text wrapping issue for the welcome section heading
 - The heading now displays as a single line on desktop screens
-- On mobile screens, the heading breaks cleanly after "The Door"
+- On mobile screens, the heading breaks cleanly after "The"
 - The solution is responsive and provides a consistent visual appearance across all screen sizes
 - The implementation uses minimal code and maintains the existing styling
 
@@ -1359,3 +1359,57 @@ Resolve the persistent issue with inconsistent icon positioning by removing the 
 - The interface now has consistent appearance with no misaligned elements
 - The Tales button maintains its enhanced styling with gold glow and book icon
 - The solution is simple and eliminates the need for complex CSS positioning fixes
+
+## 2023-05-15: Fixed "The Door Is Opening" Heading Text Display
+
+### Task
+Fix the display of "The Door Is Opening" heading text in the welcome section that was rendering incorrectly on certain screen sizes.
+
+### Development Plan
+1. Assess the current styling causing the display issue
+2. Remove problematic CSS properties affecting the text wrapping
+3. Improve mobile breakpoint handling
+4. Adjust line break positioning for better text flow
+
+### Progress
+- Identified that `white-space: nowrap` was preventing the text from properly wrapping on certain screen sizes
+- Removed the `white-space: nowrap` property from the `.welcome-title` CSS class
+- Changed the mobile breakpoint for the line break to 480px for better user experience on small devices
+- Improved the line break position by moving it between "The" and "Door" instead of "Door" and "Is"
+- Added specific font size and line height adjustments for mobile screens
+
+### Results
+- Successfully fixed the display of "The Door Is Opening" heading text
+- Text now renders properly on all screen sizes without awkward wrapping
+- On desktop screens, the text displays as a single line as intended
+- On mobile screens, the text breaks appropriately after "The" for a clean two-line display
+- The visual hierarchy and heading styles remain consistent with the site's design
+
+## 2023-05-15: About Page Content Update
+
+### Task
+Update the About page to remove specific content squares and eliminate timeline-related promises.
+
+### Development Plan
+1. Review the About page for family-friendly and worldwide content squares
+2. Remove these squares and add a new one about growing the world as fast as possible
+3. Identify and remove any timeline promises or commitments
+4. Ensure consistent messaging without specific time frames
+
+### Progress
+- Identified the "Is this family-friendly?" and "Is this available worldwide?" questions in the Common Questions section
+- Removed these questions and added a new one: "How is the world developing?"
+- Rewritten content to emphasize growth without specific timelines
+- Removed the word "Soon" from the Vision section paragraph
+- Updated the "How often do you update?" question to remove monthly commitment
+- Revised the "Can I submit my own stories?" question to remove "not yet" phrasing
+- Removed "Account creation is coming soon!" from the CTA section
+- Replaced all timeline-specific language with more open-ended phrasing
+
+### Results
+- Successfully removed specific timeline promises from the About page
+- Added new content about growing the world as fast as possible
+- Maintained the same overall vision and goals without committing to timelines
+- Created more flexibility in content development and release schedules
+- Improved messaging to set appropriate expectations
+- The changes preserve the fantasy theme and tone of the site

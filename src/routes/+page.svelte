@@ -258,7 +258,7 @@
           </picture>
         </a>
       </div>
-      <h2 class="welcome-title">The Door<br class="mobile-break">Is Opening</h2>
+      <h2 class="welcome-title">The<br class="mobile-break"> Door Is Opening</h2>
       <p class="welcome-description">
         Step through our magical doorway and find yourself in a realm where legends come alive, treasures await discovery,
         and fellow adventurers gather to share their tales by the hearth.
@@ -1408,12 +1408,22 @@
     text-shadow: 0 0 8px rgba(189, 150, 72, 0.3);
     max-width: 100%;
     line-height: 1.3;
-    white-space: nowrap;
     display: inline-block;
   }
 
   .mobile-break {
     display: none;
+  }
+
+  @media (max-width: 480px) {
+    .mobile-break {
+      display: block;
+    }
+
+    .welcome-title {
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      line-height: 1.2;
+    }
   }
 
   @media (max-width: 768px) {

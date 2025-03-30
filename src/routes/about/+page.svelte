@@ -698,7 +698,7 @@
         <div class="question-item" in:fly={{ y: 30, duration: 500, delay: 400 }}>
           <i class="fas fa-pen-fancy"></i>
           <h3>Can I submit my own stories?</h3>
-          <p>Not yet, but we're building towards community contributions. Currently, we focus on our core tales to maintain quality and consistency. We'll announce submission opportunities through our newsletter.</p>
+          <p>Currently, we focus on our core tales to maintain quality and consistency. We're exploring ways to incorporate community contributions in the future and will announce any opportunities through our newsletter.</p>
         </div>
         <div class="question-item" in:fly={{ y: 30, duration: 500, delay: 450 }}>
           <i class="fas fa-video"></i>
@@ -708,22 +708,17 @@
         <div class="question-item" in:fly={{ y: 30, duration: 500, delay: 500 }}>
           <i class="fas fa-clock"></i>
           <h3>How often do you update?</h3>
-          <p>We release new tales monthly, with regular updates to our interactive content. Newsletter subscribers get early access to new content and exclusive announcements.</p>
+          <p>We regularly add new tales and interactive content. Newsletter subscribers receive notifications about new content and exclusive announcements.</p>
         </div>
         <div class="question-item" in:fly={{ y: 30, duration: 500, delay: 550 }}>
-          <i class="fas fa-shield-alt"></i>
-          <h3>Is this family-friendly?</h3>
-          <p>Yes! Our content is designed to be enjoyed by fantasy fans of all ages. While some tales may have mild fantasy elements, we maintain a family-friendly atmosphere.</p>
+          <i class="fas fa-seedling"></i>
+          <h3>How is the world developing?</h3>
+          <p>We are growing and expanding the Treasure Tavern universe as fast as we can. Our team is dedicated to creating rich, immersive content and experiences while maintaining the quality our community deserves.</p>
         </div>
         <div class="question-item" in:fly={{ y: 30, duration: 500, delay: 575 }}>
           <i class="fas fa-gamepad"></i>
           <h3>What is your future vision?</h3>
           <p>We're building toward an interactive AI-generated gaming experience where users can contribute to our shared universe through writing, art creation, and gameplay, all within the canonical Treasure Tavern world.</p>
-        </div>
-        <div class="question-item" in:fly={{ y: 30, duration: 500, delay: 600 }}>
-          <i class="fas fa-globe"></i>
-          <h3>Is this available worldwide?</h3>
-          <p>Yes! Our digital content is available globally. While some physical merchandise may have shipping restrictions, our stories and community are accessible to everyone.</p>
         </div>
       </div>
     {/if}
@@ -843,7 +838,7 @@
             Imagine a world where you don't just read stories - you help create them. Where the art you envision can be brought to life instantly. Where your decisions and contributions shape the canonical history of our ever-expanding realm. This is the future we're building toward.
           </p>
           <p>
-            Soon, you'll be able to collaborate with fellow adventurers on epic sagas, generate stunning artwork of characters and locations, play through interactive adventures set in our shared universe, and watch as your creations become woven into the fabric of the Tavern's official lore.
+            You'll be able to collaborate with fellow adventurers on epic sagas, generate stunning artwork of characters and locations, play through interactive adventures set in our shared universe, and watch as your creations become woven into the fabric of the Tavern's official lore.
           </p>
         </div>
 
@@ -911,7 +906,7 @@
             </a>
           </div>
           <p class="cta-note">
-            Account creation is coming soon! Join the waitlist to be first in line when the tavern's doors fully open.
+            Join the waitlist to stay updated on the latest developments at the Treasure Tavern.
           </p>
         </div>
       {/if}
