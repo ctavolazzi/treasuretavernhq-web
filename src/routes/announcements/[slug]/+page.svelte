@@ -84,6 +84,11 @@
       </div>
 
       <div class="announcement-card">
+        {#if announcement.mainImage}
+          <div class="announcement-image">
+            <img src={announcement.mainImage} alt={announcement.title} />
+          </div>
+        {/if}
         <div class="announcement-content">
           <!-- Use different rendering based on content type -->
           {@html announcement.fullContent}
@@ -148,14 +153,17 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
   }
 
   .announcement-main {
     width: 100%;
-    max-width: 100%;
     display: flex;
     justify-content: center;
     padding: 1rem;
+    margin: 0 auto;
     opacity: 0;
     transform: translateY(20px);
     transition: opacity 0.5s ease, transform 0.5s ease;
@@ -171,6 +179,7 @@
     max-width: 800px;
     z-index: 2;
     position: relative;
+    margin: 0 auto;
   }
 
   .announcement-header {
@@ -247,6 +256,12 @@
     margin-bottom: 2rem;
     position: relative;
     overflow: hidden;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .announcement-card::before {
@@ -265,11 +280,15 @@
     font-size: 1.15rem;
     color: rgba(247, 232, 212, 0.92);
     line-height: 1.6;
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+    text-align: center;
   }
 
-  /* Styles for content rendered from HTML or Markdown */
   .announcement-content :global(p) {
     margin-bottom: 1.25rem;
+    text-align: center;
   }
 
   .announcement-content :global(h2) {
@@ -289,12 +308,18 @@
 
   .announcement-content :global(ul),
   .announcement-content :global(ol) {
-    padding-left: 1.5rem;
+    padding-left: 0;
     margin-bottom: 1.25rem;
+    text-align: center;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    list-style-position: inside;
   }
 
   .announcement-content :global(li) {
     margin-bottom: 0.8rem;
+    text-align: center;
   }
 
   .announcement-content :global(img) {
@@ -485,5 +510,21 @@
     .announcement-content {
       font-size: 1rem;
     }
+  }
+
+  .announcement-image {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto 2rem;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  }
+
+  .announcement-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
   }
 </style>
