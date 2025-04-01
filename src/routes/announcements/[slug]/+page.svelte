@@ -23,7 +23,7 @@
   });
 
   // Get proper icon for category
-  function getCategoryIcon(category) {
+  function getCategoryIcon(category: string): string {
     switch (category.toLowerCase()) {
       case 'event': return 'fa-calendar-alt';
       case 'news': return 'fa-newspaper';
@@ -57,6 +57,81 @@
   }
 </script>
 
+<svelte:head>
+  <title>{announcement.title} - Treasure Tavern</title>
+  <meta name="description" content={announcement.content} />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+</svelte:head>
+
+<div class="page-container">
+  <Breadcrumb items={breadcrumbItems} />
+
+  <main class="announcement-main" class:fade-in={isReady}>
+    <div class="container">
+      <div class="announcement-header">
+        <h1>{announcement.title}</h1>
+        <div class="announcement-meta">
+          <div class="announcement-date">
+            <i class="fas fa-calendar"></i>
+            {announcement.date}
+          </div>
+          <div class="announcement-category {announcement.category.toLowerCase()}">
+            <i class="fas {getCategoryIcon(announcement.category)}"></i>
+            {announcement.category}
+          </div>
+        </div>
+      </div>
+
+      <div class="announcement-card">
+        <div class="announcement-content">
+          <!-- Use different rendering based on content type -->
+          {@html announcement.fullContent}
+        </div>
+      </div>
+
+      <AnnouncementCta
+        title={ctaTitle}
+        buttonText={ctaButton}
+        description={ctaDescription}
+        demoLink={ctaDemoLink || "/#newsletter"}
+      />
+
+      {#if relatedAnnouncements && relatedAnnouncements.length > 0}
+        <div class="related-announcements">
+          <h2 class="related-title">Related Announcements</h2>
+          <div class="related-grid">
+            {#each relatedAnnouncements as related}
+              {#if related}
+                <a href="/announcements/{related.slug}" class="related-card">
+                  <div class="related-category {related.category.toLowerCase()}">
+                    <i class="fas {getCategoryIcon(related.category)}"></i>
+                    {related.category}
+                  </div>
+                  <h3 class="related-card-title">{related.title}</h3>
+                  <p class="related-date">{related.date}</p>
+                  <span class="read-more">Read More <i class="fas fa-arrow-right"></i></span>
+                </a>
+              {/if}
+            {/each}
+          </div>
+        </div>
+      {/if}
+
+      <div class="navigation">
+        <a href="/announcements" class="nav-button">
+          <i class="fas fa-arrow-left" style="margin-right: 8px;"></i>
+          All Announcements
+        </a>
+        <a href="/" class="nav-button">
+          <i class="fas fa-home" style="margin-right: 8px;"></i>
+          Return to Tavern
+        </a>
+      </div>
+    </div>
+  </main>
+</div>
+
 <style>
   :global(body) {
     margin: 0;
@@ -68,19 +143,32 @@
     line-height: 1.4;
   }
 
-  main {
-    min-height: 100vh;
+  .page-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 2rem;
+    width: 100%;
+  }
+
+  .announcement-main {
+    width: 100%;
     max-width: 100%;
-    position: relative;
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .announcement-main.fade-in {
+    opacity: 1;
+    transform: translateY(0);
   }
 
   .container {
-    max-width: 800px;
     width: 100%;
+    max-width: 800px;
     z-index: 2;
     position: relative;
   }
@@ -91,7 +179,7 @@
   }
 
   h1 {
-    font-family: 'Cinzel Decorative', 'Luminari', fantasy;
+    font-family: 'Cinzel Decorative', 'Cinzel', fantasy;
     font-size: clamp(2rem, 5vw, 3rem);
     margin: 0 0 1rem;
     font-weight: 700;
@@ -114,6 +202,9 @@
     font-family: 'Inter', system-ui, sans-serif;
     font-size: 0.95rem;
     color: rgba(247, 232, 212, 0.7);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
   }
 
   .announcement-category {
@@ -176,11 +267,28 @@
     line-height: 1.6;
   }
 
+  /* Styles for content rendered from HTML or Markdown */
   .announcement-content :global(p) {
     margin-bottom: 1.25rem;
   }
 
-  .announcement-content :global(ul) {
+  .announcement-content :global(h2) {
+    font-family: 'Cinzel', serif;
+    font-size: 1.8rem;
+    color: #BD9648;
+    margin: 2rem 0 1rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .announcement-content :global(h3) {
+    font-family: 'Cinzel', serif;
+    font-size: 1.4rem;
+    color: #a99156;
+    margin: 1.5rem 0 1rem;
+  }
+
+  .announcement-content :global(ul),
+  .announcement-content :global(ol) {
     padding-left: 1.5rem;
     margin-bottom: 1.25rem;
   }
@@ -189,10 +297,49 @@
     margin-bottom: 0.8rem;
   }
 
+  .announcement-content :global(img) {
+    max-width: 100%;
+    height: auto;
+    margin: 1.5rem 0;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    display: block;
+  }
+
+  .announcement-content :global(strong) {
+    color: #d4af37;
+    font-weight: bold;
+  }
+
+  .announcement-content :global(em) {
+    color: #c9b68d;
+    font-style: italic;
+  }
+
+  .announcement-content :global(blockquote) {
+    border-left: 4px solid #BD9648;
+    padding: 0.5rem 0 0.5rem 1.5rem;
+    margin: 1.5rem 0;
+    font-style: italic;
+    color: #c9b68d;
+  }
+
+  .announcement-content :global(a) {
+    color: #BD9648;
+    text-decoration: underline;
+    transition: color 0.2s ease;
+  }
+
+  .announcement-content :global(a:hover) {
+    color: #d4af37;
+  }
+
   .navigation {
     display: flex;
     justify-content: space-between;
     margin-top: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
   }
 
   .nav-button {
@@ -248,176 +395,95 @@
     );
   }
 
-  .related-list {
+  .related-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 1.5rem;
+    margin-top: 1.5rem;
   }
 
-  .related-item {
-    background: rgba(20, 17, 30, 0.4);
+  .related-card {
+    background: rgba(31, 27, 45, 0.4);
+    border: 1px solid rgba(189, 150, 72, 0.1);
     border-radius: 8px;
-    border: 1px solid rgba(247, 232, 212, 0.1);
-    padding: 1.25rem;
+    padding: 1.5rem;
     transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .related-item:hover {
-    transform: translateY(-3px);
-    background: rgba(31, 27, 45, 0.6);
-    border-color: rgba(189, 150, 72, 0.2);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-  }
-
-  .related-item::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 3px;
-    height: 100%;
-    background: linear-gradient(to bottom, #BD9648, rgba(189, 150, 72, 0.1));
-    opacity: 0.6;
-  }
-
-  .related-category {
-    font-size: 0.8rem;
-    display: inline-block;
-    margin-bottom: 0.5rem;
-  }
-
-  .related-title-link {
-    font-family: 'Cinzel', serif;
-    font-size: 1.1rem;
-    color: #BD9648;
     text-decoration: none;
-    margin-bottom: 0.5rem;
-    display: block;
-    font-weight: 600;
-    transition: color 0.3s ease;
+    display: flex;
+    flex-direction: column;
   }
 
-  .related-title-link:hover {
-    color: #d8b05c;
-    text-decoration: underline;
+  .related-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    border-color: rgba(189, 150, 72, 0.3);
+    background: rgba(31, 27, 45, 0.6);
+  }
+
+  .related-card-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1.25rem;
+    color: #F7E8D4;
+    margin: 0.75rem 0;
+    line-height: 1.3;
   }
 
   .related-date {
-    font-family: 'Inter', system-ui, sans-serif;
-    font-size: 0.85rem;
-    color: rgba(247, 232, 212, 0.6);
-    margin-bottom: 0.75rem;
-  }
-
-  .related-excerpt {
-    font-family: 'Spectral', serif;
-    font-size: 0.95rem;
-    color: rgba(247, 232, 212, 0.85);
+    font-size: 0.875rem;
+    color: rgba(247, 232, 212, 0.7);
     margin-bottom: 1rem;
-    line-height: 1.5;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
   }
 
-  .visible {
-    animation: fadeIn 0.5s ease forwards;
+  .read-more {
+    color: #BD9648;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: auto;
+    transition: color 0.3s ease;
   }
 
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  .related-card:hover .read-more {
+    color: #d4af37;
   }
 
+  /* Media Queries for Responsiveness */
   @media (max-width: 768px) {
-    main {
-      padding: 1.5rem;
-    }
-
     .announcement-card {
       padding: 1.5rem;
     }
 
-    .related-list {
+    .related-grid {
       grid-template-columns: 1fr;
+    }
+
+    .navigation {
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .nav-button {
+      width: 100%;
+      text-align: center;
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .announcement-meta {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .announcement-card {
+      padding: 1.25rem;
+    }
+
+    .announcement-content {
+      font-size: 1rem;
     }
   }
 </style>
-
-<svelte:head>
-  <title>{announcement.title} - Treasure Tavern</title>
-  <meta name="description" content={announcement.content.slice(0, 160)} />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-</svelte:head>
-
-<div class="page-container">
-  <Breadcrumb items={breadcrumbItems} />
-
-  <div class="container">
-    <div class="announcement-header">
-      <a href="/announcements" class="nav-button">
-        <i class="fas fa-arrow-left"></i> All Announcements
-      </a>
-    </div>
-
-    <article class="announcement-detail" class:visible={isReady}>
-      <h1>{announcement.title}</h1>
-
-      <div class="announcement-meta">
-        <div class="announcement-date">
-          <i class="far fa-calendar-alt"></i> {announcement.date}
-        </div>
-        <div class="announcement-category {announcement.category.toLowerCase()}">
-          <i class="fas {getCategoryIcon(announcement.category)}"></i> {announcement.category}
-        </div>
-      </div>
-
-      <div class="announcement-card">
-        <div class="announcement-content">
-          {@html announcement.fullContent}
-        </div>
-      </div>
-    </article>
-
-    <div class="announcement-footer">
-      <AnnouncementCta
-        title={ctaTitle}
-        description={ctaDescription}
-        buttonText={ctaButton}
-        demoLink={ctaDemoLink}
-      />
-    </div>
-
-    {#if relatedAnnouncements && relatedAnnouncements.length > 0}
-      <div class="related-announcements">
-        <h2 class="related-title">Related Announcements</h2>
-        <div class="related-list">
-          {#each relatedAnnouncements as related}
-            <div class="related-item">
-              <div class="related-category {related.category.toLowerCase()}">
-                <i class="fas {getCategoryIcon(related.category)}"></i> {related.category}
-              </div>
-              <a href="/announcements/{related.slug}" class="related-title-link">
-                {related.title}
-              </a>
-              <div class="related-date">{related.date}</div>
-              <div class="related-excerpt">{related.content.slice(0, 120)}...</div>
-              <a href="/announcements/{related.slug}" class="nav-button">
-                Read More
-              </a>
-            </div>
-          {/each}
-        </div>
-      </div>
-    {/if}
-  </div>
-</div>

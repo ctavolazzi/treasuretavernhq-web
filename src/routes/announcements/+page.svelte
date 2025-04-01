@@ -2,112 +2,44 @@
   import { onMount } from 'svelte';
   import Breadcrumb from '$lib/components/Breadcrumb.svelte';
 
+  // Get data from page load function
+  export let data;
+  const { announcements: loadedAnnouncements, categories } = data;
+
   // Breadcrumb configuration
   const breadcrumbItems = [
     { label: 'Home', href: '/', icon: 'fa-home' },
     { label: 'Announcements', icon: 'fa-bullhorn' }
   ];
 
-  // Sample announcements data - in a real app, this would come from a database or API
-  const announcements = [
-    {
-      id: 1,
-      slug: "goblin-infestation-cleanup",
-      date: "March 10, 2025",
-      title: "Goblin Infestation Cleanup Complete",
-      category: "Event",
-      content: "After weeks of battling the unexpected goblin infestation in our cellar, our brave adventurers have finally cleared out the last of the vermin. Special thanks to the Dwarven Extermination Guild for their assistance with the particularly stubborn goblin king who had established a throne made entirely of stolen silverware."
-    },
-    {
-      id: 2,
-      slug: "machine-elves-strike-resolved",
-      date: "March 15, 2025",
-      title: "Machine Elves Strike Resolved",
-      category: "News",
-      content: "The labor dispute with our Machine Elves kitchen staff has finally been settled. Their demands for 'chronologically flexible lunch breaks' and 'interdimensional vacation days' have been accommodated. Patrons may notice our menu now includes several dishes that technically don't exist on this plane of reality."
-    },
-    {
-      id: 3,
-      slug: "dragon-mating-season",
-      date: "March 22, 2025",
-      title: "Warning: Dragon Mating Season",
-      category: "Alert",
-      content: "Patrons are advised to use the eastern entrance until further notice, as a pair of adolescent copper dragons have claimed our western tower for courtship rituals. The local Dragonriders Guild assures us this is temporary, though the occasional rain of molten copper may continue through the month. Complimentary fireproof umbrellas available at the coat check."
-    },
-    {
-      id: 4,
-      slug: "bardic-competition",
-      date: "April 5, 2025",
-      title: "Annual Bardic Competition",
-      category: "Event",
-      content: "Calling all bards, minstrels, and musical enthusiasts! The annual Bardic Competition will be held in the Great Hall next month. Categories include traditional ballads, magical music, instrumental innovation, and comedy. Grand prize is a masterwork instrument crafted by the legendary luthier Harmonius Strings."
-    },
-    {
-      id: 5,
-      slug: "menu-expansion",
-      date: "April 8, 2025",
-      title: "New Spring Menu Items",
-      category: "News",
-      content: "Chef Gnarl is proud to introduce our spring menu featuring fresh ingredients from the Enchanted Forest. Try our new Fey-Touched Mushroom Stew, Unicorn Tear Tea, or the popular Phoenix Egg Benedict. Available for a limited time while magical ingredients last."
-    },
-    {
-      id: 6,
-      slug: "wizard-tower-renovation",
-      date: "April 12, 2025",
-      title: "Wizard Tower Renovation Complete",
-      category: "News",
-      content: "We're pleased to announce the completion of renovations to our Wizard Tower accommodations. New features include anti-gravity bathrooms, rooms that are bigger on the inside, windows with views of different dimensions, and self-maintaining fireplaces that adjust to your preferred temperature."
-    },
-    {
-      id: 7,
-      slug: "ghost-hunting-expedition",
-      date: "April 18, 2025",
-      title: "Ghost Hunting Expedition",
-      category: "Event",
-      content: "Join renowned spiritualist Madame Etherea for a midnight ghost hunting expedition through the ancient chambers beneath the tavern. Equipment provided. Participants must sign a waiver acknowledging the risks of spectral possession, temporal displacement, and existential dread."
-    },
-    {
-      id: 8,
-      slug: "potion-tasting-event",
-      date: "April 24, 2025",
-      title: "Magical Potion Tasting Event",
-      category: "Event",
-      content: "Master Alchemist Bubblebroth is hosting a magical potion tasting in our garden terrace. Sample exotic elixirs from across the realms, including mood-enhancing tonics, temporary transformation drafts, and Bubblebroth's famous 'Liquid Luck' concoction. Antidotes will be available."
-    },
-    {
-      id: 9,
-      slug: "kitchen-imp-infestation",
-      date: "May 1, 2025",
-      title: "Kitchen Imp Infestation Alert",
-      category: "Alert",
-      content: "Please be advised that we're experiencing a minor infestation of kitchen imps following a misfired summoning spell. These small, mischievous creatures may attempt to steal food from plates or replace salt with sugar. Our magical pest control team is working to resolve the issue."
-    },
-    {
-      id: 10,
-      slug: "enchanted-forest-expedition",
-      date: "May 8, 2025",
-      title: "Enchanted Forest Expedition",
-      category: "Event",
-      content: "Join our guided tour of the nearby Enchanted Forest led by renowned druid Oakhart. Learn about magical flora and fauna, witness rare fey creatures in their natural habitat, and harvest ingredients for potions (with proper permits). Protective charms included in tour price."
-    }
-  ];
-
-  // Define available categories
-  const categories = ["All", "Event", "News", "Alert"];
-
-  // Initialize with all announcements visible
+  // State for filtering and pagination
   let selectedCategory = "All";
   let searchQuery = "";
-  let filteredAnnouncements = [...announcements];
-
-  // Display settings
-  const initialDisplayCount = 4;
+  let filteredAnnouncements = loadedAnnouncements;
+  let initialDisplayCount = 5;
   let displayCount = initialDisplayCount;
-  let visibleAnnouncements: typeof announcements = [];
+  let fadeIn = false;
 
-  // Filter announcements based on category and search
+  onMount(() => {
+    // Add fade-in effect after component mounts
+    setTimeout(() => {
+      fadeIn = true;
+    }, 100);
+  });
+
+  // Function to get category icon
+  function getCategoryIcon(category: string): string {
+    switch (category.toLowerCase()) {
+      case 'event': return 'fa-calendar-alt';
+      case 'news': return 'fa-newspaper';
+      case 'alert': return 'fa-exclamation-triangle';
+      default: return 'fa-info-circle';
+    }
+  }
+
+  // Filter announcements based on selected category and search query
   $: {
-    filteredAnnouncements = announcements.filter(announcement => {
+    filteredAnnouncements = loadedAnnouncements.filter(announcement => {
       const matchesCategory = selectedCategory === "All" || announcement.category === selectedCategory;
       const matchesSearch = searchQuery === "" ||
         announcement.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -138,68 +70,72 @@
   <title>Announcements - Treasure Tavern</title>
   <meta name="description" content="The latest news and announcements from Treasure Tavern" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
 </svelte:head>
 
 <div class="page-container">
   <Breadcrumb items={breadcrumbItems} />
 
-  <div class="hero">
-    <div class="container">
-      <h1>
-        <span class="title-line title-first">Tavern</span>
-        <span class="title-line title-second">Announcements</span>
-      </h1>
-      <p class="subtitle">
-        <span class="subtitle-line">The latest news</span>
-        <span class="subtitle-line">from our growing fantasy universe</span>
-      </p>
+  <main class="announcements-main">
+    <div class="container" class:fade-in={fadeIn}>
+      <h1 class="page-title">Tavern Announcements</h1>
 
-      <div class="controls">
-        <div class="categories">
-          {#each categories as category}
-            <button
-              class="category-button {selectedCategory === category ? 'selected' : ''}"
-              on:click={() => selectCategory(category)}
-            >
-              {category}
-              {#if category === "Alert"}
-                <i class="fas fa-exclamation-triangle"></i>
-              {:else if category === "Event"}
-                <i class="fas fa-calendar-alt"></i>
-              {:else if category === "News"}
-                <i class="fas fa-newspaper"></i>
-              {/if}
-            </button>
-          {/each}
-        </div>
-
+      <div class="search-filters">
         <div class="search-container">
+          <i class="fas fa-search search-icon"></i>
           <input
             type="text"
             placeholder="Search announcements..."
             bind:value={searchQuery}
             class="search-input"
           />
-          <i class="fas fa-search search-icon"></i>
+          {#if searchQuery}
+            <button class="clear-search" on:click={() => searchQuery = ""}>
+              <i class="fas fa-times"></i>
+            </button>
+          {/if}
+        </div>
+
+        <div class="category-filters">
+          {#each categories as category}
+            <button
+              class="category-button"
+              class:active={selectedCategory === category}
+              on:click={() => selectCategory(category)}
+            >
+              {#if category !== 'All'}
+                <i class="fas {getCategoryIcon(category)}"></i>
+              {/if}
+              {category}
+            </button>
+          {/each}
         </div>
       </div>
 
-      <div class="announcements">
+      <div class="announcements-grid">
         {#if filteredAnnouncements.length > 0}
-          {#each visibleAnnouncements as announcement (announcement.id)}
-            <div class="announcement">
+          {#each visibleAnnouncements as announcement (announcement.slug)}
+            <a href="/announcements/{announcement.slug}" class="announcement-card">
               <div class="announcement-meta">
-                <div class="announcement-date">{announcement.date}</div>
+                <div class="announcement-date">
+                  <i class="fas fa-calendar"></i>
+                  {announcement.date}
+                </div>
                 <div class="announcement-category {announcement.category.toLowerCase()}">
+                  <i class="fas {getCategoryIcon(announcement.category)}"></i>
                   {announcement.category}
                 </div>
               </div>
-              <h2 class="announcement-title">
-                <a href="/announcements/{announcement.slug}" class="announcement-link">{announcement.title}</a>
-              </h2>
-              <p class="announcement-content">{announcement.content.slice(0, 180)}...</p>
-              <a href="/announcements/{announcement.slug}" class="read-more-button">Read Full Announcement</a>
-            </div>
+
+              <h2 class="announcement-title">{announcement.title}</h2>
+
+              <p class="announcement-excerpt">{announcement.content}</p>
+
+              <span class="read-more">
+                Read Full Announcement
+                <i class="fas fa-arrow-right"></i>
+              </span>
+            </a>
           {/each}
 
           {#if visibleAnnouncements.length < filteredAnnouncements.length}
@@ -215,7 +151,8 @@
           {/if}
         {:else}
           <div class="empty-state">
-            <p>No announcements match your criteria. Try adjusting your search or category filter.</p>
+            <i class="fas fa-scroll empty-icon"></i>
+            <p>No announcements match your criteria.</p>
             <button class="reset-button" on:click={() => { selectedCategory = "All"; searchQuery = ""; }}>
               Reset Filters
             </button>
@@ -223,9 +160,14 @@
         {/if}
       </div>
 
-      <a href="/" class="back-button">Return to Tavern</a>
+      <div class="navigation">
+        <a href="/" class="nav-button">
+          <i class="fas fa-home" style="margin-right: 8px;"></i>
+          Return to Tavern
+        </a>
+      </div>
     </div>
-  </div>
+  </main>
 </div>
 
 <style>
@@ -239,155 +181,89 @@
     line-height: 1.4;
   }
 
-  main {
-    min-height: 100vh;
+  .page-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 2rem;
-    max-width: 100%;
-    position: relative;
+    width: 100%;
+  }
+
+  .announcements-main {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
   }
 
   .container {
-    max-width: 800px;
     width: 100%;
+    max-width: 1100px;
     z-index: 2;
     position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
   }
 
-  h1 {
-    font-family: 'Cinzel Decorative', 'Luminari', fantasy;
-    margin: 1rem 0 1.5rem;
-    font-weight: 700;
-    line-height: 1.15;
-    color: #F7E8D4;
-    text-shadow: 0 0 15px rgba(231, 206, 143, 0.35);
+  .container.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .page-title {
+    font-family: 'Cinzel Decorative', 'Cinzel', fantasy;
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
     text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
+    margin-bottom: 2rem;
+    color: #F7E8D4;
+    text-shadow: 0 0 15px rgba(231, 206, 143, 0.4);
+    font-weight: 700;
+    letter-spacing: 0.02em;
     position: relative;
-    padding-bottom: 1rem;
-    padding-top: 0.75rem;
   }
 
-  h1::after {
+  .page-title::after {
     content: '';
     position: absolute;
-    bottom: 0;
+    bottom: -0.5rem;
     left: 50%;
     transform: translateX(-50%);
-    width: 80px;
-    height: 1px;
+    width: 100px;
+    height: 2px;
     background: linear-gradient(90deg,
       rgba(189, 150, 72, 0) 0%,
-      rgba(189, 150, 72, 0.6) 50%,
+      rgba(189, 150, 72, 0.7) 50%,
       rgba(189, 150, 72, 0) 100%
     );
   }
 
-  .title-line {
-    display: block;
-    text-align: center;
-    width: 100%;
-  }
-
-  .title-first {
-    font-size: 4.5rem;
-    letter-spacing: 0.2em;
-    padding-right: 0.2em;
-    text-shadow: 0 0 20px rgba(231, 206, 143, 0.45);
-  }
-
-  .title-second {
-    font-size: 2rem;
-    text-transform: uppercase;
-    letter-spacing: 0.4em;
-    padding-right: 0.4em;
-    margin-top: 0.2rem;
-    color: #e1d4c0;
-  }
-
-  .subtitle {
-    font-family: 'Cinzel', serif;
-    font-size: min(3.5vw, 1.4rem);
-    color: #BD9648;
+  .search-filters {
     margin-bottom: 2rem;
-    text-align: center;
-    opacity: 0.95;
-    width: 80%;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-    line-height: 1.6;
-    position: relative;
-  }
-
-  .subtitle-line {
-    display: block;
-    margin-bottom: 0.3rem;
-  }
-
-  .controls {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    width: 100%;
-    margin-bottom: 2rem;
-  }
-
-  .categories {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    justify-content: center;
-  }
-
-  .category-button {
-    background: rgba(20, 17, 30, 0.4);
-    border: 1px solid rgba(247, 232, 212, 0.1);
-    border-radius: 20px;
-    padding: 0.5rem 1rem;
-    color: #F7E8D4;
-    font-family: 'Cinzel', serif;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .category-button:hover {
-    background: rgba(31, 27, 45, 0.6);
-    transform: translateY(-2px);
-  }
-
-  .category-button.selected {
-    background: rgba(189, 150, 72, 0.2);
-    border-color: rgba(189, 150, 72, 0.4);
-    color: #e1d4c0;
-    font-weight: 500;
+    gap: 1.25rem;
   }
 
   .search-container {
     position: relative;
     width: 100%;
-    max-width: 500px;
-    margin: 0 auto;
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 1.2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(247, 232, 212, 0.6);
+    pointer-events: none;
   }
 
   .search-input {
     width: 100%;
-    padding: 0.75rem 1rem 0.75rem 2.5rem;
-    border-radius: 20px;
-    border: 1px solid rgba(247, 232, 212, 0.1);
+    padding: 0.9rem 1rem 0.9rem 3rem;
     background: rgba(20, 17, 30, 0.4);
+    border: 1px solid rgba(247, 232, 212, 0.1);
+    border-radius: 8px;
     color: #F7E8D4;
     font-family: 'Spectral', serif;
     font-size: 1rem;
@@ -398,37 +274,93 @@
     outline: none;
     border-color: rgba(189, 150, 72, 0.4);
     background: rgba(31, 27, 45, 0.6);
-    box-shadow: 0 0 10px rgba(189, 150, 72, 0.2);
+    box-shadow: 0 0 15px rgba(189, 150, 72, 0.1);
   }
 
-  .search-icon {
+  .search-input::placeholder {
+    color: rgba(247, 232, 212, 0.5);
+  }
+
+  .clear-search {
     position: absolute;
-    left: 1rem;
+    right: 1.2rem;
     top: 50%;
     transform: translateY(-50%);
+    background: transparent;
+    border: none;
     color: rgba(247, 232, 212, 0.6);
-    pointer-events: none;
+    font-size: 0.9rem;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
   }
 
-  .announcements {
+  .clear-search:hover {
+    color: #F7E8D4;
+    background: rgba(247, 232, 212, 0.1);
+  }
+
+  .category-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+  }
+
+  .category-button {
+    padding: 0.6rem 1rem;
+    border: 1px solid rgba(247, 232, 212, 0.1);
+    border-radius: 20px;
+    background: rgba(20, 17, 30, 0.4);
+    color: rgba(247, 232, 212, 0.8);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .category-button:hover {
+    background: rgba(31, 27, 45, 0.6);
+    border-color: rgba(189, 150, 72, 0.2);
+    transform: translateY(-2px);
+  }
+
+  .category-button.active {
+    background: rgba(189, 150, 72, 0.15);
+    border-color: rgba(189, 150, 72, 0.3);
+    color: #F7E8D4;
+    font-weight: 500;
+  }
+
+  .announcements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .announcement-card {
+    background: rgba(31, 27, 45, 0.4);
+    border: 1px solid rgba(189, 150, 72, 0.1);
+    border-radius: 8px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    text-decoration: none;
     display: flex;
     flex-direction: column;
-    gap: 1.75rem;
-    width: 100%;
-  }
-
-  .announcement {
-    background: rgba(20, 17, 30, 0.4);
-    border-radius: 8px;
-    border: 1px solid rgba(247, 232, 212, 0.1);
-    padding: 1.5rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    height: 100%;
     position: relative;
     overflow: hidden;
   }
 
-  .announcement::before {
+  .announcement-card::before {
     content: '';
     position: absolute;
     top: 0;
@@ -437,42 +369,44 @@
     height: 100%;
     background: linear-gradient(to bottom, #BD9648, rgba(189, 150, 72, 0.1));
     opacity: 0.6;
-    transition: opacity 0.3s ease;
   }
 
-  .announcement:hover {
+  .announcement-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
     border-color: rgba(189, 150, 72, 0.3);
     background: rgba(31, 27, 45, 0.6);
   }
 
-  .announcement:hover::before {
-    opacity: 1;
-  }
-
   .announcement-meta {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 0.75rem;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
   }
 
   .announcement-date {
     font-family: 'Inter', system-ui, sans-serif;
     font-size: 0.9rem;
-    color: rgba(247, 232, 212, 0.6);
-    letter-spacing: 0.03em;
+    color: rgba(247, 232, 212, 0.7);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
   }
 
   .announcement-category {
     font-family: 'Inter', system-ui, sans-serif;
     font-size: 0.8rem;
     padding: 0.25rem 0.75rem;
-    border-radius: 12px;
+    border-radius: 15px;
     font-weight: 600;
     letter-spacing: 0.05em;
     text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
   }
 
   .announcement-category.event {
@@ -495,267 +429,175 @@
 
   .announcement-title {
     font-family: 'Cinzel', serif;
-    font-size: clamp(1.25rem, 2vw, 1.5rem);
+    font-size: 1.4rem;
     color: #BD9648;
     margin: 0 0 1rem;
     font-weight: 600;
-    max-width: 100%;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-    hyphens: auto;
+    line-height: 1.3;
   }
 
-  .announcement-content {
+  .announcement-excerpt {
     font-family: 'Spectral', serif;
-    font-size: 1.1rem;
+    font-size: 1rem;
     color: rgba(247, 232, 212, 0.92);
-    margin: 0;
+    margin: 0 0 1.5rem;
     line-height: 1.6;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
-  .pagination {
-    display: flex;
-    justify-content: center;
+  .read-more {
+    color: #BD9648;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    margin-top: 2rem;
-    width: 100%;
+    margin-top: auto;
+    transition: color 0.3s ease;
   }
 
-  .pagination-button {
-    width: 36px;
-    height: 36px;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    background: rgba(20, 17, 30, 0.4);
-    border: 1px solid rgba(247, 232, 212, 0.1);
-    border-radius: 6px;
-    color: rgba(247, 232, 212, 0.8);
-    font-family: 'Inter', system-ui, sans-serif;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-
-  .pagination-button:hover:not(:disabled) {
-    background: rgba(31, 27, 45, 0.6);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-    border-color: rgba(189, 150, 72, 0.2);
-  }
-
-  .pagination-button.active {
-    background: rgba(189, 150, 72, 0.2);
-    border-color: rgba(189, 150, 72, 0.4);
-    color: #e1d4c0;
-    font-weight: 600;
-  }
-
-  .pagination-button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-
-  .page-info {
-    text-align: center;
-    font-family: 'Inter', system-ui, sans-serif;
-    font-size: 0.85rem;
-    color: rgba(247, 232, 212, 0.6);
-    margin-top: 0.75rem;
+  .announcement-card:hover .read-more {
+    color: #d4af37;
   }
 
   .load-more-button {
-    margin-top: 2rem;
-    width: 100%;
-    max-width: 300px;
-    padding: 0.75rem 1.5rem;
-    background: rgba(158, 97, 227, 0.15);
-    border: 1px dashed rgba(158, 97, 227, 0.3);
-    border-radius: 6px;
-    color: #9E61E3;
+    grid-column: 1 / -1;
+    background: rgba(31, 27, 45, 0.4);
+    border: 1px solid rgba(189, 150, 72, 0.2);
+    color: #F7E8D4;
+    padding: 1rem;
+    border-radius: 8px;
     font-family: 'Cinzel', serif;
-    font-size: 1rem;
+    font-size: 1.1rem;
     cursor: pointer;
-    transition: all 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.75rem;
-    margin-left: auto;
-    margin-right: auto;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
   }
 
   .load-more-button:hover {
-    background: rgba(158, 97, 227, 0.25);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(158, 97, 227, 0.2);
-  }
-
-  .load-more-button i {
-    transition: transform 0.3s ease;
-  }
-
-  .load-more-button:hover i {
-    transform: translateY(3px);
+    background: rgba(31, 27, 45, 0.6);
+    border-color: rgba(189, 150, 72, 0.4);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
   }
 
   .all-loaded {
-    margin-top: 2rem;
+    grid-column: 1 / -1;
     text-align: center;
-    font-family: 'Inter', system-ui, sans-serif;
-    font-size: 0.95rem;
-    color: rgba(247, 232, 212, 0.6);
+    padding: 1.5rem;
+    font-family: 'Spectral', serif;
+    color: rgba(247, 232, 212, 0.7);
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
-  }
-
-  .all-loaded i {
-    color: #BD9648;
-    opacity: 0.7;
+    gap: 0.75rem;
+    font-style: italic;
+    margin-top: 1rem;
   }
 
   .empty-state {
-    text-align: center;
-    padding: 3rem 0;
-    font-family: 'Spectral', serif;
-    font-size: 1.2rem;
+    grid-column: 1 / -1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1rem;
+    gap: 1.5rem;
+    padding: 3rem;
+    background: rgba(31, 27, 45, 0.3);
+    border: 1px solid rgba(247, 232, 212, 0.1);
+    border-radius: 8px;
+    text-align: center;
+  }
+
+  .empty-icon {
+    font-size: 3rem;
+    color: rgba(189, 150, 72, 0.4);
   }
 
   .reset-button {
-    background: rgba(158, 97, 227, 0.15);
-    border: 1px solid rgba(158, 97, 227, 0.3);
-    border-radius: 4px;
-    padding: 0.5rem 1.25rem;
-    color: #9E61E3;
+    background: rgba(189, 150, 72, 0.2);
+    border: 1px solid rgba(189, 150, 72, 0.3);
+    color: #F7E8D4;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
     font-family: 'Cinzel', serif;
-    font-size: 0.95rem;
     cursor: pointer;
     transition: all 0.3s ease;
   }
 
   .reset-button:hover {
-    background: rgba(158, 97, 227, 0.25);
+    background: rgba(189, 150, 72, 0.3);
     transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
   }
 
-  .back-button {
-    margin-top: 3rem;
-    padding: 0.75rem 2rem;
+  .navigation {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+
+  .nav-button {
+    padding: 0.75rem 1.25rem;
     border: none;
     border-radius: 6px;
-    background: linear-gradient(135deg, #9E61E3 0%, #7A3CA3 100%);
+    background: rgba(31, 27, 45, 0.6);
     color: #F7E8D4;
     font-family: 'Cinzel', serif;
-    font-size: 1.1rem;
+    font-size: 0.95rem;
     font-weight: 500;
-    letter-spacing: 0.06em;
     cursor: pointer;
     transition: all 0.3s ease;
     text-decoration: none;
-    display: block;
-    width: fit-content;
-    margin-left: auto;
-    margin-right: auto;
-    box-shadow: 0 4px 12px rgba(122, 60, 163, 0.3);
-    position: relative;
-    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid rgba(247, 232, 212, 0.1);
   }
 
-  .back-button::after {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(
-      to right,
-      rgba(255, 255, 255, 0) 0%,
-      rgba(255, 255, 255, 0.1) 50%,
-      rgba(255, 255, 255, 0) 100%
-    );
-    transform: rotate(30deg);
-    transition: transform 0.6s ease;
-    pointer-events: none;
-  }
-
-  .back-button:hover {
+  .nav-button:hover {
+    background: rgba(31, 27, 45, 0.8);
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(122, 60, 163, 0.4);
-    background: linear-gradient(135deg, #AF71F4 0%, #8547B0 100%);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    border-color: rgba(189, 150, 72, 0.2);
   }
 
-  .back-button:hover::after {
-    transform: rotate(30deg) translate(150%, -150%);
-  }
-
-  .announcement-link {
-    text-decoration: none;
-    color: #BD9648;
-    transition: color 0.3s ease;
-  }
-
-  .announcement-link:hover {
-    color: #d8b05c;
-    text-decoration: underline;
-  }
-
-  .read-more-button {
-    display: inline-block;
-    margin-top: 1.25rem;
-    padding: 0.5rem 1.25rem;
-    background: rgba(158, 97, 227, 0.15);
-    border: 1px solid rgba(158, 97, 227, 0.3);
-    border-radius: 4px;
-    color: #9E61E3;
-    font-family: 'Cinzel', serif;
-    font-size: 0.95rem;
-    text-decoration: none;
-    transition: all 0.3s ease;
-  }
-
-  .read-more-button:hover {
-    background: rgba(158, 97, 227, 0.25);
-    transform: translateY(-2px) translateX(3px);
-    box-shadow: 0 4px 12px rgba(158, 97, 227, 0.2);
-  }
-
+  /* Media Queries for Responsiveness */
   @media (max-width: 768px) {
-    main {
-      padding: 1.5rem;
+    .announcements-grid {
+      grid-template-columns: 1fr;
     }
 
-    .title-first {
-      font-size: 11vw;
-      letter-spacing: 0.2em;
-      padding-right: 0.2em;
-    }
-
-    .title-second {
-      font-size: 5vw;
-      letter-spacing: 0.4em;
-      padding-right: 0.4em;
-    }
-
-    h1::after {
-      width: 60px;
-    }
-
-    .controls {
-      flex-direction: column;
+    .search-filters {
       gap: 1rem;
     }
 
-    .categories {
-      justify-content: center;
-      flex-wrap: wrap;
+    .category-filters {
+      justify-content: flex-start;
+      overflow-x: auto;
+      padding-bottom: 0.5rem;
+      flex-wrap: nowrap;
+      width: 100%;
+    }
+
+    .category-button {
+      flex-shrink: 0;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .announcements-main {
+      padding: 0.75rem;
+    }
+
+    .search-input {
+      padding: 0.75rem 1rem 0.75rem 2.75rem;
+      font-size: 0.95rem;
     }
 
     .announcement-meta {
@@ -764,8 +606,8 @@
       gap: 0.5rem;
     }
 
-    .pagination {
-      flex-wrap: wrap;
+    .announcement-category {
+      align-self: flex-start;
     }
   }
 </style>
