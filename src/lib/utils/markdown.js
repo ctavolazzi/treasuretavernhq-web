@@ -69,7 +69,31 @@ function processBlock(block) {
     if (match) {
       const language = match[1] || '';
       const code = match[2];
-      return `<pre class="tale-pre"><code class="tale-code ${language ? `language-${language}` : ''}">${escapeHtml(code)}</code></pre>`;
+      const escapedCode = escapeHtml(code);
+
+      // Enhanced implementation with a themed copy button
+      return `
+        <div class="code-block-wrapper">
+          <button
+            class="copy-button"
+            aria-label="Copy code to clipboard"
+            onclick="
+              navigator.clipboard.writeText(this.parentNode.querySelector('code').textContent)
+                .then(() => {
+                  const feedback = document.createElement('span');
+                  feedback.className = 'copy-feedback';
+                  feedback.innerHTML = '<i class=\"fas fa-check\"></i> Copied!';
+                  this.parentNode.appendChild(feedback);
+                  setTimeout(() => feedback.remove(), 2000);
+                  this.innerHTML = '<i class=\"fas fa-check\"></i> Copied!';
+                  setTimeout(() => this.innerHTML = '<i class=\"fas fa-copy\"></i> Copy', 2000);
+                })
+                .catch(err => console.error('Failed to copy: ', err))
+            "
+          ><i class="fas fa-copy"></i> Copy</button>
+          <pre class="tale-pre"><code class="tale-code ${language ? `language-${language}` : ''}">${escapedCode}</code></pre>
+        </div>
+      `;
     }
   }
 
