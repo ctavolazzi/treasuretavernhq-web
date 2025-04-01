@@ -1,106 +1,76 @@
-import * as fs from 'fs';
-import * as path from 'path';
-import { fileURLToPath } from 'url';
-import matter from 'gray-matter';
+// Import marked for markdown parsing
 import { marked } from 'marked';
+import { error } from '@sveltejs/kit';
 
-// Get the current file's directory
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// Create a simple hardcoded markdown example that works on Cloudflare
+const TEST_MARKDOWN = `---
+title: Test Markdown Page
+date: March 31, 2025
+author: Tavern Management
+---
 
-// Build path to the content directory (this is relative to the current file)
-const contentDir = path.resolve(__dirname, '../../lib/content/test');
+# Test Markdown Page
 
-// Configure the marked renderer to customize code blocks
-const renderer = new marked.Renderer();
+This is a test markdown page to demonstrate rendering markdown content in SvelteKit.
 
-// Original code function for reference
-const originalCodeRenderer = renderer.code.bind(renderer);
+## Features
 
-// Override code rendering
-renderer.code = function(code, language) {
-  // Extract code from object if needed
-  let codeContent;
-  if (typeof code === 'object' && code !== null && code.text) {
-    codeContent = code.text;
-    if (!language && code.lang) {
-      language = code.lang;
-    }
-  } else if (typeof code === 'string') {
-    codeContent = code;
-  } else {
-    codeContent = String(code || '');
-  }
+- Heading support (H1-H6)
+- Lists (ordered and unordered)
+- **Bold** and *italic* text
+- \`Inline code\` formatting
+- Code blocks
 
-  // Escape HTML entities to prevent rendering issues
-  const escapedCode = codeContent
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
+\`\`\`javascript
+// Example code block
+function greet() {
+  return "Welcome to the Tavern!";
+}
+\`\`\`
 
-  // Generate a unique ID for the code block
-  const id = `code-${Math.random().toString(36).substring(2, 9)}`;
+## Next Steps
 
-  // Standard code block with copy button
-  return `
-    <div class="code-block">
-      <pre><code id="${id}" class="language-${language || 'javascript'}">${escapedCode}</code></pre>
-      <button class="copy-button" onclick="copyCode('${id}')">Copy</button>
-    </div>
-    <script>
-      function copyCode(id) {
-        const code = document.getElementById(id).textContent;
-        navigator.clipboard.writeText(code)
-          .then(() => {
-            const button = document.getElementById(id).closest('.code-block').querySelector('.copy-button');
-            button.textContent = 'Copied!';
-            setTimeout(() => {
-              button.textContent = 'Copy';
-            }, 1500);
-          })
-          .catch(() => {
-            // Silently fail
-          });
-      }
-      // Trigger Prism highlighting for the new code block
-      if (typeof Prism !== 'undefined') {
-        Prism.highlightElement(document.getElementById('${id}'));
-      }
-    </script>
-  `;
-};
+1. First item
+2. Second item
+3. Third item
 
-export async function load({ url }) {
+> This is a blockquote that demonstrates formatting options.
+
+For more information, visit [the documentation](https://marked.js.org/).
+`;
+
+export async function load() {
   try {
-    // Get the slug from the query parameter, default to test-markdown
-    const slug = url.searchParams.get('slug') || 'test-markdown';
+    // For Cloudflare compatibility, use a hardcoded markdown example
+    // In a production app, you would fetch this from a database/API
 
-    // Build the file path
-    const contentPath = path.join(contentDir, `${slug}.md`);
+    // Extract frontmatter manually (simplified approach)
+    const parts = TEST_MARKDOWN.split('---');
+    let frontmatter = {};
 
-    // Read the markdown file
-    const fileContents = fs.readFileSync(contentPath, 'utf-8');
+    if (parts.length >= 3) {
+      // Basic frontmatter parsing
+      const frontmatterText = parts[1];
+      frontmatterText.split('\n').forEach(line => {
+        if (line.trim() && line.includes(':')) {
+          const [key, value] = line.split(':', 2);
+          frontmatter[key.trim()] = value.trim();
+        }
+      });
+    }
 
-    // Parse frontmatter and content
-    const { data: frontmatter, content } = matter(fileContents);
+    // Get content (everything after the second ---)
+    const content = parts.length >= 3 ? parts.slice(2).join('---') : TEST_MARKDOWN;
 
-    // Convert markdown to HTML with custom renderer
-    const html = marked.parse(content, { renderer });
+    // Parse markdown to HTML
+    const htmlContent = marked.parse(content);
 
-    // Return data for the page
     return {
-      frontmatter,
-      content: html,
-      slug
+      content: htmlContent,
+      frontmatter
     };
-  } catch (error) {
-    console.error('Error loading markdown:', error);
-    return {
-      frontmatter: { title: 'Error Loading Content' },
-      content: `<p>There was an error loading the content: ${error.message}. Please try again later.</p>`,
-      slug: 'error'
-    };
+  } catch (err) {
+    console.error('Error loading markdown:', err);
+    throw error(500, 'Failed to load markdown');
   }
 }

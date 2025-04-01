@@ -1,0 +1,8 @@
+compatibility_flags = ["nodejs_compat"]
+compatibility_date = "2023-11-21"
+
+[site]
+bucket = ".svelte-kit/cloudflare"
+
+# Add the main field as suggested by the warning
+main = "workers-site/index.js"

@@ -1,14 +1,5 @@
-import * as fs from 'fs';
-import * as path from 'path';
-import { fileURLToPath } from 'url';
+// Import only gray-matter which is a dependency we have
 import matter from 'gray-matter';
-
-// Get the current file's directory
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-// Build path to the content directory
-const contentDir = path.resolve(__dirname, '../../lib/content/announcements');
 
 // This is where you would typically fetch from an API or database
 // For this example, we're using hard-coded announcements data
@@ -62,48 +53,11 @@ const hardcodedAnnouncements = [
 
 export async function load() {
   try {
-    // Get all available markdown files from the content directory
-    let mdAnnouncements = [];
-
-    try {
-      if (fs.existsSync(contentDir)) {
-        const files = fs.readdirSync(contentDir);
-        const mdFiles = files.filter(file => file.endsWith('.md'));
-
-        // Process each markdown file
-        for (const file of mdFiles) {
-          try {
-            const filePath = path.join(contentDir, file);
-            const fileContents = fs.readFileSync(filePath, 'utf-8');
-            const { data: frontmatter, content } = matter(fileContents);
-            const slug = file.replace('.md', '');
-
-            mdAnnouncements.push({
-              slug,
-              date: frontmatter.date,
-              title: frontmatter.title,
-              category: frontmatter.category,
-              type: frontmatter.type || frontmatter.category.toLowerCase(),
-              content: frontmatter.excerpt || content.slice(0, 150) + "...",
-              author: frontmatter.author || "Tavern Management",
-              isMarkdown: true
-            });
-          } catch (err) {
-            console.error(`Error processing markdown file ${file}:`, err);
-          }
-        }
-      }
-    } catch (err) {
-      console.error("Error reading markdown directory:", err);
-    }
-
-    // Merge hardcoded and markdown announcements, preferring markdown if duplicate slug
-    const slugsFromMd = mdAnnouncements.map(a => a.slug);
-    const filteredHardcoded = hardcodedAnnouncements.filter(a => !slugsFromMd.includes(a.slug));
-
-    const allAnnouncements = [...mdAnnouncements, ...filteredHardcoded];
+    // For Cloudflare deployment, we'll use only hardcoded announcements
+    // In a production environment, you would fetch from a database like Supabase
 
     // Sort by date (newest first)
+    const allAnnouncements = [...hardcodedAnnouncements];
     allAnnouncements.sort((a, b) => {
       const dateA = new Date(a.date);
       const dateB = new Date(b.date);
