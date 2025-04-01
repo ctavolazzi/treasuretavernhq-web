@@ -2,8 +2,6 @@
   import { onMount } from 'svelte';
   import { subscribeEmail, isSupabaseConfigured, supabase } from '$lib/supabaseClient';
   import ImageModal from '$lib/components/ImageModal.svelte'; // Import the modal component
-  import ImageCarousel from '$lib/components/ImageCarousel.svelte'; // Import the new carousel component
-  import ClientOnly from '$lib/components/ClientOnly.svelte'; // Import the ClientOnly wrapper
 
   let email = '';
   let name = '';
@@ -15,35 +13,6 @@
   let scrollModalOpen = false; // Track if the scroll modal is open
   let scrollImgSrc = '/images/tavern-song-scroll-transparent.png'; // Image source for the modal
   let scrollImgWebpSrc = '/images/tavern-song-scroll-transparent.webp'; // WebP version
-
-  // Carousel images
-  const carouselImages = [
-    {
-      src: '/images/tales/the-bone-kingdom.png',
-      webpSrc: '/images/tales/the-bone-kingdom.webp',
-      alt: 'The Bone Kingdom - A mysterious realm built from bones that serves as an archive of memories'
-    },
-    {
-      src: '/images/tales/dragon-wizard-music.png',
-      webpSrc: '/images/tales/dragon-wizard-music.webp',
-      alt: 'Dragon Wizard Music - A magical composition that bridges worlds'
-    },
-    {
-      src: '/images/tales/the-void-boy.png',
-      webpSrc: '/images/tales/the-void-boy.webp',
-      alt: 'The Void Boy - A tale from the darker corners of the Treasure Tavern universe'
-    },
-    {
-      src: '/images/tales/sorceress-of-storms.png',
-      webpSrc: '/images/tales/sorceress-of-storms.webp',
-      alt: 'Sorceress of Storms - A powerful mage who commands the elements'
-    },
-    {
-      src: '/images/tales/the-goblin-kings-bet.png',
-      webpSrc: '/images/tales/the-goblin-kings-bet.webp',
-      alt: 'The Goblin King\'s Bet - A tale of risk and reward in the goblin realm'
-    }
-  ];
 
   // Lantern animation
   let lanternState: 'out' | 'animate' | 'success' = 'out';
@@ -208,17 +177,6 @@
   />
 
   <div class="container">
-    <!-- Hero Carousel -->
-    <div class="hero-carousel">
-      <ClientOnly --height="auto" --aspect-ratio="21:9">
-        <ImageCarousel
-          images={carouselImages}
-          aspectRatio="21:9"
-          autoplayInterval={6000}
-        />
-      </ClientOnly>
-    </div>
-
     <h1>
       <div class="welcome-wrapper">
         <span class="welcome-medium">Welcome</span><br>
@@ -233,28 +191,16 @@
       <div class="welcome-image-container">
         <a href="/tavern-tales">
           <picture>
-            <!-- Desktop (landscape) version -->
             <source
-              media="(min-width: 768px)"
-              srcset="/images/tavern-90s-main-ad-landscape.webp"
-              type="image/webp"
-            >
-            <source
-              media="(min-width: 768px)"
-              srcset="/images/tavern-90s-main-ad-landscape.png"
-              type="image/png"
-            >
-            <!-- Mobile (portrait) version -->
-            <source
-              srcset="/images/tavern-90s-main-ad.webp"
+              srcset="/images/tt-landscape-welcome-image.webp"
               type="image/webp"
             >
             <img
-              src="/images/tavern-90s-main-ad.png"
-              alt="Welcome to Treasure Tavern - A fantastical tavern where adventures await"
+              src="/images/tt-landscape-welcome-image.png"
+              alt="Welcome to Treasure Tavern - A mystical fantasy landscape"
               class="welcome-image"
               loading="lazy"
-            />
+            >
           </picture>
         </a>
       </div>
@@ -650,7 +596,7 @@
     z-index: 2;
     position: relative;
     text-align: center;
-    padding-top: 0.5rem;
+    padding-top: 0.25rem; /* Reduced from 0.5rem to half the space */
   }
 
   h1 {
@@ -672,7 +618,7 @@
     width: auto;
     margin: 0 auto;
     text-align: center;
-    line-height: 1;
+    line-height: 0.85; /* Tighter line-height (was 1) */
   }
 
   .welcome-medium {
@@ -680,9 +626,9 @@
     letter-spacing: 0.05em;
     font-weight: 600;
     display: block;
-    margin-bottom: -0.25em;
-    padding-top: 0.3em;
-    line-height: 1;
+    margin-bottom: -0.35em; /* More negative margin to pull up (was -0.25em) */
+    padding-top: 0.2em; /* Reduced top padding (was 0.3em) */
+    line-height: 0.9; /* Tighter line-height (was 1) */
     white-space: nowrap;
   }
 
@@ -692,18 +638,18 @@
     opacity: 0.85;
     font-weight: 400;
     display: block;
-    margin-bottom: -0.25em;
-    line-height: 1;
+    margin-bottom: -0.35em; /* More negative margin to pull up (was -0.25em) */
+    line-height: 0.9; /* Tighter line-height (was 1) */
     white-space: nowrap;
   }
 
   .welcome-large {
     font-size: clamp(3.2rem, 7vw, 5.0rem);
     letter-spacing: 0.04em;
-    line-height: 1;
+    line-height: 0.9; /* Tighter line-height (was 1) */
     display: block;
     margin-top: 0;
-    margin-bottom: -0.05em;
+    margin-bottom: -0.1em; /* More negative margin (was -0.05em) */
     color: #D5A44C; /* Warmer gold color */
     text-shadow: 0 0 15px rgba(213, 164, 76, 0.5), 0 0 30px rgba(213, 164, 76, 0.3);
     font-weight: 800;
@@ -999,14 +945,14 @@
 
     /* ADDED */
     h1 .welcome-wrapper {
-      line-height: 0.75; /* Extremely tight */
+      line-height: 0.65; /* Tighter spacing (was 0.75) */
     }
     /* END ADDED */
 
     /* ADDED - Tighter inter-line spacing */
     .welcome-medium,
     .welcome-small {
-      margin-bottom: -0.25em; /* Very large negative margin */
+      margin-bottom: -0.35em; /* More negative margin (was -0.25em) */
     }
     /* END ADDED */
 
@@ -1023,17 +969,17 @@
 
     /* ADDED */
     h1 {
-        margin-bottom: 0.1rem; /* Almost zero margin */
+        margin-bottom: 0; /* Remove bottom margin (was 0.1rem) */
     }
 
     h1 .welcome-wrapper {
-        line-height: 0.7; /* Extremely tight */
+        line-height: 0.6; /* Tighter spacing (was 0.7) */
     }
 
     /* ADDED - Tighter inter-line spacing */
     .welcome-medium,
     .welcome-small {
-        margin-bottom: -0.3em; /* Very large negative margin */
+        margin-bottom: -0.4em; /* More negative margin (was -0.3em) */
     }
     /* END ADDED */
 
@@ -1064,13 +1010,13 @@
     }
 
     h1 .welcome-wrapper {
-        line-height: 0.65; /* Extremely tight */
+        line-height: 0.55; /* Tighter spacing (was 0.65) */
     }
 
     /* ADDED - Tighter inter-line spacing */
     .welcome-medium,
     .welcome-small {
-        margin-bottom: -0.35em; /* Very large negative margin */
+        margin-bottom: -0.45em; /* More negative margin (was -0.35em) */
     }
     /* END ADDED */
 
@@ -1746,22 +1692,8 @@
     transform: translateX(4px);
   }
 
-  /* Hero Carousel Styles */
-  .hero-carousel {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto 2rem;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-  }
-
   /* On smaller screens, adjust margin */
   @media (max-width: 768px) {
-    .hero-carousel {
-      margin-bottom: 1.5rem;
-    }
-
     .container {
       max-width: 100%;
       padding: 0 0.5rem;
@@ -2339,36 +2271,10 @@
   }
 
   /* ADDED - Reduce space above H1 */
-  .hero-carousel {
-    margin-bottom: 1rem; /* Reduce space after carousel */
-  }
-  /* END ADDED */
-
-  /* ADDED - Reduce space above H1 */
-  .hero-carousel {
-      margin-bottom: 0.75rem; /* Further reduce space */
-  }
-  /* END ADDED */
 
   .lantern-container {
     width: 300px; /* Updated to 300px as requested */
     height: 300px; /* Updated to 300px as requested */
     margin: 0 auto 0.25rem; /* Center horizontally with auto margins */
-  }
-
-  /* ADDED - Reduce space above H1 */
-  .hero-carousel {
-      margin-bottom: 0.5rem; /* Minimal space */
-  }
-  /* END ADDED */
-
-  h1 .welcome-large {
-    font-size: clamp(3.5rem, 7vw, 4.5rem); /* Reduced max font size */
-  }
-
-  .lantern-container {
-    width: 300px; /* Updated to 300px as requested */
-    height: 300px; /* Updated to 300px as requested */
-    margin: 0 auto 0.1rem; /* Center horizontally with auto margins */
   }
 </style>
