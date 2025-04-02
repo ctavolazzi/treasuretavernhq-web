@@ -5,6 +5,8 @@
 	import { onMount } from 'svelte';
 	import ResponsiveImage from '$lib/components/ResponsiveImage.svelte';
 	import { pageAudio } from '$lib/stores/audioStore';
+	import Breadcrumb from '$lib/components/Breadcrumb.svelte';
+	import { page } from '$app/stores';
 	let { children } = $props();
 
   let bannerActive = $state(false);
@@ -18,6 +20,72 @@
     { label: 'Contact', href: '/contact' },
     { label: 'Sign Up', href: '/waitlist', special: true, icon: 'fa-user-plus' }
   ];
+
+  // Breadcrumb configuration based on current route
+  let breadcrumbItems = $derived(getBreadcrumbItems($page.url.pathname));
+  let showBreadcrumbs = $derived($page.url.pathname !== '/');
+
+  function getBreadcrumbItems(pathname: string) {
+    const parts = pathname.split('/').filter(Boolean);
+    if (parts.length === 0) return [];
+
+    const items = [{ label: 'Home', href: '/', icon: 'fa-home' }];
+    let currentPath = '';
+
+    for (let i = 0; i < parts.length; i++) {
+      const part = parts[i];
+      currentPath += `/${part}`;
+
+      // Special case for newsletter pages
+      if (part === 'newsletter' && i < parts.length - 1 && parts[i+1]) {
+        // For the newsletter link
+        items.push({
+          label: 'Newsletter',
+          href: '/newsletter',
+          icon: 'fa-envelope-open-text'
+        });
+
+        // For the specific newsletter issue - handles the ID parameter
+        if (parts[i+1]) {
+          items.push({
+            label: `Issue: ${parts[i+1].charAt(0).toUpperCase() + parts[i+1].slice(1).replace(/-/g, ' ')}`,
+            icon: 'fa-scroll',
+            href: currentPath + '/' + parts[i+1]  // Add href to fix linter error
+          });
+        }
+
+        // Skip the next iteration since we've handled it
+        i++;
+
+      } else {
+        // Standard handling for other pages
+        const label = part.charAt(0).toUpperCase() + part.slice(1).replace(/-/g, ' ');
+        const icon = getIconForPath(part);
+
+        if (currentPath === pathname) {
+          // Last item (current page) doesn't need a href but we'll add it as empty string to satisfy type checker
+          items.push({ label, icon, href: '' });
+        } else {
+          items.push({ label, href: currentPath, icon });
+        }
+      }
+    }
+
+    return items;
+  }
+
+  function getIconForPath(path: string) {
+    switch (path.toLowerCase()) {
+      case 'newsletter': return 'fa-envelope-open-text';
+      case 'tavern-tales': return 'fa-book-open';
+      case 'announcements': return 'fa-bullhorn';
+      case 'demo': return 'fa-flask';
+      case 'about': return 'fa-info-circle';
+      case 'contact': return 'fa-envelope';
+      case 'waitlist': return 'fa-user-plus';
+      default: return '';
+    }
+  }
 
   function toggleBanner() {
     bannerActive = !bannerActive;
@@ -326,6 +394,10 @@
 <a href="/about" class="banner" class:active={bannerActive} onclick={toggleBanner}>
   <h1 class="banner-text">Treasure Tavern HQ</h1>
 </a>
+
+{#if showBreadcrumbs && breadcrumbItems.length > 0}
+  <Breadcrumb items={breadcrumbItems} />
+{/if}
 
 {@render children()}
 

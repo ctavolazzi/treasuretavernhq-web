@@ -1,7 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { subscribeEmail, isSupabaseConfigured } from '$lib/supabaseClient';
-  import Breadcrumb from '$lib/components/Breadcrumb.svelte';
 
   // Define form data interface
   interface FormData {
@@ -85,12 +84,6 @@
 
   // Mobile menu state
   let showMobileMenu = false;
-
-  // Breadcrumb configuration
-  const breadcrumbItems = [
-    { label: 'Home', href: '/', icon: 'fa-home' },
-    { label: 'Newsletter', icon: 'fa-envelope-open-text' }
-  ];
 
   onMount(() => {
     // Check if Supabase is configured properly
@@ -671,8 +664,6 @@
 </svelte:head>
 
 <div class="page-container">
-  <Breadcrumb items={breadcrumbItems} />
-
   <!-- Newsletter Navigation -->
   <div class="newsletter-nav">
     <div class="newsletter-nav-inner">

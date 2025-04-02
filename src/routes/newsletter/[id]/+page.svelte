@@ -1,7 +1,6 @@
 <script lang="ts">
   import { page } from '$app/stores';
   import { onMount } from 'svelte';
-  import Breadcrumb from '$lib/components/Breadcrumb.svelte';
 
   // Define newsletter ID type
   type NewsletterID = 'january-2025' | 'february-2025' | 'march-2025';
@@ -126,14 +125,66 @@
 
   // Export the data prop
   export let data;
-
-  // Breadcrumb configuration with dynamic newsletter title
-  $: breadcrumbItems = [
-    { label: 'Home', href: '/', icon: 'fa-home' },
-    { label: 'Newsletter', href: '/newsletter', icon: 'fa-envelope-open-text' },
-    { label: `Issue #${data.id}` }
-  ];
 </script>
+
+<svelte:head>
+  <title>{newsletter ? newsletter.title : 'Newsletter Not Found'} - Treasure Tavern</title>
+  <meta name="description" content="{newsletter ? `Read ${newsletter.title} from Treasure Tavern's fantasy newsletter archive.` : 'Newsletter archive from Treasure Tavern'}" />
+</svelte:head>
+
+<div class="newsletter-page">
+  <div class="header-actions">
+    <a href="/newsletter" class="back-link">
+      <i class="fas fa-arrow-left"></i> Back to Tavern Chronicles
+    </a>
+
+    {#if canShare && newsletter}
+      <button class="share-button" on:click={shareNewsletter}>
+        <i class="fas fa-share-alt"></i> Share
+      </button>
+    {/if}
+  </div>
+
+  {#if notFound}
+    <div class="not-found">
+      <h2>Newsletter Not Found</h2>
+      <p>We couldn't find the newsletter you're looking for. It may have been moved or deleted.</p>
+      <a href="/newsletter" class="subscribe-button">View All Newsletters</a>
+    </div>
+  {:else if newsletter}
+    <header class="newsletter-header">
+      <h1 class="newsletter-title">{newsletter.title}</h1>
+      <p class="newsletter-date">{newsletter.date}</p>
+    </header>
+
+    <div class="newsletter-content">
+      {@html newsletter.content}
+    </div>
+
+    <div class="subscribe-cta">
+      <h3>Want More Tavern Chronicles?</h3>
+      <p>Don't miss future editions! Subscribe now to get our next chronicle <strong>"April 2025: Coming Soon"</strong> delivered straight to your inbox as soon as it's released.</p>
+      <div class="cta-benefits">
+        <div class="benefit-item">
+          <i class="fas fa-scroll"></i>
+          <span>First access to new Chronicles</span>
+        </div>
+        <div class="benefit-item">
+          <i class="fas fa-gem"></i>
+          <span>Exclusive subscriber-only content</span>
+        </div>
+        <div class="benefit-item">
+          <i class="fas fa-hat-wizard"></i>
+          <span>Special offers on magical items</span>
+        </div>
+      </div>
+      <div class="cta-buttons">
+        <a href="/newsletter#hero-section" class="subscribe-button">Subscribe Now</a>
+        <a href="/demo" class="demo-button">Try Free Demo</a>
+      </div>
+    </div>
+  {/if}
+</div>
 
 <style>
   .newsletter-page {
@@ -362,64 +413,3 @@
     }
   }
 </style>
-
-<svelte:head>
-  <title>{newsletter ? newsletter.title : 'Newsletter Not Found'} - Treasure Tavern</title>
-  <meta name="description" content="{newsletter ? `Read ${newsletter.title} from Treasure Tavern's fantasy newsletter archive.` : 'Newsletter archive from Treasure Tavern'}" />
-</svelte:head>
-
-<div class="newsletter-page">
-  <Breadcrumb items={breadcrumbItems} />
-
-  <div class="header-actions">
-    <a href="/newsletter" class="back-link">
-      <i class="fas fa-arrow-left"></i> Back to Tavern Chronicles
-    </a>
-
-    {#if canShare && newsletter}
-      <button class="share-button" on:click={shareNewsletter}>
-        <i class="fas fa-share-alt"></i> Share
-      </button>
-    {/if}
-  </div>
-
-  {#if notFound}
-    <div class="not-found">
-      <h2>Newsletter Not Found</h2>
-      <p>We couldn't find the newsletter you're looking for. It may have been moved or deleted.</p>
-      <a href="/newsletter" class="subscribe-button">View All Newsletters</a>
-    </div>
-  {:else if newsletter}
-    <header class="newsletter-header">
-      <h1 class="newsletter-title">{newsletter.title}</h1>
-      <p class="newsletter-date">{newsletter.date}</p>
-    </header>
-
-    <div class="newsletter-content">
-      {@html newsletter.content}
-    </div>
-
-    <div class="subscribe-cta">
-      <h3>Want More Tavern Chronicles?</h3>
-      <p>Don't miss future editions! Subscribe now to get our next chronicle <strong>"April 2025: Coming Soon"</strong> delivered straight to your inbox as soon as it's released.</p>
-      <div class="cta-benefits">
-        <div class="benefit-item">
-          <i class="fas fa-scroll"></i>
-          <span>First access to new Chronicles</span>
-        </div>
-        <div class="benefit-item">
-          <i class="fas fa-gem"></i>
-          <span>Exclusive subscriber-only content</span>
-        </div>
-        <div class="benefit-item">
-          <i class="fas fa-hat-wizard"></i>
-          <span>Special offers on magical items</span>
-        </div>
-      </div>
-      <div class="cta-buttons">
-        <a href="/newsletter#hero-section" class="subscribe-button">Subscribe Now</a>
-        <a href="/demo" class="demo-button">Try Free Demo</a>
-      </div>
-    </div>
-  {/if}
-</div>
