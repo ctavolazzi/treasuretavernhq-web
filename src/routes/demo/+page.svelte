@@ -1,7 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import AnnouncementCta from '$lib/components/AnnouncementCta.svelte';
-  import Breadcrumb from '$lib/components/Breadcrumb.svelte';
 
   // Demo page features
   const features = [
@@ -69,12 +68,6 @@
 
   // For particle effect on magic success
   let showParticles = false;
-
-  // Breadcrumb configuration
-  const breadcrumbItems = [
-    { label: 'Home', href: '/', icon: 'fa-home' },
-    { label: 'Demo', icon: 'fa-flask' }
-  ];
 
   onMount(() => {
     // Any initialization can go here
@@ -428,8 +421,6 @@
 </svelte:head>
 
 <div class="page-container">
-  <Breadcrumb items={breadcrumbItems} />
-
   <div class="hero">
     <main class="demo-container">
       <h1>Treasure Tavern</h1>

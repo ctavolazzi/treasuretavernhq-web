@@ -1,7 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { fade } from 'svelte/transition';
-  import Breadcrumb from '$lib/components/Breadcrumb.svelte';
 
   // Form state
   let email = '';
@@ -24,12 +23,6 @@
       errorMessage = form.error;
     }
   }
-
-  // Breadcrumb configuration
-  $: breadcrumbItems = [
-    { label: 'Home', href: '/', icon: 'fa-home' },
-    { label: isSuccess ? 'Waitlist Joined' : 'Waitlist', icon: 'fa-user-plus' }
-  ];
 
   onMount(() => {
     // Reduce timeout delay for faster initial render
@@ -342,8 +335,6 @@
 </style>
 
 <div class="page-container">
-  <Breadcrumb items={breadcrumbItems} />
-
   <section class="hero">
     <div class="hero-bg"></div>
     <div class="hero-content" class:visible={isReady}>

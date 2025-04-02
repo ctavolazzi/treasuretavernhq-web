@@ -1,7 +1,6 @@
 <script lang="ts">
   import { enhance } from '$app/forms';
   import { onMount } from 'svelte';
-  import Breadcrumb from '$lib/components/Breadcrumb.svelte';
 
   // Interface for form data
   interface ContactForm {
@@ -42,12 +41,6 @@
     message: '',
     captcha: ''
   };
-
-  // Breadcrumb configuration
-  const breadcrumbItems = [
-    { label: 'Home', href: '/', icon: 'fa-home' },
-    { label: 'Contact', icon: 'fa-envelope' }
-  ];
 
   // Client-side validation
   function validateForm(): boolean {
@@ -416,8 +409,6 @@
 </style>
 
 <div class="page-container">
-  <Breadcrumb items={breadcrumbItems} />
-
   <section class="hero">
     <div class="hero-bg"></div>
     <div class="hero-content" class:visible={isReady}>

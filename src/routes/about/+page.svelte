@@ -3,7 +3,6 @@
   import { onMount } from 'svelte';
   import { fade, slide, fly } from 'svelte/transition';
   import { quintOut } from 'svelte/easing';
-  import Breadcrumb from '$lib/components/Breadcrumb.svelte';
 
   let isReady = false;
   let sectionsVisible = {
@@ -16,12 +15,6 @@
 
   // Define type for section IDs
   type SectionId = keyof typeof sectionsVisible;
-
-  // Breadcrumb configuration
-  const breadcrumbItems = [
-    { label: 'Home', href: '/', icon: 'fa-home' },
-    { label: 'About', icon: 'fa-info-circle' }
-  ];
 
   // Intersection observer to animate sections as they come into view
   onMount(() => {
@@ -656,8 +649,6 @@
 </style>
 
 <div class="page-container">
-  <Breadcrumb items={breadcrumbItems} />
-
   <section class="hero">
     <div class="hero-bg"></div>
     <div class="hero-content" class:visible={isReady}>

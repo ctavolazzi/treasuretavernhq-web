@@ -1,6 +1,5 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import Breadcrumb from '$lib/components/Breadcrumb.svelte';
 
   // Define announcement interface
   interface Announcement {
@@ -17,12 +16,6 @@
   // Get data from page load function
   export let data;
   const { announcements: loadedAnnouncements, categories } = data;
-
-  // Breadcrumb configuration
-  const breadcrumbItems = [
-    { label: 'Home', href: '/', icon: 'fa-home' },
-    { label: 'Announcements', icon: 'fa-bullhorn' }
-  ];
 
   // State for filtering and pagination
   let selectedCategory = "All";
@@ -86,8 +79,6 @@
 </svelte:head>
 
 <div class="page-container">
-  <Breadcrumb items={breadcrumbItems} />
-
   <main class="announcements-main">
     <div class="container" class:fade-in={fadeIn}>
       <h1 class="page-title">Tavern Announcements</h1>
