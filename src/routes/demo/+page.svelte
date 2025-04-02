@@ -546,8 +546,7 @@
       <div class="newsletter-preview">
         <h3>Echoes from the Chronicles</h3>
         <div class="preview-image">
-          <!-- Placeholder for a newsletter preview image -->
-          <img src="https://placehold.co/800x400/2B1D34/F7E8D4?text=Tavern+Chronicles" alt="Chronicles Preview" width="800" height="400" />
+          <img src="/images/tavern-chronicles.png" alt="Tavern Chronicles" width="800" height="400" />
         </div>
         <p>
           The Tavern keeps its own records, tales of heroes and monsters, secrets and revelations.

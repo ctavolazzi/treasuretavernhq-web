@@ -2,6 +2,18 @@
   import { onMount } from 'svelte';
   import Breadcrumb from '$lib/components/Breadcrumb.svelte';
 
+  // Define announcement interface
+  interface Announcement {
+    id: number;
+    slug: string;
+    date: string;
+    title: string;
+    category: string;
+    type: string;
+    content: string;
+    mainImage?: string;
+  }
+
   // Get data from page load function
   export let data;
   const { announcements: loadedAnnouncements, categories } = data;
@@ -15,7 +27,7 @@
   // State for filtering and pagination
   let selectedCategory = "All";
   let searchQuery = "";
-  let filteredAnnouncements = loadedAnnouncements;
+  let filteredAnnouncements: Announcement[] = loadedAnnouncements;
   let initialDisplayCount = 5;
   let displayCount = initialDisplayCount;
   let fadeIn = false;
@@ -129,6 +141,12 @@
 
               <h2 class="announcement-title">{announcement.title}</h2>
 
+              {#if announcement.mainImage}
+                <div class="card-image">
+                  <img src={announcement.mainImage} alt={announcement.title} />
+                </div>
+              {/if}
+
               <p class="announcement-excerpt">{announcement.content}</p>
 
               <span class="read-more">
@@ -186,6 +204,9 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
   }
 
   .announcements-main {
@@ -193,6 +214,7 @@
     display: flex;
     justify-content: center;
     padding: 1rem;
+    margin: 0 auto;
   }
 
   .container {
@@ -609,5 +631,21 @@
     .announcement-category {
       align-self: flex-start;
     }
+  }
+
+  .card-image {
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    border-radius: 4px;
+    margin: 1rem 0;
+    border: 1px solid rgba(189, 150, 72, 0.2);
+  }
+
+  .card-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.3s ease;
   }
 </style>

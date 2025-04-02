@@ -8,13 +8,15 @@
     name: string;
     email: string;
     message: string;
+    captchaAnswer: string;
   }
 
   // Initialize form data
   let formData: ContactForm = {
     name: '',
     email: '',
-    message: ''
+    message: '',
+    captchaAnswer: ''
   };
 
   let isSubmitting = false;
@@ -22,11 +24,23 @@
   let formSuccess = false;
   let isReady = false;
 
+  // Generate random math problem
+  let captchaProblem = '';
+  let captchaSolution = 0;
+
+  function generateCaptcha() {
+    const num1 = Math.floor(Math.random() * 10) + 1;
+    const num2 = Math.floor(Math.random() * 10) + 1;
+    captchaSolution = num1 + num2;
+    captchaProblem = `What is ${num1} + ${num2}?`;
+  }
+
   // Error states
   let errors = {
     name: '',
     email: '',
-    message: ''
+    message: '',
+    captcha: ''
   };
 
   // Breadcrumb configuration
@@ -43,7 +57,8 @@
     errors = {
       name: '',
       email: '',
-      message: ''
+      message: '',
+      captcha: ''
     };
 
     // Validate name
@@ -70,6 +85,16 @@
       isValid = false;
     }
 
+    // Validate captcha
+    if (!formData.captchaAnswer.trim()) {
+      errors.captcha = 'Please solve the math problem';
+      isValid = false;
+    } else if (parseInt(formData.captchaAnswer) !== captchaSolution) {
+      errors.captcha = 'Incorrect answer. Please try again.';
+      isValid = false;
+      generateCaptcha(); // Generate new problem on wrong answer
+    }
+
     return isValid;
   }
 
@@ -77,14 +102,17 @@
     formData = {
       name: '',
       email: '',
-      message: ''
+      message: '',
+      captchaAnswer: ''
     };
     formError = '';
     errors = {
       name: '',
       email: '',
-      message: ''
+      message: '',
+      captcha: ''
     };
+    generateCaptcha();
   }
 
   // Create enhance submission function
@@ -115,6 +143,7 @@
     setTimeout(() => {
       isReady = true;
     }, 300);
+    generateCaptcha();
   });
 </script>
 
@@ -303,6 +332,7 @@
     transition: all 0.3s ease;
     display: block;
     width: fit-content;
+    margin: 0 auto;
   }
 
   .submit-button:hover {
@@ -344,6 +374,43 @@
   @media (max-width: 768px) {
     .contact-container {
       grid-template-columns: 1fr;
+    }
+  }
+
+  .captcha-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .captcha-problem {
+    font-family: 'Cinzel', serif;
+    font-size: 1.2rem;
+    color: #BD9648;
+    white-space: normal;
+    min-width: 150px;
+  }
+
+  .captcha-input {
+    flex: 1;
+    min-width: 200px;
+    width: auto;
+  }
+
+  @media (max-width: 480px) {
+    .captcha-container {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .captcha-input {
+      width: 100%;
+    }
+
+    .captcha-problem {
+      font-size: 1.1rem;
     }
   }
 </style>
@@ -416,6 +483,25 @@
               ></textarea>
               {#if errors.message}
                 <p class="error-text">{errors.message}</p>
+              {/if}
+            </div>
+
+            <div class="form-group">
+              <label for="captcha" class="form-label">Anti-Spam Check</label>
+              <div class="captcha-container">
+                <span class="captcha-problem">{captchaProblem}</span>
+                <input
+                  type="number"
+                  id="captcha"
+                  name="captcha"
+                  class="form-input captcha-input"
+                  bind:value={formData.captchaAnswer}
+                  required
+                  placeholder="Enter your answer"
+                />
+              </div>
+              {#if errors.captcha}
+                <p class="error-text">{errors.captcha}</p>
               {/if}
             </div>
 

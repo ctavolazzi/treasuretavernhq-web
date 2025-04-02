@@ -323,83 +323,52 @@
       />
     </a>
 
-    <p class="subheading-emphasis" style="text-align: center; margin-left: auto; margin-right: auto; margin-top: 2rem;">Light the Lantern</p>
+    <p class="subheading-emphasis" style="text-align: center; margin-left: auto; margin-right: auto; margin-top: 2rem; font-family: 'Cinzel Decorative', fantasy; font-size: clamp(2rem, 4vw, 3rem); color: #D5A44C; text-shadow: 0 0 15px rgba(213, 164, 76, 0.5), 0 0 30px rgba(213, 164, 76, 0.3), 0 0 45px rgba(213, 164, 76, 0.2); letter-spacing: 0.1em; font-weight: 700; position: relative; display: inline-block; padding: 0.5rem 1.5rem; animation: glow 3s ease-in-out infinite alternate;">LIGHT THE LANTERN</p>
     <p class="subheading" style="text-align: center; margin-left: auto; margin-right: auto;">An amusing fantasy universe is coming. Join early to unlock the Tavern.</p>
 
-    <!-- Tavern Tales Promotion Section -->
-    <section class="tales-promotion">
-      <div class="tales-promotion-container">
-        <div class="tales-promotion-image-container">
-          <img
-            src="/images/treasure-tavern-tales.png"
-            alt="Treasure Tavern Tales - A collection of magical stories from our fantasy universe"
-            class="tales-promotion-image"
-            loading="lazy"
-          />
+    <!-- Newsletter Signup Form -->
+    <div class="newsletter-signup-section" style="margin: 2rem auto; max-width: 500px;">
+      <form id="newsletter-signup" class="cta-form" on:submit|preventDefault={handleSubmit} style="background: rgba(31, 27, 45, 0.95); padding: 1.75rem; border-radius: 12px; border: 1px solid rgba(189, 150, 72, 0.3); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);">
+        <div style="text-align: center; margin-bottom: 1.5rem;">
+          <h3 style="font-family: 'Cinzel', serif; color: #BD9648; font-size: 1.4rem; margin: 0 0 0.5rem;">Stay Updated</h3>
+          <p style="font-family: 'Spectral', serif; color: rgba(247, 232, 212, 0.9); font-size: 1.1rem; margin: 0;">Receive magical updates and exclusive content from the Treasure Tavern</p>
         </div>
-        <div class="tales-promotion-content">
-          <h2 class="tales-promotion-title">Embark on Magical Journeys</h2>
-          <p class="tales-promotion-text">
-            Discover a growing collection of enchanting tales from the Treasure Tavern universe.
-            From the mysterious Bone Kingdom to the mischievous Goblin King, each story offers
-            a window into our rich fantasy world filled with magic, adventure, and wonder.
-          </p>
-          <a href="/tavern-tales" class="tales-promotion-button">
-            <span>Explore Tavern Tales</span>
-            <i class="fas fa-book-open"></i>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- Newsletter Sign-up Form -->
-    <form id="newsletter-signup" class="cta-form" on:submit|preventDefault={handleSubmit}>
-      {#if !subscribed}
-        <p class="form-intro">Be the first to know - put your email below!</p>
-
-        <div class="input-wrapper">
+        <div style="margin-bottom: 1rem;">
           <input
             type="email"
             bind:value={email}
             placeholder="Enter your email address"
-            required
+            style="width: 100%; padding: 0.85rem 1rem; background: rgba(19, 17, 28, 0.6); border: 1px solid rgba(247, 232, 212, 0.25); border-radius: 6px; color: #F7E8D4; font-size: 1rem; margin-bottom: 0.75rem;"
           />
           <input
             type="text"
             bind:value={name}
             placeholder="Your name (optional)"
+            style="width: 100%; padding: 0.85rem 1rem; background: rgba(19, 17, 28, 0.6); border: 1px solid rgba(247, 232, 212, 0.25); border-radius: 6px; color: #F7E8D4; font-size: 1rem;"
           />
-          {#if error}
-            <div class="error-message">{error}</div>
+        </div>
+        <div style="margin-bottom: 1.5rem;">
+          <label style="display: flex; align-items: center; gap: 0.5rem; color: rgba(247, 232, 212, 0.9); font-size: 0.95rem;">
+            <input
+              type="checkbox"
+              bind:checked={newsletterOptIn}
+              style="width: 1rem; height: 1rem;"
+            />
+            <span>Send me magical updates from the Tavern</span>
+          </label>
+        </div>
+        <button type="submit" disabled={loading} style="width: 100%; padding: 1rem 2rem; background: linear-gradient(135deg, #9E61E3 0%, #7A3CA3 100%); border: none; border-radius: 6px; color: #F7E8D4; font-family: 'Cinzel', serif; font-size: 1.15rem; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+          <i class="fas fa-envelope"></i>
+          Join the Email List
+          {#if loading}
+            <span class="loading"></span>
           {/if}
-
-          <div class="checkbox-wrapper">
-            <label class="newsletter-opt-in">
-              <input
-                type="checkbox"
-                bind:checked={newsletterOptIn}
-              />
-              <span class="checkbox-text">Send me magical updates from the Tavern</span>
-            </label>
-          </div>
-        </div>
-        <div class="form-actions">
-          <button type="submit" disabled={loading}>
-            Join the Email List
-            {#if loading}
-              <span class="loading"></span>
-            {/if}
-          </button>
-        </div>
-      {:else}
-        <div class="success-message">
-          <p>Welcome, traveler! You'll receive word when the Tavern doors open.</p>
-          <a href="/announcements" class="announcement-button">Read the Announcements</a>
-        </div>
-      {/if}
-    </form>
-
-    <p>Become a Friend of the Tavern and receive tales, secrets, and early access to a growing fantasy universe.</p>
+        </button>
+        {#if error}
+          <div style="color: #ff7c7c; font-size: 0.9rem; margin-top: 0.75rem;">{error}</div>
+        {/if}
+      </form>
+    </div>
 
     <!-- Tavern Tales Lead-in Section -->
     <div class="tavern-tales-lead">
@@ -557,6 +526,32 @@
         <div class="song-notes">
           <span class="music-note">♫</span>
           <span class="music-note delayed">♪</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tavern Tales Promotion Section -->
+    <div class="tales-promotion" style="margin: 4rem auto;">
+      <div class="tales-promotion-container" style="display: flex; gap: 2rem; align-items: center; max-width: 1200px; margin: 0 auto; padding: 2rem;">
+        <div class="tales-promotion-image" style="flex: 1;">
+          <img
+            src="/images/treasure-tavern-tales.png"
+            alt="Treasure Tavern Tales - A collection of magical stories"
+            style="width: 100%; height: auto; border-radius: 10px; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);"
+          />
+        </div>
+        <div class="tales-promotion-content" style="flex: 1; text-align: left;">
+          <h2 style="font-family: 'Cinzel', serif; color: #D5A44C; font-size: clamp(2rem, 4vw, 2.5rem); margin-bottom: 1rem;">
+            Embark on Magical Journeys
+          </h2>
+          <p style="font-family: 'Spectral', serif; font-size: clamp(1.1rem, 2vw, 1.3rem); color: rgba(247, 232, 212, 0.92); margin-bottom: 2rem; line-height: 1.6;">
+            Discover a growing collection of enchanting tales from the Treasure Tavern universe. From the mysterious Bone Kingdom to the mischievous Goblin King, each story offers a window into our rich fantasy world filled with magic, adventure, and wonder.
+          </p>
+          <a href="/tavern-tales" class="magic-button" style="display: inline-flex; align-items: center; gap: 0.75rem; padding: 1rem 2rem; background: linear-gradient(135deg, #BD9648 0%, #E5C989 100%); color: #1F1B2D; font-family: 'Cinzel', serif; font-size: 1.2rem; font-weight: 600; text-decoration: none; border-radius: 50px; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3), 0 0 12px rgba(189, 150, 72, 0.5); border: 2px solid rgba(189, 150, 72, 0.2); position: relative; overflow: hidden; text-shadow: 0 1px 1px rgba(255, 255, 255, 0.3);">
+            <i class="fas fa-book-open"></i>
+            <span>Explore Tavern Tales</span>
+            <i class="fas fa-chevron-right" style="margin-left: 0.25rem;"></i>
+          </a>
         </div>
       </div>
     </div>
@@ -2276,5 +2271,16 @@
     width: 300px; /* Updated to 300px as requested */
     height: 300px; /* Updated to 300px as requested */
     margin: 0 auto 0.25rem; /* Center horizontally with auto margins */
+  }
+
+  @keyframes glow {
+    0% {
+      text-shadow: 0 0 15px rgba(213, 164, 76, 0.5), 0 0 30px rgba(213, 164, 76, 0.3), 0 0 45px rgba(213, 164, 76, 0.2);
+      box-shadow: 0 0 20px rgba(213, 164, 76, 0.2), inset 0 0 15px rgba(213, 164, 76, 0.1);
+    }
+    100% {
+      text-shadow: 0 0 20px rgba(213, 164, 76, 0.6), 0 0 40px rgba(213, 164, 76, 0.4), 0 0 60px rgba(213, 164, 76, 0.3);
+      box-shadow: 0 0 30px rgba(213, 164, 76, 0.3), inset 0 0 20px rgba(213, 164, 76, 0.2);
+    }
   }
 </style>

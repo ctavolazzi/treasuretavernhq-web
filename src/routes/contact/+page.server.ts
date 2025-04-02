@@ -9,9 +9,10 @@ export const actions: Actions = {
       const name = formData.get('name') as string;
       const email = formData.get('email') as string;
       const message = formData.get('message') as string;
+      const captcha = formData.get('captcha') as string;
 
       // Basic validation
-      if (!name || !email || !message) {
+      if (!name || !email || !message || !captcha) {
         return {
           success: false,
           error: 'All fields are required'
@@ -55,8 +56,6 @@ export const actions: Actions = {
           success: true
         };
       }
-
-      // In a real app, you might also send an email notification here
 
       return {
         success: true
