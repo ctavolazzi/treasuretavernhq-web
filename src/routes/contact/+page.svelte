@@ -82,10 +82,16 @@
     if (!formData.captchaAnswer.trim()) {
       errors.captcha = 'Please solve the math problem';
       isValid = false;
-    } else if (parseInt(formData.captchaAnswer) !== captchaSolution) {
-      errors.captcha = 'Incorrect answer. Please try again.';
-      isValid = false;
-      generateCaptcha(); // Generate new problem on wrong answer
+    } else {
+      const answer = parseInt(formData.captchaAnswer);
+      if (isNaN(answer)) {
+        errors.captcha = 'Please enter a valid number';
+        isValid = false;
+      } else if (answer !== captchaSolution) {
+        errors.captcha = 'Incorrect answer. Please try again.';
+        isValid = false;
+        generateCaptcha(); // Generate new problem on wrong answer
+      }
     }
 
     return isValid;
@@ -118,15 +124,16 @@
     isSubmitting = true;
     formError = '';
 
-    // @ts-ignore - Ignore type checking for this function
-    return async ({ result }) => {
+    return async ({ result }: { result: { type: 'success' | 'error'; error?: string } }) => {
       isSubmitting = false;
 
       if (result.type === 'success') {
         formSuccess = true;
         resetForm();
       } else {
-        formError = 'There was an error sending your message. Please try again later.';
+        formError = result.error || 'There was an error sending your message. Please try again later.';
+        // Generate new captcha on error
+        generateCaptcha();
       }
     };
   };

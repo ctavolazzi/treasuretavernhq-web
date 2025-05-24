@@ -28,6 +28,15 @@ export const actions: Actions = {
         };
       }
 
+      // Validate captcha answer
+      const captchaAnswer = parseInt(captcha);
+      if (isNaN(captchaAnswer)) {
+        return {
+          success: false,
+          error: 'Please enter a valid number for the anti-spam check'
+        };
+      }
+
       // Store in Supabase 'contact_requests' table
       try {
         const { error } = await supabase
@@ -44,16 +53,16 @@ export const actions: Actions = {
 
         if (error) {
           console.error('Error storing contact request:', error);
-          // For demo purposes, we'll still return success
           return {
-            success: true
+            success: false,
+            error: 'There was an error sending your message. Please try again later.'
           };
         }
       } catch (err) {
         console.error('Error with Supabase:', err);
-        // For demo purposes, we'll still return success
         return {
-          success: true
+          success: false,
+          error: 'There was an error sending your message. Please try again later.'
         };
       }
 
