@@ -1,6 +1,4 @@
 import { error } from '@sveltejs/kit';
-import matter from 'gray-matter';
-import { marked } from 'marked';
 
 // Hardcoded announcements data for Cloudflare compatibility
 const hardcodedAnnouncements = [

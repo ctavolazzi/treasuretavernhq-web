@@ -303,14 +303,6 @@
 
         <div class="divider"></div>
 
-        <!-- CTA Section -->
-        <AnnouncementCta
-          title="Join the Tavern's Inner Circle"
-          description="Subscribe to our Chronicles newsletter to receive exclusive tales, early access to new stories, and special invitations to Tavern events. Be part of our community of storytellers and adventurers."
-          buttonText="Subscribe to Chronicles"
-          demoLink="/newsletter"
-        />
-
         <div class="navigation">
           <a href="/tavern-tales" class="nav-button" data-sveltekit-preload-data="hover">
             <i class="fas fa-arrow-left" style:margin-right="0.5rem"></i>

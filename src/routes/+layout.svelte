@@ -123,12 +123,10 @@
   </div>
 
   <div class="nav-right">
-    <a href="/newsletter" class="nav-link">Newsletter</a>
     <a href="/tavern-tales" class="nav-link">Tales</a>
     <a href="/announcements" class="nav-link">Announcements</a>
     <a href="/about" class="nav-link">About</a>
     <a href="/contact" class="nav-link">Contact</a>
-    <a href="/waitlist" class="nav-link special"><i class="fas fa-user-plus"></i> Create Account</a>
   </div>
 
   <!-- Mobile Menu Component -->
@@ -152,7 +150,6 @@
     <a href="/about" class="footer-link">About</a>
     <a href="/contact" class="footer-link">Contact</a>
     <a href="/tavern-tales" class="footer-link">Tales</a>
-    <a href="/newsletter" class="footer-link">Newsletter</a>
   </div>
 </footer>
 

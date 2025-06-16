@@ -1,9 +1,9 @@
 <script>
   // Props for the component
-  export let title = 'Ready to Take Action?';
-  export let description = 'Join us for this special event at Treasure Tavern!';
-  export let buttonText = 'Sign Up Now';
-  export let demoLink = '/demo';
+  export let title = 'Learn More';
+  export let description = 'Find out more about this announcement.';
+  export let buttonText = 'Read More';
+  export let demoLink = '/about';
 </script>
 
 <div class="cta-section">

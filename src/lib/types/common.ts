@@ -89,14 +89,6 @@ export interface FormState {
   message?: string;
 }
 
-// Newsletter subscription data
-export interface NewsletterData {
-  email: string;
-  name?: string;
-  newsletter_opt_in?: boolean;
-  source?: string;
-}
-
 // Contact form data
 export interface ContactData {
   name: string;
