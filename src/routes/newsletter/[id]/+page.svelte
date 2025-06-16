@@ -123,9 +123,6 @@
     // Check if the Web Share API is available
     canShare = !!navigator.share;
   });
-
-  // Export the data prop
-  export let data;
 </script>
 
 <svelte:head>
@@ -199,227 +196,132 @@
 <style>
   .newsletter-page {
     max-width: 800px;
-    margin: 2rem auto 4rem;
-    padding: 0 1.5rem;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  .header-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
   }
 
   .back-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
     color: #bd9648;
     text-decoration: none;
-    font-family: 'Cinzel', serif;
-    margin-bottom: 1.5rem;
-    transition: color 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
   }
 
   .back-link:hover {
-    color: #d8b05c;
+    text-decoration: underline;
   }
 
-  .newsletter-header {
-    margin-bottom: 2rem;
-    border-bottom: 1px solid rgba(189, 150, 72, 0.3);
-    padding-bottom: 1rem;
-  }
-
-  .newsletter-title {
-    font-family: 'Cinzel Decorative', fantasy;
-    font-size: clamp(1.75rem, 4vw, 2.5rem);
-    color: #f7e8d4;
-    margin: 0 0 0.5rem;
-    line-height: 1.2;
-  }
-
-  .newsletter-date {
-    font-family: 'Inter', sans-serif;
-    font-size: 0.95rem;
-    color: rgba(247, 232, 212, 0.7);
-    margin: 0;
-  }
-
-  .newsletter-content {
-    font-family: 'Spectral', serif;
-    line-height: 1.6;
-    color: rgba(247, 232, 212, 0.9);
-  }
-
-  .newsletter-content h2 {
-    font-family: 'Cinzel', serif;
+  .share-button {
+    background: none;
+    border: none;
     color: #bd9648;
-    font-size: 1.8rem;
-    margin: 2rem 0 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
   }
 
-  .newsletter-content h3 {
-    font-family: 'Cinzel', serif;
-    color: #bd9648;
-    font-size: 1.4rem;
-    margin: 1.5rem 0 0.75rem;
-  }
-
-  .newsletter-content p {
-    margin: 0 0 1.25rem;
-  }
-
-  .newsletter-content strong {
-    color: #bd9648;
-    font-weight: 600;
-  }
-
-  .newsletter-content em {
-    font-style: italic;
+  .share-button:hover {
+    text-decoration: underline;
   }
 
   .not-found {
     text-align: center;
-    padding: 3rem 0;
+    padding: 4rem 0;
   }
 
-  .not-found h2 {
+  .newsletter-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .newsletter-title {
     font-family: 'Cinzel', serif;
     color: #bd9648;
-    font-size: 2rem;
     margin-bottom: 1rem;
   }
 
-  .not-found p {
-    font-family: 'Spectral', serif;
-    color: rgba(247, 232, 212, 0.9);
-    margin-bottom: 2rem;
+  .newsletter-date {
+    color: #666;
+    font-style: italic;
+  }
+
+  .newsletter-content {
+    line-height: 1.6;
+    margin-bottom: 4rem;
+  }
+
+  .newsletter-content p {
+    margin-bottom: 1.5rem;
+  }
+
+  .newsletter-content strong {
+    color: #bd9648;
+  }
+
+  .newsletter-content em {
+    color: #666;
   }
 
   .subscribe-cta {
-    margin-top: 3rem;
-    background: rgba(31, 27, 45, 0.6);
-    border: 1px solid rgba(189, 150, 72, 0.2);
+    background: #f5f5f5;
+    padding: 2rem;
     border-radius: 8px;
-    padding: 1.5rem;
     text-align: center;
-  }
-
-  .subscribe-cta h3 {
-    font-family: 'Cinzel', serif;
-    color: #bd9648;
-    font-size: 1.4rem;
-    margin: 0 0 1rem;
-  }
-
-  .subscribe-cta p {
-    margin: 0 0 1.5rem;
   }
 
   .cta-benefits {
     display: flex;
     justify-content: center;
-    flex-wrap: wrap;
-    gap: 1.5rem;
-    margin-bottom: 1.5rem;
+    gap: 2rem;
+    margin: 2rem 0;
   }
 
   .benefit-item {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    font-family: 'Inter', sans-serif;
-    color: rgba(247, 232, 212, 0.9);
   }
 
   .benefit-item i {
-    color: #9e61e3;
-    font-size: 1.1rem;
+    color: #bd9648;
   }
 
   .cta-buttons {
     display: flex;
     justify-content: center;
     gap: 1rem;
-    flex-wrap: wrap;
+  }
+
+  .subscribe-button,
+  .demo-button {
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
   }
 
   .subscribe-button {
-    display: inline-block;
-    padding: 0.75rem 1.5rem;
-    background: linear-gradient(135deg, #9e61e3 0%, #7a3ca3 100%);
-    color: #f7e8d4;
-    text-decoration: none;
-    font-family: 'Cinzel', serif;
-    font-weight: 500;
-    border-radius: 6px;
-    transition: all 0.3s ease;
-  }
-
-  .subscribe-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 7px 15px rgba(0, 0, 0, 0.2);
-    background: linear-gradient(135deg, #a671e6 0%, #8a4cb3 100%);
+    background: #bd9648;
+    color: white;
   }
 
   .demo-button {
-    display: inline-block;
-    padding: 0.75rem 1.5rem;
-    background: transparent;
-    color: #f7e8d4;
-    text-decoration: none;
-    font-family: 'Cinzel', serif;
-    font-weight: 500;
-    border-radius: 6px;
-    border: 1px solid rgba(189, 150, 72, 0.4);
-    transition: all 0.3s ease;
+    background: white;
+    color: #bd9648;
+    border: 2px solid #bd9648;
   }
 
+  .subscribe-button:hover,
   .demo-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 7px 15px rgba(0, 0, 0, 0.1);
-    border-color: rgba(189, 150, 72, 0.7);
-    background: rgba(31, 27, 45, 0.4);
-  }
-
-  .share-button {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 1rem;
-    background: rgba(31, 27, 45, 0.6);
-    border: 1px solid rgba(189, 150, 72, 0.3);
-    border-radius: 6px;
-    color: #f7e8d4;
-    font-family: 'Inter', sans-serif;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-left: 1rem;
-    font-size: 0.9rem;
-  }
-
-  .share-button:hover {
-    background: rgba(31, 27, 45, 0.8);
-    transform: translateY(-2px);
-  }
-
-  .header-actions {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 1.5rem;
-  }
-
-  @media (max-width: 768px) {
-    .newsletter-page {
-      margin: 1.5rem auto 3rem;
-      padding: 0 1rem;
-    }
-  }
-
-  @media (max-width: 600px) {
-    .header-actions {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 1rem;
-    }
-
-    .share-button {
-      margin-left: 0;
-    }
+    opacity: 0.9;
   }
 </style>

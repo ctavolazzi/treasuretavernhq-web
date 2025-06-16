@@ -1,6 +1,6 @@
 <script lang="ts">
+  import { isSupabaseConfigured, subscribeEmail } from '$lib/supabaseClient';
   import { onMount } from 'svelte';
-  import { subscribeEmail, isSupabaseConfigured } from '$lib/supabaseClient';
 
   // Define form data interface
   interface FormData {
@@ -157,6 +157,7 @@
             style:align-items="center"
             style:gap="0.5rem"
             style:display="flex"
+            on:keydown={e => e.key === 'Enter' && (window.location.href = '/tavern-tales')}
           >
             Tavern Chronicles
             <i class="fas fa-external-link-alt" style:font-size="0.8rem"></i>
@@ -250,11 +251,14 @@
     </div>
     <div
       class="scroll-arrow"
+      role="button"
+      tabindex="0"
       on:click={() =>
-        window.scrollTo({
-          top: window.innerHeight,
-          behavior: 'smooth'
-        })}
+        document.getElementById('value-section')?.scrollIntoView({ behavior: 'smooth' })}
+      on:keydown={e =>
+        e.key === 'Enter' &&
+        document.getElementById('value-section')?.scrollIntoView({ behavior: 'smooth' })}
+      aria-label="Scroll to next section"
     >
       <i class="fas fa-chevron-down"></i>
     </div>

@@ -105,7 +105,11 @@
             class="search-input"
           />
           {#if searchQuery}
-            <button class="clear-search" on:click={() => (searchQuery = '')}>
+            <button
+              class="clear-search"
+              on:click={() => (searchQuery = '')}
+              aria-label="Clear search"
+            >
               <i class="fas fa-times"></i>
             </button>
           {/if}
