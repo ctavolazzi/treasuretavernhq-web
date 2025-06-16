@@ -73,18 +73,6 @@
     <div class="hero-content" class:visible={isReady}>
       <h1 class="hero-title">About Treasure Tavern</h1>
       <p class="hero-subtitle">A creative writing project under development</p>
-
-      <div
-        class="scroll-down"
-        on:click={scrollToQuestions}
-        on:keydown={e => e.key === 'Enter' && scrollToQuestions()}
-        role="button"
-        tabindex="0"
-        aria-label="Scroll to questions section"
-      >
-        <span>Discover More</span>
-        <i class="fas fa-chevron-down"></i>
-      </div>
     </div>
   </section>
 
@@ -101,14 +89,6 @@
             Treasure Tavern HQ is a creative writing project currently under development. We're
             building a platform for storytelling and plan to expand our scope as more storytelling
             tools become available.
-          </p>
-        </div>
-        <div class="question-item" in:fly={{ y: 30, duration: 500, delay: 250 }}>
-          <i class="fas fa-book"></i>
-          <h3>What's the current status?</h3>
-          <p>
-            The website is under active development. All content is subject to change, and
-            everything here is for entertainment purposes only.
           </p>
         </div>
         <div class="question-item" in:fly={{ y: 30, duration: 500, delay: 300 }}>
