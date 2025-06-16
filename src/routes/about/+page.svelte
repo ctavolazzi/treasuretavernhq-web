@@ -1,8 +1,7 @@
 <script lang="ts">
   // Import any components you need
   import { onMount } from 'svelte';
-  import { fade, slide, fly } from 'svelte/transition';
-  import { quintOut } from 'svelte/easing';
+  import { fade, fly } from 'svelte/transition';
 
   let isReady = false;
   const sectionsVisible = {
@@ -74,9 +73,7 @@
     <div class="hero-bg"></div>
     <div class="hero-content" class:visible={isReady}>
       <h1 class="hero-title">About Treasure Tavern</h1>
-      <p class="hero-subtitle">
-        A gathering place for adventurers, storytellers, and dreamers of all realms
-      </p>
+      <p class="hero-subtitle">A creative writing project under development</p>
 
       <div
         class="scroll-down"
@@ -102,80 +99,34 @@
           <i class="fas fa-question-circle"></i>
           <h3>What is Treasure Tavern?</h3>
           <p>
-            A fantasy storytelling platform and community that combines original tales, merchandise,
-            and interactive elements. Think of it as a digital fantasy tavern where stories come to
-            life.
+            Treasure Tavern HQ is a creative writing project currently under development. We're
+            building a platform for storytelling and plan to expand our scope as more storytelling
+            tools become available.
           </p>
         </div>
         <div class="question-item" in:fly={{ y: 30, duration: 500, delay: 250 }}>
           <i class="fas fa-book"></i>
-          <h3>Is this a game?</h3>
+          <h3>What's the current status?</h3>
           <p>
-            No, we're not a traditional game. We're a storytelling platform with interactive
-            elements. While you can explore our tales and solve riddles, we're focused on narrative
-            and community rather than gameplay.
+            The website is under active development. All content is subject to change, and
+            everything here is for entertainment purposes only.
           </p>
         </div>
         <div class="question-item" in:fly={{ y: 30, duration: 500, delay: 300 }}>
-          <i class="fas fa-store"></i>
-          <h3>What are you selling?</h3>
+          <i class="fas fa-seedling"></i>
+          <h3>What are the future plans?</h3>
           <p>
-            We offer fantasy-themed merchandise like art prints, collectibles, and themed items. Our
-            stories, community, and interactive content are completely free. We're transparent about
-            what's free and what's for sale.
+            We plan to expand the project's scope over time as more storytelling tools become
+            available. Our vision is to create an engaging platform for creative writing and
+            storytelling.
           </p>
         </div>
         <div class="question-item" in:fly={{ y: 30, duration: 500, delay: 350 }}>
-          <i class="fas fa-users"></i>
-          <h3>Is this a club or community?</h3>
+          <i class="fas fa-info-circle"></i>
+          <h3>Important Notice</h3>
           <p>
-            Yes! We're a free community of fantasy enthusiasts. Join our newsletter to become a
-            Friend of the Tavern and get exclusive content, early access to new stories, and
-            invitations to special events.
-          </p>
-        </div>
-        <div class="question-item" in:fly={{ y: 30, duration: 500, delay: 400 }}>
-          <i class="fas fa-pen-fancy"></i>
-          <h3>Can I submit my own stories?</h3>
-          <p>
-            Currently, we focus on our core tales to maintain quality and consistency. We're
-            exploring ways to incorporate community contributions in the future and will announce
-            any opportunities through our newsletter.
-          </p>
-        </div>
-        <div class="question-item" in:fly={{ y: 30, duration: 500, delay: 450 }}>
-          <i class="fas fa-video"></i>
-          <h3>What kind of content do you have?</h3>
-          <p>
-            We feature written tales, audio narrations, and interactive elements like riddles. Each
-            tale may include text, audio, or interactive components. We're expanding our multimedia
-            offerings regularly.
-          </p>
-        </div>
-        <div class="question-item" in:fly={{ y: 30, duration: 500, delay: 500 }}>
-          <i class="fas fa-clock"></i>
-          <h3>How often do you update?</h3>
-          <p>
-            We regularly add new tales and interactive content. Newsletter subscribers receive
-            notifications about new content and exclusive announcements.
-          </p>
-        </div>
-        <div class="question-item" in:fly={{ y: 30, duration: 500, delay: 550 }}>
-          <i class="fas fa-seedling"></i>
-          <h3>How is the world developing?</h3>
-          <p>
-            We are growing and expanding the Treasure Tavern universe as fast as we can. Our team is
-            dedicated to creating rich, immersive content and experiences while maintaining the
-            quality our community deserves.
-          </p>
-        </div>
-        <div class="question-item" in:fly={{ y: 30, duration: 500, delay: 575 }}>
-          <i class="fas fa-gamepad"></i>
-          <h3>What is your future vision?</h3>
-          <p>
-            We're building toward an interactive AI-generated gaming experience where users can
-            contribute to our shared universe through writing, art creation, and gameplay, all
-            within the canonical Treasure Tavern world.
+            This website is under development. All content is subject to change and is provided for
+            entertainment purposes only.
           </p>
         </div>
       </div>
@@ -194,23 +145,18 @@
         <h2 class="section-title" in:fade={{ duration: 500 }}>Our Story</h2>
         <div class="section-content" in:fly={{ y: 20, duration: 500, delay: 100 }}>
           <p>
-            Treasure Tavern began as a humble gathering spot for weary travelers, eventually
-            becoming a nexus for sharing tales, songs, and legends from across the known realms.
-            Founded on the principles of community, creativity, and the preservation of
-            extraordinary stories, our tavern has grown into a renowned hub for those seeking
-            adventure and connection.
+            Treasure Tavern HQ is a creative writing project that aims to build a platform for
+            storytelling. While we're currently in development, we're working towards creating an
+            engaging space for creative writing and narrative exploration.
           </p>
           <p>
-            Every corner of Treasure Tavern holds a story - from the ancient chess set said to be
-            played by goblins after midnight to the collection of maps donated by the Wandering
-            Knight himself. Our halls have hosted legendary bards, mysterious sages, and ordinary
-            folk with extraordinary tales.
+            As we continue to develop, we plan to expand our capabilities and features,
+            incorporating new storytelling tools and technologies as they become available. Our goal
+            is to create a platform that supports and enhances the art of storytelling.
           </p>
           <p>
-            Today, we extend our tavern beyond physical walls, creating a digital hearth where
-            stories can be shared across distances and dimensions. Whether you're a seasoned
-            storyteller or simply seeking refuge in the warmth of narrative, you'll find a place at
-            our table.
+            Please note that this website is under active development. All content is subject to
+            change and is provided for entertainment purposes only.
           </p>
         </div>
       {/if}
