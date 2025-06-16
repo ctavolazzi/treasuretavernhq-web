@@ -8,7 +8,6 @@
     questions: false,
     story: false,
     features: false,
-    vision: false,
     cta: false
   };
 
@@ -180,61 +179,6 @@
               of wonder and mystery, all presented in an immersive format.
             </p>
           </div>
-
-          <div class="feature-card" in:fly={{ y: 20, duration: 500, delay: 150 }}>
-            <div class="feature-icon">
-              <i class="fas fa-feather-alt"></i>
-            </div>
-            <h3 class="feature-title">Creative Community</h3>
-            <p class="feature-description">
-              Join a thriving community of storytellers, artists, and enthusiasts who share and
-              celebrate the art of narrative and fantasy.
-            </p>
-          </div>
-
-          <div class="feature-card" in:fly={{ y: 20, duration: 500, delay: 200 }}>
-            <div class="feature-icon">
-              <i class="fas fa-scroll"></i>
-            </div>
-            <h3 class="feature-title">Regular Updates</h3>
-            <p class="feature-description">
-              Receive tales, announcements, and invitations to special events through our
-              newsletter, delivered directly to your chamber door.
-            </p>
-          </div>
-
-          <div class="feature-card" in:fly={{ y: 20, duration: 500, delay: 250 }}>
-            <div class="feature-icon">
-              <i class="fas fa-hat-wizard"></i>
-            </div>
-            <h3 class="feature-title">Magical Experiences</h3>
-            <p class="feature-description">
-              Immerse yourself in interactive encounters, enchanted riddles, and experiences that
-              blur the line between story and reality.
-            </p>
-          </div>
-
-          <div class="feature-card" in:fly={{ y: 20, duration: 500, delay: 300 }}>
-            <div class="feature-icon">
-              <i class="fas fa-map-marked-alt"></i>
-            </div>
-            <h3 class="feature-title">Exclusive Events</h3>
-            <p class="feature-description">
-              Participate in seasonal gatherings, storytelling contests, and mysterious quests that
-              bridge the gap between our realm and the world of fantasy.
-            </p>
-          </div>
-
-          <div class="feature-card" in:fly={{ y: 20, duration: 500, delay: 350 }}>
-            <div class="feature-icon">
-              <i class="fas fa-coins"></i>
-            </div>
-            <h3 class="feature-title">Treasure Rewards</h3>
-            <p class="feature-description">
-              Earn unique tokens, badges, and virtual artifacts as you contribute to our community,
-              unlocking special content and hidden tales.
-            </p>
-          </div>
         </div>
       {/if}
     </section>
@@ -242,83 +186,6 @@
     <div class="section-divider">
       <div class="divider-icon">
         <i class="fas fa-crown"></i>
-      </div>
-    </div>
-
-    <section class="about-section" data-section="vision">
-      {#if sectionsVisible.vision}
-        <h2 class="section-title" in:fade={{ duration: 500 }}>Our Ultimate Vision</h2>
-        <div class="section-content" in:fly={{ y: 20, duration: 500, delay: 100 }}>
-          <p>
-            The ultimate vision of Treasure Tavern is to create a groundbreaking interactive
-            AI-generated gaming experience where many patrons can collaboratively contribute to our
-            shared universe in real-time through writing, art generation, and gameplay.
-          </p>
-          <p>
-            Imagine a world where you don't just read stories - you help create them. Where the art
-            you envision can be brought to life instantly. Where your decisions and contributions
-            shape the canonical history of our ever-expanding realm. This is the future we're
-            building toward.
-          </p>
-          <p>
-            You'll be able to collaborate with fellow adventurers on epic sagas, generate stunning
-            artwork of characters and locations, play through interactive adventures set in our
-            shared universe, and watch as your creations become woven into the fabric of the
-            Tavern's official lore.
-          </p>
-        </div>
-
-        <div class="vision-features-grid">
-          <div class="vision-feature-card" in:fly={{ y: 20, duration: 500, delay: 150 }}>
-            <div class="feature-icon">
-              <i class="fas fa-pen-fancy"></i>
-            </div>
-            <h3 class="feature-title">Collaborative Storytelling</h3>
-            <p class="feature-description">
-              Work with AI assistance to craft tales that become part of our shared universe, with
-              full creative control and guidance.
-            </p>
-          </div>
-
-          <div class="vision-feature-card" in:fly={{ y: 20, duration: 500, delay: 200 }}>
-            <div class="feature-icon">
-              <i class="fas fa-paint-brush"></i>
-            </div>
-            <h3 class="feature-title">Instant Art Creation</h3>
-            <p class="feature-description">
-              Bring your characters, locations, and scenes to life through AI-powered art generation
-              tools tailored to our fantasy aesthetic.
-            </p>
-          </div>
-
-          <div class="vision-feature-card" in:fly={{ y: 20, duration: 500, delay: 250 }}>
-            <div class="feature-icon">
-              <i class="fas fa-dice-d20"></i>
-            </div>
-            <h3 class="feature-title">Interactive Adventures</h3>
-            <p class="feature-description">
-              Play through dynamically generated quests and scenarios with friends, where each
-              decision impacts the story's direction.
-            </p>
-          </div>
-
-          <div class="vision-feature-card" in:fly={{ y: 20, duration: 500, delay: 300 }}>
-            <div class="feature-icon">
-              <i class="fas fa-users"></i>
-            </div>
-            <h3 class="feature-title">Real-Time Collaboration</h3>
-            <p class="feature-description">
-              Join fellow tavern patrons in live events where you collectively shape the future of
-              our shared universe through your actions.
-            </p>
-          </div>
-        </div>
-      {/if}
-    </section>
-
-    <div class="section-divider">
-      <div class="divider-icon">
-        <i class="fas fa-book-open"></i>
       </div>
     </div>
 
@@ -511,37 +378,7 @@
     margin-right: auto;
   }
 
-  .vision-features-grid {
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    gap: 2rem;
-    margin-top: clamp(1.5rem, 4vw, 2.5rem);
-    max-width: 1000px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  @media (min-width: 640px) {
-    .features-grid,
-    .vision-features-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .features-grid {
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2.5rem;
-    }
-
-    .vision-features-grid {
-      grid-template-columns: repeat(4, 1fr);
-      gap: 2rem;
-    }
-  }
-
-  .feature-card,
-  .vision-feature-card {
+  .feature-card {
     background: rgba(31, 27, 45, 0.4);
     border-radius: 10px;
     padding: 1.75rem;
@@ -556,8 +393,7 @@
     overflow: hidden;
   }
 
-  .feature-card::before,
-  .vision-feature-card::before {
+  .feature-card::before {
     content: '';
     position: absolute;
     top: 0;
@@ -570,15 +406,13 @@
     transition: transform 0.3s ease;
   }
 
-  .feature-card:hover,
-  .vision-feature-card:hover {
+  .feature-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
     border-color: rgba(189, 150, 72, 0.4);
   }
 
-  .feature-card:hover::before,
-  .vision-feature-card:hover::before {
+  .feature-card:hover::before {
     transform: scaleX(1);
   }
 
@@ -599,8 +433,7 @@
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   }
 
-  .feature-card:hover .feature-icon,
-  .vision-feature-card:hover .feature-icon {
+  .feature-card:hover .feature-icon {
     transform: scale(1.1);
     background: rgba(158, 97, 227, 0.15);
     box-shadow: 0 5px 15px rgba(158, 97, 227, 0.2);

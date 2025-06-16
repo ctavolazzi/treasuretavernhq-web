@@ -239,56 +239,17 @@
         Step into a world of imagination and adventure, where every visit to the Treasure Tavern
         brings new experiences.
       </p>
-
       <div class="benefits-grid">
         <div class="benefit-card">
           <span class="benefit-icon">
             <i class="fas fa-book-open"></i>
           </span>
-          <h3 class="benefit-title">Immersive Stories</h3>
+          <h3 class="benefit-title">Curated Tales</h3>
           <p class="benefit-desc">
-            Dive into captivating tales set in our rich, detailed fantasy world created by our
-            community of storytellers.
+            Discover carefully collected stories ranging from epic adventures to intimate moments of
+            wonder and mystery, all presented in an immersive format.
           </p>
         </div>
-
-        <div class="benefit-card">
-          <span class="benefit-icon">
-            <i class="fas fa-users"></i>
-          </span>
-          <h3 class="benefit-title">Vibrant Community</h3>
-          <p class="benefit-desc">
-            Join fellow adventurers, storytellers, and creators who share your passion for fantasy
-            and adventure.
-          </p>
-        </div>
-
-        <div class="benefit-card">
-          <span class="benefit-icon">
-            <i class="fas fa-magic"></i>
-          </span>
-          <h3 class="benefit-title">Magical Experiences</h3>
-          <p class="benefit-desc">
-            Encounter wonders, mysteries, and magical moments that will transport you to realms
-            beyond imagination.
-          </p>
-        </div>
-
-        <div class="benefit-card">
-          <span class="benefit-icon">
-            <i class="fas fa-paint-brush"></i>
-          </span>
-          <h3 class="benefit-title">Creative Freedom</h3>
-          <p class="benefit-desc">
-            Express yourself through stories, art, and collaborative world-building in our
-            ever-expanding universe.
-          </p>
-        </div>
-      </div>
-
-      <!-- Benefits CTA -->
-      <div class="benefits-cta">
-        <a href="/about" class="benefits-button">Explore All Benefits</a>
       </div>
     </section>
 
@@ -385,39 +346,6 @@
           <h3>Contact</h3>
           <p>Get in touch with us</p>
         </a>
-      </div>
-    </div>
-
-    <!-- Ultimate Vision Section -->
-    <div class="vision-section">
-      <div class="vision-content">
-        <div class="vision-text">
-          <h2 class="vision-title">Our Ultimate Vision</h2>
-          <div class="vision-title-decoration"></div>
-          <p class="vision-description">
-            The ultimate vision of Treasure Tavern is to create an interactive AI-generated gaming
-            experience where you can contribute to our shared universe through writing, art, and
-            gameplay—all within our canonical world.
-          </p>
-          <div class="vision-buttons">
-            <a href="/about#vision" class="vision-button primary">
-              <i class="fas fa-crown"></i> Learn About Our Vision
-            </a>
-            <a href="/waitlist" class="vision-button secondary">
-              <i class="fas fa-user-plus"></i> Join the Waitlist
-            </a>
-          </div>
-        </div>
-        <div class="vision-image-container">
-          <picture>
-            <img
-              src="/images/the-bone-king-rune-sword.png"
-              alt="The Bone King's Rune Sword - A legendary artifact from the Treasure Tavern universe"
-              class="vision-image"
-              loading="lazy"
-            />
-          </picture>
-        </div>
       </div>
     </div>
 
@@ -989,7 +917,6 @@
     /* Adjust section widths to match wider container */
     .welcome-section,
     .exploration-section,
-    .vision-section,
     .tavern-atmosphere,
     .testimonials-container {
       max-width: 1100px;
@@ -1188,203 +1115,6 @@
   .exploration-card p {
     margin: 0;
     text-align: center;
-  }
-
-  /* Ultimate Vision Section */
-  .vision-section {
-    margin: 4rem auto;
-    padding: 2.5rem 1.5rem;
-    background: linear-gradient(145deg, rgba(31, 27, 45, 0.7) 0%, rgba(43, 29, 52, 0.7) 100%);
-    border-radius: 12px;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(189, 150, 72, 0.2);
-    max-width: 1100px;
-  }
-
-  .vision-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(
-      90deg,
-      rgba(189, 150, 72, 0.1),
-      rgba(189, 150, 72, 0.7),
-      rgba(189, 150, 72, 0.1)
-    );
-  }
-
-  .vision-section::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(
-      90deg,
-      rgba(189, 150, 72, 0.05),
-      rgba(189, 150, 72, 0.3),
-      rgba(189, 150, 72, 0.05)
-    );
-  }
-
-  .vision-content {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-  }
-
-  @media (min-width: 768px) {
-    .vision-content {
-      flex-direction: row;
-      align-items: center;
-    }
-  }
-
-  .vision-text {
-    flex: 1;
-    text-align: center;
-  }
-
-  @media (min-width: 768px) {
-    .vision-text {
-      text-align: left;
-      padding-right: 2rem;
-    }
-  }
-
-  .vision-title {
-    font-family: 'Cinzel', serif;
-    font-size: clamp(1.75rem, 3vw, 2.5rem);
-    color: #d5a44c;
-    margin-bottom: 0.75rem;
-    text-shadow: 0 0 10px rgba(213, 164, 76, 0.4);
-    position: relative;
-    display: inline-block;
-  }
-
-  .vision-title-decoration {
-    width: 80px;
-    height: 3px;
-    background: linear-gradient(
-      90deg,
-      rgba(213, 164, 76, 0.2),
-      rgba(213, 164, 76, 0.8),
-      rgba(213, 164, 76, 0.2)
-    );
-    margin: 0 auto 1.5rem;
-    border-radius: 2px;
-  }
-
-  @media (min-width: 768px) {
-    .vision-title-decoration {
-      margin: 0 0 1.5rem;
-    }
-  }
-
-  .vision-description {
-    font-family: 'Spectral', serif;
-    font-size: clamp(1.1rem, 2vw, 1.25rem);
-    color: rgba(247, 232, 212, 0.95);
-    margin-bottom: 2rem;
-    line-height: 1.6;
-    max-width: 500px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  @media (min-width: 768px) {
-    .vision-description {
-      margin-left: 0;
-      margin-right: 0;
-    }
-  }
-
-  .vision-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    justify-content: center;
-  }
-
-  @media (min-width: 768px) {
-    .vision-buttons {
-      justify-content: flex-start;
-    }
-  }
-
-  .vision-button {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.85rem 1.5rem;
-    border-radius: 6px;
-    font-family: 'Cinzel', serif;
-    font-weight: 600;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-    letter-spacing: 0.03em;
-  }
-
-  .vision-button.primary {
-    background: linear-gradient(135deg, #bd9648 0%, #e5c989 100%);
-    color: #1f1b2d;
-    border: 1px solid rgba(229, 201, 137, 0.3);
-  }
-
-  .vision-button.primary:hover {
-    transform: translateY(-3px);
-    box-shadow:
-      0 8px 20px rgba(0, 0, 0, 0.3),
-      0 0 15px rgba(229, 201, 137, 0.3);
-    background: linear-gradient(135deg, #e5c989 0%, #bd9648 100%);
-  }
-
-  .vision-button.secondary {
-    background: rgba(31, 27, 45, 0.6);
-    color: #f7e8d4;
-    border: 1px solid rgba(247, 232, 212, 0.2);
-  }
-
-  .vision-button.secondary:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-    background: rgba(31, 27, 45, 0.8);
-    border-color: rgba(247, 232, 212, 0.3);
-  }
-
-  .vision-image-container {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .vision-image {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
-    border: 1px solid rgba(189, 150, 72, 0.3);
-    box-shadow:
-      0 5px 15px rgba(0, 0, 0, 0.3),
-      0 0 20px rgba(189, 150, 72, 0.2);
-    transform: rotate(2deg);
-    transition:
-      transform 0.5s ease,
-      box-shadow 0.5s ease;
-  }
-
-  .vision-image:hover {
-    transform: rotate(0deg) scale(1.02);
-    box-shadow:
-      0 8px 25px rgba(0, 0, 0, 0.4),
-      0 0 30px rgba(189, 150, 72, 0.3);
   }
 
   /* Tales from Patrons styles */
