@@ -1,6 +1,6 @@
 compatibility_flags = ["nodejs_compat"]
 compatibility_date = "2023-11-21"
-main = "workers-site/index.js"
 
-[site]
-bucket = ".svelte-kit/cloudflare"
+[build]
+command = "npm run build"
+pages_build_output_dir = ".svelte-kit/cloudflare"
