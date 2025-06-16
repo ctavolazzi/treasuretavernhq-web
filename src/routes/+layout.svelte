@@ -1,12 +1,11 @@
 <script lang="ts">
-  import '../app.css';
-  import MobileNav from '$lib/components/MobileNav.svelte';
-  import BottomNav from '$lib/components/BottomNav.svelte';
-  import { onMount } from 'svelte';
-  import ResponsiveImage from '$lib/components/ResponsiveImage.svelte';
-  import { pageAudio } from '$lib/stores/audioStore';
-  import Breadcrumb from '$lib/components/Breadcrumb.svelte';
   import { page } from '$app/stores';
+  import BottomNav from '$lib/components/BottomNav.svelte';
+  import Breadcrumb from '$lib/components/Breadcrumb.svelte';
+  import MobileNav from '$lib/components/MobileNav.svelte';
+  import { pageAudio } from '$lib/stores/audioStore';
+  import { onMount } from 'svelte';
+  import '../app.css';
   const { children } = $props();
 
   let bannerActive = $state(false);
@@ -39,36 +38,20 @@
       currentPath += `/${part}`;
 
       // Special case for newsletter pages
-      if (part === 'newsletter' && i < parts.length - 1 && parts[i + 1]) {
-        // For the newsletter link
-        items.push({
-          label: 'Newsletter',
-          href: '/newsletter',
-          icon: 'fa-envelope-open-text'
-        });
+      if (part === 'newsletter') {
+        i++; // Skip the next part
+        continue;
+      }
 
-        // For the specific newsletter issue - handles the ID parameter
-        if (parts[i + 1]) {
-          items.push({
-            label: `Issue: ${parts[i + 1].charAt(0).toUpperCase() + parts[i + 1].slice(1).replace(/-/g, ' ')}`,
-            icon: 'fa-scroll',
-            href: currentPath + '/' + parts[i + 1] // Add href to fix linter error
-          });
-        }
+      // Standard handling for other pages
+      const label = part.charAt(0).toUpperCase() + part.slice(1).replace(/-/g, ' ');
+      const icon = getIconForPath(part);
 
-        // Skip the next iteration since we've handled it
-        i++;
+      if (currentPath === pathname) {
+        // Last item (current page) doesn't need a href but we'll add it as empty string to satisfy type checker
+        items.push({ label, icon, href: '' });
       } else {
-        // Standard handling for other pages
-        const label = part.charAt(0).toUpperCase() + part.slice(1).replace(/-/g, ' ');
-        const icon = getIconForPath(part);
-
-        if (currentPath === pathname) {
-          // Last item (current page) doesn't need a href but we'll add it as empty string to satisfy type checker
-          items.push({ label, icon, href: '' });
-        } else {
-          items.push({ label, href: currentPath, icon });
-        }
+        items.push({ label, href: currentPath, icon });
       }
     }
 
@@ -77,20 +60,18 @@
 
   function getIconForPath(path: string) {
     switch (path.toLowerCase()) {
-      case 'newsletter':
-        return 'fa-envelope-open-text';
-      case 'tavern-tales':
-        return 'fa-book-open';
-      case 'announcements':
-        return 'fa-bullhorn';
       case 'about':
         return 'fa-info-circle';
+      case 'announcements':
+        return 'fa-bullhorn';
       case 'contact':
         return 'fa-envelope';
+      case 'tavern-tales':
+        return 'fa-book';
       case 'waitlist':
         return 'fa-user-plus';
       default:
-        return '';
+        return 'fa-home';
     }
   }
 

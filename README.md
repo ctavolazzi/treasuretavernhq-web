@@ -7,7 +7,6 @@ A fantasy-themed web experience featuring interactive storytelling, immersive co
 Treasure Tavern is an interactive fantasy universe where visitors can:
 
 - **Explore Tavern Tales**: Read immersive fantasy stories set in our canonical world
-- **Join the Community**: Subscribe to our newsletter for exclusive content and updates
 - **Stay Informed**: Follow announcements about new features and content
 - **Connect**: Reach out to the Tavern Keepers with questions or feedback
 
@@ -66,10 +65,10 @@ src/
 │   ├── stores/        # Svelte stores for state management
 │   └── types/         # TypeScript type definitions
 ├── routes/            # SvelteKit routes (pages)
-│   ├── tavern-tales/  # Tale pages and listings
-│   ├── newsletter/    # Newsletter pages
-│   ├── announcements/ # Announcement pages
-│   └── ...           # Other pages
+│   ├── about/         # About page
+│   ├── announcements/ # Announcements
+│   ├── contact/       # Contact page
+│   └── tavern-tales/  # Story pages
 └── app.html          # Main HTML template
 
 static/               # Static assets
@@ -227,3 +226,39 @@ This project is proprietary. All rights reserved.
 Welcome to Treasure Tavern, where every visit promises new adventures and magical discoveries. Whether you're here to read tales, explore our world, or contribute to our growing universe, the tavern door is always open.
 
 _May your code compile and your adventures be legendary!_ ⚔️✨
+
+## Features
+
+- **Creative Writing**: Explore our collection of original tales and stories
+- **Project Status**: Currently under development
+- **Future Plans**: Expanding scope as more storytelling tools become available
+
+## Project Structure
+
+```
+src/
+├── routes/          # Page routes
+│   ├── about/      # About page
+│   ├── announcements/  # Announcements
+│   ├── contact/    # Contact page
+│   └── tavern-tales/  # Story pages
+└── app.html          # Main HTML template
+
+static/               # Static assets
+├── images/          # Images and graphics
+├── gifs/           # Animated GIFs
+└── ...             # Other static files
+
+utils/               # Utility scripts
+├── scripts/        # Shell scripts for automation
+└── ...            # JavaScript utilities
+
+work_efforts/       # Project management using Johnny Decimal system
+├── 00_system/     # System setup and configuration
+├── 10_development/ # Active development work
+├── 20_debugging/  # Problem-solving and fixes
+├── 30_documentation/ # Documentation tasks
+├── 40_testing/    # Testing and QA
+├── 50_maintenance/ # Code quality and lifecycle
+└── active/        # Active development log
+```

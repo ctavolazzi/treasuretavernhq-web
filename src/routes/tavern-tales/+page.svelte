@@ -1,10 +1,9 @@
 <script lang="ts">
-  import { onMount, onDestroy } from 'svelte';
   import AnnouncementCta from '$lib/components/AnnouncementCta.svelte';
-  import { fade, fly } from 'svelte/transition';
-  import { quintOut } from 'svelte/easing';
   import ResponsiveImage from '$lib/components/ResponsiveImage.svelte';
-  import { getAllTales, getFeaturedTales, getRecentTales, getCategories } from '$lib/data/tales';
+  import { onDestroy, onMount } from 'svelte';
+  import { quintOut } from 'svelte/easing';
+  import { fade, fly } from 'svelte/transition';
 
   // Define interfaces for the data types
   interface Category {
@@ -330,19 +329,6 @@
       buttonText="Submit Your Tale"
       demoLink="/contact"
     />
-
-    <!-- Additional CTA for newsletter -->
-    <section class="cta-section">
-      <div class="cta-bg"></div>
-      <div class="cta-content">
-        <h2 class="cta-title">Don't Miss New Chronicles</h2>
-        <p class="cta-description">
-          Subscribe to the Tavern's newsletter to receive the latest tales, poems, and discoveries
-          directly to your magical communication device.
-        </p>
-        <a href="/newsletter" class="cta-button"> Subscribe to Updates </a>
-      </div>
-    </section>
   </main>
 </div>
 
@@ -856,72 +842,6 @@
     background: rgba(31, 27, 45, 0.8);
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-  }
-
-  .cta-section {
-    margin-bottom: 3rem;
-    padding: 2rem;
-    background: rgba(19, 17, 28, 0.6);
-    border-radius: 10px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .cta-bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image:
-      linear-gradient(rgba(19, 17, 28, 0.8), rgba(19, 17, 28, 0.9)), url('/images/cta-bg.jpg');
-    background-size: cover;
-    background-position: center;
-    z-index: -1;
-  }
-
-  .cta-content {
-    text-align: center;
-    max-width: 800px;
-    margin: 0 auto;
-    position: relative;
-    z-index: 1;
-  }
-
-  .cta-title {
-    font-family: 'Cinzel Decorative', 'Luminari', fantasy;
-    font-size: clamp(1.75rem, 4vw, 2.5rem);
-    margin-bottom: 1rem;
-    color: #f7e8d4;
-    text-shadow: 0 0 10px rgba(231, 206, 143, 0.35);
-  }
-
-  .cta-description {
-    font-family: 'Spectral', serif;
-    font-size: clamp(1rem, 2vw, 1.2rem);
-    margin-bottom: 2rem;
-    color: rgba(247, 232, 212, 0.9);
-    line-height: 1.6;
-  }
-
-  .cta-button {
-    display: inline-block;
-    padding: 0.75rem 2rem;
-    background: linear-gradient(135deg, #bd9648 0%, #e7ce8f 100%);
-    border: none;
-    border-radius: 6px;
-    color: #13111c;
-    font-family: 'Cinzel', serif;
-    font-size: 1rem;
-    font-weight: 600;
-    text-decoration: none;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-
-  .cta-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(189, 150, 72, 0.3);
   }
 
   .footer {

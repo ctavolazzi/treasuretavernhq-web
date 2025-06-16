@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import Breadcrumb from '$lib/components/Breadcrumb.svelte';
   import AnnouncementCta from '$lib/components/AnnouncementCta.svelte';
+  import Breadcrumb from '$lib/components/Breadcrumb.svelte';
+  import { onMount } from 'svelte';
 
   // Get the announcement data from the page data prop
   export let data;
@@ -38,28 +38,22 @@
 
   // CTA content logic
   let ctaTitle = '';
-  let ctaButton = '';
-  let ctaDemoLink = '';
-  let ctaDescription = '';
+  const ctaButton = 'Learn More';
+  const ctaDemoLink = '/about';
+  let ctaText = 'Want to learn more about Treasure Tavern? Visit our About page.';
 
   // Set CTA content based on announcement type
   if (announcement.type === 'event') {
     ctaTitle = 'Join Us At This Event!';
-    ctaButton = 'RSVP Now';
-    ctaDemoLink = '/#newsletter';
-    ctaDescription =
+    ctaText =
       'Limited spots available. Reserve your place at this exclusive tavern gathering and be part of the magic.';
   } else if (announcement.type === 'news') {
     ctaTitle = 'Stay Updated';
-    ctaButton = 'Subscribe to Newsletter';
-    ctaDemoLink = '/#newsletter';
-    ctaDescription =
+    ctaText =
       'Want to be the first to know about new happenings at the Tavern? Join our newsletter for exclusive updates and offers.';
   } else {
     ctaTitle = 'Stay Informed';
-    ctaButton = 'Subscribe to Updates';
-    ctaDemoLink = '/#newsletter';
-    ctaDescription =
+    ctaText =
       "Don't miss important announcements and alerts from the Tavern. Subscribe to our updates to stay safe and informed.";
   }
 </script>
@@ -111,8 +105,8 @@
       <AnnouncementCta
         title={ctaTitle}
         buttonText={ctaButton}
-        description={ctaDescription}
-        demoLink={ctaDemoLink || '/#newsletter'}
+        description={ctaText}
+        demoLink={ctaDemoLink || '/about'}
       />
 
       {#if relatedAnnouncements && relatedAnnouncements.length > 0}

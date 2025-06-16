@@ -1,11 +1,11 @@
 <script lang="ts">
-  import { onMount, onDestroy } from 'svelte';
-  import { fade } from 'svelte/transition';
   import AnnouncementCta from '$lib/components/AnnouncementCta.svelte';
   import ResponsiveImage from '$lib/components/ResponsiveImage.svelte';
   import SimpleAudioPlayer from '$lib/components/SimpleAudioPlayer.svelte';
-  import { setPageAudio, resetPageAudio, disablePageAudio } from '$lib/stores/audioStore';
   import { getTaleSocialMeta, type SocialMetadata } from '$lib/data/social-meta';
+  import { disablePageAudio, resetPageAudio, setPageAudio } from '$lib/stores/audioStore';
+  import { onDestroy, onMount } from 'svelte';
+  import { fade } from 'svelte/transition';
 
   // Define Tale interface to fix type errors
   interface Tale {
@@ -187,8 +187,11 @@
 </script>
 
 <svelte:head>
-  <title>{tale.title} - Tavern Tales - Treasure Tavern</title>
-  <meta name="description" content={tale.excerpt} />
+  <title>{tale.title} - Treasure Tavern</title>
+  <meta
+    name="description"
+    content="Read {tale.title} at Treasure Tavern - A creative writing project under development."
+  />
 
   <!-- Basic Meta Tags - Simplified to only include essential tags -->
   <meta property="og:title" content={socialMeta.title} />

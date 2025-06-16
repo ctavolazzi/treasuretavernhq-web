@@ -3,9 +3,9 @@
 User-agent: *
 Allow: /
 Allow: /about
-Allow: /tavern-tales
-Allow: /newsletter
 Allow: /announcements
+Allow: /contact
+Allow: /tavern-tales
 
 # Prevent indexing of any admin areas if added in the future
 Disallow: /admin/

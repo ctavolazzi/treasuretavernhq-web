@@ -1,5 +1,5 @@
 <script>
-  import { onMount, createEventDispatcher } from 'svelte';
+  import { createEventDispatcher, onMount } from 'svelte';
 
   const dispatch = createEventDispatcher();
 
@@ -64,28 +64,20 @@
 
 <!-- Mobile menu -->
 <div class="mobile-menu" class:open={isOpen} role="navigation" aria-label="Mobile navigation">
-  <a href="/waitlist" class="mobile-nav-link special-link" onclick={closeMenu}>
-    <span class="mobile-nav-icon" aria-hidden="true"><i class="fas fa-user-plus"></i></span>
-    Create Account
-  </a>
-  <a href="/newsletter" class="mobile-nav-link" onclick={closeMenu}>
-    <span class="mobile-nav-icon" aria-hidden="true"><i class="fas fa-scroll"></i></span>
-    Newsletter
-  </a>
-  <a href="/tavern-tales" class="mobile-nav-link" onclick={closeMenu}>
-    <span class="mobile-nav-icon" aria-hidden="true"><i class="fas fa-book-open"></i></span>
-    Tales
-  </a>
-  <a href="/announcements" class="mobile-nav-link" onclick={closeMenu}>
-    <span class="mobile-nav-icon" aria-hidden="true"><i class="fas fa-bullhorn"></i></span>
-    Announcements
+  <a href="/" class="mobile-nav-link" onclick={closeMenu}>
+    <i class="fas fa-home"></i>
+    Home
   </a>
   <a href="/about" class="mobile-nav-link" onclick={closeMenu}>
-    <span class="mobile-nav-icon" aria-hidden="true"><i class="fas fa-info-circle"></i></span>
+    <i class="fas fa-info-circle"></i>
     About
   </a>
+  <a href="/announcements" class="mobile-nav-link" onclick={closeMenu}>
+    <i class="fas fa-bullhorn"></i>
+    Announcements
+  </a>
   <a href="/contact" class="mobile-nav-link" onclick={closeMenu}>
-    <span class="mobile-nav-icon" aria-hidden="true"><i class="fas fa-envelope"></i></span>
+    <i class="fas fa-envelope"></i>
     Contact
   </a>
 </div>

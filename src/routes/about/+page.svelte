@@ -117,8 +117,7 @@
           <h3>What are the future plans?</h3>
           <p>
             We plan to expand the project's scope over time as more storytelling tools become
-            available. Our vision is to create an engaging platform for creative writing and
-            storytelling.
+            available. Our focus is on creative writing and storytelling.
           </p>
         </div>
         <div class="question-item" in:fly={{ y: 30, duration: 500, delay: 350 }}>
@@ -147,12 +146,11 @@
           <p>
             Treasure Tavern HQ is a creative writing project that aims to build a platform for
             storytelling. While we're currently in development, we're working towards creating an
-            engaging space for creative writing and narrative exploration.
+            engaging space for creative writing.
           </p>
           <p>
             As we continue to develop, we plan to expand our capabilities and features,
-            incorporating new storytelling tools and technologies as they become available. Our goal
-            is to create a platform that supports and enhances the art of storytelling.
+            incorporating new storytelling tools and technologies as they become available.
           </p>
           <p>
             Please note that this website is under active development. All content is subject to
@@ -326,21 +324,11 @@
 
     <section class="cta-section" data-section="cta">
       {#if sectionsVisible.cta}
-        <div in:fly={{ y: 20, duration: 500 }}>
-          <h2 class="cta-title">Join Our Fellowship</h2>
-          <p class="cta-text">
-            The door to Treasure Tavern is always open for those with a spark of curiosity and a
-            thirst for adventure. Sign up for our newsletter to receive the latest tales and
-            invitations to exclusive gatherings.
-          </p>
-          <div class="cta-buttons">
-            <a href="/newsletter" class="cta-button">Subscribe to Our Tales</a>
-            <a href="/waitlist" class="cta-button account-button">
-              <i class="fas fa-user-plus"></i> Join Account Waitlist
-            </a>
-          </div>
-          <p class="cta-note">
-            Join the waitlist to stay updated on the latest developments at the Treasure Tavern.
+        <div class="cta-content" in:fly={{ y: 20, duration: 500, delay: 100 }}>
+          <h2>Development Status</h2>
+          <p>
+            This project is under active development. All content is subject to change and is
+            provided for entertainment purposes only.
           </p>
         </div>
       {/if}
