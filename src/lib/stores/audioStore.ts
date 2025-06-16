@@ -5,14 +5,18 @@ const defaultAudio = {
   src: '/audio/TheTavernOak.mp3',
   title: 'Tavern Music',
   enabled: true,
-  audioAvailable: true  // Flag to indicate if audio file actually exists
+  audioAvailable: true // Flag to indicate if audio file actually exists
 };
 
 // Create a writable store with the default settings
 export const pageAudio = writable(defaultAudio);
 
 // Function to update the audio settings
-export function setPageAudio(src: string, title: string = 'Tavern Music', audioAvailable: boolean = true) {
+export function setPageAudio(
+  src: string,
+  title: string = 'Tavern Music',
+  audioAvailable: boolean = true
+) {
   // Only proceed if the audio file exists
   if (audioAvailable) {
     console.log(`Setting page audio: ${src} - ${title}`);

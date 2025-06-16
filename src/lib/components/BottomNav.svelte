@@ -2,7 +2,13 @@
   import { onMount, onDestroy } from 'svelte';
 
   // Props for customization
-  export let navOptions: { label: string; href: string; action?: () => void; special?: boolean; icon?: string }[] = [];
+  export let navOptions: {
+    label: string;
+    href: string;
+    action?: () => void;
+    special?: boolean;
+    icon?: string;
+  }[] = [];
   export let enableMusicControl: boolean = true;
   export let audioSrc: string = '/audio/TheTavernOak.mp3';
   export let audioTitle: string = 'Tavern Music';
@@ -47,7 +53,9 @@
 
     if (!audio) {
       setupAudio(); // Ensure audio is initialized
-      if (!audio) return; // If still no audio, exit
+      if (!audio) {
+        return;
+      } // If still no audio, exit
     }
 
     try {
@@ -59,20 +67,24 @@
         const playPromise = audio.play();
 
         if (playPromise) {
-          playPromise.then(() => {
-            // Playback started successfully
-            isMusicPlaying = true;
+          playPromise
+            .then(() => {
+              // Playback started successfully
+              isMusicPlaying = true;
 
-            // Dispatch custom event for audio state change
-            if (typeof window !== 'undefined') {
-              window.dispatchEvent(new CustomEvent('bottomNavAudioChange', {
-                detail: { type: 'audio', playing: true }
-              }));
-            }
-          }).catch(e => {
-            console.warn('Audio playback was prevented:', e);
-            isMusicPlaying = false;
-          });
+              // Dispatch custom event for audio state change
+              if (typeof window !== 'undefined') {
+                window.dispatchEvent(
+                  new CustomEvent('bottomNavAudioChange', {
+                    detail: { type: 'audio', playing: true }
+                  })
+                );
+              }
+            })
+            .catch(e => {
+              console.warn('Audio playback was prevented:', e);
+              isMusicPlaying = false;
+            });
         }
       } else {
         audio.pause();
@@ -80,9 +92,11 @@
 
         // Dispatch custom event for audio state change
         if (typeof window !== 'undefined') {
-          window.dispatchEvent(new CustomEvent('bottomNavAudioChange', {
-            detail: { type: 'audio', playing: false }
-          }));
+          window.dispatchEvent(
+            new CustomEvent('bottomNavAudioChange', {
+              detail: { type: 'audio', playing: false }
+            })
+          );
         }
       }
     } catch (error) {
@@ -108,7 +122,9 @@
 
   // Handle scroll behavior to avoid footer overlap
   function handleScroll() {
-    if (!bottomNavElement) return;
+    if (!bottomNavElement) {
+      return;
+    }
 
     // Check if near footer to adjust position
     const footer = document.querySelector('.footer');
@@ -130,7 +146,9 @@
 
   // Initialize or update the audio element
   function setupAudio() {
-    if (typeof window === 'undefined' || !enableMusicControl) return;
+    if (typeof window === 'undefined' || !enableMusicControl) {
+      return;
+    }
 
     try {
       // Create new audio if it doesn't exist, or if the source has changed
@@ -150,7 +168,7 @@
         audio = new Audio(audioSrc);
         audio.loop = true;
         audio.volume = 0.3;
-        audio.muted = false;  // Make sure it's not muted by default
+        audio.muted = false; // Make sure it's not muted by default
         audio.preload = 'auto'; // Preload audio data
 
         // Add event listeners
@@ -186,14 +204,16 @@
       console.log('Resuming playback after load');
       const playPromise = audio?.play();
       if (playPromise) {
-        playPromise.then(() => {
-          isMusicPlaying = true;
-          resumeAfterLoad = false;
-        }).catch(e => {
-          console.warn('Failed to resume playback:', e);
-          isMusicPlaying = false;
-          resumeAfterLoad = false;
-        });
+        playPromise
+          .then(() => {
+            isMusicPlaying = true;
+            resumeAfterLoad = false;
+          })
+          .catch(e => {
+            console.warn('Failed to resume playback:', e);
+            isMusicPlaying = false;
+            resumeAfterLoad = false;
+          });
       }
     }
   }
@@ -205,9 +225,11 @@
 
     // Dispatch event to notify of error
     if (typeof window !== 'undefined') {
-      window.dispatchEvent(new CustomEvent('bottomNavAudioError', {
-        detail: { src: audioSrc, error: e }
-      }));
+      window.dispatchEvent(
+        new CustomEvent('bottomNavAudioError', {
+          detail: { src: audioSrc, error: e }
+        })
+      );
     }
   }
 
@@ -251,8 +273,12 @@
 
   // Click outside to close menu
   function handleClickOutside(event: MouseEvent) {
-    if (isMenuOpen && menuElement && !menuElement.contains(event.target as Node) &&
-        !bottomNavElement.contains(event.target as Node)) {
+    if (
+      isMenuOpen &&
+      menuElement &&
+      !menuElement.contains(event.target as Node) &&
+      !bottomNavElement.contains(event.target as Node)
+    ) {
       isMenuOpen = false;
     }
   }
@@ -268,6 +294,48 @@
     window.removeEventListener('click', handleClickOutside);
   }
 </script>
+
+<div class="bottom-nav" class:menu-open={isMenuOpen} bind:this={bottomNavElement}>
+  <!-- Expand/Collapse Button -->
+  <button
+    class="expand-btn"
+    class:open={isMenuOpen}
+    on:click={toggleMenu}
+    aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+  >
+    {isMenuOpen ? '×' : '+'}
+  </button>
+
+  <!-- Hidden Menu -->
+  <div class="menu" class:show={isMenuOpen} bind:this={menuElement}>
+    {#if enableMusicControl}
+      <!-- Music Control Row -->
+      <div class="music-control">
+        <span class="music-label">{audioTitle}</span>
+        <button on:click={e => toggleMusic(e)}>
+          {isMusicPlaying ? 'Pause' : 'Play'}
+        </button>
+      </div>
+    {/if}
+
+    <!-- Navigation Options -->
+    {#each navOptions as option}
+      <a
+        href={option.href || 'javascript:void(0)'}
+        class:special={option.special}
+        on:click={e => {
+          const shouldPrevent = !handleOptionClick(option);
+          if (shouldPrevent) {
+            e.preventDefault();
+          }
+        }}
+      >
+        {#if option.icon}<i class={`fas ${option.icon}`}></i>
+        {/if}{option.label}
+      </a>
+    {/each}
+  </div>
+</div>
 
 <style>
   /* Bottom Nav Container with filigree */
@@ -297,7 +365,7 @@
   /* Filigree decorations */
   .bottom-nav::before,
   .bottom-nav::after {
-    content: "";
+    content: '';
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -326,18 +394,33 @@
 
   /* Add shimmer animation to filigree */
   @keyframes shimmer {
-    0% { filter: drop-shadow(0 0 3px rgba(207, 167, 93, 0.6)); opacity: 0.85; }
-    25% { filter: drop-shadow(0 0 4px rgba(207, 167, 93, 0.7)); opacity: 0.9; }
-    50% { filter: drop-shadow(0 0 6px rgba(229, 201, 137, 0.9)); opacity: 1; }
-    75% { filter: drop-shadow(0 0 4px rgba(207, 167, 93, 0.7)); opacity: 0.9; }
-    100% { filter: drop-shadow(0 0 3px rgba(207, 167, 93, 0.6)); opacity: 0.85; }
+    0% {
+      filter: drop-shadow(0 0 3px rgba(207, 167, 93, 0.6));
+      opacity: 0.85;
+    }
+    25% {
+      filter: drop-shadow(0 0 4px rgba(207, 167, 93, 0.7));
+      opacity: 0.9;
+    }
+    50% {
+      filter: drop-shadow(0 0 6px rgba(229, 201, 137, 0.9));
+      opacity: 1;
+    }
+    75% {
+      filter: drop-shadow(0 0 4px rgba(207, 167, 93, 0.7));
+      opacity: 0.9;
+    }
+    100% {
+      filter: drop-shadow(0 0 3px rgba(207, 167, 93, 0.6));
+      opacity: 0.85;
+    }
   }
 
   /* Make the filigree larger on hover */
   .bottom-nav:hover::before,
   .bottom-nav:hover::after {
     animation: none;
-    filter: drop-shadow(0 0 8px rgba(229, 201, 137, 1.0));
+    filter: drop-shadow(0 0 8px rgba(229, 201, 137, 1));
     width: 110px;
     opacity: 1;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* More bouncy animation */
@@ -424,7 +507,9 @@
     font-size: 1.8rem;
     font-weight: bold;
     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3), 0 0 15px rgba(207, 167, 93, 0.4);
+    box-shadow:
+      0 4px 10px rgba(0, 0, 0, 0.3),
+      0 0 15px rgba(207, 167, 93, 0.4);
     text-shadow: 0 1px 1px rgba(255, 255, 255, 0.3);
     position: relative;
     z-index: 3;
@@ -438,14 +523,19 @@
   }
 
   .expand-btn::before {
-    content: "";
+    content: '';
     position: absolute;
     top: -3px;
     left: -3px;
     right: -3px;
     bottom: -3px;
     border-radius: 50%;
-    background: linear-gradient(135deg, rgba(229, 201, 137, 0), rgba(229, 201, 137, 0.5) 50%, rgba(229, 201, 137, 0) 100%);
+    background: linear-gradient(
+      135deg,
+      rgba(229, 201, 137, 0),
+      rgba(229, 201, 137, 0.5) 50%,
+      rgba(229, 201, 137, 0) 100%
+    );
     z-index: -1;
     opacity: 0;
     transition: opacity 0.4s ease;
@@ -457,18 +547,26 @@
   }
 
   @keyframes rotate {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
   }
 
   .expand-btn:hover {
     transform: scale(1.08) translateY(-2px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4), 0 0 20px rgba(207, 167, 93, 0.5);
+    box-shadow:
+      0 6px 15px rgba(0, 0, 0, 0.4),
+      0 0 20px rgba(207, 167, 93, 0.5);
   }
 
   .expand-btn:active {
     transform: scale(1.02) translateY(0);
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4), 0 0 12px rgba(207, 167, 93, 0.4);
+    box-shadow:
+      0 3px 8px rgba(0, 0, 0, 0.4),
+      0 0 12px rgba(207, 167, 93, 0.4);
   }
 
   /* Hidden menu that appears above the nav */
@@ -485,16 +583,20 @@
     display: none;
     flex-direction: column;
     align-items: center;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), 0 0 10px rgba(207, 167, 93, 0.2);
+    box-shadow:
+      0 8px 20px rgba(0, 0, 0, 0.4),
+      0 0 10px rgba(207, 167, 93, 0.2);
     opacity: 0;
-    transition: transform 0.3s ease, opacity 0.3s ease;
+    transition:
+      transform 0.3s ease,
+      opacity 0.3s ease;
     z-index: 2;
     pointer-events: auto;
   }
 
   /* Speech bubble pointer */
   .menu::after {
-    content: "";
+    content: '';
     position: absolute;
     bottom: -10px;
     left: 50%;
@@ -520,7 +622,9 @@
     display: flex;
     opacity: 1;
     transform: translateX(-50%) scale(1);
-    transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition:
+      opacity 0.4s ease,
+      transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
 
   /* Links in the expanded menu */
@@ -553,7 +657,12 @@
   /* Special styling for gold highlighted links */
   .menu a.special {
     color: #e0b66d;
-    background: linear-gradient(to right, rgba(189, 150, 72, 0), rgba(189, 150, 72, 0.15), rgba(189, 150, 72, 0));
+    background: linear-gradient(
+      to right,
+      rgba(189, 150, 72, 0),
+      rgba(189, 150, 72, 0.15),
+      rgba(189, 150, 72, 0)
+    );
     border-radius: 4px;
     font-weight: 600;
     text-shadow: 0 0 8px rgba(189, 150, 72, 0.4);
@@ -570,28 +679,30 @@
   }
 
   .menu a.special::before {
-    content: "";
+    content: '';
     position: absolute;
     top: 0;
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(229, 201, 137, 0.2),
-      transparent
-    );
+    background: linear-gradient(90deg, transparent, rgba(229, 201, 137, 0.2), transparent);
     transition: left 0.8s ease;
   }
 
   .menu a.special:hover {
     color: #e5c989;
     text-shadow: 0 0 12px rgba(229, 201, 137, 0.7);
-    background: linear-gradient(to right, rgba(189, 150, 72, 0), rgba(189, 150, 72, 0.25), rgba(189, 150, 72, 0));
+    background: linear-gradient(
+      to right,
+      rgba(189, 150, 72, 0),
+      rgba(189, 150, 72, 0.25),
+      rgba(189, 150, 72, 0)
+    );
     transform: translateY(-2px);
     border: 1px solid rgba(189, 150, 72, 0.4);
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2), 0 0 15px rgba(189, 150, 72, 0.2);
+    box-shadow:
+      0 3px 10px rgba(0, 0, 0, 0.2),
+      0 0 15px rgba(189, 150, 72, 0.2);
   }
 
   .menu a.special:hover::before {
@@ -600,8 +711,12 @@
   }
 
   @keyframes shimmerEffect {
-    0% { left: -100%; }
-    100% { left: 100%; }
+    0% {
+      left: -100%;
+    }
+    100% {
+      left: 100%;
+    }
   }
 
   /* Music control row at top of the expanded menu */
@@ -641,9 +756,21 @@
 
   /* Animation for filigree when menu is toggled */
   @keyframes filigreeExpand {
-    0% { transform: translateY(-50%) scale(0.95); opacity: 0.7; filter: drop-shadow(0 0 3px rgba(207, 167, 93, 0.6)); }
-    50% { transform: translateY(-50%) scale(1.15); opacity: 1; filter: drop-shadow(0 0 8px rgba(229, 201, 137, 0.9)); }
-    100% { transform: translateY(-50%) scale(1); opacity: 0.9; filter: drop-shadow(0 0 5px rgba(207, 167, 93, 0.8)); }
+    0% {
+      transform: translateY(-50%) scale(0.95);
+      opacity: 0.7;
+      filter: drop-shadow(0 0 3px rgba(207, 167, 93, 0.6));
+    }
+    50% {
+      transform: translateY(-50%) scale(1.15);
+      opacity: 1;
+      filter: drop-shadow(0 0 8px rgba(229, 201, 137, 0.9));
+    }
+    100% {
+      transform: translateY(-50%) scale(1);
+      opacity: 0.9;
+      filter: drop-shadow(0 0 5px rgba(207, 167, 93, 0.8));
+    }
   }
 
   .bottom-nav.menu-open::before,
@@ -652,44 +779,3 @@
     width: 110px;
   }
 </style>
-
-<div class="bottom-nav" class:menu-open={isMenuOpen} bind:this={bottomNavElement}>
-  <!-- Expand/Collapse Button -->
-  <button
-    class="expand-btn"
-    class:open={isMenuOpen}
-    on:click={toggleMenu}
-    aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-  >
-    {isMenuOpen ? '×' : '+'}
-  </button>
-
-  <!-- Hidden Menu -->
-  <div class="menu" class:show={isMenuOpen} bind:this={menuElement}>
-    {#if enableMusicControl}
-      <!-- Music Control Row -->
-      <div class="music-control">
-        <span class="music-label">{audioTitle}</span>
-        <button on:click={(e) => toggleMusic(e)}>
-          {isMusicPlaying ? 'Pause' : 'Play'}
-        </button>
-      </div>
-    {/if}
-
-    <!-- Navigation Options -->
-    {#each navOptions as option}
-      <a
-        href={option.href || 'javascript:void(0)'}
-        class={option.special ? 'special' : ''}
-        on:click={(e) => {
-          const shouldPrevent = !handleOptionClick(option);
-          if (shouldPrevent) {
-            e.preventDefault();
-          }
-        }}
-      >
-        {#if option.icon}<i class={`fas ${option.icon}`}></i> {/if}{option.label}
-      </a>
-    {/each}
-  </div>
-</div>

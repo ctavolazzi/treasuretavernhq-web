@@ -116,21 +116,21 @@ async function generateImage(options) {
     'ffmpeg -y',
     `-f lavfi -i "color=s=${width}x${height}:c=0x${colors.gradientStart}[c1]; `,
     `color=s=${width}x${height}:c=0x${colors.gradientEnd}[c2]; `,
-    `[c1][c2]blend=all_mode=overlay:all_opacity=0.7"`,
+    '[c1][c2]blend=all_mode=overlay:all_opacity=0.7"',
     // Add some noise for texture
-    `-vf "noise=alls=20:allf=t,`,
+    '-vf "noise=alls=20:allf=t,',
     // Add the title text
-    `drawtext=fontfile=/System/Library/Fonts/Supplemental/Times New Roman.ttf:`,
+    'drawtext=fontfile=/System/Library/Fonts/Supplemental/Times New Roman.ttf:',
     `text='${title.replace(/'/g, "\\'")}':`,
-    `fontcolor=0x${colors.textColor}:fontsize=${width/15}:x=(w-text_w)/2:y=h/2.5,`,
+    `fontcolor=0x${colors.textColor}:fontsize=${width / 15}:x=(w-text_w)/2:y=h/2.5,`,
     // Add a smaller type indicator text
-    `drawtext=fontfile=/System/Library/Fonts/Supplemental/Arial.ttf:`,
+    'drawtext=fontfile=/System/Library/Fonts/Supplemental/Arial.ttf:',
     `text='${type.toUpperCase()}':`,
-    `fontcolor=0x${colors.accentColor}:fontsize=${width/30}:x=(w-text_w)/2:y=h/1.7,`,
+    `fontcolor=0x${colors.accentColor}:fontsize=${width / 30}:x=(w-text_w)/2:y=h/1.7,`,
     // Add a placeholder explanation text
-    `drawtext=fontfile=/System/Library/Fonts/Supplemental/Arial.ttf:`,
+    'drawtext=fontfile=/System/Library/Fonts/Supplemental/Arial.ttf:',
     `text='PLACEHOLDER IMAGE FOR ${type.toUpperCase()} CONTENT':`,
-    `fontcolor=0x${colors.textColor}:fontsize=${width/40}:x=(w-text_w)/2:y=h/1.3,`,
+    `fontcolor=0x${colors.textColor}:fontsize=${width / 40}:x=(w-text_w)/2:y=h/1.3,`,
     // Add a decorative line
     `drawbox=x=(w-w/3)/2:y=h/1.5:w=w/3:h=2:color=0x${colors.accentColor}:t=fill"`,
     output
@@ -151,12 +151,12 @@ async function generateImage(options) {
       const fallbackCommand = [
         'ffmpeg -y',
         `-f lavfi -i "color=s=${width}x${height}:c=0x${colors.gradientStart}"`,
-        `-vf "drawtext=fontfile=/System/Library/Fonts/Arial.ttf:`,
+        '-vf "drawtext=fontfile=/System/Library/Fonts/Arial.ttf:',
         `text='${title.replace(/'/g, "\\'")} (${type.toUpperCase()})':`,
-        `fontcolor=0x${colors.textColor}:fontsize=${width/15}:x=(w-text_w)/2:y=h/2,`,
-        `drawtext=fontfile=/System/Library/Fonts/Arial.ttf:`,
-        `text='PLACEHOLDER IMAGE':`,
-        `fontcolor=0x${colors.accentColor}:fontsize=${width/25}:x=(w-text_w)/2:y=h/1.5"`,
+        `fontcolor=0x${colors.textColor}:fontsize=${width / 15}:x=(w-text_w)/2:y=h/2,`,
+        'drawtext=fontfile=/System/Library/Fonts/Arial.ttf:',
+        "text='PLACEHOLDER IMAGE':",
+        `fontcolor=0x${colors.accentColor}:fontsize=${width / 25}:x=(w-text_w)/2:y=h/1.5"`,
         output
       ].join(' ');
 
@@ -169,7 +169,7 @@ async function generateImage(options) {
       // Last resort - create a solid color image with text
       try {
         console.log(`Attempting final fallback for ${output}...`);
-        const lastResortCommand = `convert -size ${width}x${height} xc:#${colors.gradientStart} -gravity center -pointsize ${width/15} -fill white -annotate 0 "${title}" ${output}`;
+        const lastResortCommand = `convert -size ${width}x${height} xc:#${colors.gradientStart} -gravity center -pointsize ${width / 15} -fill white -annotate 0 "${title}" ${output}`;
 
         await execPromise(lastResortCommand);
         console.log(`✅ Created basic placeholder: ${output}`);
@@ -252,7 +252,7 @@ async function generateBatchImages() {
       height: 800,
       title: 'Lost Traveler',
       type: 'error',
-      output: `static/images/lost-traveler.jpg`
+      output: 'static/images/lost-traveler.jpg'
     });
 
     console.log('✅ Batch generation complete');

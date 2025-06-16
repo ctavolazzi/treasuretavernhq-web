@@ -180,8 +180,10 @@ async function generateAllPlaceholders() {
 console.log('🖼️ Simple Placeholder Image Generator');
 generateAllPlaceholders()
   .then(svgFiles => {
-    console.log("SVG files created successfully. Use them directly in your HTML with <img> tags.");
-    console.log("Example usage: <img src='/images/tales/whispers-of-the-goblin-court.svg' alt='Tale title' />");
+    console.log('SVG files created successfully. Use them directly in your HTML with <img> tags.');
+    console.log(
+      "Example usage: <img src='/images/tales/whispers-of-the-goblin-court.svg' alt='Tale title' />"
+    );
   })
   .catch(error => {
     console.error('❌ Error generating placeholders:', error);

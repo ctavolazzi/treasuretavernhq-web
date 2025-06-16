@@ -11,27 +11,27 @@
   let supabaseConfigured = true;
   let newsletterOptIn = true; // Default to checked for better conversion
   let scrollModalOpen = false; // Track if the scroll modal is open
-  let scrollImgSrc = '/images/tavern-song-scroll-transparent.png'; // Image source for the modal
-  let scrollImgWebpSrc = '/images/tavern-song-scroll-transparent.webp'; // WebP version
+  const scrollImgSrc = '/images/tavern-song-scroll-transparent.png'; // Image source for the modal
+  const scrollImgWebpSrc = '/images/tavern-song-scroll-transparent.webp'; // WebP version
 
   // Lantern animation
   let lanternState: 'out' | 'animate' | 'success' = 'out';
   let subscriptionSucceeded = false; // Track if user has successfully subscribed
 
   // URLs for the lantern GIFs and static images
-  let lanternAnimationGif = '/gifs/tavern-lantern-animation.gif';
-  let lanternSuccessGif = '/gifs/tavern-lantern-success.gif';
-  let lanternStaticImage = '/images/tavern-lantern.webp';
+  const lanternAnimationGif = '/gifs/tavern-lantern-animation.gif';
+  const lanternSuccessGif = '/gifs/tavern-lantern-success.gif';
+  const lanternStaticImage = '/images/tavern-lantern.webp';
 
   // Fallbacks for browsers that don't support WebP
-  let lanternStaticImageFallback = '/images/tavern-lantern.png';
+  const lanternStaticImageFallback = '/images/tavern-lantern.png';
 
   // Track what image is currently displayed
   let currentLanternImage = lanternAnimationGif;
   let isTouch = false; // Track if the device primarily uses touch
   let supportsWebP = true; // Will be set in onMount
-  let isMuted = true; // This will be removed but kept to avoid errors elsewhere
-  let audioInitialized = false; // This will be removed but kept to avoid errors elsewhere
+  const isMuted = true; // This will be removed but kept to avoid errors elsewhere
+  const audioInitialized = false; // This will be removed but kept to avoid errors elsewhere
 
   // Handle form submission
   async function handleSubmit() {
@@ -87,14 +87,9 @@
   }
 
   // Event handlers for touch
-  function handleTouchStart(event: TouchEvent) {
-    event.preventDefault();
-    // No action needed - animation is handled by the GIF
-  }
 
   function handleTouchEnd(event: TouchEvent) {
-    event.preventDefault();
-    // No action needed - animation is handled by the GIF
+    // Touch end is handled by click event, no need for preventDefault
   }
 
   // Function to smoothly scroll to the newsletter signup form
@@ -120,7 +115,7 @@
         targetPosition = rect.top + scrollTop - 30;
       } else {
         // Form can be centered or positioned with more padding
-        targetPosition = rect.top + scrollTop - ((viewportHeight - formHeight) / 3);
+        targetPosition = rect.top + scrollTop - (viewportHeight - formHeight) / 3;
       }
 
       // Ensure we don't scroll past the top
@@ -142,13 +137,12 @@
     }
 
     // We don't need to set isTouch to true for all devices with touch capability
-    // Just detect if touch is being used actively, which happens in handleTouchStart
+    // isTouch flag is kept for compatibility but not actively used
     isTouch = false;
 
     // Check for WebP support
-    const webpSupport = document.createElement('canvas')
-      .toDataURL('image/webp')
-      .indexOf('data:image/webp') === 0;
+    const webpSupport =
+      document.createElement('canvas').toDataURL('image/webp').indexOf('data:image/webp') === 0;
 
     supportsWebP = webpSupport;
 
@@ -165,7 +159,10 @@
 
 <svelte:head>
   <title>Treasure Tavern - Immersive Fantasy Tales & Adventures</title>
-  <meta name="description" content="Discover immersive fantasy stories, interactive adventures, and a vibrant community of storytellers at Treasure Tavern." />
+  <meta
+    name="description"
+    content="Discover immersive fantasy stories, interactive adventures, and a vibrant community of storytellers at Treasure Tavern."
+  />
 </svelte:head>
 
 <main>
@@ -179,9 +176,9 @@
   <div class="container">
     <h1>
       <div class="welcome-wrapper">
-        <span class="welcome-medium">Welcome</span><br>
-        <span class="welcome-small">to the</span><br>
-        <span class="welcome-large">Treasure</span><br>
+        <span class="welcome-medium">Welcome</span><br />
+        <span class="welcome-small">to the</span><br />
+        <span class="welcome-large">Treasure</span><br />
         <span class="welcome-large">Tavern</span>
       </div>
     </h1>
@@ -191,29 +188,29 @@
       <div class="welcome-image-container">
         <a href="/tavern-tales">
           <picture>
-            <source
-              srcset="/images/tt-landscape-welcome-image.webp"
-              type="image/webp"
-            >
+            <source srcset="/images/tt-landscape-welcome-image.webp" type="image/webp" />
             <img
               src="/images/tt-landscape-welcome-image.png"
               alt="Welcome to Treasure Tavern - A mystical fantasy landscape"
               class="welcome-image"
               loading="lazy"
-            >
+            />
           </picture>
         </a>
       </div>
-      <h2 class="welcome-title">The<br class="mobile-break"> Door Is Opening</h2>
+      <h2 class="welcome-title">The<br class="mobile-break" /> Door Is Opening</h2>
       <p class="welcome-description">
-        Step through our magical doorway and find yourself in a realm where legends come alive, treasures await discovery,
-        and fellow adventurers gather to share their tales by the hearth.
+        Step through our magical doorway and find yourself in a realm where legends come alive,
+        treasures await discovery, and fellow adventurers gather to share their tales by the hearth.
       </p>
       <p class="welcome-description">
-        Treasure Tavern is a fantasy universe created and updated to entertain and offer an escape from the real world. It's a work of fiction, an online store, an interactive social media experience, and more - a multifaceted realm where imagination meets community.
+        Treasure Tavern is a fantasy universe created and updated to entertain and offer an escape
+        from the real world. It's a work of fiction, an online store, an interactive social media
+        experience, and more - a multifaceted realm where imagination meets community.
       </p>
       <p class="welcome-footer">
-        Pull up a chair, order your favorite brew, and make yourself at home. The Tavern Keeper has been expecting you.
+        Pull up a chair, order your favorite brew, and make yourself at home. The Tavern Keeper has
+        been expecting you.
       </p>
 
       <!-- Navigation buttons -->
@@ -237,7 +234,8 @@
       <div class="benefits-pattern"></div>
       <h2 class="benefits-title">What You'll Discover</h2>
       <p class="benefits-subtitle">
-        Step into a world of imagination and adventure, where every visit to the Treasure Tavern brings new experiences.
+        Step into a world of imagination and adventure, where every visit to the Treasure Tavern
+        brings new experiences.
       </p>
 
       <div class="benefits-grid">
@@ -247,7 +245,8 @@
           </span>
           <h3 class="benefit-title">Immersive Stories</h3>
           <p class="benefit-desc">
-            Dive into captivating tales set in our rich, detailed fantasy world created by our community of storytellers.
+            Dive into captivating tales set in our rich, detailed fantasy world created by our
+            community of storytellers.
           </p>
         </div>
 
@@ -257,7 +256,8 @@
           </span>
           <h3 class="benefit-title">Vibrant Community</h3>
           <p class="benefit-desc">
-            Join fellow adventurers, storytellers, and creators who share your passion for fantasy and adventure.
+            Join fellow adventurers, storytellers, and creators who share your passion for fantasy
+            and adventure.
           </p>
         </div>
 
@@ -267,7 +267,8 @@
           </span>
           <h3 class="benefit-title">Magical Experiences</h3>
           <p class="benefit-desc">
-            Encounter wonders, mysteries, and magical moments that will transport you to realms beyond imagination.
+            Encounter wonders, mysteries, and magical moments that will transport you to realms
+            beyond imagination.
           </p>
         </div>
 
@@ -277,7 +278,8 @@
           </span>
           <h3 class="benefit-title">Creative Freedom</h3>
           <p class="benefit-desc">
-            Express yourself through stories, art, and collaborative world-building in our ever-expanding universe.
+            Express yourself through stories, art, and collaborative world-building in our
+            ever-expanding universe.
           </p>
         </div>
       </div>
@@ -289,14 +291,14 @@
     </section>
 
     <!-- Interactive Lantern with unified pointer events and touch handling -->
-    <a href="#newsletter-signup" id="lantern" class="lantern-container lantern-{lanternState}"
+    <a
+      href="#newsletter-signup"
+      id="lantern"
+      class="lantern-container lantern-{lanternState}"
       on:pointerenter={handlePointerEnter}
       on:pointerleave={handlePointerLeave}
-      on:touchstart|preventDefault={handleTouchStart}
-      on:touchend|preventDefault={handleTouchEnd}
-      on:touchcancel|preventDefault={handleTouchEnd}
       on:click|preventDefault={() => scrollToNewsletterForm()}
-      on:keydown={(e) => {
+      on:keydown={e => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
           scrollToNewsletterForm();
@@ -304,15 +306,19 @@
       }}
       role="button"
       tabindex="0"
-      aria-label="Interactive lantern - click to sign up to the newsletter">
+      aria-label="Interactive lantern - click to sign up to the newsletter"
+    >
       <div class="lantern-glow"></div>
       <img
         src={currentLanternImage}
         alt="Tavern Lantern"
         class="lantern-image"
         draggable="false"
-        style="max-width:300px; max-height:300px; width:300px; height:300px;"
-        on:error={(e) => {
+        style:max-width="300px"
+        style:max-height="300px"
+        style:height="300px"
+        style:width="300px"
+        on:error={e => {
           // Try to handle error gracefully by falling back to PNG if WebP fails
           const imgElement = e.currentTarget as HTMLImageElement;
           if (imgElement.src.endsWith('.webp')) {
@@ -323,41 +329,127 @@
       />
     </a>
 
-    <p class="subheading-emphasis" style="text-align: center; margin-left: auto; margin-right: auto; margin-top: 2rem; font-family: 'Cinzel Decorative', fantasy; font-size: clamp(2rem, 4vw, 3rem); color: #D5A44C; text-shadow: 0 0 15px rgba(213, 164, 76, 0.5), 0 0 30px rgba(213, 164, 76, 0.3), 0 0 45px rgba(213, 164, 76, 0.2); letter-spacing: 0.1em; font-weight: 700; position: relative; display: inline-block; padding: 0.5rem 1.5rem; animation: glow 3s ease-in-out infinite alternate;">LIGHT THE LANTERN</p>
-    <p class="subheading" style="text-align: center; margin-left: auto; margin-right: auto;">An amusing fantasy universe is coming. Join early to unlock the Tavern.</p>
+    <p
+      class="subheading-emphasis"
+      style:text-align="center"
+      style:margin-left="auto"
+      style:margin-top="2rem"
+      style:font-size="clamp(2rem, 4vw, 3rem)"
+      style:text-shadow="0 0 15px rgba(213, 164, 76, 0.5), 0 0 30px rgba(213, 164, 76, 0.3), 0 0
+      45px rgba(213, 164, 76, 0.2)"
+      style:font-weight="700"
+      style:display="inline-block"
+      style:animation="glow 3s ease-in-out infinite alternate"
+      style:padding="0.5rem 1.5rem"
+      style:position="relative"
+      style:letter-spacing="0.1em"
+      style:color="#D5A44C"
+      style:font-family="'Cinzel Decorative', fantasy"
+      style:margin-right="auto"
+    >
+      LIGHT THE LANTERN
+    </p>
+    <p
+      class="subheading"
+      style:text-align="center"
+      style:margin-left="auto"
+      style:margin-right="auto"
+    >
+      An amusing fantasy universe is coming. Join early to unlock the Tavern.
+    </p>
 
     <!-- Newsletter Signup Form -->
-    <div class="newsletter-signup-section" style="margin: 2rem auto; max-width: 500px;">
-      <form id="newsletter-signup" class="cta-form" on:submit|preventDefault={handleSubmit} style="background: rgba(31, 27, 45, 0.95); padding: 1.75rem; border-radius: 12px; border: 1px solid rgba(189, 150, 72, 0.3); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);">
-        <div style="text-align: center; margin-bottom: 1.5rem;">
-          <h3 style="font-family: 'Cinzel', serif; color: #BD9648; font-size: 1.4rem; margin: 0 0 0.5rem;">Stay Updated</h3>
-          <p style="font-family: 'Spectral', serif; color: rgba(247, 232, 212, 0.9); font-size: 1.1rem; margin: 0;">Receive magical updates and exclusive content from the Treasure Tavern</p>
+    <div class="newsletter-signup-section" style:margin="2rem auto" style:max-width="500px">
+      <form
+        id="newsletter-signup"
+        class="cta-form"
+        on:submit|preventDefault={handleSubmit}
+        style:background="rgba(31, 27, 45, 0.95)"
+        style:padding="1.75rem"
+        style:border="1px solid rgba(189, 150, 72, 0.3)"
+        style:box-shadow="0 8px 25px rgba(0, 0, 0, 0.25)"
+        style:border-radius="12px"
+      >
+        <div style:text-align="center" style:margin-bottom="1.5rem">
+          <h3
+            style:font-family="'Cinzel', serif"
+            style:color="#BD9648"
+            style:margin="0 0 0.5rem"
+            style:font-size="1.4rem"
+          >
+            Stay Updated
+          </h3>
+          <p
+            style:font-family="'Spectral', serif"
+            style:color="rgba(247, 232, 212, 0.9)"
+            style:margin="0"
+            style:font-size="1.1rem"
+          >
+            Receive magical updates and exclusive content from the Treasure Tavern
+          </p>
         </div>
-        <div style="margin-bottom: 1rem;">
+        <div style:margin-bottom="1rem">
           <input
             type="email"
             bind:value={email}
             placeholder="Enter your email address"
-            style="width: 100%; padding: 0.85rem 1rem; background: rgba(19, 17, 28, 0.6); border: 1px solid rgba(247, 232, 212, 0.25); border-radius: 6px; color: #F7E8D4; font-size: 1rem; margin-bottom: 0.75rem;"
+            style:width="100%"
+            style:padding="0.85rem 1rem"
+            style:border="1px solid rgba(247, 232, 212, 0.25)"
+            style:color="#F7E8D4"
+            style:margin-bottom="0.75rem"
+            style:font-size="1rem"
+            style:border-radius="6px"
+            style:background="rgba(19, 17, 28, 0.6)"
           />
           <input
             type="text"
             bind:value={name}
             placeholder="Your name (optional)"
-            style="width: 100%; padding: 0.85rem 1rem; background: rgba(19, 17, 28, 0.6); border: 1px solid rgba(247, 232, 212, 0.25); border-radius: 6px; color: #F7E8D4; font-size: 1rem;"
+            style:width="100%"
+            style:padding="0.85rem 1rem"
+            style:border="1px solid rgba(247, 232, 212, 0.25)"
+            style:color="#F7E8D4"
+            style:font-size="1rem"
+            style:border-radius="6px"
+            style:background="rgba(19, 17, 28, 0.6)"
           />
         </div>
-        <div style="margin-bottom: 1.5rem;">
-          <label style="display: flex; align-items: center; gap: 0.5rem; color: rgba(247, 232, 212, 0.9); font-size: 0.95rem;">
+        <div style:margin-bottom="1.5rem">
+          <label
+            style:display="flex"
+            style:align-items="center"
+            style:color="rgba(247, 232, 212, 0.9)"
+            style:font-size="0.95rem"
+            style:gap="0.5rem"
+          >
             <input
               type="checkbox"
               bind:checked={newsletterOptIn}
-              style="width: 1rem; height: 1rem;"
+              style:width="1rem"
+              style:height="1rem"
             />
             <span>Send me magical updates from the Tavern</span>
           </label>
         </div>
-        <button type="submit" disabled={loading} style="width: 100%; padding: 1rem 2rem; background: linear-gradient(135deg, #9E61E3 0%, #7A3CA3 100%); border: none; border-radius: 6px; color: #F7E8D4; font-family: 'Cinzel', serif; font-size: 1.15rem; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+        <button
+          type="submit"
+          disabled={loading}
+          style:width="100%"
+          style:padding="1rem 2rem"
+          style:border="none"
+          style:color="#F7E8D4"
+          style:font-size="1.15rem"
+          style:transition="all 0.3s ease"
+          style:align-items="center"
+          style:gap="0.5rem"
+          style:justify-content="center"
+          style:display="flex"
+          style:cursor="pointer"
+          style:font-family="'Cinzel', serif"
+          style:border-radius="6px"
+          style:background="linear-gradient(135deg, #9E61E3 0%, #7A3CA3 100%)"
+        >
           <i class="fas fa-envelope"></i>
           Join the Email List
           {#if loading}
@@ -365,7 +457,9 @@
           {/if}
         </button>
         {#if error}
-          <div style="color: #ff7c7c; font-size: 0.9rem; margin-top: 0.75rem;">{error}</div>
+          <div style:color="#ff7c7c" style:font-size="0.9rem" style:margin-top="0.75rem">
+            {error}
+          </div>
         {/if}
       </form>
     </div>
@@ -379,7 +473,7 @@
       </p>
       <a href="/tavern-tales" class="tavern-tales-image-link">
         <picture>
-          <source srcset="/images/tavern-90s-landscape-tavern-girl-ad.webp" type="image/webp">
+          <source srcset="/images/tavern-90s-landscape-tavern-girl-ad.webp" type="image/webp" />
           <img
             src="/images/tavern-90s-landscape-tavern-girl-ad.png"
             alt="A mystical tavern landscape with a welcoming tavern girl"
@@ -394,7 +488,11 @@
     <!-- Exploration Section -->
     <div class="exploration-section">
       <h2 class="exploration-title">Explore the Tavern</h2>
-      <p class="exploration-description">Treasure Tavern is a fantastical universe filled with mythical characters, magical artifacts, and extraordinary tales. Explore our world through the links below and begin your journey.</p>
+      <p class="exploration-description">
+        Treasure Tavern is a fantastical universe filled with mythical characters, magical
+        artifacts, and extraordinary tales. Explore our world through the links below and begin your
+        journey.
+      </p>
 
       <div class="exploration-links">
         <a href="/tavern-tales" class="exploration-card">
@@ -426,12 +524,6 @@
           <h3>Contact</h3>
           <p>Send a message to the Tavern Keepers with questions or tales</p>
         </a>
-
-        <a href="/demo" class="exploration-card">
-          <div class="card-icon">✨</div>
-          <h3>Demo</h3>
-          <p>Experience interactive previews of upcoming features</p>
-        </a>
       </div>
     </div>
 
@@ -442,7 +534,9 @@
           <h2 class="vision-title">Our Ultimate Vision</h2>
           <div class="vision-title-decoration"></div>
           <p class="vision-description">
-            The ultimate vision of Treasure Tavern is to create an interactive AI-generated gaming experience where you can contribute to our shared universe through writing, art, and gameplay—all within our canonical world.
+            The ultimate vision of Treasure Tavern is to create an interactive AI-generated gaming
+            experience where you can contribute to our shared universe through writing, art, and
+            gameplay—all within our canonical world.
           </p>
           <div class="vision-buttons">
             <a href="/about#vision" class="vision-button primary">
@@ -475,25 +569,37 @@
         <div class="testimonial">
           <div class="quote-icon">❝</div>
           <p class="atmosphere-quote">
-            Lost my lucky dagger in a bet with a goblin last spring. Found it hanging above the hearth at Treasure Tavern three moons later. This place has a way of gathering lost treasures and wayward souls alike. Best mead in seven kingdoms too!
+            Lost my lucky dagger in a bet with a goblin last spring. Found it hanging above the
+            hearth at Treasure Tavern three moons later. This place has a way of gathering lost
+            treasures and wayward souls alike. Best mead in seven kingdoms too!
           </p>
-          <p class="quote-attribution">— Durnin Axebeard, <span class="attribution-title">Dwarven Merchant</span></p>
+          <p class="quote-attribution">
+            — Durnin Axebeard, <span class="attribution-title">Dwarven Merchant</span>
+          </p>
         </div>
 
         <div class="testimonial">
           <div class="quote-icon">❝</div>
           <p class="atmosphere-quote">
-            My songs have echoed in the halls of emperors, but nowhere do they resonate with such magic as within these tavern walls. The patrons here don't just listen to tales—they live them, breathe them, become part of them.
+            My songs have echoed in the halls of emperors, but nowhere do they resonate with such
+            magic as within these tavern walls. The patrons here don't just listen to tales—they
+            live them, breathe them, become part of them.
           </p>
-          <p class="quote-attribution">— Lyra Silverstring, <span class="attribution-title">Elven Bard</span></p>
+          <p class="quote-attribution">
+            — Lyra Silverstring, <span class="attribution-title">Elven Bard</span>
+          </p>
         </div>
 
         <div class="testimonial">
           <div class="quote-icon">❝</div>
           <p class="atmosphere-quote">
-            Been traversing the Shadowlands for nigh on forty years. Only place where both the living and spectral feel welcome is Treasure Tavern. The keeper doesn't ask questions when you order two ales but drink alone.
+            Been traversing the Shadowlands for nigh on forty years. Only place where both the
+            living and spectral feel welcome is Treasure Tavern. The keeper doesn't ask questions
+            when you order two ales but drink alone.
           </p>
-          <p class="quote-attribution">— Morvath the Gray, <span class="attribution-title">Spirit Walker</span></p>
+          <p class="quote-attribution">
+            — Morvath the Gray, <span class="attribution-title">Spirit Walker</span>
+          </p>
         </div>
       </div>
 
@@ -502,15 +608,15 @@
         <div class="song-title-decoration"></div>
         <div
           class="scroll-image-container"
-          on:click={() => scrollModalOpen = true}
+          on:click={() => (scrollModalOpen = true)}
           role="button"
           tabindex="0"
-          on:keydown={(e) => e.key === 'Enter' && (scrollModalOpen = true)}
+          on:keydown={e => e.key === 'Enter' && (scrollModalOpen = true)}
           aria-label="Open tavern song scroll"
         >
           <div class="scroll-frame">
             <picture>
-              <source srcset={scrollImgWebpSrc} type="image/webp">
+              <source srcset={scrollImgWebpSrc} type="image/webp" />
               <img
                 src={scrollImgSrc}
                 alt="The Tavern Oak - A tavern song written on a scroll"
@@ -531,26 +637,70 @@
     </div>
 
     <!-- Tavern Tales Promotion Section -->
-    <div class="tales-promotion" style="margin: 4rem auto;">
-      <div class="tales-promotion-container" style="display: flex; gap: 2rem; align-items: center; max-width: 1200px; margin: 0 auto; padding: 2rem;">
-        <div class="tales-promotion-image" style="flex: 1;">
+    <div class="tales-promotion" style:margin="4rem auto">
+      <div
+        class="tales-promotion-container"
+        style:display="flex"
+        style:gap="2rem"
+        style:max-width="1200px"
+        style:padding="2rem"
+        style:margin="0 auto"
+        style:align-items="center"
+      >
+        <div class="tales-promotion-image" style:flex="1">
           <img
             src="/images/treasure-tavern-tales.png"
             alt="Treasure Tavern Tales - A collection of magical stories"
-            style="width: 100%; height: auto; border-radius: 10px; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);"
+            style:width="100%"
+            style:height="auto"
+            style:box-shadow="0 5px 20px rgba(0, 0, 0, 0.5)"
+            style:border-radius="10px"
           />
         </div>
-        <div class="tales-promotion-content" style="flex: 1; text-align: left;">
-          <h2 style="font-family: 'Cinzel', serif; color: #D5A44C; font-size: clamp(2rem, 4vw, 2.5rem); margin-bottom: 1rem;">
+        <div class="tales-promotion-content" style:flex="1" style:text-align="left">
+          <h2
+            style:font-family="'Cinzel', serif"
+            style:color="#D5A44C"
+            style:margin-bottom="1rem"
+            style:font-size="clamp(2rem, 4vw, 2.5rem)"
+          >
             Embark on Magical Journeys
           </h2>
-          <p style="font-family: 'Spectral', serif; font-size: clamp(1.1rem, 2vw, 1.3rem); color: rgba(247, 232, 212, 0.92); margin-bottom: 2rem; line-height: 1.6;">
-            Discover a growing collection of enchanting tales from the Treasure Tavern universe. From the mysterious Bone Kingdom to the mischievous Goblin King, each story offers a window into our rich fantasy world filled with magic, adventure, and wonder.
+          <p
+            style:font-family="'Spectral', serif"
+            style:font-size="clamp(1.1rem, 2vw, 1.3rem)"
+            style:margin-bottom="2rem"
+            style:line-height="1.6"
+            style:color="rgba(247, 232, 212, 0.92)"
+          >
+            Discover a growing collection of enchanting tales from the Treasure Tavern universe.
+            From the mysterious Bone Kingdom to the mischievous Goblin King, each story offers a
+            window into our rich fantasy world filled with magic, adventure, and wonder.
           </p>
-          <a href="/tavern-tales" class="magic-button" style="display: inline-flex; align-items: center; gap: 0.75rem; padding: 1rem 2rem; background: linear-gradient(135deg, #BD9648 0%, #E5C989 100%); color: #1F1B2D; font-family: 'Cinzel', serif; font-size: 1.2rem; font-weight: 600; text-decoration: none; border-radius: 50px; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3), 0 0 12px rgba(189, 150, 72, 0.5); border: 2px solid rgba(189, 150, 72, 0.2); position: relative; overflow: hidden; text-shadow: 0 1px 1px rgba(255, 255, 255, 0.3);">
+          <a
+            href="/tavern-tales"
+            class="magic-button"
+            style:display="inline-flex"
+            style:align-items="center"
+            style:padding="1rem 2rem"
+            style:color="#1F1B2D"
+            style:font-size="1.2rem"
+            style:text-decoration="none"
+            style:transition="all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)"
+            style:border="2px solid rgba(189, 150, 72, 0.2)"
+            style:overflow="hidden"
+            style:text-shadow="0 1px 1px rgba(255, 255, 255, 0.3)"
+            style:position="relative"
+            style:box-shadow="0 5px 15px rgba(0, 0, 0, 0.3), 0 0 12px rgba(189, 150, 72, 0.5)"
+            style:border-radius="50px"
+            style:font-weight="600"
+            style:font-family="'Cinzel', serif"
+            style:background="linear-gradient(135deg, #BD9648 0%, #E5C989 100%)"
+            style:gap="0.75rem"
+          >
             <i class="fas fa-book-open"></i>
             <span>Explore Tavern Tales</span>
-            <i class="fas fa-chevron-right" style="margin-left: 0.25rem;"></i>
+            <i class="fas fa-chevron-right" style:margin-left="0.25rem"></i>
           </a>
         </div>
       </div>
@@ -563,8 +713,8 @@
     margin: 0;
     padding: 0;
     min-height: 100vh;
-    background: linear-gradient(145deg, #13111C 0%, #1F1B2D 60%, #2B1D34 100%);
-    color: #F7E8D4;
+    background: linear-gradient(145deg, #13111c 0%, #1f1b2d 60%, #2b1d34 100%);
+    color: #f7e8d4;
     overflow-x: hidden;
     line-height: 1.4;
   }
@@ -599,7 +749,7 @@
     margin: 0 auto 1.5rem;
     font-weight: 700;
     line-height: 0.85;
-    color: #F7E8D4;
+    color: #f7e8d4;
     text-shadow: 0 0 15px rgba(231, 206, 143, 0.35);
     letter-spacing: 0.02em;
     text-align: center;
@@ -639,20 +789,22 @@
   }
 
   .welcome-large {
-    font-size: clamp(3.2rem, 7vw, 5.0rem);
+    font-size: clamp(3.2rem, 7vw, 5rem);
     letter-spacing: 0.04em;
     line-height: 0.9; /* Tighter line-height (was 1) */
     display: block;
     margin-top: 0;
     margin-bottom: -0.1em; /* More negative margin (was -0.05em) */
-    color: #D5A44C; /* Warmer gold color */
-    text-shadow: 0 0 15px rgba(213, 164, 76, 0.5), 0 0 30px rgba(213, 164, 76, 0.3);
+    color: #d5a44c; /* Warmer gold color */
+    text-shadow:
+      0 0 15px rgba(213, 164, 76, 0.5),
+      0 0 30px rgba(213, 164, 76, 0.3);
     font-weight: 800;
     white-space: nowrap;
   }
 
   .brand-heading {
-    color: #BD9648;
+    color: #bd9648;
     font-size: clamp(1.1rem, 2vw, 1.5rem);
     text-transform: uppercase;
     letter-spacing: 0.25em;
@@ -715,7 +867,7 @@
     border: 1px solid rgba(247, 232, 212, 0.25);
     border-radius: 6px;
     background: rgba(19, 17, 28, 0.6);
-    color: #F7E8D4;
+    color: #f7e8d4;
     font-family: 'Inter', system-ui, sans-serif;
     font-size: 1rem;
     outline: none;
@@ -742,8 +894,8 @@
     padding: 0.85rem 1.5rem;
     border: none;
     border-radius: 6px;
-    background: linear-gradient(135deg, #9E61E3 0%, #7A3CA3 100%);
-    color: #F7E8D4;
+    background: linear-gradient(135deg, #9e61e3 0%, #7a3ca3 100%);
+    color: #f7e8d4;
     font-family: 'Cinzel', serif;
     font-size: 1.15rem;
     font-weight: 500;
@@ -759,7 +911,7 @@
   button:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 18px rgba(122, 60, 163, 0.4);
-    background: linear-gradient(135deg, #AF71F4 0%, #8547B0 100%);
+    background: linear-gradient(135deg, #af71f4 0%, #8547b0 100%);
   }
 
   button:active {
@@ -781,7 +933,7 @@
     background: rgba(52, 168, 83, 0.1);
     border: 1px solid rgba(52, 168, 83, 0.25);
     border-radius: 8px;
-    color: #F7E8D4;
+    color: #f7e8d4;
     animation: fadeIn 0.5s ease-in;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
     max-width: 420px;
@@ -790,16 +942,12 @@
     align-items: center;
   }
 
-  .success-message p {
-    margin-bottom: 1.25rem;
-  }
-
   .announcement-button {
     padding: 0.75rem 1.5rem;
     border: none;
     border-radius: 6px;
-    background: linear-gradient(135deg, #9E61E3 0%, #7A3CA3 100%);
-    color: #F7E8D4;
+    background: linear-gradient(135deg, #9e61e3 0%, #7a3ca3 100%);
+    color: #f7e8d4;
     font-family: 'Cinzel', serif;
     font-size: 1.1rem;
     font-weight: 500;
@@ -811,15 +959,15 @@
     box-shadow: 0 4px 12px rgba(122, 60, 163, 0.3);
   }
 
-  .announcement-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(122, 60, 163, 0.4);
-    background: linear-gradient(135deg, #AF71F4 0%, #8547B0 100%);
-  }
-
   @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   .loading {
@@ -828,14 +976,16 @@
     height: 1rem;
     border: 2px solid rgba(247, 232, 212, 0.3);
     border-radius: 50%;
-    border-top-color: #F7E8D4;
+    border-top-color: #f7e8d4;
     animation: spin 1s linear infinite;
     margin-left: 0.4rem;
     vertical-align: middle;
   }
 
   @keyframes spin {
-    to { transform: rotate(360deg); }
+    to {
+      transform: rotate(360deg);
+    }
   }
 
   .error-message {
@@ -853,56 +1003,6 @@
     text-align: left;
   }
 
-  .newsletter-opt-in {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    cursor: pointer;
-    font-family: 'Inter', system-ui, sans-serif;
-    font-size: 0.95rem;
-    color: rgba(247, 232, 212, 0.9);
-    transition: color 0.3s ease;
-  }
-
-  .newsletter-opt-in:hover {
-    color: rgba(247, 232, 212, 1);
-  }
-
-  .newsletter-opt-in input[type="checkbox"] {
-    appearance: none;
-    -webkit-appearance: none;
-    width: 0.9rem;
-    height: 0.9rem;
-    border: 1px solid rgba(189, 150, 72, 0.5);
-    border-radius: 4px;
-    background: rgba(19, 17, 28, 0.5);
-    display: inline-block;
-    position: relative;
-    margin: 0;
-    cursor: pointer;
-    flex-shrink: 0;
-  }
-
-  .newsletter-opt-in input[type="checkbox"]:checked {
-    background: rgba(158, 97, 227, 0.7);
-    border-color: rgba(158, 97, 227, 0.6);
-  }
-
-  .newsletter-opt-in input[type="checkbox"]:checked::after {
-    content: '✓';
-    font-size: 0.7rem;
-    color: #F7E8D4;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-
-  .newsletter-opt-in input[type="checkbox"]:focus {
-    box-shadow: 0 0 5px rgba(189, 150, 72, 0.3);
-    outline: none;
-  }
-
   .checkbox-text {
     line-height: 1.2;
   }
@@ -916,7 +1016,7 @@
   .form-intro {
     margin: 0 0;
     font-weight: 700;
-    color: #BD9648;
+    color: #bd9648;
     text-align: center;
     font-size: 1rem;
   }
@@ -964,17 +1064,17 @@
 
     /* ADDED */
     h1 {
-        margin-bottom: 0; /* Remove bottom margin (was 0.1rem) */
+      margin-bottom: 0; /* Remove bottom margin (was 0.1rem) */
     }
 
     h1 .welcome-wrapper {
-        line-height: 0.6; /* Tighter spacing (was 0.7) */
+      line-height: 0.6; /* Tighter spacing (was 0.7) */
     }
 
     /* ADDED - Tighter inter-line spacing */
     .welcome-medium,
     .welcome-small {
-        margin-bottom: -0.4em; /* More negative margin (was -0.3em) */
+      margin-bottom: -0.4em; /* More negative margin (was -0.3em) */
     }
     /* END ADDED */
 
@@ -1001,22 +1101,22 @@
     }
 
     h1 {
-        margin-bottom: 0; /* Zero margin */
+      margin-bottom: 0; /* Zero margin */
     }
 
     h1 .welcome-wrapper {
-        line-height: 0.55; /* Tighter spacing (was 0.65) */
+      line-height: 0.55; /* Tighter spacing (was 0.65) */
     }
 
     /* ADDED - Tighter inter-line spacing */
     .welcome-medium,
     .welcome-small {
-        margin-bottom: -0.45em; /* More negative margin (was -0.35em) */
+      margin-bottom: -0.45em; /* More negative margin (was -0.35em) */
     }
     /* END ADDED */
 
     h1 .welcome-large {
-        font-size: clamp(3.5rem, 7vw, 4.5rem); /* Reduced max font size */
+      font-size: clamp(3.5rem, 7vw, 4.5rem); /* Reduced max font size */
     }
 
     .lantern-container {
@@ -1035,7 +1135,7 @@
     }
 
     .vision-content {
-        gap: 3rem; /* Increase gap between text and image in vision section */
+      gap: 3rem; /* Increase gap between text and image in vision section */
     }
   }
   /* END ADDED NEW BLOCK */
@@ -1104,8 +1204,12 @@
     }
 
     @keyframes subtle-pulse {
-      0% { transform: translateY(0); }
-      100% { transform: translateY(-3px); }
+      0% {
+        transform: translateY(0);
+      }
+      100% {
+        transform: translateY(-3px);
+      }
     }
   }
 
@@ -1122,15 +1226,33 @@
   }
 
   @keyframes pulse {
-    0% { transform: scale(1); opacity: 0.6; }
-    100% { transform: scale(1.2); opacity: 0.9; }
+    0% {
+      transform: scale(1);
+      opacity: 0.6;
+    }
+    100% {
+      transform: scale(1.2);
+      opacity: 0.9;
+    }
   }
 
   @keyframes flicker {
-    0% { opacity: 0.5; transform: scale(0.98); }
-    30% { opacity: 0.75; transform: scale(1.02); }
-    60% { opacity: 0.6; transform: scale(1.00); }
-    100% { opacity: 0.8; transform: scale(1.03); }
+    0% {
+      opacity: 0.5;
+      transform: scale(0.98);
+    }
+    30% {
+      opacity: 0.75;
+      transform: scale(1.02);
+    }
+    60% {
+      opacity: 0.6;
+      transform: scale(1);
+    }
+    100% {
+      opacity: 0.8;
+      transform: scale(1.03);
+    }
   }
 
   /* Exploration Section Styles */
@@ -1151,7 +1273,7 @@
     font-size: clamp(1.5rem, 3vw, 2rem);
     margin: 0 0 1rem;
     font-weight: 700;
-    color: #BD9648;
+    color: #bd9648;
     text-shadow: 0 0 8px rgba(189, 150, 72, 0.3);
     text-align: center;
     max-width: 100%;
@@ -1183,7 +1305,7 @@
     border-radius: 8px;
     padding: 1.5rem 1.25rem;
     text-decoration: none;
-    color: #F7E8D4;
+    color: #f7e8d4;
     transition: all 0.3s ease;
     text-align: center;
     display: flex;
@@ -1203,7 +1325,7 @@
     font-family: 'Cinzel', serif;
     font-size: clamp(1.1rem, 2vw, 1.3rem);
     margin: 0.75rem 0 0.5rem;
-    color: #BD9648;
+    color: #bd9648;
     font-weight: 600;
     max-width: 100%;
     overflow-wrap: break-word;
@@ -1259,7 +1381,9 @@
 
   .tavern-tales-image-link {
     display: block;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
   }
 
   .tavern-tales-image-link:hover {
@@ -1275,7 +1399,7 @@
     font-size: clamp(1.75rem, 3vw, 2.5rem);
     margin: 0 0 1rem;
     font-weight: 700;
-    color: #BD9648;
+    color: #bd9648;
     text-shadow: 0 0 8px rgba(189, 150, 72, 0.3);
     max-width: 100%;
     overflow-wrap: break-word;
@@ -1296,8 +1420,8 @@
   .tavern-tales-button {
     display: inline-block;
     padding: 1rem 2rem;
-    background: linear-gradient(135deg, #9E61E3 0%, #7A3CA3 100%);
-    color: #F7E8D4;
+    background: linear-gradient(135deg, #9e61e3 0%, #7a3ca3 100%);
+    color: #f7e8d4;
     font-family: 'Cinzel', serif;
     font-size: 1.2rem;
     font-weight: 500;
@@ -1311,7 +1435,7 @@
   .tavern-tales-button:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 18px rgba(122, 60, 163, 0.4);
-    background: linear-gradient(135deg, #AF71F4 0%, #8547B0 100%);
+    background: linear-gradient(135deg, #af71f4 0%, #8547b0 100%);
   }
 
   @media (max-width: 768px) {
@@ -1345,7 +1469,7 @@
     font-size: clamp(1.75rem, 3vw, 2.5rem);
     margin: 0 0 1rem;
     font-weight: 700;
-    color: #BD9648;
+    color: #bd9648;
     text-shadow: 0 0 8px rgba(189, 150, 72, 0.3);
     max-width: 100%;
     line-height: 1.3;
@@ -1405,7 +1529,9 @@
     border-radius: 8px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(247, 232, 212, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
   }
 
   .welcome-image-container a:hover .welcome-image {
@@ -1437,7 +1563,7 @@
     border: 1px solid rgba(189, 150, 72, 0.3); /* Slightly more visible border */
     border-radius: 6px;
     padding: 0.75rem 1rem; /* Base padding */
-    color: #F7E8D4;
+    color: #f7e8d4;
     text-decoration: none;
     font-family: 'Cinzel', serif;
     font-size: 0.9rem; /* Base font size */
@@ -1466,26 +1592,35 @@
   }
 
   .welcome-nav-icon {
-    color: #BD9648;
-    filter: drop-shadow(0 1px 1px rgba(0,0,0,0.3)); /* Subtle icon shadow */
+    color: #bd9648;
+    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.3)); /* Subtle icon shadow */
     font-size: 1.1rem; /* Slightly increased size */
   }
 
   /* Special style for Tales button with gold glow */
   .tales-button {
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15), 0 0 12px rgba(189, 150, 72, 0.3); /* Base shadow with stronger glow */
+    box-shadow:
+      0 2px 5px rgba(0, 0, 0, 0.15),
+      0 0 12px rgba(189, 150, 72, 0.3); /* Base shadow with stronger glow */
     border-color: rgba(189, 150, 72, 0.5); /* More visible gold border */
-    background: linear-gradient(to bottom, rgba(31, 27, 45, 0.8) 0%, rgba(31, 27, 45, 0.8) 98%, rgba(189, 150, 72, 0.2) 100%); /* Subtle gold bottom edge */
+    background: linear-gradient(
+      to bottom,
+      rgba(31, 27, 45, 0.8) 0%,
+      rgba(31, 27, 45, 0.8) 98%,
+      rgba(189, 150, 72, 0.2) 100%
+    ); /* Subtle gold bottom edge */
   }
 
   .tales-button:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25), 0 0 20px rgba(189, 150, 72, 0.5); /* Stronger hover shadow with enhanced glow */
+    box-shadow:
+      0 4px 12px rgba(0, 0, 0, 0.25),
+      0 0 20px rgba(189, 150, 72, 0.5); /* Stronger hover shadow with enhanced glow */
     border-color: rgba(189, 150, 72, 0.7); /* Brighter border on hover */
   }
 
   .tales-button .welcome-nav-icon {
     filter: drop-shadow(0 0 4px rgba(189, 150, 72, 0.6)); /* Enhanced gold glow for the icon */
-    color: #D4A74F; /* Brighter gold color for icon */
+    color: #d4a74f; /* Brighter gold color for icon */
   }
 
   /* Mobile specific adjustments for welcome nav buttons */
@@ -1529,7 +1664,7 @@
   .benefits-title {
     font-family: 'Cinzel', serif;
     font-size: clamp(1.75rem, 4vw, 2.5rem);
-    color: #BD9648;
+    color: #bd9648;
     margin-bottom: 0.25rem;
     text-shadow: 0 0 8px rgba(189, 150, 72, 0.3);
     position: relative;
@@ -1546,7 +1681,12 @@
     transform: translateX(-50%);
     width: 60%;
     height: 2px;
-    background: linear-gradient(90deg, rgba(189, 150, 72, 0), rgba(189, 150, 72, 0.6), rgba(189, 150, 72, 0));
+    background: linear-gradient(
+      90deg,
+      rgba(189, 150, 72, 0),
+      rgba(189, 150, 72, 0.6),
+      rgba(189, 150, 72, 0)
+    );
   }
 
   .benefits-subtitle {
@@ -1591,7 +1731,9 @@
     align-items: center;
     position: relative;
     overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
   }
 
   .benefit-card:hover {
@@ -1605,7 +1747,7 @@
   }
 
   .benefit-icon {
-    color: #9966CC;
+    color: #9966cc;
     font-size: 2rem;
     margin-bottom: 1rem;
     transition: text-shadow 0.3s ease;
@@ -1613,7 +1755,7 @@
 
   .benefit-title {
     font-family: 'Cinzel', serif;
-    color: #BD9648;
+    color: #bd9648;
     font-size: 1.25rem;
     margin-bottom: 0.75rem;
     text-align: center;
@@ -1637,7 +1779,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #BD9648 0%, #E5C989 50%, #BD9648 100%);
+    background: linear-gradient(135deg, #bd9648 0%, #e5c989 50%, #bd9648 100%);
     color: #1c1c1c;
     font-family: 'Cinzel', serif;
     font-size: 1.2rem;
@@ -1646,7 +1788,9 @@
     border-radius: 50px;
     text-decoration: none;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3), 0 0 12px rgba(189, 150, 72, 0.5);
+    box-shadow:
+      0 5px 15px rgba(0, 0, 0, 0.3),
+      0 0 12px rgba(189, 150, 72, 0.5);
     border: 2px solid rgba(189, 150, 72, 0.2);
     position: relative;
     overflow: hidden;
@@ -1675,7 +1819,9 @@
 
   .benefits-button:hover {
     transform: translateY(-5px) scale(1.03);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4), 0 0 15px rgba(189, 150, 72, 0.6);
+    box-shadow:
+      0 10px 20px rgba(0, 0, 0, 0.4),
+      0 0 15px rgba(189, 150, 72, 0.6);
     border-color: rgba(189, 150, 72, 0.4);
   }
 
@@ -1715,7 +1861,12 @@
     left: 0;
     right: 0;
     height: 3px;
-    background: linear-gradient(90deg, rgba(189, 150, 72, 0.1), rgba(189, 150, 72, 0.7), rgba(189, 150, 72, 0.1));
+    background: linear-gradient(
+      90deg,
+      rgba(189, 150, 72, 0.1),
+      rgba(189, 150, 72, 0.7),
+      rgba(189, 150, 72, 0.1)
+    );
   }
 
   .tales-promotion-container {
@@ -1745,12 +1896,16 @@
     border-radius: 10px;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
     border: 1px solid rgba(189, 150, 72, 0.3);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
   }
 
   .tales-promotion-image:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6), 0 0 15px rgba(189, 150, 72, 0.4);
+    box-shadow:
+      0 10px 25px rgba(0, 0, 0, 0.6),
+      0 0 15px rgba(189, 150, 72, 0.4);
   }
 
   .tales-promotion-content {
@@ -1765,7 +1920,7 @@
   .tales-promotion-title {
     font-family: 'Cinzel', serif;
     font-size: clamp(1.75rem, 4vw, 2.5rem);
-    color: #BD9648;
+    color: #bd9648;
     margin-bottom: 1rem;
     text-shadow: 0 0 8px rgba(189, 150, 72, 0.3);
   }
@@ -1782,8 +1937,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #5e4a9c 0%, #9966CC 100%);
-    color: #FFFFFF;
+    background: linear-gradient(135deg, #5e4a9c 0%, #9966cc 100%);
+    color: #ffffff;
     font-family: 'Cinzel', serif;
     font-size: 1.1rem;
     font-weight: 600;
@@ -1799,7 +1954,9 @@
 
   .tales-promotion-button:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), 0 0 15px rgba(153, 102, 204, 0.4);
+    box-shadow:
+      0 8px 20px rgba(0, 0, 0, 0.4),
+      0 0 15px rgba(153, 102, 204, 0.4);
     background: linear-gradient(135deg, #6a54b2 0%, #a575e0 100%);
   }
 
@@ -1841,7 +1998,7 @@
     border: 1px solid rgba(247, 232, 212, 0.25);
     border-radius: 6px;
     background: rgba(19, 17, 28, 0.6);
-    color: #F7E8D4;
+    color: #f7e8d4;
     font-family: 'Inter', system-ui, sans-serif;
     font-size: 1rem;
     outline: none;
@@ -1873,8 +2030,8 @@
     padding: 0.85rem 1.5rem;
     border: none;
     border-radius: 6px;
-    background: linear-gradient(135deg, #9E61E3 0%, #7A3CA3 100%);
-    color: #F7E8D4;
+    background: linear-gradient(135deg, #9e61e3 0%, #7a3ca3 100%);
+    color: #f7e8d4;
     font-family: 'Cinzel', serif;
     font-size: 1.15rem;
     font-weight: 500;
@@ -1886,7 +2043,7 @@
   button:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 18px rgba(122, 60, 163, 0.4);
-    background: linear-gradient(135deg, #AF71F4 0%, #8547B0 100%);
+    background: linear-gradient(135deg, #af71f4 0%, #8547b0 100%);
   }
 
   button:active {
@@ -1920,7 +2077,12 @@
     left: 0;
     right: 0;
     height: 3px;
-    background: linear-gradient(90deg, rgba(189, 150, 72, 0.1), rgba(189, 150, 72, 0.7), rgba(189, 150, 72, 0.1));
+    background: linear-gradient(
+      90deg,
+      rgba(189, 150, 72, 0.1),
+      rgba(189, 150, 72, 0.7),
+      rgba(189, 150, 72, 0.1)
+    );
   }
 
   .vision-section::after {
@@ -1930,7 +2092,12 @@
     left: 0;
     right: 0;
     height: 1px;
-    background: linear-gradient(90deg, rgba(189, 150, 72, 0.05), rgba(189, 150, 72, 0.3), rgba(189, 150, 72, 0.05));
+    background: linear-gradient(
+      90deg,
+      rgba(189, 150, 72, 0.05),
+      rgba(189, 150, 72, 0.3),
+      rgba(189, 150, 72, 0.05)
+    );
   }
 
   .vision-content {
@@ -1961,7 +2128,7 @@
   .vision-title {
     font-family: 'Cinzel', serif;
     font-size: clamp(1.75rem, 3vw, 2.5rem);
-    color: #D5A44C;
+    color: #d5a44c;
     margin-bottom: 0.75rem;
     text-shadow: 0 0 10px rgba(213, 164, 76, 0.4);
     position: relative;
@@ -1971,7 +2138,12 @@
   .vision-title-decoration {
     width: 80px;
     height: 3px;
-    background: linear-gradient(90deg, rgba(213, 164, 76, 0.2), rgba(213, 164, 76, 0.8), rgba(213, 164, 76, 0.2));
+    background: linear-gradient(
+      90deg,
+      rgba(213, 164, 76, 0.2),
+      rgba(213, 164, 76, 0.8),
+      rgba(213, 164, 76, 0.2)
+    );
     margin: 0 auto 1.5rem;
     border-radius: 2px;
   }
@@ -2028,20 +2200,22 @@
   }
 
   .vision-button.primary {
-    background: linear-gradient(135deg, #BD9648 0%, #E5C989 100%);
-    color: #1F1B2D;
+    background: linear-gradient(135deg, #bd9648 0%, #e5c989 100%);
+    color: #1f1b2d;
     border: 1px solid rgba(229, 201, 137, 0.3);
   }
 
   .vision-button.primary:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3), 0 0 15px rgba(229, 201, 137, 0.3);
-    background: linear-gradient(135deg, #E5C989 0%, #BD9648 100%);
+    box-shadow:
+      0 8px 20px rgba(0, 0, 0, 0.3),
+      0 0 15px rgba(229, 201, 137, 0.3);
+    background: linear-gradient(135deg, #e5c989 0%, #bd9648 100%);
   }
 
   .vision-button.secondary {
     background: rgba(31, 27, 45, 0.6);
-    color: #F7E8D4;
+    color: #f7e8d4;
     border: 1px solid rgba(247, 232, 212, 0.2);
   }
 
@@ -2064,14 +2238,20 @@
     height: auto;
     border-radius: 8px;
     border: 1px solid rgba(189, 150, 72, 0.3);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3), 0 0 20px rgba(189, 150, 72, 0.2);
+    box-shadow:
+      0 5px 15px rgba(0, 0, 0, 0.3),
+      0 0 20px rgba(189, 150, 72, 0.2);
     transform: rotate(2deg);
-    transition: transform 0.5s ease, box-shadow 0.5s ease;
+    transition:
+      transform 0.5s ease,
+      box-shadow 0.5s ease;
   }
 
   .vision-image:hover {
     transform: rotate(0deg) scale(1.02);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4), 0 0 30px rgba(189, 150, 72, 0.3);
+    box-shadow:
+      0 8px 25px rgba(0, 0, 0, 0.4),
+      0 0 30px rgba(189, 150, 72, 0.3);
   }
 
   /* Tales from Patrons styles */
@@ -2084,7 +2264,7 @@
   .atmosphere-title {
     font-family: 'Cinzel', serif;
     font-size: clamp(1.75rem, 3vw, 2.5rem);
-    color: #D5A44C;
+    color: #d5a44c;
     margin-bottom: 0.75rem;
     text-shadow: 0 0 10px rgba(213, 164, 76, 0.4);
     text-align: center;
@@ -2093,7 +2273,12 @@
   .atmosphere-title-decoration {
     width: 100px;
     height: 3px;
-    background: linear-gradient(90deg, rgba(213, 164, 76, 0.1), rgba(213, 164, 76, 0.7), rgba(213, 164, 76, 0.1));
+    background: linear-gradient(
+      90deg,
+      rgba(213, 164, 76, 0.1),
+      rgba(213, 164, 76, 0.7),
+      rgba(213, 164, 76, 0.1)
+    );
     margin: 0 auto 3rem;
     border-radius: 2px;
   }
@@ -2118,7 +2303,9 @@
     position: relative;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     border: 1px solid rgba(189, 150, 72, 0.2);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
   }
 
   .testimonial:hover {
@@ -2151,7 +2338,7 @@
   .quote-attribution {
     font-family: 'Cinzel', serif;
     font-size: 0.95rem;
-    color: #BD9648;
+    color: #bd9648;
     text-align: right;
     margin: 0;
   }
@@ -2174,7 +2361,7 @@
   .song-title {
     font-family: 'Cinzel', serif;
     font-size: clamp(1.5rem, 3vw, 2rem);
-    color: #D5A44C;
+    color: #d5a44c;
     margin-bottom: 0.75rem;
     text-shadow: 0 0 10px rgba(213, 164, 76, 0.4);
   }
@@ -2182,7 +2369,12 @@
   .song-title-decoration {
     width: 60px;
     height: 2px;
-    background: linear-gradient(90deg, rgba(213, 164, 76, 0.1), rgba(213, 164, 76, 0.7), rgba(213, 164, 76, 0.1));
+    background: linear-gradient(
+      90deg,
+      rgba(213, 164, 76, 0.1),
+      rgba(213, 164, 76, 0.7),
+      rgba(213, 164, 76, 0.1)
+    );
     margin: 0 auto 2rem;
     border-radius: 2px;
   }
@@ -2203,7 +2395,9 @@
     position: relative;
     border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(189, 150, 72, 0.2);
+    box-shadow:
+      0 8px 30px rgba(0, 0, 0, 0.4),
+      0 0 20px rgba(189, 150, 72, 0.2);
     border: 1px solid rgba(189, 150, 72, 0.3);
   }
 
@@ -2260,9 +2454,15 @@
   }
 
   @keyframes float {
-    0% { transform: translateY(0) rotate(0); }
-    50% { transform: translateY(-8px) rotate(5deg); }
-    100% { transform: translateY(0) rotate(0); }
+    0% {
+      transform: translateY(0) rotate(0);
+    }
+    50% {
+      transform: translateY(-8px) rotate(5deg);
+    }
+    100% {
+      transform: translateY(0) rotate(0);
+    }
   }
 
   /* ADDED - Reduce space above H1 */
@@ -2275,12 +2475,22 @@
 
   @keyframes glow {
     0% {
-      text-shadow: 0 0 15px rgba(213, 164, 76, 0.5), 0 0 30px rgba(213, 164, 76, 0.3), 0 0 45px rgba(213, 164, 76, 0.2);
-      box-shadow: 0 0 20px rgba(213, 164, 76, 0.2), inset 0 0 15px rgba(213, 164, 76, 0.1);
+      text-shadow:
+        0 0 15px rgba(213, 164, 76, 0.5),
+        0 0 30px rgba(213, 164, 76, 0.3),
+        0 0 45px rgba(213, 164, 76, 0.2);
+      box-shadow:
+        0 0 20px rgba(213, 164, 76, 0.2),
+        inset 0 0 15px rgba(213, 164, 76, 0.1);
     }
     100% {
-      text-shadow: 0 0 20px rgba(213, 164, 76, 0.6), 0 0 40px rgba(213, 164, 76, 0.4), 0 0 60px rgba(213, 164, 76, 0.3);
-      box-shadow: 0 0 30px rgba(213, 164, 76, 0.3), inset 0 0 20px rgba(213, 164, 76, 0.2);
+      text-shadow:
+        0 0 20px rgba(213, 164, 76, 0.6),
+        0 0 40px rgba(213, 164, 76, 0.4),
+        0 0 60px rgba(213, 164, 76, 0.3);
+      box-shadow:
+        0 0 30px rgba(213, 164, 76, 0.3),
+        inset 0 0 20px rgba(213, 164, 76, 0.2);
     }
   }
 </style>

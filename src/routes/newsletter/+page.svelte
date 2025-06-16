@@ -13,12 +13,33 @@
   }
 
   // Form data for the three different signup forms
-  let heroForm: FormData = { email: '', name: '', newsletterOptIn: true, loading: false, error: '', success: false };
-  let valueForm: FormData = { email: '', name: '', newsletterOptIn: true, loading: false, error: '', success: false };
-  let ctaForm: FormData = { email: '', name: '', newsletterOptIn: true, loading: false, error: '', success: false };
+  const heroForm: FormData = {
+    email: '',
+    name: '',
+    newsletterOptIn: true,
+    loading: false,
+    error: '',
+    success: false
+  };
+  const valueForm: FormData = {
+    email: '',
+    name: '',
+    newsletterOptIn: true,
+    loading: false,
+    error: '',
+    success: false
+  };
+  const ctaForm: FormData = {
+    email: '',
+    name: '',
+    newsletterOptIn: true,
+    loading: false,
+    error: '',
+    success: false
+  };
 
   let supabaseConfigured = true;
-  let currentYear = new Date().getFullYear();
+  const currentYear = new Date().getFullYear();
 
   // Validate email format
   function validateEmail(emailToCheck: string): boolean {
@@ -76,10 +97,27 @@
 
   // Newsletter data
   const newsletters = [
-    { id: 'january-2025', title: 'January 2025: New Year Adventures', summary: 'Start the year with exciting quests and magical resolutions.' },
-    { id: 'february-2025', title: 'February 2025: Tales of Romance', summary: 'Love potions, enchanted roses, and stories of legendary couples.' },
-    { id: 'march-2025', title: 'March 2025: Dungeon Master Tips', summary: 'Expert advice for running memorable campaigns.' },
-    { id: 'april-2025-coming-soon', title: 'April 2025', summary: 'Our next magical chronicle is being prepared by the scribes...', comingSoon: true }
+    {
+      id: 'january-2025',
+      title: 'January 2025: New Year Adventures',
+      summary: 'Start the year with exciting quests and magical resolutions.'
+    },
+    {
+      id: 'february-2025',
+      title: 'February 2025: Tales of Romance',
+      summary: 'Love potions, enchanted roses, and stories of legendary couples.'
+    },
+    {
+      id: 'march-2025',
+      title: 'March 2025: Dungeon Master Tips',
+      summary: 'Expert advice for running memorable campaigns.'
+    },
+    {
+      id: 'april-2025-coming-soon',
+      title: 'April 2025',
+      summary: 'Our next magical chronicle is being prepared by the scribes...',
+      comingSoon: true
+    }
   ];
 
   // Mobile menu state
@@ -94,13 +132,298 @@
   });
 </script>
 
+<svelte:head>
+  <title>Join Our Fantasy Newsletter - Treasure Tavern</title>
+  <meta
+    name="description"
+    content="Subscribe to our fantasy newsletter and embark on an adventure of exclusive tips, special offers, and magical content from Treasure Tavern."
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+</svelte:head>
+
+<div class="page-container">
+  <!-- Newsletter Navigation -->
+  <div class="newsletter-nav">
+    <div class="newsletter-nav-inner">
+      <div class="newsletter-nav-header">
+        <h2 class="newsletter-nav-title">
+          <a
+            href="/tavern-tales"
+            style:text-decoration="none"
+            style:color="inherit"
+            style:align-items="center"
+            style:gap="0.5rem"
+            style:display="flex"
+          >
+            Tavern Chronicles
+            <i class="fas fa-external-link-alt" style:font-size="0.8rem"></i>
+          </a>
+        </h2>
+        <button
+          class="mobile-menu-toggle"
+          on:click={() => (showMobileMenu = !showMobileMenu)}
+          aria-label="Toggle newsletter menu"
+        >
+          <i class="fas fa-{showMobileMenu ? 'times' : 'bars'}" aria-hidden="true"></i>
+        </button>
+      </div>
+      <ul class="newsletter-list" class:show={showMobileMenu}>
+        {#each newsletters as newsletter}
+          <li class="newsletter-item">
+            {#if newsletter.comingSoon}
+              <a href="#hero-section" class="newsletter-link coming-soon">
+                <h3 class="newsletter-link-title">{newsletter.title}</h3>
+                <p class="newsletter-link-summary">
+                  <span class="coming-soon-text">Coming Soon:</span>
+                  {newsletter.summary}
+                </p>
+              </a>
+            {:else}
+              <a href="/newsletter/{newsletter.id}" class="newsletter-link">
+                <h3 class="newsletter-link-title">{newsletter.title}</h3>
+                <p class="newsletter-link-summary">{newsletter.summary}</p>
+              </a>
+            {/if}
+          </li>
+        {/each}
+      </ul>
+    </div>
+  </div>
+
+  <!-- Hero Section with Primary Signup -->
+  <section id="hero-section" class="hero-section">
+    <div class="hero-content">
+      <a href="/" style:text-decoration="none">
+        <p class="brand-heading">Treasure Tavern Presents</p>
+      </a>
+      <h1>Unlock the Secrets of Fantasy Adventure</h1>
+      <p class="lead">
+        Join our exclusive newsletter and receive <span class="magic-underline">magical tips</span>,
+        <span class="magic-underline">special offers</span>, and
+        <span class="magic-underline">epic stories</span>
+        delivered straight to your inbox.
+      </p>
+
+      <!-- Hero Form - First Signup Opportunity -->
+      <div class="cta-form">
+        <h3 class="form-title">Be The First To Receive New Chronicles</h3>
+        {#if heroForm.success}
+          <div class="success-message">
+            <i class="fas fa-check-circle"></i> Thank you for joining our fellowship! We'll send you
+            our latest Chronicles as soon as they're released.
+          </div>
+        {:else}
+          <form on:submit|preventDefault={handleHeroSubmit}>
+            <input type="text" placeholder="Your name (optional)" bind:value={heroForm.name} />
+            <input
+              type="email"
+              placeholder="Your email address"
+              bind:value={heroForm.email}
+              required
+            />
+            <div class="checkbox-wrapper">
+              <input
+                type="checkbox"
+                id="hero-newsletter-opt-in"
+                bind:checked={heroForm.newsletterOptIn}
+              />
+              <label for="hero-newsletter-opt-in">
+                Yes, send me new Chronicles as soon as they're released, plus exclusive content and
+                offers.
+              </label>
+            </div>
+            {#if heroForm.error}
+              <div class="error-message">
+                <i class="fas fa-exclamation-circle"></i>
+                {heroForm.error}
+              </div>
+            {/if}
+            <button type="submit" disabled={heroForm.loading}>
+              {heroForm.loading ? 'Joining...' : 'Never Miss a Chronicle'}
+            </button>
+          </form>
+        {/if}
+      </div>
+    </div>
+    <div
+      class="scroll-arrow"
+      on:click={() =>
+        window.scrollTo({
+          top: window.innerHeight,
+          behavior: 'smooth'
+        })}
+    >
+      <i class="fas fa-chevron-down"></i>
+    </div>
+  </section>
+
+  <!-- Value Proposition Section with Second Signup -->
+  <section class="section value-section">
+    <div class="container">
+      <div class="narrow-container">
+        <h2>Why Join Our Fantasy Fellowship?</h2>
+        <p class="lead">
+          Our newsletter is crafted by seasoned adventurers for those who seek the extraordinary.
+          Here's what awaits when you join our ranks:
+        </p>
+      </div>
+
+      <div class="benefits-grid">
+        <div class="benefit-card">
+          <div class="benefit-icon"><i class="fas fa-book-open"></i></div>
+          <h3>Exclusive Content</h3>
+          <p>Gain access to lore, stories, and guides not available anywhere else in the realm.</p>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon"><i class="fas fa-gifts"></i></div>
+          <h3>Special Offers</h3>
+          <p>Be the first to receive special discounts and promotions on our finest treasures.</p>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon"><i class="fas fa-users"></i></div>
+          <h3>Community Events</h3>
+          <p>Receive invitations to our exclusive gatherings, both virtual and in-person.</p>
+        </div>
+      </div>
+
+      <!-- Value Prop Form - Second Signup Opportunity -->
+      <div class="narrow-container">
+        <div class="cta-form">
+          <h3 class="form-title">Claim Your Membership</h3>
+          {#if valueForm.success}
+            <div class="success-message">
+              <i class="fas fa-check-circle"></i> Your name has been added to our fellowship roster!
+              Your adventure begins soon.
+            </div>
+          {:else}
+            <form on:submit|preventDefault={handleValueSubmit}>
+              <input type="text" placeholder="Your name (optional)" bind:value={valueForm.name} />
+              <input
+                type="email"
+                placeholder="Your email address"
+                bind:value={valueForm.email}
+                required
+              />
+              <div class="checkbox-wrapper">
+                <input
+                  type="checkbox"
+                  id="value-newsletter-opt-in"
+                  bind:checked={valueForm.newsletterOptIn}
+                />
+                <label for="value-newsletter-opt-in">
+                  I wish to receive the legendary Treasure Tavern newsletter.
+                </label>
+              </div>
+              {#if valueForm.error}
+                <div class="error-message">
+                  <i class="fas fa-exclamation-circle"></i>
+                  {valueForm.error}
+                </div>
+              {/if}
+              <button type="submit" disabled={valueForm.loading}>
+                {valueForm.loading ? 'Processing...' : 'Secure My Spot'}
+              </button>
+            </form>
+          {/if}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonial Section -->
+  <section class="section testimonial-section">
+    <div class="container">
+      <h2>What Fellow Adventurers Say</h2>
+      <div class="testimonial-grid">
+        <div class="testimonial-card">
+          <p class="testimonial-text">
+            "The Treasure Tavern newsletter has been my trusted companion on many quests. Their
+            exclusive tips helped me become a better game master!"
+          </p>
+          <p class="testimonial-author">— Elyndria, Dungeon Master</p>
+        </div>
+        <div class="testimonial-card">
+          <p class="testimonial-text">
+            "I love receiving their weekly stories in my inbox. It's like a small escape into
+            fantasy that brightens my otherwise mundane workdays."
+          </p>
+          <p class="testimonial-author">— Thorin, Fantasy Enthusiast</p>
+        </div>
+        <div class="testimonial-card">
+          <p class="testimonial-text">
+            "The exclusive offers alone are worth signing up. I've saved a fortune on fantasy
+            merchandise thanks to their subscriber-only discounts."
+          </p>
+          <p class="testimonial-author">— Lyra, Collector</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA Section with Third Signup -->
+  <section class="section cta-section">
+    <div class="narrow-container">
+      <h2>Join the Fellowship Today</h2>
+      <p class="lead">
+        Don't miss out on the <span class="highlight">exclusive content</span>,
+        <span class="highlight">special offers</span>, and
+        <span class="highlight">magical experiences</span> that await. The adventure begins with a simple
+        step.
+      </p>
+
+      <!-- Final CTA Form - Third Signup Opportunity -->
+      <div class="cta-form">
+        <h3 class="form-title">One Last Chance to Join</h3>
+        {#if ctaForm.success}
+          <div class="success-message">
+            <i class="fas fa-check-circle"></i> Welcome to our fellowship! Your adventure with Treasure
+            Tavern begins now.
+          </div>
+        {:else}
+          <form on:submit|preventDefault={handleCtaSubmit}>
+            <input type="text" placeholder="Your name (optional)" bind:value={ctaForm.name} />
+            <input
+              type="email"
+              placeholder="Your email address"
+              bind:value={ctaForm.email}
+              required
+            />
+            <div class="checkbox-wrapper">
+              <input
+                type="checkbox"
+                id="cta-newsletter-opt-in"
+                bind:checked={ctaForm.newsletterOptIn}
+              />
+              <label for="cta-newsletter-opt-in">
+                Yes, I want to receive the mystical wisdom of Treasure Tavern in my inbox.
+              </label>
+            </div>
+            {#if ctaForm.error}
+              <div class="error-message">
+                <i class="fas fa-exclamation-circle"></i>
+                {ctaForm.error}
+              </div>
+            {/if}
+            <button type="submit" disabled={ctaForm.loading}>
+              {ctaForm.loading ? 'Summoning...' : 'Embark on the Journey'}
+            </button>
+          </form>
+        {/if}
+      </div>
+    </div>
+  </section>
+</div>
+
 <style>
   :global(body) {
     margin: 0;
     padding: 0;
     min-height: 100vh;
-    background: linear-gradient(145deg, #13111C 0%, #1F1B2D 60%, #2B1D34 100%);
-    color: #F7E8D4;
+    background: linear-gradient(145deg, #13111c 0%, #1f1b2d 60%, #2b1d34 100%);
+    color: #f7e8d4;
     overflow-x: hidden;
     line-height: 1.4;
   }
@@ -174,7 +497,7 @@
     margin: 0 0 1rem;
     font-weight: 700;
     line-height: 1.15;
-    color: #F7E8D4;
+    color: #f7e8d4;
     text-shadow: 0 0 15px rgba(231, 206, 143, 0.35);
     letter-spacing: 0.02em;
   }
@@ -183,7 +506,7 @@
     font-family: 'Cinzel', serif;
     font-size: clamp(2rem, 4vw, 3rem);
     margin: 0 0 1.5rem;
-    color: #BD9648;
+    color: #bd9648;
     text-shadow: 0 0 8px rgba(189, 150, 72, 0.3);
   }
 
@@ -191,7 +514,7 @@
     font-family: 'Cinzel', serif;
     font-size: clamp(1.5rem, 3vw, 2rem);
     margin: 0 0 1rem;
-    color: #BD9648;
+    color: #bd9648;
   }
 
   p {
@@ -208,7 +531,7 @@
   }
 
   .brand-heading {
-    color: #BD9648;
+    color: #bd9648;
     font-size: clamp(1.1rem, 2vw, 1.5rem);
     text-transform: uppercase;
     letter-spacing: 0.25em;
@@ -275,7 +598,9 @@
     border: 1px solid rgba(247, 232, 212, 0.15);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
     backdrop-filter: blur(5px);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
   }
 
   .cta-form:hover {
@@ -286,7 +611,7 @@
   .form-title {
     font-family: 'Cinzel', serif;
     font-size: 1.4rem;
-    color: #F7E8D4;
+    color: #f7e8d4;
     margin: 0 0 1rem;
     text-align: center;
   }
@@ -297,7 +622,7 @@
     border: 1px solid rgba(247, 232, 212, 0.25);
     border-radius: 6px;
     background: rgba(19, 17, 28, 0.6);
-    color: #F7E8D4;
+    color: #f7e8d4;
     font-family: 'Inter', system-ui, sans-serif;
     font-size: 1rem;
     outline: none;
@@ -320,8 +645,8 @@
     padding: 0.85rem 1.5rem;
     border: none;
     border-radius: 6px;
-    background: linear-gradient(135deg, #9E61E3 0%, #7A3CA3 100%);
-    color: #F7E8D4;
+    background: linear-gradient(135deg, #9e61e3 0%, #7a3ca3 100%);
+    color: #f7e8d4;
     font-family: 'Cinzel', serif;
     font-size: 1.15rem;
     font-weight: 500;
@@ -335,7 +660,7 @@
   button:hover {
     transform: translateY(-2px);
     box-shadow: 0 7px 15px rgba(0, 0, 0, 0.2);
-    background: linear-gradient(135deg, #A671E6 0%, #8A4CB3 100%);
+    background: linear-gradient(135deg, #a671e6 0%, #8a4cb3 100%);
   }
 
   button:active {
@@ -355,7 +680,7 @@
     margin-bottom: 0.75rem;
   }
 
-  .checkbox-wrapper input[type="checkbox"] {
+  .checkbox-wrapper input[type='checkbox'] {
     width: auto;
     margin: 0.25rem 0 0 0;
   }
@@ -368,14 +693,14 @@
   }
 
   .error-message {
-    color: #FF6B6B;
+    color: #ff6b6b;
     font-size: 0.95rem;
     margin-top: 0.5rem;
     font-family: 'Inter', system-ui, sans-serif;
   }
 
   .success-message {
-    color: #4FB286;
+    color: #4fb286;
     font-size: 1.1rem;
     margin: 1rem 0;
     padding: 1rem;
@@ -398,7 +723,9 @@
     padding: 1.5rem;
     border: 1px solid rgba(247, 232, 212, 0.1);
     text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
   }
 
   .benefit-card:hover {
@@ -409,7 +736,7 @@
   .benefit-icon {
     font-size: 2.5rem;
     margin-bottom: 1rem;
-    color: #9E61E3;
+    color: #9e61e3;
   }
 
   .testimonial-grid {
@@ -447,7 +774,7 @@
 
   .testimonial-author {
     font-weight: 600;
-    color: #BD9648;
+    color: #bd9648;
     font-family: 'Inter', system-ui, sans-serif;
     font-size: 0.9rem;
     color: rgba(247, 232, 212, 0.6);
@@ -459,7 +786,8 @@
       padding: 4rem 1.5rem;
     }
 
-    .benefits-grid, .testimonial-grid {
+    .benefits-grid,
+    .testimonial-grid {
       grid-template-columns: 1fr;
     }
 
@@ -486,7 +814,7 @@
   }
 
   .highlight {
-    color: #BD9648;
+    color: #bd9648;
     font-weight: 600;
   }
 
@@ -502,7 +830,11 @@
   }
 
   @keyframes bounce {
-    0%, 20%, 50%, 80%, 100% {
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
       transform: translateY(0) translateX(-50%);
     }
     40% {
@@ -542,7 +874,7 @@
   .newsletter-nav-title {
     font-family: 'Cinzel', serif;
     font-size: 1.1rem;
-    color: #BD9648;
+    color: #bd9648;
     margin: 0;
   }
 
@@ -593,7 +925,7 @@
   .newsletter-link-title {
     font-family: 'Cinzel', serif;
     font-size: 1rem;
-    color: #BD9648;
+    color: #bd9648;
     margin: 0 0 0.25rem;
   }
 
@@ -652,268 +984,7 @@
   }
 
   .coming-soon-text {
-    color: #9E61E3;
+    color: #9e61e3;
     font-weight: 500;
   }
 </style>
-
-<svelte:head>
-  <title>Join Our Fantasy Newsletter - Treasure Tavern</title>
-  <meta name="description" content="Subscribe to our fantasy newsletter and embark on an adventure of exclusive tips, special offers, and magical content from Treasure Tavern." />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-</svelte:head>
-
-<div class="page-container">
-  <!-- Newsletter Navigation -->
-  <div class="newsletter-nav">
-    <div class="newsletter-nav-inner">
-      <div class="newsletter-nav-header">
-        <h2 class="newsletter-nav-title">
-          <a href="/tavern-tales" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 0.5rem;">
-            Tavern Chronicles
-            <i class="fas fa-external-link-alt" style="font-size: 0.8rem;"></i>
-          </a>
-        </h2>
-        <button class="mobile-menu-toggle" on:click={() => showMobileMenu = !showMobileMenu} aria-label="Toggle newsletter menu">
-          <i class="fas fa-{showMobileMenu ? 'times' : 'bars'}" aria-hidden="true"></i>
-        </button>
-      </div>
-      <ul class="newsletter-list" class:show={showMobileMenu}>
-        {#each newsletters as newsletter}
-          <li class="newsletter-item">
-            {#if newsletter.comingSoon}
-              <a href="#hero-section" class="newsletter-link coming-soon">
-                <h3 class="newsletter-link-title">{newsletter.title}</h3>
-                <p class="newsletter-link-summary">
-                  <span class="coming-soon-text">Coming Soon:</span> {newsletter.summary}
-                </p>
-              </a>
-            {:else}
-              <a href="/newsletter/{newsletter.id}" class="newsletter-link">
-                <h3 class="newsletter-link-title">{newsletter.title}</h3>
-                <p class="newsletter-link-summary">{newsletter.summary}</p>
-              </a>
-            {/if}
-          </li>
-        {/each}
-      </ul>
-    </div>
-  </div>
-
-  <!-- Hero Section with Primary Signup -->
-  <section id="hero-section" class="hero-section">
-    <div class="hero-content">
-      <a href="/" style="text-decoration: none;">
-        <p class="brand-heading">Treasure Tavern Presents</p>
-      </a>
-      <h1>Unlock the Secrets of Fantasy Adventure</h1>
-      <p class="lead">
-        Join our exclusive newsletter and receive <span class="magic-underline">magical tips</span>,
-        <span class="magic-underline">special offers</span>, and <span class="magic-underline">epic stories</span>
-        delivered straight to your inbox.
-      </p>
-
-      <!-- Hero Form - First Signup Opportunity -->
-      <div class="cta-form">
-        <h3 class="form-title">Be The First To Receive New Chronicles</h3>
-        {#if heroForm.success}
-          <div class="success-message">
-            <i class="fas fa-check-circle"></i> Thank you for joining our fellowship! We'll send you our latest Chronicles as soon as they're released.
-          </div>
-        {:else}
-          <form on:submit|preventDefault={handleHeroSubmit}>
-            <input
-              type="text"
-              placeholder="Your name (optional)"
-              bind:value={heroForm.name}
-            />
-            <input
-              type="email"
-              placeholder="Your email address"
-              bind:value={heroForm.email}
-              required
-            />
-            <div class="checkbox-wrapper">
-              <input
-                type="checkbox"
-                id="hero-newsletter-opt-in"
-                bind:checked={heroForm.newsletterOptIn}
-              />
-              <label for="hero-newsletter-opt-in">
-                Yes, send me new Chronicles as soon as they're released, plus exclusive content and offers.
-              </label>
-            </div>
-            {#if heroForm.error}
-              <div class="error-message"><i class="fas fa-exclamation-circle"></i> {heroForm.error}</div>
-            {/if}
-            <button type="submit" disabled={heroForm.loading}>
-              {heroForm.loading ? 'Joining...' : 'Never Miss a Chronicle'}
-            </button>
-          </form>
-        {/if}
-      </div>
-    </div>
-    <div class="scroll-arrow" on:click={() => window.scrollTo({
-      top: window.innerHeight,
-      behavior: 'smooth'
-    })}>
-      <i class="fas fa-chevron-down"></i>
-    </div>
-  </section>
-
-  <!-- Value Proposition Section with Second Signup -->
-  <section class="section value-section">
-    <div class="container">
-      <div class="narrow-container">
-        <h2>Why Join Our Fantasy Fellowship?</h2>
-        <p class="lead">
-          Our newsletter is crafted by seasoned adventurers for those who seek the extraordinary.
-          Here's what awaits when you join our ranks:
-        </p>
-      </div>
-
-      <div class="benefits-grid">
-        <div class="benefit-card">
-          <div class="benefit-icon"><i class="fas fa-book-open"></i></div>
-          <h3>Exclusive Content</h3>
-          <p>Gain access to lore, stories, and guides not available anywhere else in the realm.</p>
-        </div>
-        <div class="benefit-card">
-          <div class="benefit-icon"><i class="fas fa-gifts"></i></div>
-          <h3>Special Offers</h3>
-          <p>Be the first to receive special discounts and promotions on our finest treasures.</p>
-        </div>
-        <div class="benefit-card">
-          <div class="benefit-icon"><i class="fas fa-users"></i></div>
-          <h3>Community Events</h3>
-          <p>Receive invitations to our exclusive gatherings, both virtual and in-person.</p>
-        </div>
-      </div>
-
-      <!-- Value Prop Form - Second Signup Opportunity -->
-      <div class="narrow-container">
-        <div class="cta-form">
-          <h3 class="form-title">Claim Your Membership</h3>
-          {#if valueForm.success}
-            <div class="success-message">
-              <i class="fas fa-check-circle"></i> Your name has been added to our fellowship roster! Your adventure begins soon.
-            </div>
-          {:else}
-            <form on:submit|preventDefault={handleValueSubmit}>
-              <input
-                type="text"
-                placeholder="Your name (optional)"
-                bind:value={valueForm.name}
-              />
-              <input
-                type="email"
-                placeholder="Your email address"
-                bind:value={valueForm.email}
-                required
-              />
-              <div class="checkbox-wrapper">
-                <input
-                  type="checkbox"
-                  id="value-newsletter-opt-in"
-                  bind:checked={valueForm.newsletterOptIn}
-                />
-                <label for="value-newsletter-opt-in">
-                  I wish to receive the legendary Treasure Tavern newsletter.
-                </label>
-              </div>
-              {#if valueForm.error}
-                <div class="error-message"><i class="fas fa-exclamation-circle"></i> {valueForm.error}</div>
-              {/if}
-              <button type="submit" disabled={valueForm.loading}>
-                {valueForm.loading ? 'Processing...' : 'Secure My Spot'}
-              </button>
-            </form>
-          {/if}
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Testimonial Section -->
-  <section class="section testimonial-section">
-    <div class="container">
-      <h2>What Fellow Adventurers Say</h2>
-      <div class="testimonial-grid">
-        <div class="testimonial-card">
-          <p class="testimonial-text">
-            "The Treasure Tavern newsletter has been my trusted companion on many quests.
-            Their exclusive tips helped me become a better game master!"
-          </p>
-          <p class="testimonial-author">— Elyndria, Dungeon Master</p>
-        </div>
-        <div class="testimonial-card">
-          <p class="testimonial-text">
-            "I love receiving their weekly stories in my inbox. It's like a small escape into
-            fantasy that brightens my otherwise mundane workdays."
-          </p>
-          <p class="testimonial-author">— Thorin, Fantasy Enthusiast</p>
-        </div>
-        <div class="testimonial-card">
-          <p class="testimonial-text">
-            "The exclusive offers alone are worth signing up. I've saved a fortune on fantasy
-            merchandise thanks to their subscriber-only discounts."
-          </p>
-          <p class="testimonial-author">— Lyra, Collector</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Final CTA Section with Third Signup -->
-  <section class="section cta-section">
-    <div class="narrow-container">
-      <h2>Join the Fellowship Today</h2>
-      <p class="lead">
-        Don't miss out on the <span class="highlight">exclusive content</span>,
-        <span class="highlight">special offers</span>, and
-        <span class="highlight">magical experiences</span> that await.
-        The adventure begins with a simple step.
-      </p>
-
-      <!-- Final CTA Form - Third Signup Opportunity -->
-      <div class="cta-form">
-        <h3 class="form-title">One Last Chance to Join</h3>
-        {#if ctaForm.success}
-          <div class="success-message">
-            <i class="fas fa-check-circle"></i> Welcome to our fellowship! Your adventure with Treasure Tavern begins now.
-          </div>
-        {:else}
-          <form on:submit|preventDefault={handleCtaSubmit}>
-            <input
-              type="text"
-              placeholder="Your name (optional)"
-              bind:value={ctaForm.name}
-            />
-            <input
-              type="email"
-              placeholder="Your email address"
-              bind:value={ctaForm.email}
-              required
-            />
-            <div class="checkbox-wrapper">
-              <input
-                type="checkbox"
-                id="cta-newsletter-opt-in"
-                bind:checked={ctaForm.newsletterOptIn}
-              />
-              <label for="cta-newsletter-opt-in">
-                Yes, I want to receive the mystical wisdom of Treasure Tavern in my inbox.
-              </label>
-            </div>
-            {#if ctaForm.error}
-              <div class="error-message"><i class="fas fa-exclamation-circle"></i> {ctaForm.error}</div>
-            {/if}
-            <button type="submit" disabled={ctaForm.loading}>
-              {ctaForm.loading ? 'Summoning...' : 'Embark on the Journey'}
-            </button>
-          </form>
-        {/if}
-      </div>
-    </div>
-  </section>
-</div>

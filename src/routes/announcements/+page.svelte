@@ -18,10 +18,10 @@
   const { announcements: loadedAnnouncements, categories } = data;
 
   // State for filtering and pagination
-  let selectedCategory = "All";
-  let searchQuery = "";
+  let selectedCategory = 'All';
+  let searchQuery = '';
   let filteredAnnouncements: Announcement[] = loadedAnnouncements;
-  let initialDisplayCount = 5;
+  const initialDisplayCount = 5;
   let displayCount = initialDisplayCount;
   let fadeIn = false;
 
@@ -35,18 +35,24 @@
   // Function to get category icon
   function getCategoryIcon(category: string): string {
     switch (category.toLowerCase()) {
-      case 'event': return 'fa-calendar-alt';
-      case 'news': return 'fa-newspaper';
-      case 'alert': return 'fa-exclamation-triangle';
-      default: return 'fa-info-circle';
+      case 'event':
+        return 'fa-calendar-alt';
+      case 'news':
+        return 'fa-newspaper';
+      case 'alert':
+        return 'fa-exclamation-triangle';
+      default:
+        return 'fa-info-circle';
     }
   }
 
   // Filter announcements based on selected category and search query
   $: {
     filteredAnnouncements = loadedAnnouncements.filter(announcement => {
-      const matchesCategory = selectedCategory === "All" || announcement.category === selectedCategory;
-      const matchesSearch = searchQuery === "" ||
+      const matchesCategory =
+        selectedCategory === 'All' || announcement.category === selectedCategory;
+      const matchesSearch =
+        searchQuery === '' ||
         announcement.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         announcement.content.toLowerCase().includes(searchQuery.toLowerCase());
 
@@ -74,8 +80,14 @@
 <svelte:head>
   <title>Announcements - Treasure Tavern</title>
   <meta name="description" content="The latest news and announcements from Treasure Tavern" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap"
+    rel="stylesheet"
+  />
 </svelte:head>
 
 <div class="page-container">
@@ -93,7 +105,7 @@
             class="search-input"
           />
           {#if searchQuery}
-            <button class="clear-search" on:click={() => searchQuery = ""}>
+            <button class="clear-search" on:click={() => (searchQuery = '')}>
               <i class="fas fa-times"></i>
             </button>
           {/if}
@@ -162,7 +174,13 @@
           <div class="empty-state">
             <i class="fas fa-scroll empty-icon"></i>
             <p>No announcements match your criteria.</p>
-            <button class="reset-button" on:click={() => { selectedCategory = "All"; searchQuery = ""; }}>
+            <button
+              class="reset-button"
+              on:click={() => {
+                selectedCategory = 'All';
+                searchQuery = '';
+              }}
+            >
               Reset Filters
             </button>
           </div>
@@ -171,7 +189,7 @@
 
       <div class="navigation">
         <a href="/" class="nav-button">
-          <i class="fas fa-home" style="margin-right: 8px;"></i>
+          <i class="fas fa-home" style:margin-right="8px"></i>
           Return to Tavern
         </a>
       </div>
@@ -184,8 +202,8 @@
     margin: 0;
     padding: 0;
     min-height: 100vh;
-    background: linear-gradient(145deg, #13111C 0%, #1F1B2D 60%, #2B1D34 100%);
-    color: #F7E8D4;
+    background: linear-gradient(145deg, #13111c 0%, #1f1b2d 60%, #2b1d34 100%);
+    color: #f7e8d4;
     overflow-x: hidden;
     line-height: 1.4;
   }
@@ -215,7 +233,9 @@
     position: relative;
     opacity: 0;
     transform: translateY(20px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
+    transition:
+      opacity 0.5s ease,
+      transform 0.5s ease;
   }
 
   .container.fade-in {
@@ -228,7 +248,7 @@
     font-size: clamp(2.5rem, 5vw, 3.5rem);
     text-align: center;
     margin-bottom: 2rem;
-    color: #F7E8D4;
+    color: #f7e8d4;
     text-shadow: 0 0 15px rgba(231, 206, 143, 0.4);
     font-weight: 700;
     letter-spacing: 0.02em;
@@ -243,7 +263,8 @@
     transform: translateX(-50%);
     width: 100px;
     height: 2px;
-    background: linear-gradient(90deg,
+    background: linear-gradient(
+      90deg,
       rgba(189, 150, 72, 0) 0%,
       rgba(189, 150, 72, 0.7) 50%,
       rgba(189, 150, 72, 0) 100%
@@ -277,7 +298,7 @@
     background: rgba(20, 17, 30, 0.4);
     border: 1px solid rgba(247, 232, 212, 0.1);
     border-radius: 8px;
-    color: #F7E8D4;
+    color: #f7e8d4;
     font-family: 'Spectral', serif;
     font-size: 1rem;
     transition: all 0.3s ease;
@@ -313,7 +334,7 @@
   }
 
   .clear-search:hover {
-    color: #F7E8D4;
+    color: #f7e8d4;
     background: rgba(247, 232, 212, 0.1);
   }
 
@@ -348,7 +369,7 @@
   .category-button.active {
     background: rgba(189, 150, 72, 0.15);
     border-color: rgba(189, 150, 72, 0.3);
-    color: #F7E8D4;
+    color: #f7e8d4;
     font-weight: 500;
   }
 
@@ -380,7 +401,7 @@
     left: 0;
     width: 3px;
     height: 100%;
-    background: linear-gradient(to bottom, #BD9648, rgba(189, 150, 72, 0.1));
+    background: linear-gradient(to bottom, #bd9648, rgba(189, 150, 72, 0.1));
     opacity: 0.6;
   }
 
@@ -443,7 +464,7 @@
   .announcement-title {
     font-family: 'Cinzel', serif;
     font-size: 1.4rem;
-    color: #BD9648;
+    color: #bd9648;
     margin: 0 0 1rem;
     font-weight: 600;
     line-height: 1.3;
@@ -462,7 +483,7 @@
   }
 
   .read-more {
-    color: #BD9648;
+    color: #bd9648;
     font-size: 0.9rem;
     font-weight: 500;
     display: inline-flex;
@@ -480,7 +501,7 @@
     grid-column: 1 / -1;
     background: rgba(31, 27, 45, 0.4);
     border: 1px solid rgba(189, 150, 72, 0.2);
-    color: #F7E8D4;
+    color: #f7e8d4;
     padding: 1rem;
     border-radius: 8px;
     font-family: 'Cinzel', serif;
@@ -536,7 +557,7 @@
   .reset-button {
     background: rgba(189, 150, 72, 0.2);
     border: 1px solid rgba(189, 150, 72, 0.3);
-    color: #F7E8D4;
+    color: #f7e8d4;
     padding: 0.75rem 1.5rem;
     border-radius: 6px;
     font-family: 'Cinzel', serif;
@@ -561,7 +582,7 @@
     border: none;
     border-radius: 6px;
     background: rgba(31, 27, 45, 0.6);
-    color: #F7E8D4;
+    color: #f7e8d4;
     font-family: 'Cinzel', serif;
     font-size: 0.95rem;
     font-weight: 500;

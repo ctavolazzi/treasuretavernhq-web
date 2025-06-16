@@ -1,0 +1,43 @@
+# Build outputs
+build/
+.svelte-kit/
+dist/
+node_modules/
+
+# Package files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Static assets that shouldn't be formatted
+static/
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+*.svg
+*.ico
+*.pdf
+
+# Generated files
+.env
+.env.*
+
+# Version control
+.git/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+
+# Work efforts - preserve formatting for documentation
+work_efforts/
+
+# Logs
+*.log
+logs/

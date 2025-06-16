@@ -11,7 +11,11 @@
 {#if mounted}
   <slot />
 {:else}
-  <div class="placeholder" style="height: var(--height, auto); aspect-ratio: var(--aspect-ratio, auto);">
+  <div
+    class="placeholder"
+    style:height="var(--height, auto)"
+    style:aspect-ratio="var(--aspect-ratio, auto)"
+  >
     <!-- Optional loading placeholder -->
   </div>
 {/if}

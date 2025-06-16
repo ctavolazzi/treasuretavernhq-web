@@ -104,12 +104,13 @@
   // Function to share the newsletter
   function shareNewsletter() {
     if (navigator.share) {
-      navigator.share({
-        title: newsletter.title,
-        text: `Check out this newsletter from Treasure Tavern: ${newsletter.title}`,
-        url: window.location.href,
-      })
-      .catch((error) => console.error('Error sharing:', error));
+      navigator
+        .share({
+          title: newsletter.title,
+          text: `Check out this newsletter from Treasure Tavern: ${newsletter.title}`,
+          url: window.location.href
+        })
+        .catch(error => console.error('Error sharing:', error));
     }
   }
 
@@ -129,7 +130,12 @@
 
 <svelte:head>
   <title>{newsletter ? newsletter.title : 'Newsletter Not Found'} - Treasure Tavern</title>
-  <meta name="description" content="{newsletter ? `Read ${newsletter.title} from Treasure Tavern's fantasy newsletter archive.` : 'Newsletter archive from Treasure Tavern'}" />
+  <meta
+    name="description"
+    content={newsletter
+      ? `Read ${newsletter.title} from Treasure Tavern's fantasy newsletter archive.`
+      : 'Newsletter archive from Treasure Tavern'}
+  />
 </svelte:head>
 
 <div class="newsletter-page">
@@ -163,7 +169,11 @@
 
     <div class="subscribe-cta">
       <h3>Want More Tavern Chronicles?</h3>
-      <p>Don't miss future editions! Subscribe now to get our next chronicle <strong>"April 2025: Coming Soon"</strong> delivered straight to your inbox as soon as it's released.</p>
+      <p>
+        Don't miss future editions! Subscribe now to get our next chronicle <strong
+          >"April 2025: Coming Soon"</strong
+        > delivered straight to your inbox as soon as it's released.
+      </p>
       <div class="cta-benefits">
         <div class="benefit-item">
           <i class="fas fa-scroll"></i>
@@ -197,7 +207,7 @@
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    color: #BD9648;
+    color: #bd9648;
     text-decoration: none;
     font-family: 'Cinzel', serif;
     margin-bottom: 1.5rem;
@@ -217,7 +227,7 @@
   .newsletter-title {
     font-family: 'Cinzel Decorative', fantasy;
     font-size: clamp(1.75rem, 4vw, 2.5rem);
-    color: #F7E8D4;
+    color: #f7e8d4;
     margin: 0 0 0.5rem;
     line-height: 1.2;
   }
@@ -237,14 +247,14 @@
 
   .newsletter-content h2 {
     font-family: 'Cinzel', serif;
-    color: #BD9648;
+    color: #bd9648;
     font-size: 1.8rem;
     margin: 2rem 0 1rem;
   }
 
   .newsletter-content h3 {
     font-family: 'Cinzel', serif;
-    color: #BD9648;
+    color: #bd9648;
     font-size: 1.4rem;
     margin: 1.5rem 0 0.75rem;
   }
@@ -254,7 +264,7 @@
   }
 
   .newsletter-content strong {
-    color: #BD9648;
+    color: #bd9648;
     font-weight: 600;
   }
 
@@ -269,7 +279,7 @@
 
   .not-found h2 {
     font-family: 'Cinzel', serif;
-    color: #BD9648;
+    color: #bd9648;
     font-size: 2rem;
     margin-bottom: 1rem;
   }
@@ -291,7 +301,7 @@
 
   .subscribe-cta h3 {
     font-family: 'Cinzel', serif;
-    color: #BD9648;
+    color: #bd9648;
     font-size: 1.4rem;
     margin: 0 0 1rem;
   }
@@ -317,7 +327,7 @@
   }
 
   .benefit-item i {
-    color: #9E61E3;
+    color: #9e61e3;
     font-size: 1.1rem;
   }
 
@@ -331,8 +341,8 @@
   .subscribe-button {
     display: inline-block;
     padding: 0.75rem 1.5rem;
-    background: linear-gradient(135deg, #9E61E3 0%, #7A3CA3 100%);
-    color: #F7E8D4;
+    background: linear-gradient(135deg, #9e61e3 0%, #7a3ca3 100%);
+    color: #f7e8d4;
     text-decoration: none;
     font-family: 'Cinzel', serif;
     font-weight: 500;
@@ -343,14 +353,14 @@
   .subscribe-button:hover {
     transform: translateY(-2px);
     box-shadow: 0 7px 15px rgba(0, 0, 0, 0.2);
-    background: linear-gradient(135deg, #A671E6 0%, #8A4CB3 100%);
+    background: linear-gradient(135deg, #a671e6 0%, #8a4cb3 100%);
   }
 
   .demo-button {
     display: inline-block;
     padding: 0.75rem 1.5rem;
     background: transparent;
-    color: #F7E8D4;
+    color: #f7e8d4;
     text-decoration: none;
     font-family: 'Cinzel', serif;
     font-weight: 500;
@@ -374,7 +384,7 @@
     background: rgba(31, 27, 45, 0.6);
     border: 1px solid rgba(189, 150, 72, 0.3);
     border-radius: 6px;
-    color: #F7E8D4;
+    color: #f7e8d4;
     font-family: 'Inter', sans-serif;
     cursor: pointer;
     transition: all 0.3s ease;

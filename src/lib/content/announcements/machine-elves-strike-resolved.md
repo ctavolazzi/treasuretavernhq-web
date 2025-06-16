@@ -1,9 +1,9 @@
 ---
-title: "Machine Elves Strike Resolved"
-date: "March 15, 2025"
-category: "News"
-type: "news"
-author: "Tavern Management"
+title: 'Machine Elves Strike Resolved'
+date: 'March 15, 2025'
+category: 'News'
+type: 'news'
+author: 'Tavern Management'
 ---
 
 # Machine Elves Strike Resolved
@@ -28,10 +28,10 @@ The strike began three weeks ago (or possibly three centuries ago, depending on 
 
 Specifically, they demanded:
 
-* The right to take lunch breaks in the past, present, or future
-* Vacation days that could be taken in parallel universes
-* Healthcare coverage for appendages that may or may not exist depending on the phase of the moon
-* A dedicated meditation space where the laws of physics are "more like guidelines"
+- The right to take lunch breaks in the past, present, or future
+- Vacation days that could be taken in parallel universes
+- Healthcare coverage for appendages that may or may not exist depending on the phase of the moon
+- A dedicated meditation space where the laws of physics are "more like guidelines"
 
 ![Machine Elves with protest signs](/images/announcements/machine-elves-protest-strike-sign.webp)
 
@@ -45,9 +45,9 @@ After consulting with our interdimensional labor relations expert (a former bure
 
 As a result, our menu has been expanded to include several exciting new offerings, including:
 
-* **Schrödinger's Stew** - simultaneously the best and worst stew you've ever tasted until you observe it
-* **Hypercube Honeycakes** - which are bigger on the inside
-* **Möbius Strip Pasta** - which you can keep twirling on your fork indefinitely
+- **Schrödinger's Stew** - simultaneously the best and worst stew you've ever tasted until you observe it
+- **Hypercube Honeycakes** - which are bigger on the inside
+- **Möbius Strip Pasta** - which you can keep twirling on your fork indefinitely
 
 ![The interdimensional kitchen](/images/announcements/interdimensional-kitchen.webp)
 
@@ -65,10 +65,10 @@ In their meditation space, the Machine Elves recharge their interdimensional ene
 
 For the most authentic experience, we recommend reservations during our "Reality Flux" hours (6-8 PM on Thursdays), when the interdimensional barriers are thinnest and the Machine Elves' powers are at their peak. During this time, diners may experience:
 
-* Flavors that trigger memories you haven't formed yet
-* Meals that change presentation each time you blink
-* Conversations with alternate versions of yourself from parallel realities
-* Dining companions who may temporarily become two-dimensional
+- Flavors that trigger memories you haven't formed yet
+- Meals that change presentation each time you blink
+- Conversations with alternate versions of yourself from parallel realities
+- Dining companions who may temporarily become two-dimensional
 
 ![Elves preparing food in the kitchen](/images/announcements/elves-in-the-kitchen.webp)
 
@@ -76,4 +76,4 @@ We hope you'll join us soon to experience the wonders of interdimensional cuisin
 
 ---
 
-*For reservations, please contact the front desk. Time travelers may make their reservations retroactively, but must still honor them in this timeline.*
+_For reservations, please contact the front desk. Time travelers may make their reservations retroactively, but must still honor them in this timeline._

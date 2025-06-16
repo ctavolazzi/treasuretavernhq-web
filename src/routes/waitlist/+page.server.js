@@ -9,15 +9,13 @@ import { supabase } from '$lib/supabaseClient';
  */
 async function subscribeEmail(email, name = '') {
   try {
-    const { error } = await supabase
-      .from('account_creation_waitlist')
-      .insert([
-        {
-          email,
-          name: name.trim(),
-          created_at: new Date().toISOString()
-        }
-      ]);
+    const { error } = await supabase.from('account_creation_waitlist').insert([
+      {
+        email,
+        name: name.trim(),
+        created_at: new Date().toISOString()
+      }
+    ]);
 
     if (error) {
       console.error('Error subscribing email:', error);
@@ -60,7 +58,7 @@ export const actions = {
       if (result.error?.includes('duplicate key') || result.error?.includes('unique constraint')) {
         return {
           success: true, // Still return success to user
-          message: 'You\'re already on our waitlist!'
+          message: "You're already on our waitlist!"
         };
       }
 

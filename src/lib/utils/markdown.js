@@ -5,7 +5,9 @@
 
 // Process Markdown text into HTML
 export function parseMarkdown(text) {
-  if (!text) return '';
+  if (!text) {
+    return '';
+  }
 
   // Process blocks first (paragraphs, headers, lists, etc.)
   const blocks = splitIntoBlocks(text);
@@ -17,7 +19,10 @@ export function parseMarkdown(text) {
 // Split text into logical blocks for processing
 function splitIntoBlocks(text) {
   // Split by double newlines to separate paragraphs
-  return text.split(/\n\n+/).map(block => block.trim()).filter(Boolean);
+  return text
+    .split(/\n\n+/)
+    .map(block => block.trim())
+    .filter(Boolean);
 }
 
 // Process a single block of text
@@ -39,20 +44,26 @@ function processBlock(block) {
 
   // Unordered lists
   if (block.match(/^[*\-+]\s+/m)) {
-    const items = block.split(/\n/).map(line => {
-      const match = line.match(/^[*\-+]\s+(.+)$/);
-      return match ? `<li>${processInline(match[1])}</li>` : '';
-    }).filter(Boolean);
+    const items = block
+      .split(/\n/)
+      .map(line => {
+        const match = line.match(/^[*\-+]\s+(.+)$/);
+        return match ? `<li>${processInline(match[1])}</li>` : '';
+      })
+      .filter(Boolean);
 
     return `<ul class="tale-list">${items.join('')}</ul>`;
   }
 
   // Ordered lists
   if (block.match(/^\d+\.\s+/m)) {
-    const items = block.split(/\n/).map(line => {
-      const match = line.match(/^\d+\.\s+(.+)$/);
-      return match ? `<li>${processInline(match[1])}</li>` : '';
-    }).filter(Boolean);
+    const items = block
+      .split(/\n/)
+      .map(line => {
+        const match = line.match(/^\d+\.\s+(.+)$/);
+        return match ? `<li>${processInline(match[1])}</li>` : '';
+      })
+      .filter(Boolean);
 
     return `<ol class="tale-list">${items.join('')}</ol>`;
   }

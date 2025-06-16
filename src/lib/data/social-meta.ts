@@ -32,7 +32,9 @@ export interface TaleSummary {
  * @returns {SocialMetadata} Social sharing metadata for the tale
  */
 export function getTaleSocialMeta(tale: TaleSummary): SocialMetadata {
-  if (!tale) return getDefaultSocialMeta();
+  if (!tale) {
+    return getDefaultSocialMeta();
+  }
 
   // Create a clean structure focused only on the tale's image
   return {
@@ -41,7 +43,7 @@ export function getTaleSocialMeta(tale: TaleSummary): SocialMetadata {
     // Use the tale's cover image directly
     image: tale.coverImage || '/images/tales/default-tale.png',
     // Use provided URL if available, otherwise construct one
-    url: tale.url || `https://treasuretavernhq.com/tavern-tales/${tale.slug}`,
+    url: tale.url || `https://treasuretavernhq.com/tavern-tales/${tale.slug}`
   };
 }
 
@@ -54,6 +56,6 @@ export function getDefaultSocialMeta(): SocialMetadata {
     title: 'Tavern Tales',
     description: 'Explore stories from the Treasure Tavern archives.',
     image: '/images/tales/default-tale.png',
-    url: 'https://treasuretavernhq.com/tavern-tales',
+    url: 'https://treasuretavernhq.com/tavern-tales'
   };
 }

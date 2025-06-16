@@ -1,10 +1,16 @@
 <script>
   // Props for the component
-  export let title = "Ready to Take Action?";
-  export let description = "Join us for this special event at Treasure Tavern!";
-  export let buttonText = "Sign Up Now";
-  export let demoLink = "/demo";
+  export let title = 'Ready to Take Action?';
+  export let description = 'Join us for this special event at Treasure Tavern!';
+  export let buttonText = 'Sign Up Now';
+  export let demoLink = '/demo';
 </script>
+
+<div class="cta-section">
+  <h2 class="cta-title">{title}</h2>
+  <p class="cta-description">{description}</p>
+  <a href={demoLink} class="cta-button">{buttonText}</a>
+</div>
 
 <style>
   .cta-section {
@@ -19,7 +25,7 @@
   .cta-title {
     font-family: 'Cinzel', serif;
     font-size: 1.5rem;
-    color: #BD9648;
+    color: #bd9648;
     margin-bottom: 1rem;
   }
 
@@ -36,9 +42,9 @@
   .cta-button {
     display: inline-block;
     padding: 0.85rem 1.75rem;
-    background: linear-gradient(135deg, #9E61E3 0%, #7A3CA3 100%);
+    background: linear-gradient(135deg, #9e61e3 0%, #7a3ca3 100%);
     border-radius: 6px;
-    color: #F7E8D4;
+    color: #f7e8d4;
     font-family: 'Cinzel', serif;
     font-size: 1.1rem;
     font-weight: 500;
@@ -50,12 +56,6 @@
   .cta-button:hover {
     transform: translateY(-3px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
-    background: linear-gradient(135deg, #AF71F4 0%, #8A4CB3 100%);
+    background: linear-gradient(135deg, #af71f4 0%, #8a4cb3 100%);
   }
 </style>
-
-<div class="cta-section">
-  <h2 class="cta-title">{title}</h2>
-  <p class="cta-description">{description}</p>
-  <a href={demoLink} class="cta-button">{buttonText}</a>
-</div>

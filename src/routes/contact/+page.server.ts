@@ -39,17 +39,15 @@ export const actions: Actions = {
 
       // Store in Supabase 'contact_requests' table
       try {
-        const { error } = await supabase
-          .from('contact_requests')
-          .insert([
-            {
-              name,
-              email,
-              message,
-              created_at: new Date().toISOString(),
-              user_id: null // Set user_id to null for public submissions
-            }
-          ]);
+        const { error } = await supabase.from('contact_requests').insert([
+          {
+            name,
+            email,
+            message,
+            created_at: new Date().toISOString(),
+            user_id: null // Set user_id to null for public submissions
+          }
+        ]);
 
         if (error) {
           console.error('Error storing contact request:', error);

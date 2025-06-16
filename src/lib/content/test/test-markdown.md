@@ -1,7 +1,7 @@
 ---
-title: "Testing Markdown Rendering"
-date: "April 12, 2025"
-author: "Test User"
+title: 'Testing Markdown Rendering'
+date: 'April 12, 2025'
+author: 'Test User'
 ---
 
 # Testing Markdown with Images
@@ -16,10 +16,10 @@ The Machine Elves are fascinating interdimensional beings who work in our kitche
 
 Their strike demands included:
 
-* Chronologically flexible lunch breaks
-* Interdimensional vacation days
-* Healthcare for appendages that may or may not exist
-* A dedicated meditation space
+- Chronologically flexible lunch breaks
+- Interdimensional vacation days
+- Healthcare for appendages that may or may not exist
+- A dedicated meditation space
 
 ![Machine Elves on strike](/images/announcements/machine-elves-strike.webp)
 
@@ -29,12 +29,12 @@ After negotiations, they returned to work in the interdimensional kitchen, creat
 
 ## Text Formatting Tests
 
-This paragraph contains **bold text** and *italic text*. It also has `inline code` formatting.
+This paragraph contains **bold text** and _italic text_. It also has `inline code` formatting.
 
 ```javascript
 // This is a code block
 function testFunction() {
-  return "Hello, Markdown!";
+  return 'Hello, Markdown!';
 }
 ```
 
@@ -43,11 +43,13 @@ function testFunction() {
 ### Lists Test
 
 Ordered list:
+
 1. First item
 2. Second item
 3. Third item
 
 Unordered list:
+
 - Item A
 - Item B
 - Item C

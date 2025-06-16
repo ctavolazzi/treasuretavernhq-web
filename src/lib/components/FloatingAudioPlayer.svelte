@@ -3,8 +3,8 @@
 
   // Props with default values
   export let audioSrc: string;
-  export let audioTitle: string = "Background Music";
-  export let hintText: string = "Click to unmute";
+  export let audioTitle: string = 'Background Music';
+  export let hintText: string = 'Click to unmute';
   export let startMuted: boolean = true;
 
   // Element references
@@ -15,7 +15,9 @@
 
   // Toggle mute/unmute
   function toggleMute() {
-    if (!audioPlayer) return;
+    if (!audioPlayer) {
+      return;
+    }
 
     if (isMuted) {
       audioPlayer.muted = false;
@@ -39,7 +41,9 @@
 
   // Handle scroll behavior - show/hide based on scroll position
   function handleScroll() {
-    if (!audioControlsElement) return;
+    if (!audioControlsElement) {
+      return;
+    }
 
     // Show audio controls when scrolled down
     if (window.scrollY > 300) {
@@ -113,6 +117,31 @@
   });
 </script>
 
+<!-- Audio player -->
+<audio bind:this={audioPlayer} src={audioSrc} preload="auto" loop></audio>
+
+<div
+  class="audio-controls"
+  bind:this={audioControlsElement}
+  on:click={toggleMute}
+  role="button"
+  tabindex="0"
+  aria-label={isMuted ? `Play ${audioTitle}` : `Mute ${audioTitle}`}
+  on:keydown={e => e.key === 'Enter' && toggleMute()}
+>
+  <div class="mute-button">
+    {#if isMuted}
+      <i class="fas fa-volume-mute"></i>
+    {:else}
+      <i class="fas fa-volume-up"></i>
+    {/if}
+  </div>
+  <span class="audio-title">{audioTitle}</span>
+  {#if isMuted && showHint}
+    <span class="audio-hint">{hintText}</span>
+  {/if}
+</div>
+
 <style>
   /* Audio Player Styles */
   .audio-controls {
@@ -131,7 +160,10 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     backdrop-filter: blur(4px);
     cursor: pointer;
-    transition: all 0.2s ease, opacity 0.3s ease, bottom 0.2s ease;
+    transition:
+      all 0.2s ease,
+      opacity 0.3s ease,
+      bottom 0.2s ease;
     opacity: 0;
     pointer-events: none;
   }
@@ -144,7 +176,7 @@
   }
 
   .mute-button {
-    color: #BD9648;
+    color: #bd9648;
     font-size: 1.1rem;
     width: 20px;
     text-align: center;
@@ -155,7 +187,7 @@
 
   .audio-title {
     font-family: 'Cinzel', serif;
-    color: #BD9648;
+    color: #bd9648;
     font-size: 0.9rem;
     margin: 0 4px;
   }
@@ -182,20 +214,3 @@
     }
   }
 </style>
-
-<!-- Audio player -->
-<audio bind:this={audioPlayer} src={audioSrc} preload="auto" loop></audio>
-
-<div class="audio-controls" bind:this={audioControlsElement} on:click={toggleMute} role="button" tabindex="0" aria-label={isMuted ? `Play ${audioTitle}` : `Mute ${audioTitle}`} on:keydown={(e) => e.key === 'Enter' && toggleMute()}>
-  <div class="mute-button">
-    {#if isMuted}
-      <i class="fas fa-volume-mute"></i>
-    {:else}
-      <i class="fas fa-volume-up"></i>
-    {/if}
-  </div>
-  <span class="audio-title">{audioTitle}</span>
-  {#if isMuted && showHint}
-    <span class="audio-hint">{hintText}</span>
-  {/if}
-</div>

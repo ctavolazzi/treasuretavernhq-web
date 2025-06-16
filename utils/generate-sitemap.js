@@ -18,15 +18,7 @@ const rootDir = path.join(__dirname, '..');
 
 // Configuration
 const baseUrl = 'https://treasuretavern.com'; // Replace with your actual domain when ready
-const staticPages = [
-  '/',
-  '/about',
-  '/contact',
-  '/demo',
-  '/newsletter',
-  '/announcements',
-  '/tavern-tales'
-];
+const staticPages = ['/', '/about', '/contact', '/newsletter', '/announcements', '/tavern-tales'];
 
 // Import tales data (adjust path as needed)
 const talesDataPath = path.join(rootDir, 'src', 'lib', 'data', 'tales.js');

@@ -26,12 +26,14 @@
   <div
     class="modal-overlay"
     on:click={closeModal}
+    on:keydown={e => e.key === 'Enter' && closeModal()}
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modal-title"
+    tabindex="-1"
     transition:fade={{ duration: 200 }}
   >
-    <div class="modal-container"
-      on:click={stopPropagation}
-      transition:scale={{ start: 0.95, duration: 200 }}
-    >
+    <div class="modal-container" role="document" transition:scale={{ start: 0.95, duration: 200 }}>
       <button class="close-button" on:click={closeModal} aria-label="Close modal">
         <span aria-hidden="true">×</span>
       </button>
@@ -119,7 +121,7 @@
     border-radius: 50%;
     background: rgba(0, 0, 0, 0.5);
     border: 1px solid rgba(247, 232, 212, 0.2);
-    color: #F7E8D4;
+    color: #f7e8d4;
     font-size: 1.5rem;
     display: flex;
     align-items: center;

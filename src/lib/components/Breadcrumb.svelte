@@ -50,8 +50,8 @@
     font-size: 0.8rem;
     width: 100%;
     overflow-x: auto;
-    -ms-overflow-style: none;  /* Hide scrollbar in IE and Edge */
-    scrollbar-width: none;  /* Hide scrollbar in Firefox */
+    -ms-overflow-style: none; /* Hide scrollbar in IE and Edge */
+    scrollbar-width: none; /* Hide scrollbar in Firefox */
   }
 
   /* Hide scrollbar for Chrome, Safari and Opera */
@@ -71,12 +71,12 @@
   }
 
   a:hover {
-    color: #BD9648;
+    color: #bd9648;
     background: rgba(189, 150, 72, 0.08);
   }
 
   .current {
-    color: #9E61E3;
+    color: #9e61e3;
     display: flex;
     align-items: center;
     font-weight: 500;

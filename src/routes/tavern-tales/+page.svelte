@@ -4,12 +4,7 @@
   import { fade, fly } from 'svelte/transition';
   import { quintOut } from 'svelte/easing';
   import ResponsiveImage from '$lib/components/ResponsiveImage.svelte';
-  import {
-    getAllTales,
-    getFeaturedTales,
-    getRecentTales,
-    getCategories
-  } from '$lib/data/tales';
+  import { getAllTales, getFeaturedTales, getRecentTales, getCategories } from '$lib/data/tales';
 
   // Define interfaces for the data types
   interface Category {
@@ -31,10 +26,10 @@
 
   // Get data from the loader with proper type annotations
   export let data: {
-    categories: Array<{id: string, name: string}>,
-    featuredTales: Array<any>,
-    recentTales: Array<any>,
-    allTales: Array<any>
+    categories: Array<{ id: string; name: string }>;
+    featuredTales: Array<any>;
+    recentTales: Array<any>;
+    allTales: Array<any>;
   };
 
   // Extract data with proper types
@@ -77,11 +72,12 @@
     isSearching = true;
     const term = searchTerm.toLowerCase();
 
-    searchResults = allTales.filter(tale =>
-      tale.title.toLowerCase().includes(term) ||
-      tale.excerpt.toLowerCase().includes(term) ||
-      tale.author.toLowerCase().includes(term) ||
-      tale.tags.some((tag: string) => tag.toLowerCase().includes(term))
+    searchResults = allTales.filter(
+      tale =>
+        tale.title.toLowerCase().includes(term) ||
+        tale.excerpt.toLowerCase().includes(term) ||
+        tale.author.toLowerCase().includes(term) ||
+        tale.tags.some((tag: string) => tag.toLowerCase().includes(term))
     );
   }
 
@@ -105,13 +101,258 @@
   });
 </script>
 
+<svelte:head>
+  <title>Tavern Tales - Stories, Poems, and Ancient Chronicles - Treasure Tavern</title>
+  <meta
+    name="description"
+    content="Immerse yourself in the mystical world of Treasure Tavern through stories, poems, songs, and visual tales collected from travelers across the realms."
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+</svelte:head>
+
+<div class="page-container">
+  <div class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      {#if isReady}
+        <h1 class="hero-title" in:fly={{ y: -30, duration: 800, delay: 300, easing: quintOut }}>
+          Tavern Tales
+        </h1>
+        <p class="hero-subtitle" in:fade={{ duration: 1000, delay: 600 }}>
+          Ancient scrolls, whispered legends, and ballads sung in shadowy corners of the Tavern.
+          Explore the chronicles gathered by our patrons from across the realms.
+        </p>
+      {/if}
+    </div>
+    <div class="hero-decor"></div>
+  </div>
+
+  <main class="main-content">
+    <!-- Featured Tales Section -->
+    <section class="featured-section">
+      <h2 class="section-title">Featured Chronicles</h2>
+      <div class="featured-grid">
+        {#each featuredTales as tale (tale.slug)}
+          <a href={`/tavern-tales/${tale.slug}`} class="featured-card">
+            <ResponsiveImage src={tale.coverImage} alt={tale.title} className="card-image" />
+            <div class="card-content">
+              <div class="card-meta">
+                <span>{tale.author}</span>
+                <span>{tale.date}</span>
+              </div>
+              <h3 class="card-title">{tale.title}</h3>
+              <p class="card-excerpt">{tale.excerpt}</p>
+              <div class="card-footer">
+                <span class={`card-tag card-tag-${tale.type.toLowerCase()}`}>{tale.type}</span>
+                <span class="read-more">
+                  Read Chronicle <i class="fas fa-arrow-right"></i>
+                </span>
+              </div>
+            </div>
+          </a>
+        {/each}
+      </div>
+    </section>
+
+    <!-- Categories and Search Section -->
+    <section class="categories-section">
+      <h2 class="section-title">Explore Chronicles</h2>
+
+      <!-- Categories Filter -->
+      <div class="categories-container">
+        <button
+          class={`category-button ${activeFilter === 'all' ? 'active' : ''}`}
+          on:click={() => filterTales('all')}
+        >
+          All Chronicles
+        </button>
+
+        {#each categories as category}
+          <button
+            class={`category-button ${activeFilter === category.id ? 'active' : ''}`}
+            on:click={() => filterTales(category.id)}
+          >
+            {category.name}
+          </button>
+        {/each}
+      </div>
+
+      <!-- Search input -->
+      <div class="search-container">
+        <input
+          type="text"
+          class="search-input"
+          placeholder="Search for tales, authors, or themes..."
+          bind:value={searchTerm}
+          on:input={handleSearch}
+        />
+        <button class="search-button" on:click={handleSearch} aria-label="Search tales">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+
+      <!-- Search results if any -->
+      {#if isSearching}
+        <div class="search-results" in:fade={{ duration: 300 }}>
+          <div class="search-results-title">
+            Search Results {searchResults.length > 0 ? `(${searchResults.length})` : ''}
+            <button class="clear-search" on:click={clearSearch} aria-label="Clear search results">
+              <i class="fas fa-times"></i> Clear Search
+            </button>
+          </div>
+
+          {#if searchResults.length > 0}
+            <div class="tales-grid">
+              {#each searchResults as tale (tale.slug)}
+                <a href={`/tavern-tales/${tale.slug}`} class="tale-card">
+                  <ResponsiveImage
+                    src={tale.coverImage}
+                    alt={tale.title}
+                    className="tale-card-image"
+                  />
+                  <div class="tale-card-content">
+                    <div class="tale-card-meta">
+                      <span>{tale.author}</span>
+                      <span>{tale.date}</span>
+                    </div>
+                    <h3 class="tale-card-title">{tale.title}</h3>
+                    <p class="tale-card-excerpt">{tale.excerpt}</p>
+                    <div class="tale-card-footer">
+                      <span class={`card-tag card-tag-${tale.type.toLowerCase()}`}>{tale.type}</span
+                      >
+                    </div>
+                  </div>
+                </a>
+              {/each}
+            </div>
+            <!-- New message for all search results -->
+            <div class="check-back-message" in:fade={{ duration: 800, delay: 300 }}>
+              <p>
+                <i class="fas fa-magic"></i> New tales are added regularly. Check back soon for fresh
+                adventures!
+              </p>
+            </div>
+          {:else}
+            <div class="no-results">
+              <p>No tales found matching "{searchTerm}". Try a different search term.</p>
+              <p class="coming-soon">More chronicles are being added regularly. Check back soon!</p>
+            </div>
+          {/if}
+        </div>
+      {/if}
+
+      <!-- All tales or filtered tales -->
+      {#if !isSearching}
+        <div class="tales-grid">
+          {#each filteredTales as tale (tale.slug)}
+            <a href={`/tavern-tales/${tale.slug}`} class="tale-card">
+              <ResponsiveImage src={tale.coverImage} alt={tale.title} className="tale-card-image" />
+              <div class="tale-card-content">
+                <div class="tale-card-meta">
+                  <span>{tale.author}</span>
+                  <span>{tale.date}</span>
+                </div>
+                <h3 class="tale-card-title">{tale.title}</h3>
+                <p class="tale-card-excerpt">{tale.excerpt}</p>
+                <div class="tale-card-footer">
+                  <span class={`card-tag card-tag-${tale.type.toLowerCase()}`}>{tale.type}</span>
+                </div>
+              </div>
+            </a>
+          {/each}
+        </div>
+
+        <!-- Add message at the bottom of all filtered results -->
+        {#if filteredTales.length > 0}
+          <div class="check-back-message" in:fade={{ duration: 800, delay: 300 }}>
+            <p>
+              <i class="fas fa-magic"></i> New tales are added regularly. Check back soon for fresh adventures!
+            </p>
+          </div>
+        {/if}
+
+        <!-- Add a message when no tales are found for a category filter -->
+        {#if filteredTales.length === 0}
+          <div class="no-tales-message" in:fade={{ duration: 300 }}>
+            <p>
+              {#if activeFilter === 'all'}
+                More tales coming soon! Check back frequently for new content.
+              {:else}
+                {#each categories as category}
+                  {#if category.id === activeFilter}
+                    More {category.name} coming soon! Check back frequently for new content.
+                  {/if}
+                {/each}
+              {/if}
+            </p>
+          </div>
+        {/if}
+
+        <!-- Load more button - would connect to pagination in a real implementation -->
+        {#if filteredTales.length > 12}
+          <button class="load-more" aria-label="Load more chronicles">
+            Load More Chronicles
+          </button>
+        {/if}
+      {/if}
+    </section>
+
+    <!-- Recent Tales Section -->
+    <section class="recent-section">
+      <h2 class="section-title">Recently Added</h2>
+      <div class="tales-grid">
+        {#each recentTales as tale (tale.slug)}
+          <a href={`/tavern-tales/${tale.slug}`} class="tale-card">
+            <ResponsiveImage src={tale.coverImage} alt={tale.title} className="tale-card-image" />
+            <div class="tale-card-content">
+              <div class="tale-card-meta">
+                <span>{tale.author}</span>
+                <span>{tale.date}</span>
+              </div>
+              <h3 class="tale-card-title">{tale.title}</h3>
+              <p class="tale-card-excerpt">{tale.excerpt}</p>
+              <div class="tale-card-footer">
+                <span class={`card-tag card-tag-${tale.type.toLowerCase()}`}>{tale.type}</span>
+              </div>
+            </div>
+          </a>
+        {/each}
+      </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <AnnouncementCta
+      title="Share Your Own Tale"
+      description="The Tavern welcomes stories from travelers far and wide. Perhaps you have encountered something strange on your journeys worth recording in our archives?"
+      buttonText="Submit Your Tale"
+      demoLink="/contact"
+    />
+
+    <!-- Additional CTA for newsletter -->
+    <section class="cta-section">
+      <div class="cta-bg"></div>
+      <div class="cta-content">
+        <h2 class="cta-title">Don't Miss New Chronicles</h2>
+        <p class="cta-description">
+          Subscribe to the Tavern's newsletter to receive the latest tales, poems, and discoveries
+          directly to your magical communication device.
+        </p>
+        <a href="/newsletter" class="cta-button"> Subscribe to Updates </a>
+      </div>
+    </section>
+  </main>
+</div>
+
 <style>
   :global(body) {
     margin: 0;
     padding: 0;
     min-height: 100vh;
-    background: linear-gradient(145deg, #13111C 0%, #1F1B2D 60%, #2B1D34 100%);
-    color: #F7E8D4;
+    background: linear-gradient(145deg, #13111c 0%, #1f1b2d 60%, #2b1d34 100%);
+    color: #f7e8d4;
     overflow-x: hidden;
   }
 
@@ -140,8 +381,9 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: linear-gradient(rgba(19, 17, 28, 0.7), rgba(19, 17, 28, 0.8)),
-                      url('/images/tavern-tales-bg.jpg');
+    background-image:
+      linear-gradient(rgba(19, 17, 28, 0.7), rgba(19, 17, 28, 0.8)),
+      url('/images/tavern-tales-bg.jpg');
     background-size: cover;
     background-position: center;
     z-index: -1;
@@ -160,7 +402,7 @@
     margin: 0 0 0.5rem;
     font-weight: 700;
     line-height: 1.15;
-    color: #F7E8D4;
+    color: #f7e8d4;
     text-shadow: 0 0 15px rgba(231, 206, 143, 0.35);
     letter-spacing: 0.02em;
     white-space: nowrap;
@@ -206,7 +448,7 @@
     font-family: 'Cinzel', serif;
     font-size: clamp(1.5rem, 3vw, 2.5rem);
     margin-bottom: clamp(0.75rem, 2vw, 1.25rem);
-    color: #BD9648;
+    color: #bd9648;
     text-shadow: 0 0 8px rgba(189, 150, 72, 0.3);
     display: flex;
     align-items: center;
@@ -274,7 +516,7 @@
     font-family: 'Cinzel', serif;
     font-size: clamp(1.25rem, 3vw, 1.5rem);
     margin-bottom: 0.75rem;
-    color: #BD9648;
+    color: #bd9648;
     line-height: 1.3;
     transition: color 0.3s ease;
     white-space: nowrap;
@@ -282,7 +524,7 @@
   }
 
   .featured-card:hover .card-title {
-    color: #9E61E3;
+    color: #9e61e3;
   }
 
   .card-excerpt {
@@ -303,27 +545,27 @@
     margin-right: 0.5rem;
     margin-bottom: 0.5rem;
     background: rgba(189, 150, 72, 0.15);
-    color: #BD9648;
+    color: #bd9648;
   }
 
   .card-tag.card-tag-story {
     background: rgba(189, 150, 72, 0.15);
-    color: #BD9648;
+    color: #bd9648;
   }
 
   .card-tag.card-tag-poem {
     background: rgba(158, 97, 227, 0.15);
-    color: #9E61E3;
+    color: #9e61e3;
   }
 
   .card-tag.card-tag-song {
     background: rgba(131, 192, 219, 0.15);
-    color: #83C0DB;
+    color: #83c0db;
   }
 
   .card-tag.card-tag-video {
     background: rgba(255, 107, 107, 0.15);
-    color: #FF6B6B;
+    color: #ff6b6b;
   }
 
   .card-footer {
@@ -337,7 +579,7 @@
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    color: #9E61E3;
+    color: #9e61e3;
     font-weight: 500;
     text-decoration: none;
     font-family: 'Inter', system-ui, sans-serif;
@@ -346,7 +588,7 @@
   }
 
   .read-more:hover {
-    color: #BD9648;
+    color: #bd9648;
     transform: translateX(3px);
   }
 
@@ -374,9 +616,9 @@
   }
 
   .category-button.active {
-    background: linear-gradient(135deg, #9E61E3 0%, #7A3CA3 100%);
+    background: linear-gradient(135deg, #9e61e3 0%, #7a3ca3 100%);
     border-color: transparent;
-    color: #F7E8D4;
+    color: #f7e8d4;
     box-shadow: 0 5px 15px rgba(158, 97, 227, 0.3);
   }
 
@@ -439,13 +681,13 @@
     font-family: 'Cinzel', serif;
     font-size: clamp(1.1rem, 3vw, 1.25rem);
     margin-bottom: 0.5rem;
-    color: #BD9648;
+    color: #bd9648;
     line-height: 1.3;
     transition: color 0.3s ease;
   }
 
   .tale-card:hover .tale-card-title {
-    color: #9E61E3;
+    color: #9e61e3;
   }
 
   .tale-card-excerpt {
@@ -470,7 +712,7 @@
     width: 100%;
     padding: clamp(0.75rem, 2vw, 1rem) clamp(1rem, 3vw, 1.5rem);
     font-size: clamp(0.9rem, 2vw, 1rem);
-    color: #F7E8D4;
+    color: #f7e8d4;
     background: rgba(31, 27, 45, 0.4);
     border: 1px solid rgba(247, 232, 212, 0.2);
     border-radius: 8px;
@@ -497,7 +739,7 @@
   }
 
   .search-button:hover {
-    color: #9E61E3;
+    color: #9e61e3;
   }
 
   .search-results {
@@ -511,7 +753,7 @@
     margin-bottom: 1rem;
     font-family: 'Cinzel', serif;
     font-size: 1.5rem;
-    color: #BD9648;
+    color: #bd9648;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -529,7 +771,7 @@
   }
 
   .clear-search:hover {
-    color: #9E61E3;
+    color: #9e61e3;
   }
 
   .no-results {
@@ -545,7 +787,7 @@
   }
 
   .no-results .coming-soon {
-    color: #9E61E3;
+    color: #9e61e3;
     font-style: italic;
     font-size: clamp(0.95rem, 2vw, 1.1rem);
   }
@@ -589,7 +831,7 @@
   .check-back-message p {
     font-family: 'Spectral', serif;
     font-size: clamp(0.95rem, 2vw, 1.1rem);
-    color: #9E61E3;
+    color: #9e61e3;
     font-style: italic;
     margin: 0;
     line-height: 1.5;
@@ -603,7 +845,7 @@
     background: rgba(31, 27, 45, 0.6);
     border: 1px solid rgba(247, 232, 212, 0.2);
     border-radius: 6px;
-    color: #F7E8D4;
+    color: #f7e8d4;
     font-family: 'Cinzel', serif;
     font-size: 1rem;
     cursor: pointer;
@@ -631,8 +873,8 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: linear-gradient(rgba(19, 17, 28, 0.8), rgba(19, 17, 28, 0.9)),
-                      url('/images/cta-bg.jpg');
+    background-image:
+      linear-gradient(rgba(19, 17, 28, 0.8), rgba(19, 17, 28, 0.9)), url('/images/cta-bg.jpg');
     background-size: cover;
     background-position: center;
     z-index: -1;
@@ -650,7 +892,7 @@
     font-family: 'Cinzel Decorative', 'Luminari', fantasy;
     font-size: clamp(1.75rem, 4vw, 2.5rem);
     margin-bottom: 1rem;
-    color: #F7E8D4;
+    color: #f7e8d4;
     text-shadow: 0 0 10px rgba(231, 206, 143, 0.35);
   }
 
@@ -665,10 +907,10 @@
   .cta-button {
     display: inline-block;
     padding: 0.75rem 2rem;
-    background: linear-gradient(135deg, #BD9648 0%, #E7CE8F 100%);
+    background: linear-gradient(135deg, #bd9648 0%, #e7ce8f 100%);
     border: none;
     border-radius: 6px;
-    color: #13111C;
+    color: #13111c;
     font-family: 'Cinzel', serif;
     font-size: 1rem;
     font-weight: 600;
@@ -738,232 +980,3 @@
     }
   }
 </style>
-
-<svelte:head>
-  <title>Tavern Tales - Stories, Poems, and Ancient Chronicles - Treasure Tavern</title>
-  <meta name="description" content="Immerse yourself in the mystical world of Treasure Tavern through stories, poems, songs, and visual tales collected from travelers across the realms." />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-</svelte:head>
-
-<div class="page-container">
-  <div class="hero">
-    <div class="hero-bg"></div>
-    <div class="hero-content">
-      {#if isReady}
-        <h1 class="hero-title" in:fly={{ y: -30, duration: 800, delay: 300, easing: quintOut }}>Tavern Tales</h1>
-        <p class="hero-subtitle" in:fade={{ duration: 1000, delay: 600 }}>
-          Ancient scrolls, whispered legends, and ballads sung in shadowy corners of the Tavern.
-          Explore the chronicles gathered by our patrons from across the realms.
-        </p>
-      {/if}
-    </div>
-    <div class="hero-decor"></div>
-  </div>
-
-  <main class="main-content">
-    <!-- Featured Tales Section -->
-    <section class="featured-section">
-      <h2 class="section-title">Featured Chronicles</h2>
-      <div class="featured-grid">
-        {#each featuredTales as tale (tale.slug)}
-          <a href={`/tavern-tales/${tale.slug}`} class="featured-card">
-            <ResponsiveImage src={tale.coverImage} alt={tale.title} className="card-image" />
-            <div class="card-content">
-              <div class="card-meta">
-                <span>{tale.author}</span>
-                <span>{tale.date}</span>
-              </div>
-              <h3 class="card-title">{tale.title}</h3>
-              <p class="card-excerpt">{tale.excerpt}</p>
-              <div class="card-footer">
-                <span class={`card-tag card-tag-${tale.type.toLowerCase()}`}>{tale.type}</span>
-                <span class="read-more">
-                  Read Chronicle <i class="fas fa-arrow-right"></i>
-                </span>
-              </div>
-            </div>
-          </a>
-        {/each}
-      </div>
-    </section>
-
-    <!-- Categories and Search Section -->
-    <section class="categories-section">
-      <h2 class="section-title">Explore Chronicles</h2>
-
-      <!-- Categories Filter -->
-      <div class="categories-container">
-        <button
-          class={`category-button ${activeFilter === 'all' ? 'active' : ''}`}
-          on:click={() => filterTales('all')}
-        >
-          All Chronicles
-        </button>
-
-        {#each categories as category}
-          <button
-            class={`category-button ${activeFilter === category.id ? 'active' : ''}`}
-            on:click={() => filterTales(category.id)}
-          >
-            {category.name}
-          </button>
-        {/each}
-      </div>
-
-      <!-- Search input -->
-      <div class="search-container">
-        <input
-          type="text"
-          class="search-input"
-          placeholder="Search for tales, authors, or themes..."
-          bind:value={searchTerm}
-          on:input={handleSearch}
-        />
-        <button class="search-button" on:click={handleSearch}>
-          <i class="fas fa-search"></i>
-        </button>
-      </div>
-
-      <!-- Search results if any -->
-      {#if isSearching}
-        <div class="search-results" in:fade={{ duration: 300 }}>
-          <div class="search-results-title">
-            Search Results {searchResults.length > 0 ? `(${searchResults.length})` : ''}
-            <button class="clear-search" on:click={clearSearch}>
-              <i class="fas fa-times"></i> Clear Search
-            </button>
-          </div>
-
-          {#if searchResults.length > 0}
-            <div class="tales-grid">
-              {#each searchResults as tale (tale.slug)}
-                <a href={`/tavern-tales/${tale.slug}`} class="tale-card">
-                  <ResponsiveImage src={tale.coverImage} alt={tale.title} className="tale-card-image" />
-                  <div class="tale-card-content">
-                    <div class="tale-card-meta">
-                      <span>{tale.author}</span>
-                      <span>{tale.date}</span>
-                    </div>
-                    <h3 class="tale-card-title">{tale.title}</h3>
-                    <p class="tale-card-excerpt">{tale.excerpt}</p>
-                    <div class="tale-card-footer">
-                      <span class={`card-tag card-tag-${tale.type.toLowerCase()}`}>{tale.type}</span>
-                    </div>
-                  </div>
-                </a>
-              {/each}
-            </div>
-            <!-- New message for all search results -->
-            <div class="check-back-message" in:fade={{ duration: 800, delay: 300 }}>
-              <p><i class="fas fa-magic"></i> New tales are added regularly. Check back soon for fresh adventures!</p>
-            </div>
-          {:else}
-            <div class="no-results">
-              <p>No tales found matching "{searchTerm}". Try a different search term.</p>
-              <p class="coming-soon">More chronicles are being added regularly. Check back soon!</p>
-            </div>
-          {/if}
-        </div>
-      {/if}
-
-      <!-- All tales or filtered tales -->
-      {#if !isSearching}
-        <div class="tales-grid">
-          {#each filteredTales as tale (tale.slug)}
-            <a href={`/tavern-tales/${tale.slug}`} class="tale-card">
-              <ResponsiveImage src={tale.coverImage} alt={tale.title} className="tale-card-image" />
-              <div class="tale-card-content">
-                <div class="tale-card-meta">
-                  <span>{tale.author}</span>
-                  <span>{tale.date}</span>
-                </div>
-                <h3 class="tale-card-title">{tale.title}</h3>
-                <p class="tale-card-excerpt">{tale.excerpt}</p>
-                <div class="tale-card-footer">
-                  <span class={`card-tag card-tag-${tale.type.toLowerCase()}`}>{tale.type}</span>
-                </div>
-              </div>
-            </a>
-          {/each}
-        </div>
-
-        <!-- Add message at the bottom of all filtered results -->
-        {#if filteredTales.length > 0}
-          <div class="check-back-message" in:fade={{ duration: 800, delay: 300 }}>
-            <p><i class="fas fa-magic"></i> New tales are added regularly. Check back soon for fresh adventures!</p>
-          </div>
-        {/if}
-
-        <!-- Add a message when no tales are found for a category filter -->
-        {#if filteredTales.length === 0}
-          <div class="no-tales-message" in:fade={{ duration: 300 }}>
-            <p>
-              {#if activeFilter === 'all'}
-                More tales coming soon! Check back frequently for new content.
-              {:else}
-                {#each categories as category}
-                  {#if category.id === activeFilter}
-                    More {category.name} coming soon! Check back frequently for new content.
-                  {/if}
-                {/each}
-              {/if}
-            </p>
-          </div>
-        {/if}
-
-        <!-- Load more button - would connect to pagination in a real implementation -->
-        {#if filteredTales.length > 12}
-          <button class="load-more">
-            Load More Chronicles
-          </button>
-        {/if}
-      {/if}
-    </section>
-
-    <!-- Recent Tales Section -->
-    <section class="recent-section">
-      <h2 class="section-title">Recently Added</h2>
-      <div class="tales-grid">
-        {#each recentTales as tale (tale.slug)}
-          <a href={`/tavern-tales/${tale.slug}`} class="tale-card">
-            <ResponsiveImage src={tale.coverImage} alt={tale.title} className="tale-card-image" />
-            <div class="tale-card-content">
-              <div class="tale-card-meta">
-                <span>{tale.author}</span>
-                <span>{tale.date}</span>
-              </div>
-              <h3 class="tale-card-title">{tale.title}</h3>
-              <p class="tale-card-excerpt">{tale.excerpt}</p>
-              <div class="tale-card-footer">
-                <span class={`card-tag card-tag-${tale.type.toLowerCase()}`}>{tale.type}</span>
-              </div>
-            </div>
-          </a>
-        {/each}
-      </div>
-    </section>
-
-    <!-- Call to Action Section -->
-    <AnnouncementCta
-      title="Share Your Own Tale"
-      description="The Tavern welcomes stories from travelers far and wide. Perhaps you have encountered something strange on your journeys worth recording in our archives?"
-      buttonText="Submit Your Tale"
-      demoLink="/contact"
-    />
-
-    <!-- Additional CTA for newsletter -->
-    <section class="cta-section">
-      <div class="cta-bg"></div>
-      <div class="cta-content">
-        <h2 class="cta-title">Don't Miss New Chronicles</h2>
-        <p class="cta-description">
-          Subscribe to the Tavern's newsletter to receive the latest tales, poems,
-          and discoveries directly to your magical communication device.
-        </p>
-        <a href="/newsletter" class="cta-button">
-          Subscribe to Updates
-        </a>
-      </div>
-    </section>
-  </main>
-</div>

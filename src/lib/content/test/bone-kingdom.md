@@ -1,13 +1,13 @@
 ---
-title: "THE BONE KINGDOM"
-date: "Hollow Moon"
-author: "Ellara Moonquill"
-subtitle: "A Tale from the Hollow Depths"
+title: 'THE BONE KINGDOM'
+date: 'Hollow Moon'
+author: 'Ellara Moonquill'
+subtitle: 'A Tale from the Hollow Depths'
 ---
 
 # THE BONE KINGDOM
 
-*A Tale from the Hollow Depths*
+_A Tale from the Hollow Depths_
 
 ## I. The Descent
 
@@ -17,13 +17,13 @@ Far below the roots of the mountain cities, past the echoing halls of the deep f
 
 No map marks its location, yet every kingdom above has lost something to it.
 
-The story begins with a traveler—a figure in gray, neither young nor old, who bore no sigil, no sword, no name. This one had heard the whispers in dreams: *"He remembers. He waits. He judges."*
+The story begins with a traveler—a figure in gray, neither young nor old, who bore no sigil, no sword, no name. This one had heard the whispers in dreams: _"He remembers. He waits. He judges."_
 
 And so the traveler descended, lantern in hand, bones crunching beneath boot, into the dark.
 
 ## II. The King Below
 
-The throne was not fashioned. It *accreted*.
+The throne was not fashioned. It _accreted_.
 
 A jagged seat of skulls, ribs, and shattered crowns—stacked by unseen hands across countless ages. Atop it sat the Bone King: spine-straight, cloaked in ages, his crown fused to his skull like regret to a memory.
 
@@ -35,7 +35,7 @@ Around him gathered his court: skeletons in silent congress, some still in armor
 
 When the traveler approached, the Bone King's sapphire eyes flickered.
 
-*"You carry what was stolen,"* he said, voice like flint cracking.
+_"You carry what was stolen,"_ he said, voice like flint cracking.
 
 The traveler removed a small reliquary from their satchel—glowing faintly blue.
 
@@ -43,9 +43,9 @@ The traveler removed a small reliquary from their satchel—glowing faintly blue
 
 The Bone King rose.
 
-With a gesture, the spirits wailed—not in terror, but in *yearning*. From the reliquary, a wisp emerged—slow, shivering, familiar. A child's voice echoed faintly.
+With a gesture, the spirits wailed—not in terror, but in _yearning_. From the reliquary, a wisp emerged—slow, shivering, familiar. A child's voice echoed faintly.
 
-*"Father?"*
+_"Father?"_
 
 The King raised his sword, ancient and rusted, then struck the air. The blade shattered.
 
@@ -69,7 +69,7 @@ The Bone King turned.
 
 The skeletons trembled. The spirits recoiled. Even the reliquary cracked.
 
-The Betrayer, once known in life as *Halrix the Lawgiver*, had found his way back to the throne room he once desecrated. He carried the *Last Light*—a radiant shard stolen from the surface, forbidden to touch death.
+The Betrayer, once known in life as _Halrix the Lawgiver_, had found his way back to the throne room he once desecrated. He carried the _Last Light_—a radiant shard stolen from the surface, forbidden to touch death.
 
 With it, he aimed to undo the Bone King.
 
@@ -87,11 +87,11 @@ The Bone King stood, sword in hand, his gaze fixed beyond time. The Betrayer rai
 
 But it was the spirits who moved first.
 
-With cries of rage and longing, they surged—not at the King, but at *Halrix*, wailing with the truth he'd buried: that it was he who slew the First Queen, he who broke the Accord, he who cast the King down to die among bones.
+With cries of rage and longing, they surged—not at the King, but at _Halrix_, wailing with the truth he'd buried: that it was he who slew the First Queen, he who broke the Accord, he who cast the King down to die among bones.
 
 The King did not swing.
 
-He simply *waited*.
+He simply _waited_.
 
 When the spirits were done, the chamber fell still again.
 
@@ -99,7 +99,7 @@ The sword dimmed. The shard vanished.
 
 And in the silence, the King spoke:
 
-*"Memory is the blade. Regret is the hilt. Judgment is the weight."*
+_"Memory is the blade. Regret is the hilt. Judgment is the weight."_
 
 ## Epilogue: The Living and the Dead
 
@@ -119,4 +119,4 @@ He **judges**.
 
 ---
 
-*From the Archives of the [Astral Gazette](https://treasuretavern.com), recorded by Ellara Moonquill, Senior Scribe*
+_From the Archives of the [Astral Gazette](https://treasuretavern.com), recorded by Ellara Moonquill, Senior Scribe_

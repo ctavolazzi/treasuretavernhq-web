@@ -1,13 +1,13 @@
 <script lang="ts">
-	import '../app.css';
-	import MobileNav from '$lib/components/MobileNav.svelte';
-	import BottomNav from '$lib/components/BottomNav.svelte';
-	import { onMount } from 'svelte';
-	import ResponsiveImage from '$lib/components/ResponsiveImage.svelte';
-	import { pageAudio } from '$lib/stores/audioStore';
-	import Breadcrumb from '$lib/components/Breadcrumb.svelte';
-	import { page } from '$app/stores';
-	let { children } = $props();
+  import '../app.css';
+  import MobileNav from '$lib/components/MobileNav.svelte';
+  import BottomNav from '$lib/components/BottomNav.svelte';
+  import { onMount } from 'svelte';
+  import ResponsiveImage from '$lib/components/ResponsiveImage.svelte';
+  import { pageAudio } from '$lib/stores/audioStore';
+  import Breadcrumb from '$lib/components/Breadcrumb.svelte';
+  import { page } from '$app/stores';
+  const { children } = $props();
 
   let bannerActive = $state(false);
   let mobileMenuOpen = false;
@@ -22,12 +22,14 @@
   ];
 
   // Breadcrumb configuration based on current route
-  let breadcrumbItems = $derived(getBreadcrumbItems($page.url.pathname));
-  let showBreadcrumbs = $derived($page.url.pathname !== '/');
+  const breadcrumbItems = $derived(getBreadcrumbItems($page.url.pathname));
+  const showBreadcrumbs = $derived($page.url.pathname !== '/');
 
   function getBreadcrumbItems(pathname: string) {
     const parts = pathname.split('/').filter(Boolean);
-    if (parts.length === 0) return [];
+    if (parts.length === 0) {
+      return [];
+    }
 
     const items = [{ label: 'Home', href: '/', icon: 'fa-home' }];
     let currentPath = '';
@@ -37,7 +39,7 @@
       currentPath += `/${part}`;
 
       // Special case for newsletter pages
-      if (part === 'newsletter' && i < parts.length - 1 && parts[i+1]) {
+      if (part === 'newsletter' && i < parts.length - 1 && parts[i + 1]) {
         // For the newsletter link
         items.push({
           label: 'Newsletter',
@@ -46,17 +48,16 @@
         });
 
         // For the specific newsletter issue - handles the ID parameter
-        if (parts[i+1]) {
+        if (parts[i + 1]) {
           items.push({
-            label: `Issue: ${parts[i+1].charAt(0).toUpperCase() + parts[i+1].slice(1).replace(/-/g, ' ')}`,
+            label: `Issue: ${parts[i + 1].charAt(0).toUpperCase() + parts[i + 1].slice(1).replace(/-/g, ' ')}`,
             icon: 'fa-scroll',
-            href: currentPath + '/' + parts[i+1]  // Add href to fix linter error
+            href: currentPath + '/' + parts[i + 1] // Add href to fix linter error
           });
         }
 
         // Skip the next iteration since we've handled it
         i++;
-
       } else {
         // Standard handling for other pages
         const label = part.charAt(0).toUpperCase() + part.slice(1).replace(/-/g, ' ');
@@ -76,14 +77,20 @@
 
   function getIconForPath(path: string) {
     switch (path.toLowerCase()) {
-      case 'newsletter': return 'fa-envelope-open-text';
-      case 'tavern-tales': return 'fa-book-open';
-      case 'announcements': return 'fa-bullhorn';
-      case 'demo': return 'fa-flask';
-      case 'about': return 'fa-info-circle';
-      case 'contact': return 'fa-envelope';
-      case 'waitlist': return 'fa-user-plus';
-      default: return '';
+      case 'newsletter':
+        return 'fa-envelope-open-text';
+      case 'tavern-tales':
+        return 'fa-book-open';
+      case 'announcements':
+        return 'fa-bullhorn';
+      case 'about':
+        return 'fa-info-circle';
+      case 'contact':
+        return 'fa-envelope';
+      case 'waitlist':
+        return 'fa-user-plus';
+      default:
+        return '';
     }
   }
 
@@ -107,8 +114,76 @@
 </script>
 
 <svelte:head>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
 </svelte:head>
+
+<nav>
+  <div class="nav-left">
+    <a href="/" class="logo">
+      <picture>
+        <source srcset="/treasure-tavern-logo-small.webp" type="image/webp" />
+        <source srcset="/treasure-tavern-logo-small.png" type="image/png" />
+        <img
+          src="/treasure-tavern-logo-small.png"
+          alt="Treasure Tavern"
+          class="logo-image"
+          onerror={e => {
+            // If all sources fail, try the favicon as a last resort
+            const imgElement = e.currentTarget as HTMLImageElement;
+            imgElement.src = '/favicon.png';
+          }}
+        />
+      </picture>
+      <span>Treasure Tavern</span>
+    </a>
+  </div>
+
+  <div class="nav-right">
+    <a href="/newsletter" class="nav-link">Newsletter</a>
+    <a href="/tavern-tales" class="nav-link">Tales</a>
+    <a href="/announcements" class="nav-link">Announcements</a>
+    <a href="/about" class="nav-link">About</a>
+    <a href="/contact" class="nav-link">Contact</a>
+    <a href="/waitlist" class="nav-link special"><i class="fas fa-user-plus"></i> Create Account</a>
+  </div>
+
+  <!-- Mobile Menu Component -->
+  <MobileNav on:stateChange={e => (mobileMenuOpen = e.detail.isOpen)} />
+</nav>
+
+<a href="/about" class="banner" class:active={bannerActive} onclick={toggleBanner}>
+  <h1 class="banner-text">Treasure Tavern HQ</h1>
+</a>
+
+{#if showBreadcrumbs && breadcrumbItems.length > 0}
+  <Breadcrumb items={breadcrumbItems} />
+{/if}
+
+{@render children()}
+
+<!-- Footer -->
+<footer class="footer">
+  <p class="footer-text">© {new Date().getFullYear()} Treasure Tavern. All rights reserved.</p>
+  <div class="footer-links">
+    <a href="/about" class="footer-link">About</a>
+    <a href="/contact" class="footer-link">Contact</a>
+    <a href="/tavern-tales" class="footer-link">Tales</a>
+    <a href="/newsletter" class="footer-link">Newsletter</a>
+  </div>
+</footer>
+
+<!-- Bottom Nav Component -->
+{#if $pageAudio.enabled && $pageAudio.audioAvailable}
+  <BottomNav
+    {navOptions}
+    enableMusicControl={true}
+    audioSrc={$pageAudio.src}
+    audioTitle={$pageAudio.title}
+  />
+{/if}
 
 <style>
   /* Import the required fonts from Google Fonts */
@@ -119,8 +194,8 @@
     padding: 0;
     overflow-x: hidden;
     min-height: 100vh;
-    background: linear-gradient(145deg, #13111C 0%, #1F1B2D 60%, #2B1D34 100%);
-    color: #F7E8D4;
+    background: linear-gradient(145deg, #13111c 0%, #1f1b2d 60%, #2b1d34 100%);
+    color: #f7e8d4;
     font-family: 'Spectral', Georgia, serif;
     line-height: 1.4;
   }
@@ -159,7 +234,8 @@
     z-index: 100;
   }
 
-  .nav-left, .nav-right {
+  .nav-left,
+  .nav-right {
     display: flex;
     align-items: center;
   }
@@ -168,7 +244,7 @@
     display: flex;
     align-items: center;
     text-decoration: none;
-    color: #F7E8D4;
+    color: #f7e8d4;
     font-family: 'Cinzel', serif;
     font-weight: 600;
     transition: opacity 0.2s ease;
@@ -208,12 +284,12 @@
     height: 2px;
     bottom: 0;
     left: 0;
-    background: #BD9648;
+    background: #bd9648;
     transition: width 0.2s ease;
   }
 
   .nav-link:hover {
-    color: #BD9648;
+    color: #bd9648;
     text-shadow: 0 0 8px rgba(189, 150, 72, 0.3);
   }
 
@@ -222,7 +298,7 @@
   }
 
   .nav-link.special {
-    color: #BD9648;
+    color: #bd9648;
     font-weight: 500;
     border: 1px solid rgba(189, 150, 72, 0.5);
     border-radius: 4px;
@@ -244,7 +320,7 @@
 
   .banner {
     padding: 0.5rem 0.75rem;
-    background: linear-gradient(90deg, #13111C 0%, #1F1B2D 50%, #13111C 100%);
+    background: linear-gradient(90deg, #13111c 0%, #1f1b2d 50%, #13111c 100%);
     border-bottom: 1px solid rgba(189, 150, 72, 0.3);
     text-align: center;
     cursor: pointer;
@@ -260,7 +336,7 @@
   }
 
   .banner-text {
-    color: #BD9648;
+    color: #bd9648;
     font-size: clamp(0.9rem, 1.5vw, 1.1rem);
     text-transform: uppercase;
     letter-spacing: 0.25em;
@@ -352,72 +428,6 @@
   }
 
   .footer-link:hover {
-    color: #BD9648;
+    color: #bd9648;
   }
 </style>
-
-<nav>
-  <div class="nav-left">
-    <a href="/" class="logo">
-      <picture>
-        <source srcset="/treasure-tavern-logo-small.webp" type="image/webp">
-        <source srcset="/treasure-tavern-logo-small.png" type="image/png">
-        <img
-          src="/treasure-tavern-logo-small.png"
-          alt="Treasure Tavern"
-          class="logo-image"
-          onerror={(e) => {
-            // If all sources fail, try the favicon as a last resort
-            const imgElement = e.currentTarget as HTMLImageElement;
-            imgElement.src = "/favicon.png";
-          }}
-        />
-      </picture>
-      <span>Treasure Tavern</span>
-    </a>
-  </div>
-
-  <div class="nav-right">
-    <a href="/newsletter" class="nav-link">Newsletter</a>
-    <a href="/tavern-tales" class="nav-link">Tales</a>
-    <a href="/demo" class="nav-link">Demo</a>
-    <a href="/announcements" class="nav-link">Announcements</a>
-    <a href="/about" class="nav-link">About</a>
-    <a href="/contact" class="nav-link">Contact</a>
-    <a href="/waitlist" class="nav-link special"><i class="fas fa-user-plus"></i> Create Account</a>
-  </div>
-
-  <!-- Mobile Menu Component -->
-  <MobileNav on:stateChange={(e) => mobileMenuOpen = e.detail.isOpen} />
-</nav>
-
-<a href="/about" class="banner" class:active={bannerActive} onclick={toggleBanner}>
-  <h1 class="banner-text">Treasure Tavern HQ</h1>
-</a>
-
-{#if showBreadcrumbs && breadcrumbItems.length > 0}
-  <Breadcrumb items={breadcrumbItems} />
-{/if}
-
-{@render children()}
-
-<!-- Footer -->
-<footer class="footer">
-  <p class="footer-text">© {new Date().getFullYear()} Treasure Tavern. All rights reserved.</p>
-  <div class="footer-links">
-    <a href="/about" class="footer-link">About</a>
-    <a href="/contact" class="footer-link">Contact</a>
-    <a href="/tavern-tales" class="footer-link">Tales</a>
-    <a href="/newsletter" class="footer-link">Newsletter</a>
-  </div>
-</footer>
-
-<!-- Bottom Nav Component -->
-{#if $pageAudio.enabled && $pageAudio.audioAvailable}
-  <BottomNav
-    navOptions={navOptions}
-    enableMusicControl={true}
-    audioSrc={$pageAudio.src}
-    audioTitle={$pageAudio.title}
-  />
-{/if}

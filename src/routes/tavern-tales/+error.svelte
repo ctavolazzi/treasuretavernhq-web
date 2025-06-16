@@ -2,6 +2,50 @@
   import { page } from '$app/stores';
 </script>
 
+<svelte:head>
+  <title>{$page.status === 404 ? 'Tale Not Found' : 'Error'} - Tavern Tales</title>
+  <meta
+    name="description"
+    content="The chronicle you seek cannot be found in the Tavern's archives."
+  />
+</svelte:head>
+
+<div class="error-container">
+  <h1 class="error-title">The Tale Has Been Lost to Time</h1>
+
+  <h2 class="error-subtitle">
+    {#if $page.status === 404}
+      This Path Leads to Nowhere
+    {:else}
+      A Magical Disturbance
+    {/if}
+  </h2>
+
+  <div class="illustration"></div>
+
+  <p class="error-message">
+    {#if $page.status === 404}
+      The chronicle you seek cannot be found in the Tavern's archives. Perhaps it was never written,
+      or perhaps it exists only in a realm beyond our reach. The Tavern's keeper suggests exploring
+      other tales that have been properly documented.
+    {:else}
+      {$page.error?.message ||
+        'Something unexpected happened while accessing this tale. The mystical forces that maintain the archives are working to restore order.'}
+    {/if}
+  </p>
+
+  <div class="decorative-divider"></div>
+
+  <div class="error-nav">
+    <a href="/tavern-tales" class="error-button primary-button">
+      <i class="fas fa-book-open"></i> Browse All Chronicles
+    </a>
+    <a href="/" class="error-button">
+      <i class="fas fa-home"></i> Return to Tavern
+    </a>
+  </div>
+</div>
+
 <style>
   .error-container {
     min-height: 100vh;
@@ -11,8 +55,8 @@
     justify-content: center;
     padding: clamp(1rem, 3vw, 2rem);
     text-align: center;
-    background: linear-gradient(145deg, #13111C 0%, #1F1B2D 60%, #2B1D34 100%);
-    color: #F7E8D4;
+    background: linear-gradient(145deg, #13111c 0%, #1f1b2d 60%, #2b1d34 100%);
+    color: #f7e8d4;
     width: 100%;
     overflow-x: hidden;
   }
@@ -21,7 +65,7 @@
     font-family: 'Cinzel Decorative', 'Luminari', fantasy;
     font-size: clamp(1.75rem, 5vw, 3.5rem);
     margin: 0 0 1rem;
-    color: #BD9648;
+    color: #bd9648;
     text-shadow: 0 0 15px rgba(189, 150, 72, 0.3);
     line-height: 1.2;
   }
@@ -29,7 +73,7 @@
   .error-subtitle {
     font-family: 'Cinzel', serif;
     font-size: clamp(1.1rem, 3vw, 1.75rem);
-    color: #9E61E3;
+    color: #9e61e3;
     margin-bottom: 2rem;
   }
 
@@ -47,7 +91,12 @@
     width: 100%;
     max-width: 500px;
     height: 1px;
-    background: linear-gradient(90deg, rgba(189, 150, 72, 0) 0%, rgba(189, 150, 72, 0.6) 50%, rgba(189, 150, 72, 0) 100%);
+    background: linear-gradient(
+      90deg,
+      rgba(189, 150, 72, 0) 0%,
+      rgba(189, 150, 72, 0.6) 50%,
+      rgba(189, 150, 72, 0) 100%
+    );
     margin: clamp(1.5rem, 4vw, 2rem) auto;
     position: relative;
   }
@@ -58,9 +107,9 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: #1F1B2D;
+    background: #1f1b2d;
     padding: 0 1rem;
-    color: #BD9648;
+    color: #bd9648;
   }
 
   .illustration {
@@ -99,7 +148,7 @@
     background: rgba(31, 27, 45, 0.6);
     border: 1px solid rgba(247, 232, 212, 0.1);
     border-radius: 6px;
-    color: #F7E8D4;
+    color: #f7e8d4;
     font-family: 'Cinzel', serif;
     font-size: clamp(0.9rem, 2vw, 1rem);
     cursor: pointer;
@@ -118,7 +167,7 @@
   }
 
   .primary-button {
-    background: linear-gradient(135deg, #9E61E3 0%, #7A3CA3 100%);
+    background: linear-gradient(135deg, #9e61e3 0%, #7a3ca3 100%);
     border: none;
   }
 
@@ -139,43 +188,3 @@
     }
   }
 </style>
-
-<svelte:head>
-  <title>{$page.status === 404 ? 'Tale Not Found' : 'Error'} - Tavern Tales</title>
-  <meta name="description" content="The chronicle you seek cannot be found in the Tavern's archives." />
-</svelte:head>
-
-<div class="error-container">
-  <h1 class="error-title">The Tale Has Been Lost to Time</h1>
-
-  <h2 class="error-subtitle">
-    {#if $page.status === 404}
-      This Path Leads to Nowhere
-    {:else}
-      A Magical Disturbance
-    {/if}
-  </h2>
-
-  <div class="illustration"></div>
-
-  <p class="error-message">
-    {#if $page.status === 404}
-      The chronicle you seek cannot be found in the Tavern's archives. Perhaps it was never written,
-      or perhaps it exists only in a realm beyond our reach. The Tavern's keeper suggests exploring
-      other tales that have been properly documented.
-    {:else}
-      {$page.error?.message || 'Something unexpected happened while accessing this tale. The mystical forces that maintain the archives are working to restore order.'}
-    {/if}
-  </p>
-
-  <div class="decorative-divider"></div>
-
-  <div class="error-nav">
-    <a href="/tavern-tales" class="error-button primary-button">
-      <i class="fas fa-book-open"></i> Browse All Chronicles
-    </a>
-    <a href="/" class="error-button">
-      <i class="fas fa-home"></i> Return to Tavern
-    </a>
-  </div>
-</div>

@@ -57,7 +57,9 @@
 
   // Format time in MM:SS format
   function formatTime(seconds: number): string {
-    if (isNaN(seconds)) return '0:00';
+    if (isNaN(seconds)) {
+      return '0:00';
+    }
 
     const minutes = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
@@ -94,6 +96,34 @@
   });
 </script>
 
+<div class="audio-player">
+  {#if audioTitle}
+    <div class="audio-title">{audioTitle}</div>
+  {/if}
+
+  <audio bind:this={audio} src={audioSrc} preload="metadata">
+    Your browser does not support the audio element.
+  </audio>
+
+  <div class="audio-controls">
+    <button class="play-button" on:click={togglePlay} aria-label={isPlaying ? 'Pause' : 'Play'}>
+      {#if isPlaying}
+        <i class="fas fa-pause"></i>
+      {:else}
+        <i class="fas fa-play"></i>
+      {/if}
+    </button>
+    <div class="progress-container" on:click={handleSeek}>
+      <div class="progress-bar" style:width="{progress}%">
+        <div class="progress-indicator"></div>
+      </div>
+    </div>
+    <div class="time-display">
+      {formatTime(currentTime)} / {formatTime(duration)}
+    </div>
+  </div>
+</div>
+
 <style>
   .audio-player {
     width: 100%;
@@ -101,7 +131,7 @@
     background: rgba(19, 17, 28, 0.8);
     border-radius: 10px;
     padding: 1.25rem 1.5rem;
-    color: #F7E8D4;
+    color: #f7e8d4;
     border: 1px solid rgba(158, 97, 227, 0.2);
     font-family: 'Inter', system-ui, sans-serif;
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
@@ -112,7 +142,7 @@
     margin: 0 0 1rem;
     font-size: 1.1rem;
     font-weight: 500;
-    color: #BD9648;
+    color: #bd9648;
     font-family: 'Cinzel', serif;
   }
 
@@ -133,9 +163,9 @@
     align-items: center;
     justify-content: center;
     font-size: 1.5rem;
-    color: #F7E8D4;
+    color: #f7e8d4;
     border-radius: 50%;
-    background: linear-gradient(135deg, #9E61E3 0%, #7A3CA3 100%);
+    background: linear-gradient(135deg, #9e61e3 0%, #7a3ca3 100%);
     transition: all 0.2s ease;
     flex-shrink: 0;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
@@ -158,7 +188,7 @@
 
   .progress-bar {
     height: 100%;
-    background: linear-gradient(90deg, #9E61E3 0%, #BD9648 100%);
+    background: linear-gradient(90deg, #9e61e3 0%, #bd9648 100%);
     border-radius: 4px;
     transition: width 0.1s linear;
     position: relative;
@@ -170,7 +200,7 @@
     right: -6px;
     width: 12px;
     height: 12px;
-    background: #F7E8D4;
+    background: #f7e8d4;
     border-radius: 50%;
     transform: translateY(-50%);
     box-shadow: 0 0 6px rgba(158, 97, 227, 0.8);
@@ -208,31 +238,3 @@
     }
   }
 </style>
-
-<div class="audio-player">
-  {#if audioTitle}
-    <div class="audio-title">{audioTitle}</div>
-  {/if}
-
-  <audio bind:this={audio} src={audioSrc} preload="metadata">
-    Your browser does not support the audio element.
-  </audio>
-
-  <div class="audio-controls">
-    <button class="play-button" on:click={togglePlay} aria-label={isPlaying ? 'Pause' : 'Play'}>
-      {#if isPlaying}
-        <i class="fas fa-pause"></i>
-      {:else}
-        <i class="fas fa-play"></i>
-      {/if}
-    </button>
-    <div class="progress-container" on:click={handleSeek}>
-      <div class="progress-bar" style="width: {progress}%">
-        <div class="progress-indicator"></div>
-      </div>
-    </div>
-    <div class="time-display">
-      {formatTime(currentTime)} / {formatTime(duration)}
-    </div>
-  </div>
-</div>

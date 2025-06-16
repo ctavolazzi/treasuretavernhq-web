@@ -9,7 +9,7 @@
   // Methods
   function toggleMenu() {
     isOpen = !isOpen;
-    console.log("Menu toggled, isOpen:", isOpen);
+    console.log('Menu toggled, isOpen:', isOpen);
 
     // Toggle body scroll
     if (isOpen) {
@@ -36,6 +36,60 @@
   });
 </script>
 
+<!-- Hamburger button - Always rendered above all else -->
+<button class="hamburger-button" class:open={isOpen} onclick={toggleMenu} aria-label="Toggle menu">
+  {#if !isOpen}
+    <div class="hamburger-line hamburger-line-1"></div>
+    <div class="hamburger-line hamburger-line-2"></div>
+    <div class="hamburger-line hamburger-line-3"></div>
+  {:else}
+    <div class="line-container">
+      <div class="hamburger-line hamburger-line-1"></div>
+      <div class="hamburger-line hamburger-line-2"></div>
+      <div class="hamburger-line hamburger-line-3"></div>
+    </div>
+  {/if}
+</button>
+
+<!-- Overlay rendered before mobile menu -->
+<div
+  class="overlay"
+  class:open={isOpen}
+  onclick={toggleMenu}
+  onkeydown={e => e.key === 'Escape' && toggleMenu()}
+  role="button"
+  tabindex="0"
+  aria-label="Close menu"
+></div>
+
+<!-- Mobile menu -->
+<div class="mobile-menu" class:open={isOpen} role="navigation" aria-label="Mobile navigation">
+  <a href="/waitlist" class="mobile-nav-link special-link" onclick={closeMenu}>
+    <span class="mobile-nav-icon" aria-hidden="true"><i class="fas fa-user-plus"></i></span>
+    Create Account
+  </a>
+  <a href="/newsletter" class="mobile-nav-link" onclick={closeMenu}>
+    <span class="mobile-nav-icon" aria-hidden="true"><i class="fas fa-scroll"></i></span>
+    Newsletter
+  </a>
+  <a href="/tavern-tales" class="mobile-nav-link" onclick={closeMenu}>
+    <span class="mobile-nav-icon" aria-hidden="true"><i class="fas fa-book-open"></i></span>
+    Tales
+  </a>
+  <a href="/announcements" class="mobile-nav-link" onclick={closeMenu}>
+    <span class="mobile-nav-icon" aria-hidden="true"><i class="fas fa-bullhorn"></i></span>
+    Announcements
+  </a>
+  <a href="/about" class="mobile-nav-link" onclick={closeMenu}>
+    <span class="mobile-nav-icon" aria-hidden="true"><i class="fas fa-info-circle"></i></span>
+    About
+  </a>
+  <a href="/contact" class="mobile-nav-link" onclick={closeMenu}>
+    <span class="mobile-nav-icon" aria-hidden="true"><i class="fas fa-envelope"></i></span>
+    Contact
+  </a>
+</div>
+
 <style>
   .hamburger-button {
     display: none;
@@ -60,7 +114,7 @@
   .hamburger-line {
     width: 100%;
     height: 2px;
-    background-color: #BD9648;
+    background-color: #bd9648;
     transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     position: relative;
     transform-origin: center;
@@ -176,7 +230,9 @@
     max-width: 280px;
     height: 100vh;
     padding: 5rem 1.5rem 2rem;
-    transition: right 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
+    transition:
+      right 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 0.5s ease;
     z-index: 1500;
     border-left: 1px solid rgba(189, 150, 72, 0.25);
     overflow-y: auto;
@@ -204,7 +260,7 @@
   }
 
   .mobile-nav-link:hover {
-    color: #BD9648;
+    color: #bd9648;
     text-shadow: 0 0 8px rgba(189, 150, 72, 0.3);
     padding-left: 0.5rem;
   }
@@ -213,7 +269,7 @@
     margin-right: 1.2rem;
     width: 1.5rem;
     text-align: center;
-    color: #9E61E3;
+    color: #9e61e3;
     opacity: 0.9;
     transition: all 0.2s ease;
   }
@@ -278,7 +334,9 @@
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    transition:
+      opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+      visibility 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .overlay.open {
@@ -297,79 +355,11 @@
     border-bottom: 1px solid rgba(189, 150, 72, 0.3);
     margin-bottom: 0.5rem;
     padding-bottom: 1rem;
-    color: #BD9648;
+    color: #bd9648;
     font-weight: 500;
   }
 
   .special-link .mobile-nav-icon {
-    color: #BD9648;
+    color: #bd9648;
   }
 </style>
-
-<!-- Hamburger button - Always rendered above all else -->
-<button
-  class="hamburger-button"
-  class:open={isOpen}
-  onclick={toggleMenu}
-  aria-label="Toggle menu"
->
-  {#if !isOpen}
-    <div class="hamburger-line hamburger-line-1"></div>
-    <div class="hamburger-line hamburger-line-2"></div>
-    <div class="hamburger-line hamburger-line-3"></div>
-  {:else}
-    <div class="line-container">
-      <div class="hamburger-line hamburger-line-1"></div>
-      <div class="hamburger-line hamburger-line-2"></div>
-      <div class="hamburger-line hamburger-line-3"></div>
-    </div>
-  {/if}
-</button>
-
-<!-- Overlay rendered before mobile menu -->
-<div
-  class="overlay"
-  class:open={isOpen}
-  onclick={toggleMenu}
-  onkeydown={(e) => e.key === 'Escape' && toggleMenu()}
-  role="button"
-  tabindex="0"
-  aria-label="Close menu"
-></div>
-
-<!-- Mobile menu -->
-<div
-  class="mobile-menu"
-  class:open={isOpen}
-  role="navigation"
-  aria-label="Mobile navigation"
->
-  <a href="/waitlist" class="mobile-nav-link special-link" onclick={closeMenu}>
-    <span class="mobile-nav-icon" aria-hidden="true"><i class="fas fa-user-plus"></i></span>
-    Create Account
-  </a>
-  <a href="/newsletter" class="mobile-nav-link" onclick={closeMenu}>
-    <span class="mobile-nav-icon" aria-hidden="true"><i class="fas fa-scroll"></i></span>
-    Newsletter
-  </a>
-  <a href="/tavern-tales" class="mobile-nav-link" onclick={closeMenu}>
-    <span class="mobile-nav-icon" aria-hidden="true"><i class="fas fa-book-open"></i></span>
-    Tales
-  </a>
-  <a href="/demo" class="mobile-nav-link" onclick={closeMenu}>
-    <span class="mobile-nav-icon" aria-hidden="true"><i class="fas fa-flask"></i></span>
-    Demo
-  </a>
-  <a href="/announcements" class="mobile-nav-link" onclick={closeMenu}>
-    <span class="mobile-nav-icon" aria-hidden="true"><i class="fas fa-bullhorn"></i></span>
-    Announcements
-  </a>
-  <a href="/about" class="mobile-nav-link" onclick={closeMenu}>
-    <span class="mobile-nav-icon" aria-hidden="true"><i class="fas fa-info-circle"></i></span>
-    About
-  </a>
-  <a href="/contact" class="mobile-nav-link" onclick={closeMenu}>
-    <span class="mobile-nav-icon" aria-hidden="true"><i class="fas fa-envelope"></i></span>
-    Contact
-  </a>
-</div>

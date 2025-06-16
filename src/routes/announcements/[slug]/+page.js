@@ -5,13 +5,14 @@ import { error } from '@sveltejs/kit';
 const announcements = [
   {
     id: 1,
-    slug: "goblin-infestation-cleanup",
-    date: "March 10, 2025",
-    title: "Goblin Infestation Cleanup Complete",
-    category: "Event",
-    type: "event",
-    content: "After weeks of battling the unexpected goblin infestation in our cellar, our brave adventurers have finally cleared out the last of the vermin. Special thanks to the Dwarven Extermination Guild for their assistance with the particularly stubborn goblin king who had established a throne made entirely of stolen silverware.",
-    mainImage: "/images/tales/goblin-infestation.webp",
+    slug: 'goblin-infestation-cleanup',
+    date: 'March 10, 2025',
+    title: 'Goblin Infestation Cleanup Complete',
+    category: 'Event',
+    type: 'event',
+    content:
+      'After weeks of battling the unexpected goblin infestation in our cellar, our brave adventurers have finally cleared out the last of the vermin. Special thanks to the Dwarven Extermination Guild for their assistance with the particularly stubborn goblin king who had established a throne made entirely of stolen silverware.',
+    mainImage: '/images/tales/goblin-infestation.webp',
     fullContent: `
       <p>After weeks of battling the unexpected goblin infestation in our cellar, our brave adventurers have finally cleared out the last of the vermin. Special thanks to the Dwarven Extermination Guild for their assistance with the particularly stubborn goblin king who had established a throne made entirely of stolen silverware.</p>
 
@@ -26,20 +27,21 @@ const announcements = [
       <p>To celebrate our victory over these persistent pests, we will be holding a "Goblin-Free Gala" this weekend featuring special menu items including "Goblin-Proof" silverware (enchanted to turn bitter when touched by goblin hands) and our new cocktail, "The Exterminator's Elixir."</p>
     `,
     cta: {
-      text: "Sign Up for Pest Prevention Workshop",
-      link: "/demo"
+      text: 'Sign Up for Pest Prevention Workshop',
+      link: '/demo'
     },
     relatedAnnouncements: [2, 5]
   },
   {
     id: 2,
-    slug: "machine-elves-strike-resolved",
-    date: "March 15, 2025",
-    title: "Machine Elves Strike Resolved",
-    category: "News",
-    type: "news",
-    content: "The labor dispute with our Machine Elves kitchen staff has finally been settled. Their demands for 'chronologically flexible lunch breaks' and 'interdimensional vacation days' have been accommodated. Patrons may notice our menu now includes several dishes that technically don't exist on this plane of reality.",
-    mainImage: "/images/announcements/machine-elves-strike.webp",
+    slug: 'machine-elves-strike-resolved',
+    date: 'March 15, 2025',
+    title: 'Machine Elves Strike Resolved',
+    category: 'News',
+    type: 'news',
+    content:
+      "The labor dispute with our Machine Elves kitchen staff has finally been settled. Their demands for 'chronologically flexible lunch breaks' and 'interdimensional vacation days' have been accommodated. Patrons may notice our menu now includes several dishes that technically don't exist on this plane of reality.",
+    mainImage: '/images/announcements/machine-elves-strike.webp',
     fullContent: `
       <p>The labor dispute with our Machine Elves kitchen staff has finally been settled. Their demands for 'chronologically flexible lunch breaks' and 'interdimensional vacation days' have been accommodated. Patrons may notice our menu now includes several dishes that technically don't exist on this plane of reality.</p>
 
@@ -62,20 +64,21 @@ const announcements = [
       <p>Please note that some dishes may arrive before you order them, and others might temporarily vanish from existence. Our waitstaff has been trained to handle these temporal anomalies, and we assure you that all food is perfectly safe for consumption by beings limited to experiencing time in a linear fashion.</p>
     `,
     cta: {
-      text: "Try Our New Interdimensional Menu",
-      link: "/demo"
+      text: 'Try Our New Interdimensional Menu',
+      link: '/demo'
     },
     relatedAnnouncements: [5, 3]
   },
   {
     id: 3,
-    slug: "dragon-mating-season",
-    date: "March 22, 2025",
-    title: "Warning: Dragon Mating Season",
-    category: "Alert",
-    type: "alert",
-    content: "Patrons are advised to use the eastern entrance until further notice, as a pair of adolescent copper dragons have claimed our western tower for courtship rituals. The local Dragonriders Guild assures us this is temporary, though the occasional rain of molten copper may continue through the month. Complimentary fireproof umbrellas available at the coat check.",
-    mainImage: "/images/tales/dragon-wizard-music.webp",
+    slug: 'dragon-mating-season',
+    date: 'March 22, 2025',
+    title: 'Warning: Dragon Mating Season',
+    category: 'Alert',
+    type: 'alert',
+    content:
+      'Patrons are advised to use the eastern entrance until further notice, as a pair of adolescent copper dragons have claimed our western tower for courtship rituals. The local Dragonriders Guild assures us this is temporary, though the occasional rain of molten copper may continue through the month. Complimentary fireproof umbrellas available at the coat check.',
+    mainImage: '/images/tales/dragon-wizard-music.webp',
     fullContent: `
       <p>Patrons are advised to use the eastern entrance until further notice, as a pair of adolescent copper dragons have claimed our western tower for courtship rituals. The local Dragonriders Guild assures us this is temporary, though the occasional rain of molten copper may continue through the month. Complimentary fireproof umbrellas available at the coat check.</p>
 
@@ -106,20 +109,21 @@ const announcements = [
       <p>We appreciate your understanding during this unexpected natural event. The Dragonriders Guild assures us that once the courtship period ends, the dragons will likely move on to establish a lair in the mountains. Until then, please enjoy this rare opportunity to witness draconic romance in action—from a safe distance.</p>
     `,
     cta: {
-      text: "Reserve Dragon Watching Experience",
-      link: "/demo"
+      text: 'Reserve Dragon Watching Experience',
+      link: '/demo'
     },
     relatedAnnouncements: [1, 4]
   },
   {
     id: 4,
-    slug: "bardic-competition",
-    date: "April 5, 2025",
-    title: "Annual Bardic Competition",
-    category: "Event",
-    type: "event",
-    content: "Calling all bards, minstrels, and musical enthusiasts! The annual Bardic Competition will be held in the Great Hall next month. Categories include traditional ballads, magical music, instrumental innovation, and comedy. Grand prize is a masterwork instrument crafted by the legendary luthier Harmonius Strings.",
-    mainImage: "/images/tales/scrolls-of-the-hollow-choir.webp",
+    slug: 'bardic-competition',
+    date: 'April 5, 2025',
+    title: 'Annual Bardic Competition',
+    category: 'Event',
+    type: 'event',
+    content:
+      'Calling all bards, minstrels, and musical enthusiasts! The annual Bardic Competition will be held in the Great Hall next month. Categories include traditional ballads, magical music, instrumental innovation, and comedy. Grand prize is a masterwork instrument crafted by the legendary luthier Harmonius Strings.',
+    mainImage: '/images/tales/scrolls-of-the-hollow-choir.webp',
     fullContent: `
       <p>Calling all bards, minstrels, and musical enthusiasts! The annual Bardic Competition will be held in the Great Hall next month. Categories include traditional ballads, magical music, instrumental innovation, and comedy. Grand prize is a masterwork instrument crafted by the legendary luthier Harmonius Strings.</p>
 
@@ -150,20 +154,21 @@ const announcements = [
       <p>Accommodations can be arranged at Treasure Tavern at a special competitor's rate. Please mention your registration when booking.</p>
     `,
     cta: {
-      text: "Register for Competition",
-      link: "/demo"
+      text: 'Register for Competition',
+      link: '/demo'
     },
     relatedAnnouncements: [1, 3]
   },
   {
     id: 5,
-    slug: "menu-expansion",
-    date: "April 8, 2025",
-    title: "New Spring Menu Items",
-    category: "News",
-    type: "news",
-    content: "Chef Gnarl is proud to introduce our spring menu featuring fresh ingredients from the Enchanted Forest. Try our new Fey-Touched Mushroom Stew, Unicorn Tear Tea, or the popular Phoenix Egg Benedict. Available for a limited time while magical ingredients last.",
-    mainImage: "/images/announcements/elves-in-the-kitchen.webp",
+    slug: 'menu-expansion',
+    date: 'April 8, 2025',
+    title: 'New Spring Menu Items',
+    category: 'News',
+    type: 'news',
+    content:
+      'Chef Gnarl is proud to introduce our spring menu featuring fresh ingredients from the Enchanted Forest. Try our new Fey-Touched Mushroom Stew, Unicorn Tear Tea, or the popular Phoenix Egg Benedict. Available for a limited time while magical ingredients last.',
+    mainImage: '/images/announcements/elves-in-the-kitchen.webp',
     fullContent: `
       <p>Chef Gnarl is proud to introduce our spring menu featuring fresh ingredients from the Enchanted Forest. Try our new Fey-Touched Mushroom Stew, Unicorn Tear Tea, or the popular Phoenix Egg Benedict. Available for a limited time while magical ingredients last.</p>
 
@@ -202,8 +207,8 @@ const announcements = [
       <p>Please inform your server of any magical allergies or dietary restrictions. We can accommodate most needs, including anti-transmutation diets and ectoplasm-free options for our ghostly patrons.</p>
     `,
     cta: {
-      text: "Reserve a Tasting Experience",
-      link: "/demo"
+      text: 'Reserve a Tasting Experience',
+      link: '/demo'
     },
     relatedAnnouncements: [1, 2]
   }
@@ -220,9 +225,9 @@ export function load({ params }) {
 
   // Get related announcements data
   const relatedAnnouncements = announcement.relatedAnnouncements
-    ? announcement.relatedAnnouncements.map(id =>
-        announcements.find(a => a.id === id)
-      ).filter(Boolean)
+    ? announcement.relatedAnnouncements
+        .map(id => announcements.find(a => a.id === id))
+        .filter(Boolean)
     : [];
 
   return {

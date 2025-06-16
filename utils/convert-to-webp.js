@@ -46,9 +46,11 @@ function convertToWebP(filePath, quality = DEFAULT_QUALITY) {
     // Get file sizes to show reduction
     const originalSize = fs.statSync(filePath).size;
     const webpSize = fs.statSync(outputPath).size;
-    const reduction = (100 - (webpSize / originalSize * 100)).toFixed(2);
+    const reduction = (100 - (webpSize / originalSize) * 100).toFixed(2);
 
-    console.log(`✅ Created ${outputPath} (${(webpSize / 1024).toFixed(2)}KB, ${reduction}% smaller than original)`);
+    console.log(
+      `✅ Created ${outputPath} (${(webpSize / 1024).toFixed(2)}KB, ${reduction}% smaller than original)`
+    );
   } catch (error) {
     console.error(`❌ Error converting ${filePath}: ${error.message}`);
   }

@@ -13,9 +13,9 @@
 </script>
 
 <picture>
-  <source srcset={paths.webp} type="image/webp">
-  <source srcset={paths.png} type="image/png">
-  <source srcset={paths.jpg} type="image/jpeg">
+  <source srcset={paths.webp} type="image/webp" />
+  <source srcset={paths.png} type="image/png" />
+  <source srcset={paths.jpg} type="image/jpeg" />
   <img
     src={paths.png}
     {alt}
@@ -24,7 +24,7 @@
     {height}
     loading={lazy ? 'lazy' : 'eager'}
     {draggable}
-    on:error={(e) => {
+    on:error={e => {
       // Try to handle error gracefully
       const img = e.currentTarget as HTMLImageElement;
       if (img && img.style) {

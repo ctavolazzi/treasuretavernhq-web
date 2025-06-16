@@ -1,7 +1,7 @@
-import { createClient } from '@supabase/supabase-js'
-import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/public'
+import { createClient } from '@supabase/supabase-js';
+import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/public';
 
-export const supabase = createClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY)
+export const supabase = createClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY);
 
 /**
  * Submit an email to the Supabase 'emails' table
@@ -11,19 +11,22 @@ export const supabase = createClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_K
  * @param {string} [source='splash_page'] - The source of the subscription
  * @returns {Promise<{success: boolean, error: string|null}>} Result object
  */
-export async function subscribeEmail(email, newsletterOptIn = true, name = '', source = 'splash_page') {
+export async function subscribeEmail(
+  email,
+  newsletterOptIn = true,
+  name = '',
+  source = 'splash_page'
+) {
   try {
-    const { error } = await supabase
-      .from('emails')
-      .insert([
-        {
-          email,
-          name: name.trim(), // Store the trimmed name if provided
-          created_at: new Date().toISOString(),
-          source: source, // Use the provided source or default to 'splash_page'
-          newsletter_opt_in: newsletterOptIn
-        }
-      ]);
+    const { error } = await supabase.from('emails').insert([
+      {
+        email,
+        name: name.trim(), // Store the trimmed name if provided
+        created_at: new Date().toISOString(),
+        source: source, // Use the provided source or default to 'splash_page'
+        newsletter_opt_in: newsletterOptIn
+      }
+    ]);
 
     if (error) {
       console.error('Error subscribing email:', error);

@@ -1,7 +1,7 @@
 ---
-title: "Code Block Tests"
-date: "April 15, 2025"
-author: "Test User"
+title: 'Code Block Tests'
+date: 'April 15, 2025'
+author: 'Test User'
 ---
 
 # Code Block Tests
@@ -40,8 +40,9 @@ console.log(result);
   background: linear-gradient(135deg, #2c0a37 0%, #1a1a45 100%);
   border: 2px solid #7b2cbf;
   border-radius: 8px;
-  box-shadow: 0 0 15px rgba(123, 44, 191, 0.5),
-              inset 0 0 30px rgba(123, 44, 191, 0.2);
+  box-shadow:
+    0 0 15px rgba(123, 44, 191, 0.5),
+    inset 0 0 30px rgba(123, 44, 191, 0.2);
   color: #d1b3ff;
   font-family: 'Enchanted Script', serif;
   padding: 2rem;
@@ -51,8 +52,9 @@ console.log(result);
 
 .magical-element:hover {
   transform: translateY(-5px) rotate(1deg);
-  box-shadow: 0 10px 25px rgba(123, 44, 191, 0.6),
-              inset 0 0 30px rgba(123, 44, 191, 0.3);
+  box-shadow:
+    0 10px 25px rgba(123, 44, 191, 0.6),
+    inset 0 0 30px rgba(123, 44, 191, 0.3);
 }
 
 .magical-element::before {
@@ -80,8 +82,7 @@ console.log(result);
 
   <p class="spell-description">
     When cast, this spell creates a shimmering portal to the
-    <strong>Ethereal Plane</strong>, allowing glimpses into
-    realms beyond mortal comprehension.
+    <strong>Ethereal Plane</strong>, allowing glimpses into realms beyond mortal comprehension.
   </p>
 
   <button class="cast-button">
@@ -175,17 +176,19 @@ class RealityManipulator {
     }
 
     if (intensity < 1 || intensity > 10) {
-      throw new Error("Intensity must be between 1 and 10. The forces of reality resist improper manipulation.");
+      throw new Error(
+        'Intensity must be between 1 and 10. The forces of reality resist improper manipulation.'
+      );
     }
 
     // Calculate energy cost based on current stability and intensity
-    const energyCost = Math.ceil(intensity * 10 / this.dimensions[dimension].stability);
+    const energyCost = Math.ceil((intensity * 10) / this.dimensions[dimension].stability);
 
     if (this.energyReserves < energyCost) {
       return {
         success: false,
         message: `Insufficient energy reserves (${this.energyReserves}/${energyCost} required)`,
-        sideEffects: ["practitioner fatigue", "minor reality fracture"]
+        sideEffects: ['practitioner fatigue', 'minor reality fracture']
       };
     }
 
@@ -194,7 +197,7 @@ class RealityManipulator {
 
     // Calculate success probability
     const stabilityFactor = this.dimensions[dimension].stability;
-    const successProbability = Math.min(0.95, (stabilityFactor * 0.8) - (intensity * 0.05));
+    const successProbability = Math.min(0.95, stabilityFactor * 0.8 - intensity * 0.05);
     const successful = Math.random() <= successProbability;
 
     // Update dimension values
@@ -243,28 +246,28 @@ class RealityManipulator {
 
     // Common side effects based on the manipulated dimension
     if (dimension === 'time') {
-      if (distortion > 0.3) sideEffects.push("temporal echoes");
-      if (distortion > 0.5) sideEffects.push("chronological inconsistencies");
-      if (distortion > 0.8) sideEffects.push("time loops");
+      if (distortion > 0.3) sideEffects.push('temporal echoes');
+      if (distortion > 0.5) sideEffects.push('chronological inconsistencies');
+      if (distortion > 0.8) sideEffects.push('time loops');
     } else if (dimension === 'space') {
-      if (distortion > 0.3) sideEffects.push("spatial warping");
-      if (distortion > 0.5) sideEffects.push("distance irregularities");
-      if (distortion > 0.8) sideEffects.push("spontaneous teleportation");
+      if (distortion > 0.3) sideEffects.push('spatial warping');
+      if (distortion > 0.5) sideEffects.push('distance irregularities');
+      if (distortion > 0.8) sideEffects.push('spontaneous teleportation');
     } else if (dimension === 'probability') {
-      if (distortion > 0.3) sideEffects.push("unlikely coincidences");
-      if (distortion > 0.5) sideEffects.push("probability storms");
-      if (distortion > 0.8) sideEffects.push("paradox manifestations");
+      if (distortion > 0.3) sideEffects.push('unlikely coincidences');
+      if (distortion > 0.5) sideEffects.push('probability storms');
+      if (distortion > 0.8) sideEffects.push('paradox manifestations');
     } else if (dimension === 'perception') {
-      if (distortion > 0.3) sideEffects.push("minor hallucinations");
-      if (distortion > 0.5) sideEffects.push("shared illusions");
-      if (distortion > 0.8) sideEffects.push("perception bleed");
+      if (distortion > 0.3) sideEffects.push('minor hallucinations');
+      if (distortion > 0.5) sideEffects.push('shared illusions');
+      if (distortion > 0.8) sideEffects.push('perception bleed');
     }
 
     // Add more severe effects for failed manipulations
     if (!successful) {
-      sideEffects.push("reality backlash");
-      if (intensity > 5) sideEffects.push("temporary practitioner incapacitation");
-      if (intensity > 8) sideEffects.push("dimensional instability");
+      sideEffects.push('reality backlash');
+      if (intensity > 5) sideEffects.push('temporary practitioner incapacitation');
+      if (intensity > 8) sideEffects.push('dimensional instability');
     }
 
     return sideEffects;
@@ -277,7 +280,7 @@ class RealityManipulator {
     if (this.energyReserves < 30) {
       return {
         success: false,
-        message: "Insufficient energy to stabilize reality"
+        message: 'Insufficient energy to stabilize reality'
       };
     }
 
@@ -291,14 +294,14 @@ class RealityManipulator {
 
     this.manipulationHistory.push({
       timestamp: new Date().toISOString(),
-      action: "stabilization",
+      action: 'stabilization',
       energyCost: 30,
       newStatus: { ...this.dimensions }
     });
 
     return {
       success: true,
-      message: "Reality partially stabilized",
+      message: 'Reality partially stabilized',
       dimensionStatus: this.dimensions,
       energyRemaining: this.energyReserves
     };
@@ -309,7 +312,7 @@ class RealityManipulator {
    * @param {number} hours - Hours spent meditating
    */
   meditateToRestoreEnergy(hours) {
-    if (hours <= 0) return { success: false, message: "Invalid meditation time" };
+    if (hours <= 0) return { success: false, message: 'Invalid meditation time' };
 
     const baseRecovery = 10;
     const recoveryRate = hours * baseRecovery;
@@ -317,7 +320,7 @@ class RealityManipulator {
     // Calculate total recovery with diminishing returns
     let totalRecovery = 0;
     for (let i = 0; i < hours; i++) {
-      totalRecovery += baseRecovery / (1 + (i * 0.2));
+      totalRecovery += baseRecovery / (1 + i * 0.2);
     }
 
     totalRecovery = Math.floor(totalRecovery);
@@ -325,7 +328,7 @@ class RealityManipulator {
 
     this.manipulationHistory.push({
       timestamp: new Date().toISOString(),
-      action: "meditation",
+      action: 'meditation',
       duration: hours,
       energyRecovered: totalRecovery,
       newEnergy: this.energyReserves
@@ -340,23 +343,19 @@ class RealityManipulator {
 }
 
 // Create a new reality manipulator
-const manipulator = new RealityManipulator("Dr. Strange");
+const manipulator = new RealityManipulator('Dr. Strange');
 
 // Example usage
 try {
   // Slow down time to study an ancient text
-  const timeResult = manipulator.manipulateDimension(
-    "time",
-    3,
-    "slow time to study ancient text"
-  );
+  const timeResult = manipulator.manipulateDimension('time', 3, 'slow time to study ancient text');
   console.log(timeResult);
 
   // Bend space to reach a distant location
   const spaceResult = manipulator.manipulateDimension(
-    "space",
+    'space',
     5,
-    "create a shortcut to the Sanctum Sanctorum"
+    'create a shortcut to the Sanctum Sanctorum'
   );
   console.log(spaceResult);
 
@@ -367,9 +366,8 @@ try {
   // Meditate to recover energy
   const meditation = manipulator.meditateToRestoreEnergy(4);
   console.log(meditation);
-
 } catch (error) {
-  console.error("A critical error in reality manipulation:", error.message);
+  console.error('A critical error in reality manipulation:', error.message);
 }
 ```
 

@@ -36,11 +36,7 @@ export function getResponsiveImagePaths(imagePath: string): {
  * @param props Image properties including source, alt text, and optional CSS class
  * @returns Picture element as a string with proper fallbacks
  */
-export function createPictureElement(props: {
-  src: string;
-  alt: string;
-  className?: string;
-}) {
+export function createPictureElement(props: { src: string; alt: string; className?: string }) {
   const { src, alt, className = '' } = props;
   const paths = getResponsiveImagePaths(src);
 
@@ -81,11 +77,7 @@ export async function checkWebPSupport(): Promise<boolean> {
  * @param className Optional CSS class name
  * @returns An HTML element for use in Svelte components
  */
-export function ResponsiveImage(
-  src: string,
-  alt: string,
-  className?: string
-): HTMLElement {
+export function ResponsiveImage(src: string, alt: string, className?: string): HTMLElement {
   const container = document.createElement('div');
   container.innerHTML = createPictureElement({
     src,

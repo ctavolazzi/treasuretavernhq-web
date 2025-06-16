@@ -13,7 +13,7 @@
   let currentTime: number = 0;
   let duration: number = 0;
   let progress: number = 0;
-  let volume: number = 0.7; // Default volume at 70%
+  const volume: number = 0.7; // Default volume at 70%
   let dragging: boolean = false;
 
   // Update progress when the current time changes
@@ -38,6 +38,21 @@
     }
   }
 
+  // Handle seeking with mouse/touch events
+  function startDrag() {
+    dragging = true;
+  }
+
+  function endDrag() {
+    dragging = false;
+  }
+
+  function updateSeek(e: MouseEvent | TouchEvent) {
+    if (dragging) {
+      seek(e);
+    }
+  }
+
   // Handle seeking when the user interacts with the progress bar
   function seek(e: MouseEvent | TouchEvent) {
     if (audio && duration) {
@@ -56,28 +71,25 @@
     }
   }
 
-  // Handle seeking with mouse/touch events
-  function startDrag() {
-    dragging = true;
-  }
-
-  function endDrag() {
-    dragging = false;
-  }
-
-  function updateSeek(e: MouseEvent | TouchEvent) {
-    if (dragging) {
-      seek(e);
-    }
-  }
-
   // Format time in MM:SS format
   function formatTime(seconds: number): string {
-    if (isNaN(seconds)) return '0:00';
+    if (isNaN(seconds)) {
+      return '0:00';
+    }
 
     const minutes = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
     return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+  }
+
+  // Optimized touch handler for progress bar
+  function handleTouchStart(e: TouchEvent) {
+    // Only prevent default if we're actually going to handle the touch
+    if (audio && duration) {
+      e.preventDefault();
+      startDrag();
+      seek(e);
+    }
   }
 
   // Set up event listeners
@@ -97,7 +109,7 @@
       });
 
       // Add error handling
-      audio.addEventListener('error', (e) => {
+      audio.addEventListener('error', e => {
         console.error('Audio error:', e);
         console.error('Audio error code:', audio.error?.code);
         console.error('Audio error message:', audio.error?.message);
@@ -150,6 +162,75 @@
   });
 </script>
 
+<div class="audio-player">
+  {#if audioTitle}
+    <div class="audio-title">{audioTitle}</div>
+  {/if}
+
+  <audio bind:this={audio} src={audioSrc} preload="metadata">
+    Your browser does not support the audio element.
+  </audio>
+
+  <div class="audio-controls">
+    <button class="play-button" on:click={togglePlay} aria-label={isPlaying ? 'Pause' : 'Play'}>
+      {#if isPlaying}
+        <!-- Pause icon -->
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <rect x="6" y="4" width="4" height="16"></rect>
+          <rect x="14" y="4" width="4" height="16"></rect>
+        </svg>
+      {:else}
+        <!-- Play icon -->
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <polygon points="5 3 19 12 5 21 5 3"></polygon>
+        </svg>
+      {/if}
+    </button>
+
+    {#if showProgress}
+      <div
+        class="progress-container"
+        on:mousedown={e => {
+          startDrag();
+          seek(e);
+        }}
+        on:touchstart={e => {
+          handleTouchStart(e);
+        }}
+      >
+        <div class="progress-bar" style:width="{progress}%"></div>
+      </div>
+    {/if}
+  </div>
+
+  {#if showProgress}
+    <div class="time-display">
+      <span>{formatTime(currentTime)}</span>
+      <span>{formatTime(duration)}</span>
+    </div>
+  {/if}
+</div>
+
 <style>
   .audio-player {
     width: 100%;
@@ -158,7 +239,7 @@
     background: rgba(31, 27, 45, 0.6);
     border-radius: 8px;
     padding: 1rem 1.25rem;
-    color: #F7E8D4;
+    color: #f7e8d4;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     border: 1px solid rgba(189, 150, 72, 0.2);
     font-family: 'Inter', system-ui, sans-serif;
@@ -168,7 +249,7 @@
     margin: 0 0 0.75rem;
     font-size: 1rem;
     font-weight: 500;
-    color: #BD9648;
+    color: #bd9648;
     text-align: center;
   }
 
@@ -190,7 +271,7 @@
     align-items: center;
     justify-content: center;
     font-size: 1.25rem;
-    color: #F7E8D4;
+    color: #f7e8d4;
     border-radius: 50%;
     background: rgba(158, 97, 227, 0.2);
     transition: all 0.2s ease;
@@ -222,7 +303,7 @@
 
   .progress-bar {
     height: 100%;
-    background: linear-gradient(90deg, #9E61E3 0%, #7A3CA3 100%);
+    background: linear-gradient(90deg, #9e61e3 0%, #7a3ca3 100%);
     border-radius: 3px;
     transition: width 0.1s linear;
   }
@@ -234,51 +315,3 @@
     }
   }
 </style>
-
-<div class="audio-player">
-  {#if audioTitle}
-    <div class="audio-title">{audioTitle}</div>
-  {/if}
-
-  <audio bind:this={audio} src={audioSrc} preload="metadata">
-    Your browser does not support the audio element.
-  </audio>
-
-  <div class="audio-controls">
-    <button
-      class="play-button"
-      on:click={togglePlay}
-      aria-label={isPlaying ? 'Pause' : 'Play'}
-    >
-      {#if isPlaying}
-        <!-- Pause icon -->
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="6" y="4" width="4" height="16"></rect>
-          <rect x="14" y="4" width="4" height="16"></rect>
-        </svg>
-      {:else}
-        <!-- Play icon -->
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polygon points="5 3 19 12 5 21 5 3"></polygon>
-        </svg>
-      {/if}
-    </button>
-
-    {#if showProgress}
-      <div
-        class="progress-container"
-        on:mousedown={(e) => { startDrag(); seek(e); }}
-        on:touchstart={(e) => { startDrag(); seek(e); }}
-      >
-        <div class="progress-bar" style="width: {progress}%"></div>
-      </div>
-    {/if}
-  </div>
-
-  {#if showProgress}
-    <div class="time-display">
-      <span>{formatTime(currentTime)}</span>
-      <span>{formatTime(duration)}</span>
-    </div>
-  {/if}
-</div>

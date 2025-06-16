@@ -25,43 +25,56 @@
   // Get proper icon for category
   function getCategoryIcon(category: string): string {
     switch (category.toLowerCase()) {
-      case 'event': return 'fa-calendar-alt';
-      case 'news': return 'fa-newspaper';
-      case 'alert': return 'fa-exclamation-triangle';
-      default: return 'fa-info-circle';
+      case 'event':
+        return 'fa-calendar-alt';
+      case 'news':
+        return 'fa-newspaper';
+      case 'alert':
+        return 'fa-exclamation-triangle';
+      default:
+        return 'fa-info-circle';
     }
   }
 
   // CTA content logic
-  let ctaTitle = "";
-  let ctaButton = "";
-  let ctaDemoLink = "";
-  let ctaDescription = "";
+  let ctaTitle = '';
+  let ctaButton = '';
+  let ctaDemoLink = '';
+  let ctaDescription = '';
 
   // Set CTA content based on announcement type
-  if (announcement.type === "event") {
-    ctaTitle = "Join Us At This Event!";
-    ctaButton = "RSVP Now";
-    ctaDemoLink = "/#newsletter";
-    ctaDescription = "Limited spots available. Reserve your place at this exclusive tavern gathering and be part of the magic.";
-  } else if (announcement.type === "news") {
-    ctaTitle = "Stay Updated";
-    ctaButton = "Subscribe to Newsletter";
-    ctaDemoLink = "/#newsletter";
-    ctaDescription = "Want to be the first to know about new happenings at the Tavern? Join our newsletter for exclusive updates and offers.";
+  if (announcement.type === 'event') {
+    ctaTitle = 'Join Us At This Event!';
+    ctaButton = 'RSVP Now';
+    ctaDemoLink = '/#newsletter';
+    ctaDescription =
+      'Limited spots available. Reserve your place at this exclusive tavern gathering and be part of the magic.';
+  } else if (announcement.type === 'news') {
+    ctaTitle = 'Stay Updated';
+    ctaButton = 'Subscribe to Newsletter';
+    ctaDemoLink = '/#newsletter';
+    ctaDescription =
+      'Want to be the first to know about new happenings at the Tavern? Join our newsletter for exclusive updates and offers.';
   } else {
-    ctaTitle = "Stay Informed";
-    ctaButton = "Subscribe to Updates";
-    ctaDemoLink = "/#newsletter";
-    ctaDescription = "Don't miss important announcements and alerts from the Tavern. Subscribe to our updates to stay safe and informed.";
+    ctaTitle = 'Stay Informed';
+    ctaButton = 'Subscribe to Updates';
+    ctaDemoLink = '/#newsletter';
+    ctaDescription =
+      "Don't miss important announcements and alerts from the Tavern. Subscribe to our updates to stay safe and informed.";
   }
 </script>
 
 <svelte:head>
   <title>{announcement.title} - Treasure Tavern</title>
   <meta name="description" content={announcement.content} />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap"
+    rel="stylesheet"
+  />
 </svelte:head>
 
 <div class="page-container">
@@ -99,7 +112,7 @@
         title={ctaTitle}
         buttonText={ctaButton}
         description={ctaDescription}
-        demoLink={ctaDemoLink || "/#newsletter"}
+        demoLink={ctaDemoLink || '/#newsletter'}
       />
 
       {#if relatedAnnouncements && relatedAnnouncements.length > 0}
@@ -125,11 +138,11 @@
 
       <div class="navigation">
         <a href="/announcements" class="nav-button">
-          <i class="fas fa-arrow-left" style="margin-right: 8px;"></i>
+          <i class="fas fa-arrow-left" style:margin-right="8px"></i>
           All Announcements
         </a>
         <a href="/" class="nav-button">
-          <i class="fas fa-home" style="margin-right: 8px;"></i>
+          <i class="fas fa-home" style:margin-right="8px"></i>
           Return to Tavern
         </a>
       </div>
@@ -142,8 +155,8 @@
     margin: 0;
     padding: 0;
     min-height: 100vh;
-    background: linear-gradient(145deg, #13111C 0%, #1F1B2D 60%, #2B1D34 100%);
-    color: #F7E8D4;
+    background: linear-gradient(145deg, #13111c 0%, #1f1b2d 60%, #2b1d34 100%);
+    color: #f7e8d4;
     overflow-x: hidden;
     line-height: 1.4;
   }
@@ -166,7 +179,9 @@
     margin: 0 auto;
     opacity: 0;
     transform: translateY(20px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
+    transition:
+      opacity 0.5s ease,
+      transform 0.5s ease;
   }
 
   .announcement-main.fade-in {
@@ -193,7 +208,7 @@
     margin: 0 0 1rem;
     font-weight: 700;
     line-height: 1.15;
-    color: #F7E8D4;
+    color: #f7e8d4;
     text-shadow: 0 0 15px rgba(231, 206, 143, 0.35);
     letter-spacing: 0.02em;
   }
@@ -271,7 +286,7 @@
     left: 0;
     width: 3px;
     height: 100%;
-    background: linear-gradient(to bottom, #BD9648, rgba(189, 150, 72, 0.1));
+    background: linear-gradient(to bottom, #bd9648, rgba(189, 150, 72, 0.1));
     opacity: 0.8;
   }
 
@@ -294,7 +309,7 @@
   .announcement-content :global(h2) {
     font-family: 'Cinzel', serif;
     font-size: 1.8rem;
-    color: #BD9648;
+    color: #bd9648;
     margin: 2rem 0 1rem;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   }
@@ -342,7 +357,7 @@
   }
 
   .announcement-content :global(blockquote) {
-    border-left: 4px solid #BD9648;
+    border-left: 4px solid #bd9648;
     padding: 0.5rem 0 0.5rem 1.5rem;
     margin: 1.5rem 0;
     font-style: italic;
@@ -350,7 +365,7 @@
   }
 
   .announcement-content :global(a) {
-    color: #BD9648;
+    color: #bd9648;
     text-decoration: underline;
     transition: color 0.2s ease;
   }
@@ -372,7 +387,7 @@
     border: none;
     border-radius: 6px;
     background: rgba(31, 27, 45, 0.6);
-    color: #F7E8D4;
+    color: #f7e8d4;
     font-family: 'Cinzel', serif;
     font-size: 0.95rem;
     font-weight: 500;
@@ -399,7 +414,7 @@
   .related-title {
     font-family: 'Cinzel', serif;
     font-size: 1.5rem;
-    color: #BD9648;
+    color: #bd9648;
     text-align: center;
     margin-bottom: 1.5rem;
     position: relative;
@@ -413,7 +428,8 @@
     transform: translateX(-50%);
     width: 60px;
     height: 1px;
-    background: linear-gradient(90deg,
+    background: linear-gradient(
+      90deg,
       rgba(189, 150, 72, 0) 0%,
       rgba(189, 150, 72, 0.6) 50%,
       rgba(189, 150, 72, 0) 100%
@@ -448,7 +464,7 @@
   .related-card-title {
     font-family: 'Cinzel', serif;
     font-size: 1.25rem;
-    color: #F7E8D4;
+    color: #f7e8d4;
     margin: 0.75rem 0;
     line-height: 1.3;
   }
@@ -460,7 +476,7 @@
   }
 
   .read-more {
-    color: #BD9648;
+    color: #bd9648;
     font-size: 0.9rem;
     font-weight: 500;
     display: inline-flex;

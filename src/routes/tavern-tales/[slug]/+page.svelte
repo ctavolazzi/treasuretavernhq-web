@@ -4,7 +4,6 @@
   import AnnouncementCta from '$lib/components/AnnouncementCta.svelte';
   import ResponsiveImage from '$lib/components/ResponsiveImage.svelte';
   import SimpleAudioPlayer from '$lib/components/SimpleAudioPlayer.svelte';
-  import Breadcrumb from '$lib/components/Breadcrumb.svelte';
   import { setPageAudio, resetPageAudio, disablePageAudio } from '$lib/stores/audioStore';
   import { getTaleSocialMeta, type SocialMetadata } from '$lib/data/social-meta';
 
@@ -41,13 +40,6 @@
 
   // Get social sharing metadata for this tale
   const socialMeta: SocialMetadata = getTaleSocialMeta(tale);
-
-  // Breadcrumb configuration
-  $: breadcrumbItems = [
-    { label: 'Home', href: '/', icon: 'fa-home' },
-    { label: 'Tavern Tales', href: '/tavern-tales', icon: 'fa-book-open' },
-    { label: tale.title }
-  ];
 
   // For handling the interactive media component if applicable
   let showRiddleAnswers = false;
@@ -125,7 +117,8 @@
       const textContent = tempElement.textContent || tempElement.innerText || '';
 
       // Copy to clipboard
-      navigator.clipboard.writeText(textContent)
+      navigator.clipboard
+        .writeText(textContent)
         .then(() => {
           // Show success message
           copySuccess = true;
@@ -193,13 +186,198 @@
   });
 </script>
 
+<svelte:head>
+  <title>{tale.title} - Tavern Tales - Treasure Tavern</title>
+  <meta name="description" content={tale.excerpt} />
+
+  <!-- Basic Meta Tags - Simplified to only include essential tags -->
+  <meta property="og:title" content={socialMeta.title} />
+  <meta property="og:description" content={socialMeta.description} />
+  <meta property="og:image" content={socialMeta.image} />
+  <meta property="og:url" content={socialMeta.url} />
+  <meta property="og:type" content="article" />
+
+  <!-- Twitter Card Tags - Just the essentials -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content={socialMeta.image} />
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+</svelte:head>
+
+{#key tale.slug}
+  <!-- Loading overlay - positioned above everything -->
+  {#if isLoading}
+    <div class="loading-overlay" transition:fade={{ duration: 150 }}>
+      <div class="spinner"></div>
+      <p class="loading-text">Loading Chronicle...</p>
+    </div>
+  {/if}
+
+  <div class="page-container">
+    <header class="tale-header">
+      <h1>{tale.title}</h1>
+      <div class="tale-meta-compact">
+        <div class="author-info">{tale.author}</div>
+        <div class="meta-divider"></div>
+        <div class="season-info">
+          <i class="fas fa-moon"></i>
+          <span>{tale.date}</span>
+        </div>
+        <div class="meta-divider"></div>
+        <div class="type-info">{tale.type}</div>
+      </div>
+      <div class="header-decor"></div>
+    </header>
+
+    <main class="tale-container">
+      <!-- Main content area -->
+      <div class="tale-main-content">
+        <!-- Featured image -->
+        <div class="tale-cover">
+          <ResponsiveImage src={tale.coverImage} alt={tale.title} className="tale-cover-image" />
+        </div>
+
+        <!-- Media display, if applicable -->
+        {#if tale.mediaType === 'video' && mediaReady}
+          <div class="media-container">
+            <div class="video-container">
+              <iframe
+                src={tale.mediaContent}
+                title={tale.title}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+              ></iframe>
+            </div>
+          </div>
+        {:else if tale.mediaType === 'audio' && mediaReady}
+          <SimpleAudioPlayer
+            audioSrc={tale.mediaContent || ''}
+            audioTitle={`Audio Narration: ${tale.title}`}
+          />
+        {:else if tale.mediaType === 'interactive'}
+          <div class="media-container">
+            <div class="interactive-container">
+              <p>
+                This tale contains interactive elements. {tale.mediaContent === 'riddles'
+                  ? 'Try to solve the riddles before revealing the answers!'
+                  : ''}
+              </p>
+              {#if tale.mediaContent === 'riddles'}
+                <button
+                  class="reveal-button"
+                  on:click={() => {
+                    // This would toggle the visibility of answers in a real implementation
+                    document.querySelectorAll('.riddle-answer').forEach(el => {
+                      el.classList.toggle('hidden');
+                    });
+                    showRiddleAnswers = !showRiddleAnswers;
+                  }}
+                >
+                  {showRiddleAnswers ? 'Hide Answers' : 'Reveal Answers'}
+                </button>
+              {/if}
+            </div>
+          </div>
+        {/if}
+
+        <!-- Action buttons below media but above content -->
+        <div class="button-container">
+          <button class="copy-button" on:click={copyTaleContent}>
+            <i class="fas fa-copy"></i> Copy Story Text
+            {#if copySuccess}
+              <span class="copy-success"><i class="fas fa-check"></i> Copied!</span>
+            {/if}
+          </button>
+        </div>
+
+        <!-- Tale content -->
+        <div class="tale-content">
+          {@html tale.content}
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- CTA Section -->
+        <AnnouncementCta
+          title="Join the Tavern's Inner Circle"
+          description="Subscribe to our Chronicles newsletter to receive exclusive tales, early access to new stories, and special invitations to Tavern events. Be part of our community of storytellers and adventurers."
+          buttonText="Subscribe to Chronicles"
+          demoLink="/newsletter"
+        />
+
+        <div class="navigation">
+          <a href="/tavern-tales" class="nav-button" data-sveltekit-preload-data="hover">
+            <i class="fas fa-arrow-left" style:margin-right="0.5rem"></i>
+            All Chronicles
+          </a>
+          <a href="/" class="nav-button" data-sveltekit-preload-data="hover">
+            Return to Tavern
+            <i class="fas fa-home" style:margin-left="0.5rem"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Sidebar content -->
+      <div class="tale-sidebar">
+        <!-- Related tales section -->
+        {#if relatedTales && relatedTales.length > 0}
+          <div class="related-tales">
+            <h2>Related Chronicles</h2>
+            <div class="related-tales-grid">
+              {#each relatedTales as relatedTale}
+                <a
+                  href={`/tavern-tales/${encodeURIComponent(relatedTale.slug)}`}
+                  class="related-tale-card"
+                  data-sveltekit-preload-data="hover"
+                  on:click={e => {
+                    // Prevent default link behavior
+                    e.preventDefault();
+
+                    if (typeof window !== 'undefined') {
+                      // Show loading state
+                      isLoading = true;
+
+                      // Scroll to top immediately
+                      window.scrollTo({ top: 0, behavior: 'auto' });
+
+                      // Navigate using proper SvelteKit navigation to ensure title updates
+                      window.location.href = `/tavern-tales/${encodeURIComponent(relatedTale.slug)}`;
+                    }
+                  }}
+                >
+                  <ResponsiveImage src={relatedTale.coverImage} alt={relatedTale.title} />
+                  <div class="related-tale-content">
+                    <h3 class="related-tale-title">{relatedTale.title}</h3>
+                    <p class="related-tale-type">{relatedTale.type}</p>
+                    <div class="read-more">
+                      <span>Read Chronicle</span>
+                      <i class="fas fa-arrow-right"></i>
+                    </div>
+                  </div>
+                </a>
+              {/each}
+            </div>
+          </div>
+        {/if}
+      </div>
+    </main>
+
+    <footer class="footer">
+      <p class="footer-text">© {new Date().getFullYear()} Treasure Tavern. All rights reserved.</p>
+    </footer>
+  </div>
+{/key}
+
 <style>
   :global(body) {
     margin: 0;
     padding: 0;
     min-height: 100vh;
-    background: linear-gradient(145deg, #13111C 0%, #1F1B2D 60%, #2B1D34 100%);
-    color: #F7E8D4;
+    background: linear-gradient(145deg, #13111c 0%, #1f1b2d 60%, #2b1d34 100%);
+    color: #f7e8d4;
     overflow-x: hidden;
     line-height: 1.4;
   }
@@ -236,7 +414,7 @@
   .author-info {
     font-family: 'Cinzel', serif;
     font-size: clamp(1rem, 2vw, 1.1rem);
-    color: #BD9648;
+    color: #bd9648;
     font-weight: 500;
   }
 
@@ -250,14 +428,14 @@
   }
 
   .season-info i {
-    color: #9E61E3;
+    color: #9e61e3;
     font-size: 0.9rem;
   }
 
   .type-info {
     font-family: 'Inter', system-ui, sans-serif;
     font-size: clamp(0.9rem, 2vw, 1rem);
-    color: #9E61E3;
+    color: #9e61e3;
   }
 
   .meta-divider {
@@ -273,7 +451,7 @@
     margin: 0;
     font-weight: 700;
     line-height: 1.2;
-    color: #F7E8D4;
+    color: #f7e8d4;
     text-shadow: 0 0 15px rgba(231, 206, 143, 0.35);
   }
 
@@ -304,7 +482,7 @@
   }
 
   .season-badge i {
-    color: #9E61E3;
+    color: #9e61e3;
     font-size: 1.1rem;
   }
 
@@ -322,7 +500,7 @@
     font-family: 'Cinzel', serif;
     font-size: clamp(1.1rem, 2.5vw, 1.3rem);
     font-weight: 500;
-    color: #9E61E3;
+    color: #9e61e3;
     border: 1px solid rgba(158, 97, 227, 0.3);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   }
@@ -346,7 +524,7 @@
   }
 
   .meta-icon {
-    color: #9E61E3;
+    color: #9e61e3;
   }
 
   .tale-type {
@@ -354,7 +532,7 @@
     background: rgba(158, 97, 227, 0.15);
     border-radius: 20px;
     font-weight: 500;
-    color: #9E61E3;
+    color: #9e61e3;
   }
 
   .header-decor {
@@ -382,7 +560,7 @@
     gap: 0.8rem;
     padding: 0.8rem 1.5rem;
     background: rgba(31, 27, 45, 0.8);
-    color: #F7E8D4;
+    color: #f7e8d4;
     border: 1px solid rgba(189, 150, 72, 0.5);
     border-radius: 8px;
     font-family: 'Cinzel', serif;
@@ -405,13 +583,13 @@
 
   .back-button i {
     font-size: 1.2rem;
-    color: #9E61E3;
+    color: #9e61e3;
   }
 
   .home-button {
     padding: 0.8rem 1.5rem;
     background: rgba(31, 27, 45, 0.8);
-    color: #F7E8D4;
+    color: #f7e8d4;
     border: 1px solid rgba(189, 150, 72, 0.5);
     border-radius: 8px;
     font-family: 'Cinzel', serif;
@@ -433,7 +611,7 @@
   }
 
   .home-button i {
-    color: #BD9648;
+    color: #bd9648;
   }
 
   .tale-container {
@@ -478,14 +656,14 @@
     font-family: 'Cinzel', serif;
     font-size: clamp(1.5rem, 3vw, 2.5rem);
     margin: 3rem 0 1.5rem;
-    color: #BD9648;
+    color: #bd9648;
     text-shadow: 0 0 8px rgba(189, 150, 72, 0.3);
   }
 
   h3 {
     font-family: 'Cinzel', serif;
     font-size: clamp(1.25rem, 2vw, 1.8rem);
-    color: #BD9648;
+    color: #bd9648;
     margin: 2rem 0 1rem;
   }
 
@@ -493,7 +671,7 @@
     font-family: 'Spectral', serif;
     font-size: clamp(1.1rem, 3vw, 1.2rem);
     line-height: 1.7;
-    color: #F7E8D4;
+    color: #f7e8d4;
     max-width: 800px;
     margin: 0 auto;
   }
@@ -504,7 +682,7 @@
   .tale-content :global(.tale-h3),
   .tale-content :global(.tale-h4) {
     font-family: 'Cinzel', serif;
-    color: #BD9648;
+    color: #bd9648;
     margin: 1.5em 0 0.8em 0;
     line-height: 1.3;
   }
@@ -538,15 +716,15 @@
 
   /* Markdown styles for links */
   .tale-content :global(.tale-link) {
-    color: #9E61E3;
+    color: #9e61e3;
     text-decoration: none;
     border-bottom: 1px dotted rgba(158, 97, 227, 0.5);
     transition: all 0.2s ease;
   }
 
   .tale-content :global(.tale-link:hover) {
-    color: #BD9648;
-    border-bottom-color: #BD9648;
+    color: #bd9648;
+    border-bottom-color: #bd9648;
   }
 
   /* Markdown styles for code */
@@ -586,7 +764,7 @@
   }
 
   .tale-content :global(strong) {
-    color: #BD9648;
+    color: #bd9648;
     font-weight: 600;
   }
 
@@ -633,7 +811,7 @@
     border-radius: 8px;
     background: rgba(31, 27, 45, 0.5);
     font-size: clamp(0.85rem, 2vw, 0.95em);
-    border-left: 3px solid #FF6B6B;
+    border-left: 3px solid #ff6b6b;
   }
 
   .tale-content :global(.final-note) {
@@ -774,10 +952,10 @@
   .reveal-button {
     margin-top: 1.5rem;
     padding: clamp(0.5rem, 2vw, 0.75rem) clamp(1rem, 3vw, 1.5rem);
-    background: linear-gradient(135deg, #9E61E3 0%, #7A3CA3 100%);
+    background: linear-gradient(135deg, #9e61e3 0%, #7a3ca3 100%);
     border: none;
     border-radius: 6px;
-    color: #F7E8D4;
+    color: #f7e8d4;
     font-family: 'Cinzel', serif;
     font-size: clamp(0.9rem, 2vw, 1rem);
     cursor: pointer;
@@ -836,7 +1014,7 @@
     font-family: 'Cinzel', serif;
     font-size: clamp(1rem, 2vw, 1.2rem);
     margin: 0 0 0.5rem;
-    color: #BD9648;
+    color: #bd9648;
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   }
 
@@ -856,7 +1034,7 @@
     gap: 0.5rem;
     font-family: 'Cinzel', serif;
     font-size: 0.95rem;
-    color: #9E61E3;
+    color: #9e61e3;
     margin-top: 0.75rem;
     transition: all 0.3s ease;
   }
@@ -866,7 +1044,7 @@
   }
 
   .related-tale-card:hover .read-more {
-    color: #BD9648;
+    color: #bd9648;
   }
 
   .related-tale-card:hover .read-more i {
@@ -886,7 +1064,7 @@
     border: none;
     border-radius: 6px;
     background: rgba(31, 27, 45, 0.6);
-    color: #F7E8D4;
+    color: #f7e8d4;
     font-family: 'Cinzel', serif;
     font-size: clamp(0.85rem, 2vw, 0.95rem);
     cursor: pointer;
@@ -921,7 +1099,12 @@
     width: 100%;
     max-width: 600px;
     height: 1px;
-    background: linear-gradient(90deg, rgba(189, 150, 72, 0) 0%, rgba(189, 150, 72, 0.6) 50%, rgba(189, 150, 72, 0) 100%);
+    background: linear-gradient(
+      90deg,
+      rgba(189, 150, 72, 0) 0%,
+      rgba(189, 150, 72, 0.6) 50%,
+      rgba(189, 150, 72, 0) 100%
+    );
     margin: clamp(2rem, 6vw, 4rem) auto;
   }
 
@@ -943,7 +1126,7 @@
 
   .loading-text {
     font-family: 'Cinzel', serif;
-    color: #F7E8D4;
+    color: #f7e8d4;
     margin-top: 1.5rem;
     font-size: 1.2rem;
     text-shadow: 0 0 10px rgba(158, 97, 227, 0.6);
@@ -953,14 +1136,15 @@
     width: 60px;
     height: 60px;
     border: 5px solid transparent;
-    border-top-color: #9E61E3;
+    border-top-color: #9e61e3;
     border-radius: 50%;
     animation: spin 1s ease-in-out infinite;
     position: relative;
   }
 
-  .spinner:before, .spinner:after {
-    content: "";
+  .spinner:before,
+  .spinner:after {
+    content: '';
     position: absolute;
     border: 5px solid transparent;
     border-radius: 50%;
@@ -971,7 +1155,7 @@
     left: -15px;
     right: -15px;
     bottom: -15px;
-    border-top-color: #BD9648;
+    border-top-color: #bd9648;
     animation: spin 2s linear infinite;
   }
 
@@ -980,13 +1164,17 @@
     left: 5px;
     right: 5px;
     bottom: 5px;
-    border-top-color: #F7E8D4;
+    border-top-color: #f7e8d4;
     animation: spin 1.5s linear infinite;
   }
 
   @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
   }
 
   @media (max-width: 768px) {
@@ -1027,7 +1215,9 @@
       font-size: 0.85rem;
     }
 
-    .author-info, .season-info, .type-info {
+    .author-info,
+    .season-info,
+    .type-info {
       font-size: 0.85rem;
     }
 
@@ -1072,7 +1262,7 @@
     justify-content: center;
     gap: 0.75rem;
     background: rgba(31, 27, 45, 0.7);
-    color: #F7E8D4;
+    color: #f7e8d4;
     border: 1px solid rgba(189, 150, 72, 0.5);
     border-radius: 12px;
     padding: 0.85rem 2rem;
@@ -1091,9 +1281,11 @@
 
   .copy-button:hover {
     background: rgba(31, 27, 45, 0.9);
-    border-color: #BD9648;
+    border-color: #bd9648;
     transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3), 0 0 10px rgba(189, 150, 72, 0.3);
+    box-shadow:
+      0 5px 15px rgba(0, 0, 0, 0.3),
+      0 0 10px rgba(189, 150, 72, 0.3);
   }
 
   .copy-button:active {
@@ -1102,12 +1294,12 @@
   }
 
   .copy-button i {
-    color: #BD9648;
+    color: #bd9648;
     font-size: 1.2rem;
   }
 
   .copy-success {
-    color: #6CCF7F;
+    color: #6ccf7f;
     font-weight: 500;
     margin-left: 0.5rem;
     font-size: 0.9rem;
@@ -1118,8 +1310,12 @@
   }
 
   @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
 
   /* Markdown styles for blockquotes */
@@ -1167,180 +1363,3 @@
     color: rgba(247, 232, 212, 0.6);
   }
 </style>
-
-<svelte:head>
-  <title>{tale.title} - Tavern Tales - Treasure Tavern</title>
-  <meta name="description" content={tale.excerpt} />
-
-  <!-- Basic Meta Tags - Simplified to only include essential tags -->
-  <meta property="og:title" content={socialMeta.title} />
-  <meta property="og:description" content={socialMeta.description} />
-  <meta property="og:image" content={socialMeta.image} />
-  <meta property="og:url" content={socialMeta.url} />
-  <meta property="og:type" content="article" />
-
-  <!-- Twitter Card Tags - Just the essentials -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:image" content={socialMeta.image} />
-
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-</svelte:head>
-
-{#key tale.slug}
-<!-- Loading overlay - positioned above everything -->
-{#if isLoading}
-<div class="loading-overlay" transition:fade={{ duration: 150 }}>
-  <div class="spinner"></div>
-  <p class="loading-text">Loading Chronicle...</p>
-</div>
-{/if}
-
-<div class="page-container">
-  <Breadcrumb items={breadcrumbItems} />
-
-  <header class="tale-header">
-    <h1>{tale.title}</h1>
-    <div class="tale-meta-compact">
-      <div class="author-info">{tale.author}</div>
-      <div class="meta-divider"></div>
-      <div class="season-info">
-        <i class="fas fa-moon"></i>
-        <span>{tale.date}</span>
-      </div>
-      <div class="meta-divider"></div>
-      <div class="type-info">{tale.type}</div>
-    </div>
-    <div class="header-decor"></div>
-  </header>
-
-  <main class="tale-container">
-    <!-- Main content area -->
-    <div class="tale-main-content">
-      <!-- Featured image -->
-      <div class="tale-cover">
-        <ResponsiveImage src={tale.coverImage} alt={tale.title} className="tale-cover-image" />
-      </div>
-
-      <!-- Media display, if applicable -->
-      {#if tale.mediaType === 'video' && mediaReady}
-        <div class="media-container">
-          <div class="video-container">
-            <iframe
-              src={tale.mediaContent}
-              title={tale.title}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen
-            ></iframe>
-          </div>
-        </div>
-      {:else if tale.mediaType === 'audio' && mediaReady}
-        <SimpleAudioPlayer
-          audioSrc={tale.mediaContent || ''}
-          audioTitle={`Audio Narration: ${tale.title}`}
-        />
-      {:else if tale.mediaType === 'interactive'}
-        <div class="media-container">
-          <div class="interactive-container">
-            <p>This tale contains interactive elements. {tale.mediaContent === 'riddles' ? 'Try to solve the riddles before revealing the answers!' : ''}</p>
-            {#if tale.mediaContent === 'riddles'}
-              <button class="reveal-button" on:click={() => {
-                // This would toggle the visibility of answers in a real implementation
-                document.querySelectorAll('.riddle-answer').forEach(el => {
-                  el.classList.toggle('hidden');
-                });
-                showRiddleAnswers = !showRiddleAnswers;
-              }}>
-                {showRiddleAnswers ? 'Hide Answers' : 'Reveal Answers'}
-              </button>
-            {/if}
-          </div>
-        </div>
-      {/if}
-
-      <!-- Action buttons below media but above content -->
-      <div class="button-container">
-        <button class="copy-button" on:click={copyTaleContent}>
-          <i class="fas fa-copy"></i> Copy Story Text
-          {#if copySuccess}
-            <span class="copy-success"><i class="fas fa-check"></i> Copied!</span>
-          {/if}
-        </button>
-      </div>
-
-      <!-- Tale content -->
-      <div class="tale-content">
-        {@html tale.content}
-      </div>
-
-      <div class="divider"></div>
-
-      <!-- CTA Section -->
-      <AnnouncementCta
-        title="Join the Tavern's Inner Circle"
-        description="Subscribe to our Chronicles newsletter to receive exclusive tales, early access to new stories, and special invitations to Tavern events. Be part of our community of storytellers and adventurers."
-        buttonText="Subscribe to Chronicles"
-        demoLink="/newsletter"
-      />
-
-      <div class="navigation">
-        <a href="/tavern-tales" class="nav-button" data-sveltekit-preload-data="hover">
-          <i class="fas fa-arrow-left" style="margin-right: 0.5rem;"></i>
-          All Chronicles
-        </a>
-        <a href="/" class="nav-button" data-sveltekit-preload-data="hover">
-          Return to Tavern
-          <i class="fas fa-home" style="margin-left: 0.5rem;"></i>
-        </a>
-      </div>
-    </div>
-
-    <!-- Sidebar content -->
-    <div class="tale-sidebar">
-      <!-- Related tales section -->
-      {#if relatedTales && relatedTales.length > 0}
-        <div class="related-tales">
-          <h2>Related Chronicles</h2>
-          <div class="related-tales-grid">
-            {#each relatedTales as relatedTale}
-              <a
-                href={`/tavern-tales/${encodeURIComponent(relatedTale.slug)}`}
-                class="related-tale-card"
-                data-sveltekit-preload-data="hover"
-                on:click={(e) => {
-                  // Prevent default link behavior
-                  e.preventDefault();
-
-                  if (typeof window !== 'undefined') {
-                    // Show loading state
-                    isLoading = true;
-
-                    // Scroll to top immediately
-                    window.scrollTo({ top: 0, behavior: 'auto' });
-
-                    // Navigate using proper SvelteKit navigation to ensure title updates
-                    window.location.href = `/tavern-tales/${encodeURIComponent(relatedTale.slug)}`;
-                  }
-                }}
-              >
-                <ResponsiveImage src={relatedTale.coverImage} alt={relatedTale.title} />
-                <div class="related-tale-content">
-                  <h3 class="related-tale-title">{relatedTale.title}</h3>
-                  <p class="related-tale-type">{relatedTale.type}</p>
-                  <div class="read-more">
-                    <span>Read Chronicle</span>
-                    <i class="fas fa-arrow-right"></i>
-                  </div>
-                </div>
-              </a>
-            {/each}
-          </div>
-        </div>
-      {/if}
-    </div>
-  </main>
-
-  <footer class="footer">
-    <p class="footer-text">© {new Date().getFullYear()} Treasure Tavern. All rights reserved.</p>
-  </footer>
-</div>
-{/key}

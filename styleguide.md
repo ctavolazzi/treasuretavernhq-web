@@ -75,6 +75,7 @@ This document outlines the visual language, components, and design patterns used
 ### Buttons
 
 #### Primary Button
+
 - Background: `linear-gradient(135deg, #9E61E3 0%, #7A3CA3 100%)`
 - Text color: `#F7E8D4`
 - Padding: `0.75rem 2rem`
@@ -83,11 +84,13 @@ This document outlines the visual language, components, and design patterns used
 - Box-shadow on hover: `0 5px 15px rgba(158, 97, 227, 0.3)`
 
 #### Secondary Button (Gold)
+
 - Background: `linear-gradient(135deg, #BD9648 0%, #E7CE8F 100%)`
 - Text color: `#13111C`
 - Same dimensions as primary
 
 #### Category Button
+
 - Background: `rgba(31, 27, 45, 0.4)`
 - Border: `1px solid rgba(247, 232, 212, 0.2)`
 - Border-radius: `30px`
@@ -95,6 +98,7 @@ This document outlines the visual language, components, and design patterns used
 - Active state: Purple gradient background
 
 #### Navigation Button
+
 - Background: `rgba(31, 27, 45, 0.6)`
 - Border: `1px solid rgba(247, 232, 212, 0.1)`
 - Border-radius: `6px`
@@ -103,6 +107,7 @@ This document outlines the visual language, components, and design patterns used
 ### Cards
 
 #### Featured Card
+
 - Background: `rgba(31, 27, 45, 0.4)`
 - Border: `1px solid rgba(247, 232, 212, 0.1)`
 - Border-radius: `10px`
@@ -111,11 +116,13 @@ This document outlines the visual language, components, and design patterns used
 - Shadow on hover: `0 10px 25px rgba(0, 0, 0, 0.2)`
 
 #### Standard Card
+
 - Similar to featured card but smaller
 - Height: Not fixed
 - Image height: `clamp(120px, 25vw, 160px)`
 
 #### Card Tags
+
 - Border-radius: `20px`
 - Padding: `0.25rem 0.7rem`
 - Background opacity: `0.15`
@@ -128,21 +135,25 @@ This document outlines the visual language, components, and design patterns used
 ### Content Blocks
 
 #### Journal Entry
+
 - Border-left: `3px solid rgba(158, 97, 227, 0.4)`
 - Padding-left: `clamp(0.5rem, 2vw, 1rem)`
 
 #### Warning Block
+
 - Background: `rgba(31, 27, 45, 0.5)`
 - Border-left: `3px solid #FF6B6B`
 - Border-radius: `8px`
 - Padding: `clamp(0.75rem, 2vw, 1rem)`
 
 #### Note Block
+
 - Background: `rgba(31, 27, 45, 0.5)`
 - Border-radius: `8px`
 - Padding: `clamp(0.75rem, 2vw, 1rem)`
 
 #### Poem Block
+
 - Background: `rgba(31, 27, 45, 0.4)`
 - Border: `1px solid rgba(247, 232, 212, 0.1)`
 - Border-radius: `8px`
@@ -151,6 +162,7 @@ This document outlines the visual language, components, and design patterns used
 ### Media Containers
 
 #### Featured Image
+
 - Border-radius: `8px`
 - Border: `1px solid rgba(189, 150, 72, 0.3)`
 - Box-shadow: `0 10px 30px rgba(0, 0, 0, 0.3)`
@@ -158,11 +170,13 @@ This document outlines the visual language, components, and design patterns used
 - Object-fit: `cover`
 
 #### Video Container
+
 - Aspect ratio: `16:9`
 - Border-radius: `8px`
 - Border: `1px solid rgba(247, 232, 212, 0.1)`
 
 #### Audio Container
+
 - Background: `rgba(19, 17, 28, 0.6)`
 - Padding: `clamp(1rem, 3vw, 1.5rem)`
 - Text-align: `center`
@@ -172,11 +186,13 @@ This document outlines the visual language, components, and design patterns used
 ### Responsive Grid Systems
 
 #### Featured Grid
+
 - Grid template: `repeat(auto-fill, minmax(min(100%, 300px), 1fr))`
 - Gap: `clamp(1rem, 3vw, 2rem)`
 - Breakpoint adjustments: `minmax(min(100%, 250px), 1fr)` at 1100px
 
 #### Standard Grid
+
 - Grid template: `repeat(auto-fill, minmax(min(100%, 280px), 1fr))`
 - Gap: `clamp(1rem, 3vw, 1.5rem)`
 
@@ -194,18 +210,21 @@ This document outlines the visual language, components, and design patterns used
 ### Types & Sizing
 
 #### Hero Background
+
 - Full width
 - Overlay: `linear-gradient(rgba(19, 17, 28, 0.7), rgba(19, 17, 28, 0.8))`
 - Position: `center`
 - Size: `cover`
 
 #### Tale Cover Images
+
 - Card view: `height: clamp(150px, 30vw, 180px)`
 - List view: `height: clamp(120px, 25vw, 160px)`
 - Individual tale page: Full width, `max-height: 500px`
 - Object-fit: `cover`
 
 #### Decorative Elements
+
 - SVG patterns for dividers
 - Icon usage through Font Awesome
 
@@ -219,10 +238,12 @@ This document outlines the visual language, components, and design patterns used
 ## Animations & Transitions
 
 ### Page Load
+
 - Hero title: Fly in from top with `fly={{ y: -30, duration: 800, delay: 300, easing: quintOut }}`
 - Hero subtitle: Fade in with `fade={{ duration: 1000, delay: 600 }}`
 
 ### Interactive Elements
+
 - Hover state for buttons and cards uses `transform: translateY(-2px)` to `translateY(-5px)`
 - Color transitions use `transition: all 0.3s ease`
 

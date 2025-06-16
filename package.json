@@ -1,37 +1,53 @@
 {
-	"name": "treasuretavernhq-web",
-	"private": true,
-	"version": "0.0.1",
-	"type": "module",
-	"scripts": {
-		"dev": "vite dev",
-		"build": "vite build",
-		"preview": "vite preview",
-		"prepare": "svelte-kit sync || echo ''",
-		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-		"convert-webp": "node utils/convert-to-webp.js",
-		"convert-all-images": "node utils/convert-to-webp.js static/images",
-		"optimize-images": "node utils/convert-to-webp.js static/images && node utils/convert-to-webp.js static/favicon && echo 'All images optimized successfully!'",
-		"generate-sitemap": "node utils/generate-sitemap.js",
-		"add-tale": "bash scripts/add-tale.sh",
-		"generate-tale": "node src/lib/scripts/tale-generator.js"
-	},
-	"devDependencies": {
-		"@sveltejs/adapter-auto": "^4.0.0",
-		"@sveltejs/adapter-cloudflare": "^4.0.0",
-		"@sveltejs/kit": "^2.16.0",
-		"@sveltejs/vite-plugin-svelte": "^5.0.0",
-		"@tailwindcss/vite": "^4.0.0",
-		"gray-matter": "^4.0.3",
-		"marked": "^15.0.7",
-		"svelte": "^5.0.0",
-		"svelte-check": "^4.0.0",
-		"tailwindcss": "^4.0.0",
-		"typescript": "^5.0.0",
-		"vite": "^6.0.0"
-	},
-	"dependencies": {
-		"@supabase/supabase-js": "^2.49.3"
-	}
+  "name": "treasuretavernhq-web",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "vite preview",
+    "prepare": "svelte-kit sync || echo ''",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+    "convert-webp": "node utils/convert-to-webp.js",
+    "convert-all-images": "node utils/convert-to-webp.js static/images",
+    "optimize-images": "node utils/convert-to-webp.js static/images && node utils/convert-to-webp.js static/favicon && echo 'All images optimized successfully!'",
+    "generate-sitemap": "node utils/generate-sitemap.js",
+    "add-tale": "bash scripts/add-tale.sh",
+    "generate-tale": "node src/lib/scripts/tale-generator.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "quality": "npm run lint && npm run format:check && npm run check",
+    "quality:fix": "npm run lint:fix && npm run format && npm run check"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.27.0",
+    "@sveltejs/adapter-auto": "^4.0.0",
+    "@sveltejs/adapter-cloudflare": "^4.0.0",
+    "@sveltejs/kit": "^2.16.0",
+    "@sveltejs/vite-plugin-svelte": "^5.0.0",
+    "@tailwindcss/vite": "^4.0.0",
+    "@types/eslint__js": "^9.14.0",
+    "@typescript-eslint/eslint-plugin": "^8.32.1",
+    "@typescript-eslint/parser": "^8.32.1",
+    "eslint": "^9.27.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-svelte": "^3.9.0",
+    "gray-matter": "^4.0.3",
+    "marked": "^15.0.7",
+    "prettier": "^3.5.3",
+    "prettier-plugin-svelte": "^3.4.0",
+    "svelte": "^5.0.0",
+    "svelte-check": "^4.0.0",
+    "svelte-eslint-parser": "^1.2.0",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.0.0",
+    "vite": "^6.0.0"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.49.3"
+  }
 }

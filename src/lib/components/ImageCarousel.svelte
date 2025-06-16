@@ -20,7 +20,9 @@
 
   // Start/stop autoplay
   function startAutoplay() {
-    if (images.length <= 1) return;
+    if (images.length <= 1) {
+      return;
+    }
 
     timer = setInterval(() => {
       goToNext();
@@ -36,7 +38,9 @@
 
   // Navigation functions
   function goToIndex(index: number) {
-    if (isTransitioning || index === currentIndex) return;
+    if (isTransitioning || index === currentIndex) {
+      return;
+    }
 
     isTransitioning = true;
     currentIndex = (index + images.length) % images.length;
@@ -61,14 +65,17 @@
     goToIndex(currentIndex - 1);
   }
 
-  // Touch handlers
+  // Touch handlers - optimized for performance
   function handleTouchStart(event: TouchEvent) {
     touchStartX = event.touches[0].clientX;
     stopAutoplay();
   }
 
   function handleTouchMove(event: TouchEvent) {
-    touchEndX = event.touches[0].clientX;
+    // Only update if we have a valid touch
+    if (event.touches.length > 0) {
+      touchEndX = event.touches[0].clientX;
+    }
   }
 
   function handleTouchEnd() {
@@ -136,7 +143,8 @@
   on:touchstart={handleTouchStart}
   on:touchmove={handleTouchMove}
   on:touchend={handleTouchEnd}
-  style="--aspect-ratio: {aspectRatio}; --height: {height};"
+  style:--aspect-ratio={aspectRatio}
+  style:--height={height}
   role="region"
   aria-label="Image carousel"
   tabindex="0"
@@ -147,18 +155,14 @@
       <div
         class="carousel-item"
         class:active={i === currentIndex}
-        class:prev={i === ((currentIndex - 1 + images.length) % images.length)}
-        class:next={i === ((currentIndex + 1) % images.length)}
+        class:prev={i === (currentIndex - 1 + images.length) % images.length}
+        class:next={i === (currentIndex + 1) % images.length}
       >
         <picture>
           {#if image.webpSrc && supportsWebP}
-            <source srcset={image.webpSrc} type="image/webp">
+            <source srcset={image.webpSrc} type="image/webp" />
           {/if}
-          <img
-            src={image.src}
-            alt={image.alt}
-            loading={i === 0 ? "eager" : "lazy"}
-          />
+          <img src={image.src} alt={image.alt} loading={i === 0 ? 'eager' : 'lazy'} />
         </picture>
       </div>
     {/each}
@@ -166,19 +170,11 @@
 
   <!-- Controls -->
   {#if showControls && images.length > 1}
-    <button
-      class="carousel-control prev"
-      on:click={() => goToPrev()}
-      aria-label="Previous image"
-    >
+    <button class="carousel-control prev" on:click={() => goToPrev()} aria-label="Previous image">
       <span class="arrow">&#10094;</span>
     </button>
 
-    <button
-      class="carousel-control next"
-      on:click={() => goToNext()}
-      aria-label="Next image"
-    >
+    <button class="carousel-control next" on:click={() => goToNext()} aria-label="Next image">
       <span class="arrow">&#10095;</span>
     </button>
   {/if}
@@ -226,7 +222,9 @@
     height: 100%;
     opacity: 0;
     transform: translateX(100%);
-    transition: transform 0.5s ease, opacity 0.5s ease;
+    transition:
+      transform 0.5s ease,
+      opacity 0.5s ease;
     z-index: 1;
   }
 
@@ -291,7 +289,7 @@
   }
 
   .arrow {
-    color: #F7E8D4;
+    color: #f7e8d4;
     font-size: 1.2rem;
     line-height: 1;
     user-select: none;
@@ -319,7 +317,7 @@
   }
 
   .indicator.active {
-    background-color: #BD9648;
+    background-color: #bd9648;
     transform: scale(1.2);
     box-shadow: 0 0 8px rgba(189, 150, 72, 0.5);
   }
