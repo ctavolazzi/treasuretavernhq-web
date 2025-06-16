@@ -67,7 +67,6 @@ src/
 ├── routes/            # SvelteKit routes (pages)
 │   ├── about/         # About page
 │   ├── announcements/ # Announcements
-│   ├── contact/       # Contact page
 │   └── tavern-tales/  # Story pages
 └── app.html          # Main HTML template
 
@@ -240,7 +239,6 @@ src/
 ├── routes/          # Page routes
 │   ├── about/      # About page
 │   ├── announcements/  # Announcements
-│   ├── contact/    # Contact page
 │   └── tavern-tales/  # Story pages
 └── app.html          # Main HTML template
 

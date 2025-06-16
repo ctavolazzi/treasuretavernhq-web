@@ -127,11 +127,6 @@
           <h3>Announcements</h3>
           <p>Latest updates and news</p>
         </a>
-        <a href="/contact" class="exploration-card">
-          <i class="fas fa-envelope"></i>
-          <h3>Contact</h3>
-          <p>Get in touch with us</p>
-        </a>
       </div>
     </div>
 
@@ -1141,5 +1136,74 @@
         0 0 30px rgba(213, 164, 76, 0.3),
         inset 0 0 20px rgba(213, 164, 76, 0.2);
     }
+  }
+
+  .welcome-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(2.2rem, 5vw, 2.8rem);
+    color: #d5a44c;
+    text-shadow:
+      0 0 12px rgba(213, 164, 76, 0.4),
+      0 0 24px rgba(213, 164, 76, 0.2);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    margin: 2.5rem 0 1.25rem 0;
+    text-align: center;
+    line-height: 1.1;
+    animation: glow 2.5s infinite alternate;
+  }
+
+  .welcome-nav-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    justify-content: center;
+    margin: 2.5rem 0 1.5rem 0;
+  }
+
+  .welcome-nav-button {
+    display: inline-block;
+    padding: 0.9rem 2.1rem;
+    background: linear-gradient(135deg, #bd9648 0%, #e5c989 100%);
+    color: #1f1b2d;
+    border: none;
+    border-radius: 50px;
+    font-family: 'Cinzel', serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow:
+      0 5px 15px rgba(0, 0, 0, 0.18),
+      0 0 12px rgba(189, 150, 72, 0.25);
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.18);
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+  }
+  .welcome-nav-button:hover {
+    background: linear-gradient(135deg, #e5c989 0%, #bd9648 100%);
+    color: #1f1b2d;
+    transform: translateY(-2px) scale(1.04);
+    box-shadow:
+      0 8px 24px rgba(189, 150, 72, 0.25),
+      0 0 18px rgba(213, 164, 76, 0.18);
+  }
+  .welcome-nav-button .button-content {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+  }
+  .welcome-nav-icon {
+    font-size: 1.2rem;
+    color: #bd9648;
+    margin-right: 0.5rem;
+  }
+  .button-text {
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
   }
 </style>

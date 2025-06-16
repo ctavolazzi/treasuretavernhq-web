@@ -327,7 +327,7 @@
       title="Share Your Own Tale"
       description="The Tavern welcomes stories from travelers far and wide. Perhaps you have encountered something strange on your journeys worth recording in our archives?"
       buttonText="Submit Your Tale"
-      demoLink="/contact"
+      demoLink="/about"
     />
   </main>
 </div>

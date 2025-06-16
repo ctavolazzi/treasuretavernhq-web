@@ -53,7 +53,6 @@
     <a href="/" class="nav-link">Home</a>
     <a href="/about" class="nav-link">About</a>
     <a href="/announcements" class="nav-link">Announcements</a>
-    <a href="/contact" class="nav-link">Contact</a>
   </nav>
 </div>
 

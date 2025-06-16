@@ -76,10 +76,6 @@
     <i class="fas fa-bullhorn"></i>
     Announcements
   </a>
-  <a href="/contact" class="mobile-nav-link" onclick={closeMenu}>
-    <i class="fas fa-envelope"></i>
-    Contact
-  </a>
 </div>
 
 <style>

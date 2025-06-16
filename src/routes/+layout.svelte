@@ -126,7 +126,6 @@
     <a href="/tavern-tales" class="nav-link">Tales</a>
     <a href="/announcements" class="nav-link">Announcements</a>
     <a href="/about" class="nav-link">About</a>
-    <a href="/contact" class="nav-link">Contact</a>
   </div>
 
   <!-- Mobile Menu Component -->
@@ -148,7 +147,6 @@
   <p class="footer-text">© {new Date().getFullYear()} Treasure Tavern. All rights reserved.</p>
   <div class="footer-links">
     <a href="/about" class="footer-link">About</a>
-    <a href="/contact" class="footer-link">Contact</a>
     <a href="/tavern-tales" class="footer-link">Tales</a>
   </div>
 </footer>
