@@ -1,8 +1,16 @@
 <script lang="ts">
   import ImageModal from '$lib/components/ImageModal.svelte';
-  import { isSupabaseConfigured, subscribeEmail } from '$lib/supabaseClient';
   import { onMount } from 'svelte';
-emove newsletter/opt-in, lantern, and speculative content.
+  let scrollModalOpen = false;
+  let supportsWebP = true;
+  const scrollImgWebpSrc = '/images/tavern-song-scroll-transparent.webp';
+  const scrollImgSrc = '/images/tavern-song-scroll-transparent.png';
+  onMount(() => {
+    // Check for WebP support
+    const webpSupport =
+      document.createElement('canvas').toDataURL('image/webp').indexOf('data:image/webp') === 0;
+    supportsWebP = webpSupport;
+  });
 </script>
 
 <svelte:head>
