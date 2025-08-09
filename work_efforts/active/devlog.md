@@ -2567,3 +2567,67 @@ Replace the generic Svelte template README with comprehensive project documentat
 - Removed the Contact page and all related navigation, links, and documentation references.
 - Visitors can now simply enjoy the content; there is no contact or feedback mechanism provided.
 - Marked the original Contact Page Implementation work effort as obsolete.
+
+## 2025-08-09 10:10: ✅ COMPLETED - Project Exploration Overview
+
+### Objective
+Produce a concise, developer-focused overview of the codebase (structure, stack, dependencies, key modules, scripts, configuration) to accelerate onboarding and maintenance.
+
+### Work Effort Created
+- **File**: `work_efforts/50_maintenance/50.07_project_exploration_2025_08_09.md`
+- **Category**: 50_Maintenance
+- **Status**: Completed
+
+### Development Plan
+1. Scan repository structure and key directories
+2. Review `svelte.config.js`, `vite.config.ts`, `tsconfig.json`, `wrangler.toml`
+3. Summarize npm scripts and dependencies (`package.json`)
+4. Inventory `src/lib/components` and `src/routes`
+5. Capture documentation resources (`README.md`, `styleguide.md`, `work_efforts`)
+
+### Results (Overview)
+- **Stack**: SvelteKit 2 (Svelte 5), Vite 6, TailwindCSS 4 plugin, TypeScript (strict)
+- **Deployment**: Cloudflare Pages via adapter-cloudflare with Node.js compatibility flags
+- **Runtime deps**: `@supabase/supabase-js`
+- **Tooling**: ESLint (flat config), Prettier, `svelte-check`; quality scripts available
+- **Key components**: 12 in `src/lib/components` incl. multiple audio players and `UnifiedAudioPlayer`
+- **Routes**: Root, about, announcements (with slug), tavern-tales (with slug), waitlist
+- **Docs**: Comprehensive `README.md` and `styleguide.md`; Johnny Decimal `work_efforts/`
+
+### Links
+- [[50_maintenance/50.07_project_exploration_2025_08_09]]
+- [[50_maintenance/50.02_comprehensive_project_review_2025_01_28]] (addendum updated)
+
+**Status**: Exploration completed and documented. Index updated.
+
+## 2025-08-09 10:25: 🚧 STARTED - Codebase Cleanup (No Functionality Change)
+
+### Objective
+Create an organized cleanup plan and scaffolding to execute without changing behavior.
+
+### Branch
+- `chore/codebase-cleanup-2025-08-09`
+
+### Work Efforts Created
+- [[50_maintenance/50.08_codebase_cleanup_2025_08_09]] (umbrella)
+- [[50_maintenance/50.09_homepage_component_extraction_no_behavior_change]]
+- [[50_maintenance/50.10_audio_component_harmonization_no_behavior_change]]
+- [[50_maintenance/50.11_utils_and_scripts_structure_cleanup]]
+- [[50_maintenance/50.12_lint_format_normalization_enforcement]]
+- [[50_maintenance/50.13_unused_assets_and_dead_code_audit]]
+- [[50_maintenance/50.14_types_and_imports_consistency]]
+- [[50_maintenance/50.15_cleanup_tracking_list]]
+
+### Tools
+- Added `utils/work_effort_tracker.py` to summarize efforts for AI routing
+
+### Plan
+1. Baseline quality checks and snapshot
+2. Lint/format normalization
+3. Homepage extraction (no behavior change)
+4. Audio API harmonization (no UX change)
+5. Scripts structure consolidation
+6. Unused assets/dead code audit
+7. Types/imports consistency
+
+**Status**: Scaffolding complete. Ready to execute work blocks.
