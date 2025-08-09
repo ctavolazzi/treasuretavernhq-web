@@ -209,6 +209,11 @@
 
     {#if showProgress}
       <div
+        role="slider"
+        aria-label="Audio progress"
+        aria-valuemin="0"
+        aria-valuemax="100"
+        aria-valuenow={Math.round(progress) || 0}
         class="progress-container"
         on:mousedown={e => {
           startDrag();

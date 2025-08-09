@@ -147,7 +147,7 @@
   style:--height={height}
   role="region"
   aria-label="Image carousel"
-  tabindex="0"
+  tabindex="-1"
 >
   <!-- Image Container -->
   <div class="carousel-inner">

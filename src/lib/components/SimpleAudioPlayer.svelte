@@ -113,7 +113,7 @@
         <i class="fas fa-play"></i>
       {/if}
     </button>
-    <div class="progress-container" on:click={handleSeek}>
+    <div class="progress-container" role="button" tabindex="0" on:keydown={(e) => e.key==='Enter' && handleSeek(e)} on:click={handleSeek}>
       <div class="progress-bar" style:width="{progress}%">
         <div class="progress-indicator"></div>
       </div>
