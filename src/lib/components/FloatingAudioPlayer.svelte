@@ -81,14 +81,14 @@
         audioPlayer.volume = 0.5; // Set initial volume to 50%
 
         // Always start muted if specified
-        audioPlayer.muted = startMuted;
+         audioPlayer.muted = startMuted;
         isMuted = startMuted;
 
         // Load the audio
         audioPlayer.load();
 
         // Try to autoplay (will likely be blocked if not muted)
-        audioPlayer.play().catch(e => {
+         audioPlayer.play().catch(e => {
           console.log('Audio autoplay was prevented:', e);
         });
       }
