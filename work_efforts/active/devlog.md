@@ -2631,6 +2631,16 @@ Produce a concise, developer-focused overview of the codebase (structure, stack,
 - [[50_maintenance/50.09_homepage_component_extraction_no_behavior_change]]
 - [[50_maintenance/50.11_utils_and_scripts_structure_cleanup]] (inventory captured)
 
+## 2025-08-09 15:25: ✅ Continued Extraction & Scripts Consolidation Shims
+
+### Changes
+- Extracted `ExplorationSection` and `TavernAtmosphere` into `src/lib/components/homepage/` and replaced inline blocks in `+page.svelte` (strict parity)
+- Added shims under `scripts/` that delegate to `utils/scripts/*` to standardize script entry points without breaking paths
+
+### Work Efforts Updated
+- [[50_maintenance/50.09_homepage_component_extraction_no_behavior_change]] (updated with new sections)
+- [[50_maintenance/50.11_utils_and_scripts_structure_cleanup]] (proposal + shims completed)
+
 ## 2025-08-09 10:25: 🚧 STARTED - Codebase Cleanup (No Functionality Change)
 
 ### Objective
