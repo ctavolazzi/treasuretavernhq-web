@@ -2621,6 +2621,16 @@ Produce a concise, developer-focused overview of the codebase (structure, stack,
 - Proceed with `50.09` homepage extraction (strict parity)
 - Consider `50.11` script consolidation (paths stable)
 
+## 2025-08-09 15:05: ✅ Extracted Homepage Section (Strict Parity)
+
+### Changes
+- Extracted `TalesPromotion` from `src/routes/+page.svelte` to `src/lib/components/homepage/TalesPromotion.svelte`
+- Replaced inline block with the new component; no visual/behavior change
+
+### Work Efforts Updated
+- [[50_maintenance/50.09_homepage_component_extraction_no_behavior_change]]
+- [[50_maintenance/50.11_utils_and_scripts_structure_cleanup]] (inventory captured)
+
 ## 2025-08-09 10:25: 🚧 STARTED - Codebase Cleanup (No Functionality Change)
 
 ### Objective
