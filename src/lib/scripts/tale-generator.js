@@ -79,7 +79,7 @@ function createTale() {
         });
 
         rl.question('\nSelect category number: ', categoryNum => {
-          const categoryIndex = parseInt(categoryNum, 10) - 1;
+          let categoryIndex = parseInt(categoryNum, 10) - 1;
           if (isNaN(categoryIndex) || categoryIndex < 0 || categoryIndex >= taleCategories.length) {
             console.log('Invalid category selection. Using Stories as default.');
             categoryIndex = 0;

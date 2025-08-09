@@ -1,3 +1,4 @@
+// @ts-nocheck
 // Mock data for Tavern Tales
 import { parseMarkdown } from '$lib/utils/markdown';
 

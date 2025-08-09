@@ -23,7 +23,7 @@ export async function load({ params, fetch, url }) {
   absoluteUrl.pathname = `/tavern-tales/${params.slug}`;
 
   // Make sure image URLs are absolute for social sharing
-  const coverImage = tale.coverImage;
+  const coverImage = /** @type {any} */ (tale).coverImage;
   const absoluteCoverImage = coverImage?.startsWith('http')
     ? coverImage
     : `${baseUrl}${coverImage}`;

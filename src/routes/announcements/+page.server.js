@@ -71,7 +71,7 @@ export async function load() {
     allAnnouncements.sort((a, b) => {
       const dateA = new Date(a.date);
       const dateB = new Date(b.date);
-      return dateB - dateA;
+      return dateB.getTime() - dateA.getTime();
     });
 
     // Get unique categories for filtering

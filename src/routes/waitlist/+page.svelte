@@ -2,7 +2,7 @@
   // No form logic needed
 </script>
 
-<div class="waitlist-container" in:fade={{ duration: 300, delay: 100 }}>
+<div class="waitlist-container">
   <h2 class="waitlist-heading">Site Evolution</h2>
   <p class="waitlist-description">
     Treasure Tavern HQ is an evolving creative writing project. The site will be updated and
