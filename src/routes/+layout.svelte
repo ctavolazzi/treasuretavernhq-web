@@ -165,6 +165,12 @@
   /* Import the required fonts from Google Fonts */
   @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;500;600;700&family=Inter:wght@300;400;500;700&family=Spectral:wght@400;500;600&display=swap');
 
+  /* Ensure the root element matches the body background so overscroll doesn't reveal white */
+  :global(html) {
+    background: linear-gradient(145deg, #13111c 0%, #1f1b2d 60%, #2b1d34 100%);
+    background-color: #13111c;
+  }
+
   :global(body) {
     margin: 0;
     padding: 0;
