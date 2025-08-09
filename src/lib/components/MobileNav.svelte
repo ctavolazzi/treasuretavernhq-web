@@ -37,7 +37,13 @@
 </script>
 
 <!-- Hamburger button - Always rendered above all else -->
-<button class="hamburger-button" class:open={isOpen} onclick={toggleMenu} aria-label="Toggle menu" type="button">
+<button
+  class="hamburger-button"
+  class:open={isOpen}
+  onclick={toggleMenu}
+  aria-label="Toggle menu"
+  type="button"
+>
   {#if !isOpen}
     <div class="hamburger-line hamburger-line-1"></div>
     <div class="hamburger-line hamburger-line-2"></div>
@@ -253,19 +259,7 @@
     padding-left: 0.5rem;
   }
 
-  .mobile-nav-icon {
-    margin-right: 1.2rem;
-    width: 1.5rem;
-    text-align: center;
-    color: #9e61e3;
-    opacity: 0.9;
-    transition: all 0.2s ease;
-  }
-
-  .mobile-nav-link:hover .mobile-nav-icon {
-    transform: translateX(2px);
-    opacity: 1;
-  }
+  /* removed unused .mobile-nav-icon styles */
 
   /* Staggered link animations */
   .mobile-menu.open .mobile-nav-link {
@@ -339,15 +333,5 @@
     }
   }
 
-  .special-link {
-    border-bottom: 1px solid rgba(189, 150, 72, 0.3);
-    margin-bottom: 0.5rem;
-    padding-bottom: 1rem;
-    color: #bd9648;
-    font-weight: 500;
-  }
-
-  .special-link .mobile-nav-icon {
-    color: #bd9648;
-  }
+  /* removed unused .special-link styles */
 </style>
