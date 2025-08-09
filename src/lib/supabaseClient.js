@@ -17,6 +17,6 @@ export function isSupabaseConfigured() {
 }
 
 // Lazily create the client only when configuration exists to avoid SSR crashes in dev
-export const supabase = isSupabaseConfigured()
-  ? createClient(env.PUBLIC_SUPABASE_URL, env.PUBLIC_SUPABASE_ANON_KEY)
-  : null;
+const url = env.PUBLIC_SUPABASE_URL;
+const key = env.PUBLIC_SUPABASE_ANON_KEY;
+export const supabase = isSupabaseConfigured() ? createClient(String(url), String(key)) : null;
