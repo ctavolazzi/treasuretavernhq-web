@@ -2600,6 +2600,27 @@ Produce a concise, developer-focused overview of the codebase (structure, stack,
 
 **Status**: Exploration completed and documented. Index updated.
 
+## 2025-08-09 14:35: ♻️ Progress - Codebase Cleanup (No Functionality Change)
+
+### Branch
+- `chore/codebase-cleanup-2025-08-09`
+
+### Completed
+- Formatting across repository (Prettier) and type-check clean (0 errors)
+- Guarded Supabase usage with dynamic env + lazy client to prevent local SSR errors
+- Fixed layout hydration issue by switching to `<slot />` in `+layout.svelte`
+- Removed white overscroll flash by styling `html` background to theme
+- Added `static/favicon.ico` to eliminate 404
+- A11y improvements (no UI change):
+  - `AudioPlayer.svelte` slider role + focusable + ARIA
+  - `ImageCarousel.svelte` noninteractive container `tabindex=-1`
+  - `SimpleAudioPlayer.svelte` keyboard handler on progress
+- Error page gradient updated with standard `background-clip` + transparent color
+
+### Next
+- Proceed with `50.09` homepage extraction (strict parity)
+- Consider `50.11` script consolidation (paths stable)
+
 ## 2025-08-09 10:25: 🚧 STARTED - Codebase Cleanup (No Functionality Change)
 
 ### Objective
