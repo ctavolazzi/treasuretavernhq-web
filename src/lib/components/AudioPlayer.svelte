@@ -210,6 +210,7 @@
     {#if showProgress}
       <div
         role="slider"
+        tabindex="0"
         aria-label="Audio progress"
         aria-valuemin="0"
         aria-valuemax="100"
