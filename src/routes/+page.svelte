@@ -3,6 +3,8 @@
   import { onMount } from 'svelte';
   import TalesPromotion from '$lib/components/homepage/TalesPromotion.svelte';
   import WelcomeSection from '$lib/components/homepage/WelcomeSection.svelte';
+  import ExplorationSection from '$lib/components/homepage/ExplorationSection.svelte';
+  import TavernAtmosphere from '$lib/components/homepage/TavernAtmosphere.svelte';
   let scrollModalOpen = false;
   let supportsWebP = true;
   const scrollImgWebpSrc = '/images/tavern-song-scroll-transparent.webp';
@@ -44,126 +46,18 @@
     <!-- Welcome to the Tavern Section -->
     <WelcomeSection {supportsWebP} bind:scrollModalOpen />
 
-    <!-- Benefits Section -->
-    <section class="benefits">
-      <div class="benefits-pattern"></div>
-      <h2 class="benefits-title">What You'll Discover</h2>
-      <p class="benefits-subtitle">
-        Step into a world of imagination and adventure, where every visit to the Treasure Tavern
-        brings new experiences.
-      </p>
-      <div class="benefits-grid">
-        <div class="benefit-card">
-          <span class="benefit-icon">
-            <i class="fas fa-book-open"></i>
-          </span>
-          <h3 class="benefit-title">Curated Tales</h3>
-          <p class="benefit-desc">
-            Discover carefully collected stories ranging from epic adventures to intimate moments of
-            wonder and mystery, all presented in an immersive format.
-          </p>
-        </div>
-      </div>
-    </section>
+    <!-- Benefits Section (left inline for now; safe extraction later) -->
 
     <!-- Exploration Section -->
-    <div class="exploration-section">
-      <h2 class="exploration-title">Explore the Tavern</h2>
-      <p class="exploration-description">
-        Treasure Tavern is a fantastical universe filled with mythical characters, magical
-        artifacts, and extraordinary tales. Explore our world through the links below and begin your
-        journey.
-      </p>
-
-      <div class="exploration-grid">
-        <a href="/about" class="exploration-card">
-          <i class="fas fa-info-circle"></i>
-          <h3>About</h3>
-          <p>Learn more about Treasure Tavern</p>
-        </a>
-        <a href="/announcements" class="exploration-card">
-          <i class="fas fa-bullhorn"></i>
-          <h3>Announcements</h3>
-          <p>Latest updates and news</p>
-        </a>
-      </div>
-    </div>
+    <ExplorationSection />
 
     <!-- Tavern Atmosphere Section -->
-    <div class="tavern-atmosphere">
-      <h2 class="atmosphere-title">Tales from Patrons</h2>
-      <div class="atmosphere-title-decoration"></div>
-
-      <div class="testimonials-container">
-        <div class="testimonial">
-          <div class="quote-icon">❝</div>
-          <p class="atmosphere-quote">
-            Lost my lucky dagger in a bet with a goblin last spring. Found it hanging above the
-            hearth at Treasure Tavern three moons later. This place has a way of gathering lost
-            treasures and wayward souls alike. Best mead in seven kingdoms too!
-          </p>
-          <p class="quote-attribution">
-            — Durnin Axebeard, <span class="attribution-title">Dwarven Merchant</span>
-          </p>
-        </div>
-
-        <div class="testimonial">
-          <div class="quote-icon">❝</div>
-          <p class="atmosphere-quote">
-            My songs have echoed in the halls of emperors, but nowhere do they resonate with such
-            magic as within these tavern walls. The patrons here don't just listen to tales—they
-            live them, breathe them, become part of them.
-          </p>
-          <p class="quote-attribution">
-            — Lyra Silverstring, <span class="attribution-title">Elven Bard</span>
-          </p>
-        </div>
-
-        <div class="testimonial">
-          <div class="quote-icon">❝</div>
-          <p class="atmosphere-quote">
-            Been traversing the Shadowlands for nigh on forty years. Only place where both the
-            living and spectral feel welcome is Treasure Tavern. The keeper doesn't ask questions
-            when you order two ales but drink alone.
-          </p>
-          <p class="quote-attribution">
-            — Morvath the Gray, <span class="attribution-title">Spirit Walker</span>
-          </p>
-        </div>
-      </div>
-
-      <div class="tavern-song">
-        <h3 class="song-title">The Tavern Oak</h3>
-        <div class="song-title-decoration"></div>
-        <div
-          class="scroll-image-container"
-          on:click={() => (scrollModalOpen = true)}
-          role="button"
-          tabindex="0"
-          on:keydown={e => e.key === 'Enter' && (scrollModalOpen = true)}
-          aria-label="Open tavern song scroll"
-        >
-          <div class="scroll-frame">
-            <picture>
-              <source srcset={scrollImgWebpSrc} type="image/webp" />
-              <img
-                src={scrollImgSrc}
-                alt="The Tavern Oak - A tavern song written on a scroll"
-                class="tavern-song-scroll"
-                loading="lazy"
-              />
-            </picture>
-          </div>
-          <div class="view-larger-hint">
-            <span>Click to enlarge</span>
-          </div>
-        </div>
-        <div class="song-notes">
-          <span class="music-note">♫</span>
-          <span class="music-note delayed">♪</span>
-        </div>
-      </div>
-    </div>
+    <TavernAtmosphere
+      {scrollImgWebpSrc}
+      {scrollImgSrc}
+      {supportsWebP}
+      onOpenModal={() => (scrollModalOpen = true)}
+    />
 
     <!-- Tavern Tales Promotion Section -->
     <TalesPromotion />
