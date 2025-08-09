@@ -25,7 +25,9 @@
         console.warn('Failed to play audio:', error);
         // Fallback if autoplay is blocked
         isMuted = true;
-        audioPlayer.muted = true;
+        if (audioPlayer) {
+          audioPlayer.muted = true;
+        }
       });
     } else {
       audioPlayer.muted = true;
