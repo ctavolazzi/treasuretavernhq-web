@@ -279,26 +279,7 @@
     width: 100%;
   }
 
-  .nav-link.special {
-    color: #bd9648;
-    font-weight: 500;
-    border: 1px solid rgba(189, 150, 72, 0.5);
-    border-radius: 4px;
-    padding: 0.25rem 0.75rem;
-    margin-left: 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-  }
-
-  .nav-link.special:hover {
-    background: rgba(189, 150, 72, 0.1);
-    text-shadow: 0 0 8px rgba(189, 150, 72, 0.4);
-  }
-
-  .nav-link.special:after {
-    display: none;
-  }
+  /* removed unused .nav-link.special styles */
 
   .banner {
     padding: 0.5rem 0.75rem;
