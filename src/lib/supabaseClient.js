@@ -1,8 +1,6 @@
 import { PUBLIC_SUPABASE_ANON_KEY, PUBLIC_SUPABASE_URL } from '$env/static/public';
 import { createClient } from '@supabase/supabase-js';
 
-export const supabase = createClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY);
-
 /**
  * Check if the Supabase connection is properly configured
  * @returns {boolean} Whether the connection is properly configured
@@ -15,3 +13,8 @@ export function isSupabaseConfigured() {
     PUBLIC_SUPABASE_ANON_KEY.length > 10
   );
 }
+
+// Lazily create the client only when configuration exists to avoid SSR crashes in dev
+export const supabase = isSupabaseConfigured()
+  ? createClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY)
+  : null;

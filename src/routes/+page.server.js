@@ -7,6 +7,9 @@ export async function load() {
   }
 
   try {
+    if (!supabase) {
+      return { emails: [] };
+    }
     const { data, error } = await supabase.from('public.emails').select();
     if (error) {
       console.error('Supabase error fetching emails:', error);

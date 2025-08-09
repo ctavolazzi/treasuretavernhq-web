@@ -6,7 +6,7 @@
   import { pageAudio } from '$lib/stores/audioStore';
   import { onMount } from 'svelte';
   import '../app.css';
-  const { children } = $props();
+  // Using slot for child content to avoid children() runtime issues
 
   let bannerActive = $state(false);
   let mobileMenuOpen = false;
@@ -140,7 +140,7 @@
   <Breadcrumb items={breadcrumbItems} />
 {/if}
 
-{@render children()}
+<slot />
 
 <!-- Footer -->
 <footer class="footer">
