@@ -94,49 +94,51 @@
 
   // Set up event listeners
   onMount(() => {
-    console.log('AudioPlayer mounted, audioSrc:', audioSrc);
-
     if (audio) {
-      console.log('Audio element found');
-
       // Set initial volume
       audio.volume = volume;
 
-      // Load metadata - this gets the duration once the audio is loaded
-      audio.addEventListener('loadedmetadata', () => {
-        console.log('Audio metadata loaded, duration:', audio.duration);
+      // Use stable handlers so we can remove them on destroy
+      const onLoadedMetadata = () => {
+        if (import.meta.env.DEV) {
+          console.log('Audio metadata loaded, duration:', audio.duration);
+        }
         duration = audio.duration;
-      });
-
-      // Add error handling
-      audio.addEventListener('error', e => {
+      };
+      const onError = (e: Event) => {
         console.error('Audio error:', e);
         console.error('Audio error code:', audio.error?.code);
         console.error('Audio error message:', audio.error?.message);
-      });
-
-      // Log when audio is actually playing
-      audio.addEventListener('playing', () => {
-        console.log('Audio is now playing');
-      });
-
-      // Update progress as audio plays
-      audio.addEventListener('timeupdate', updateProgress);
-
-      // Handle when audio ends
-      audio.addEventListener('ended', () => {
+      };
+      const onPlaying = () => {
+        if (import.meta.env.DEV) {
+          console.log('Audio is now playing');
+        }
+      };
+      const onEnded = () => {
         isPlaying = false;
         audio.currentTime = 0;
         updateProgress();
-      });
+      };
+
+      // Attach
+      audio.addEventListener('loadedmetadata', onLoadedMetadata);
+      audio.addEventListener('error', onError);
+      audio.addEventListener('playing', onPlaying);
+      audio.addEventListener('timeupdate', updateProgress);
+      audio.addEventListener('ended', onEnded);
 
       // Start playing if autoplay is enabled
       if (autoplay) {
-        audio.play().catch(error => {
-          console.warn('Autoplay failed:', error);
-          isPlaying = false;
-        });
-        isPlaying = true;
+        audio
+          .play()
+          .then(() => {
+            isPlaying = true;
+          })
+          .catch(error => {
+            console.warn('Autoplay failed:', error);
+            isPlaying = false;
+          });
       }
 
       // Set up global event listeners for drag actions
@@ -144,17 +146,20 @@
       window.addEventListener('touchmove', updateSeek);
       window.addEventListener('mouseup', endDrag);
       window.addEventListener('touchend', endDrag);
+
+      // Cleanup returning a function keeps Svelte semantics clear
+      return () => {
+        audio.removeEventListener('loadedmetadata', onLoadedMetadata);
+        audio.removeEventListener('error', onError);
+        audio.removeEventListener('playing', onPlaying);
+        audio.removeEventListener('timeupdate', updateProgress);
+        audio.removeEventListener('ended', onEnded);
+      };
     }
   });
 
-  // Clean up event listeners
+  // Clean up global drag listeners
   onDestroy(() => {
-    if (audio) {
-      audio.removeEventListener('loadedmetadata', () => {});
-      audio.removeEventListener('timeupdate', updateProgress);
-      audio.removeEventListener('ended', () => {});
-    }
-
     window.removeEventListener('mousemove', updateSeek);
     window.removeEventListener('touchmove', updateSeek);
     window.removeEventListener('mouseup', endDrag);

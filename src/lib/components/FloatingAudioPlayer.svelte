@@ -21,8 +21,8 @@
 
     if (isMuted) {
       audioPlayer.muted = false;
-      audioPlayer.play().catch(error => {
-        console.warn('Failed to play audio:', error);
+        audioPlayer.play().catch(error => {
+          if (import.meta.env.DEV) console.warn('Failed to play audio:', error);
         // Fallback if autoplay is blocked
         isMuted = true;
         if (audioPlayer) {
@@ -91,7 +91,7 @@
 
         // Try to autoplay (will likely be blocked if not muted)
          audioPlayer.play().catch(e => {
-          console.log('Audio autoplay was prevented:', e);
+          if (import.meta.env.DEV) console.log('Audio autoplay was prevented:', e);
         });
       }
 

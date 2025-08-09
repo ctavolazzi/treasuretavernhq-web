@@ -9,7 +9,7 @@
   // Methods
   function toggleMenu() {
     isOpen = !isOpen;
-    console.log('Menu toggled, isOpen:', isOpen);
+    if (import.meta.env.DEV) console.log('Menu toggled, isOpen:', isOpen);
 
     // Toggle body scroll
     if (isOpen) {
