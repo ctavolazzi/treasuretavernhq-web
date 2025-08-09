@@ -37,7 +37,7 @@
 </script>
 
 <!-- Hamburger button - Always rendered above all else -->
-<button class="hamburger-button" class:open={isOpen} onclick={toggleMenu} aria-label="Toggle menu">
+<button class="hamburger-button" class:open={isOpen} onclick={toggleMenu} aria-label="Toggle menu" type="button">
   {#if !isOpen}
     <div class="hamburger-line hamburger-line-1"></div>
     <div class="hamburger-line hamburger-line-2"></div>
