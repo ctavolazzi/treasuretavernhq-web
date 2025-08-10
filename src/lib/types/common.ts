@@ -32,6 +32,16 @@ export interface AudioConfig {
   showTitle?: boolean;
 }
 
+// Common audio props for players
+export interface AudioPlayerProps {
+  audioSrc: string;
+  audioTitle?: string;
+  autoplay?: boolean;
+  loop?: boolean;
+  startMuted?: boolean;
+  showTitle?: boolean;
+}
+
 // Navigation item interface
 export interface NavItem {
   label: string;
