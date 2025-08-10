@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 # Check if ffmpeg is installed
 if ! command -v ffmpeg &> /dev/null; then
@@ -19,7 +20,7 @@ echo "Converting $INPUT_FILE to WebP format..."
 ffmpeg -i "$INPUT_FILE" -c:v libwebp -quality "$QUALITY" -lossless 0 -compression_level 6 -q:v 90 -pix_fmt yuva420p "$OUTPUT_FILE"
 
 # Check if conversion was successful
-if [ $? -eq 0 ]; then
+if [ -f "$OUTPUT_FILE" ]; then
     # Get file sizes for comparison
     ORIGINAL_SIZE=$(du -h "$INPUT_FILE" | cut -f1)
     NEW_SIZE=$(du -h "$OUTPUT_FILE" | cut -f1)

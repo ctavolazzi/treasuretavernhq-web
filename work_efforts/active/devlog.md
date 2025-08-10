@@ -2713,3 +2713,12 @@ Create an organized cleanup plan and scaffolding to execute without changing beh
 
 ### Work Efforts Updated
 - [[50_maintenance/50.11_utils_and_scripts_structure_cleanup]] (promoted scripts/ as canonical)
+
+## 2025-08-09 17:10: 🔎 Inventory - Static Assets & Usage Cross-Check
+
+### Changes
+- Inventoried `static/images`, `static/gifs`, `static/audio`
+- Cross-referenced usage across `src/` with grep
+
+### Work Efforts Updated
+- [[50_maintenance/50.13_unused_assets_and_dead_code_audit]] (moved to In Progress; inventory complete)

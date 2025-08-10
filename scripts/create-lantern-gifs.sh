@@ -1,12 +1,28 @@
 #!/bin/bash
+set -euo pipefail
+
+# Require ffmpeg
+if ! command -v ffmpeg >/dev/null 2>&1; then
+  echo "Error: ffmpeg is not installed. Please install ffmpeg." >&2
+  exit 1
+fi
 
 # Script to create lantern animation GIFs using ffmpeg with simplified flickering between two images
 echo "Creating lantern animation GIFs with ffmpeg (two-image flickering)..."
 
 # Create a temporary directory for the sequence of frames
 mkdir -p temp_frames
+trap 'rm -rf temp_frames' EXIT
 # Make sure the output directory exists
 mkdir -p static/gifs
+
+# Validate required input images
+for img in static/images/tavern-lantern-2.webp static/images/tavern-lantern.webp static/images/tavern-lantern-3.webp; do
+  if [ ! -f "$img" ]; then
+    echo "Error: Missing required image: $img" >&2
+    exit 1
+  fi
+done
 
 # Create a sequence that alternates between the two specified images
 cp static/images/tavern-lantern-2.webp temp_frames/frame01.webp
@@ -65,6 +81,5 @@ ffmpeg -y -framerate 4 -i temp_frames/success%d.webp -vf "fps=4,scale=180:-1:fla
 
 # Clean up
 echo "Cleaning up temporary files..."
-rm -rf temp_frames
 
 echo "GIFs created successfully in static/gifs/"
