@@ -2722,3 +2722,15 @@ Create an organized cleanup plan and scaffolding to execute without changing beh
 
 ### Work Efforts Updated
 - [[50_maintenance/50.13_unused_assets_and_dead_code_audit]] (moved to In Progress; inventory complete)
+
+## 2025-08-10 09:00: 🗃️ Archive - Unused Assets (Reversible)
+
+### Changes
+- Archived likely-unused images to `static/_archive/2025-08-10-unused/` using git mv for history
+- Candidates include: 90s ad images, goblin king promo, rune sword variants, lost-traveler variants, cta-bg, tavern-chronicles, interdimensional-kitchen.png
+
+### Notes
+- No code references found by grep; safe to archive. Reversible if needed.
+
+### Work Efforts Updated
+- [[50_maintenance/50.13_unused_assets_and_dead_code_audit]] (archival step completed)
