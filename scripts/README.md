@@ -1,11 +1,11 @@
 ### Scripts Overview
 
-This folder contains entry-point shell scripts for common tasks. Shims here delegate to existing implementations under utils/scripts/ to avoid breaking current npm script paths while we consolidate.
+This folder now contains the canonical implementations for shell scripts. Previous shims that delegated to utils/scripts/ have been replaced with full scripts here.
 
 - add-tale.sh: interactive helper to scaffold a new Tale
-- png-to-webp.sh: converts PNGs to WebP (delegates to utils/scripts/png-to-webp.sh)
-- remove-background.sh: removes image backgrounds (delegates to utils/scripts/remove-background.sh)
-- create-lantern-gifs.sh: assembles lantern frames to GIFs (delegates to utils/scripts/create-lantern-gifs.sh)
+- png-to-webp.sh: converts PNGs to WebP
+- remove-background.sh: removes image backgrounds
+- create-lantern-gifs.sh: assembles lantern frames to GIFs
 
 ### Usage
 
@@ -14,10 +14,10 @@ This folder contains entry-point shell scripts for common tasks. Shims here dele
 - Or call directly:
   - bash scripts/png-to-webp.sh
 
-### Planned consolidation
+### Consolidation status
 
-- Migrate canonical implementations from utils/scripts/ into scripts/ so this directory becomes the single source of truth.
-- Keep CLI flags/behavior stable to preserve automation.
+- scripts/ is the single source of truth for shell scripts.
+- utils/scripts/ will be deprecated; references should point to scripts/.
 
 ### Notes
 

@@ -2701,3 +2701,15 @@ Create an organized cleanup plan and scaffolding to execute without changing beh
 ### Work Efforts Updated
 - [[50_maintenance/50.12_lint_format_normalization_enforcement]] (progress and warning summary)
 - [[50_maintenance/50.09_homepage_component_extraction_no_behavior_change]] (completed; CSS prune noted)
+
+## 2025-08-09 17:00: ♻️ Scripts Consolidation - scripts/ Now Canonical
+
+### Changes
+- Replaced shims in `scripts/` with full implementations from `utils/scripts/`
+- Updated `scripts/README.md` to reflect canonical status
+
+### Next
+- Deprecate `utils/scripts/` and update any lingering references (none in package.json)
+
+### Work Efforts Updated
+- [[50_maintenance/50.11_utils_and_scripts_structure_cleanup]] (promoted scripts/ as canonical)
