@@ -95,6 +95,13 @@
 </script>
 
 <svelte:head>
+  <!-- Font loading performance: preconnect and load final fonts up front -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;500;600;700&family=Inter:wght@300;400;500;700&family=Spectral:wght@400;500;600&display=block"
+  />
   <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -162,8 +169,7 @@
 {/if}
 
 <style>
-  /* Import the required fonts from Google Fonts */
-  @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;500;600;700&family=Inter:wght@300;400;500;700&family=Spectral:wght@400;500;600&display=swap');
+  /* Fonts are now loaded via <link rel="stylesheet"> with preconnects for faster first paint */
 
   /* Ensure the root element matches the body background so overscroll doesn't reveal white */
   :global(html) {

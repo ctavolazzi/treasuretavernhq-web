@@ -1,10 +1,10 @@
 <script lang="ts">
+  import ExplorationSection from '$lib/components/homepage/ExplorationSection.svelte';
+  import TalesPromotion from '$lib/components/homepage/TalesPromotion.svelte';
+  import TavernAtmosphere from '$lib/components/homepage/TavernAtmosphere.svelte';
+  import WelcomeSection from '$lib/components/homepage/WelcomeSection.svelte';
   import ImageModal from '$lib/components/ImageModal.svelte';
   import { onMount } from 'svelte';
-  import TalesPromotion from '$lib/components/homepage/TalesPromotion.svelte';
-  import WelcomeSection from '$lib/components/homepage/WelcomeSection.svelte';
-  import ExplorationSection from '$lib/components/homepage/ExplorationSection.svelte';
-  import TavernAtmosphere from '$lib/components/homepage/TavernAtmosphere.svelte';
   let scrollModalOpen = false;
   let supportsWebP = true;
   const scrollImgWebpSrc = '/images/tavern-song-scroll-transparent.webp';
@@ -44,7 +44,7 @@
     </h1>
 
     <!-- Welcome to the Tavern Section -->
-    <WelcomeSection {supportsWebP} bind:scrollModalOpen />
+    <WelcomeSection />
 
     <!-- Benefits Section (left inline for now; safe extraction later) -->
 
@@ -55,7 +55,6 @@
     <TavernAtmosphere
       {scrollImgWebpSrc}
       {scrollImgSrc}
-      {supportsWebP}
       onOpenModal={() => (scrollModalOpen = true)}
     />
 
@@ -159,230 +158,53 @@
     white-space: nowrap;
   }
 
-  .brand-heading {
-    color: #bd9648;
-    font-size: clamp(1.1rem, 2vw, 1.5rem);
-    text-transform: uppercase;
-    letter-spacing: 0.25em;
-    margin-bottom: 0.75rem;
-    font-family: 'Cinzel', serif;
-    font-weight: 500;
-    text-shadow: 0 0 8px rgba(189, 150, 72, 0.3);
-    opacity: 0.95;
-    max-width: 100%;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-    hyphens: auto;
-  }
+  /* Removed unused .brand-heading styles */
 
-  p {
-    font-size: clamp(1.1rem, 2vw, 1.3rem);
-    margin: 0 0 1rem;
-    line-height: 1.4;
-    color: rgba(247, 232, 212, 0.92);
-    font-family: 'Spectral', serif;
-    max-width: 580px;
-    margin-left: auto;
-    margin-right: auto;
-  }
+  /* Removed unused generic paragraph styles */
 
-  .subheading {
-    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
-    font-size: clamp(1.05rem, 2.5vw, 1.2rem);
-    margin: 0 auto 1.25rem;
-    font-weight: 400;
-    line-height: 1.4;
-    color: rgba(247, 232, 212, 0.78);
-    max-width: 580px;
-    text-align: center;
-  }
+  /* Removed unused .subheading styles */
 
-  .cta-form {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    width: 100%;
-    max-width: 420px;
-    margin: 0 auto 1.25rem;
-    background: rgba(20, 17, 30, 0.4);
-    padding: 1.25rem;
-    padding-top: 0.85rem;
-    border-radius: 8px;
-    border: 1px solid rgba(247, 232, 212, 0.1);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-  }
+  /* Removed unused .cta-form styles */
 
-  .input-wrapper {
-    position: relative;
-    width: 100%;
-  }
+  /* Removed unused .input-wrapper styles */
 
-  input {
-    width: 100%;
-    padding: 0.85rem 1rem;
-    border: 1px solid rgba(247, 232, 212, 0.25);
-    border-radius: 6px;
-    background: rgba(19, 17, 28, 0.6);
-    color: #f7e8d4;
-    font-family: 'Inter', system-ui, sans-serif;
-    font-size: 1rem;
-    outline: none;
-    transition: all 0.25s ease;
-    margin-bottom: 0.5rem;
-  }
+  /* Removed unused input styles */
 
-  input:focus {
-    border-color: rgba(189, 150, 72, 0.6);
-    box-shadow: 0 0 12px rgba(189, 150, 72, 0.25);
-  }
+  /* Removed unused input:focus styles */
 
-  input::placeholder {
-    color: rgba(247, 232, 212, 0.45);
-    font-weight: 300;
-  }
+  /* Removed unused input::placeholder styles */
 
-  input:last-of-type {
-    margin-bottom: 0.35rem;
-  }
+  /* Removed unused input:last-of-type styles */
 
-  button {
-    width: 100%;
-    padding: 0.85rem 1.5rem;
-    border: none;
-    border-radius: 6px;
-    background: linear-gradient(135deg, #9e61e3 0%, #7a3ca3 100%);
-    color: #f7e8d4;
-    font-family: 'Cinzel', serif;
-    font-size: 1.15rem;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-    white-space: nowrap;
-    box-shadow: 0 4px 12px rgba(122, 60, 163, 0.3);
-  }
+  /* Removed unused button styles */
 
-  button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(122, 60, 163, 0.4);
-    background: linear-gradient(135deg, #af71f4 0%, #8547b0 100%);
-  }
+  /* Removed unused button:hover styles */
 
-  button:active {
-    transform: translateY(1px);
-    box-shadow: 0 2px 8px rgba(122, 60, 163, 0.3);
-  }
+  /* Removed unused button:active styles */
 
-  button:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
-    transform: none;
-  }
+  /* Removed unused button:disabled styles */
 
-  .success-message {
-    margin-top: 1.25rem;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 1.25rem;
-    background: rgba(52, 168, 83, 0.1);
-    border: 1px solid rgba(52, 168, 83, 0.25);
-    border-radius: 8px;
-    color: #f7e8d4;
-    animation: fadeIn 0.5s ease-in;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-    max-width: 420px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
+  /* Removed unused .success-message styles */
 
-  .announcement-button {
-    padding: 0.75rem 1.5rem;
-    border: none;
-    border-radius: 6px;
-    background: linear-gradient(135deg, #9e61e3 0%, #7a3ca3 100%);
-    color: #f7e8d4;
-    font-family: 'Cinzel', serif;
-    font-size: 1.1rem;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-decoration: none;
-    display: inline-block;
-    box-shadow: 0 4px 12px rgba(122, 60, 163, 0.3);
-  }
+  /* Removed unused .announcement-button styles */
 
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
+  /* Removed unused fadeIn keyframes */
 
-  .loading {
-    display: inline-block;
-    width: 1rem;
-    height: 1rem;
-    border: 2px solid rgba(247, 232, 212, 0.3);
-    border-radius: 50%;
-    border-top-color: #f7e8d4;
-    animation: spin 1s linear infinite;
-    margin-left: 0.4rem;
-    vertical-align: middle;
-  }
+  /* Removed unused .loading styles */
 
-  @keyframes spin {
-    to {
-      transform: rotate(360deg);
-    }
-  }
+  /* Removed unused spin keyframes */
 
-  .error-message {
-    margin-top: 0.25rem;
-    margin-bottom: 0.35rem;
-    color: #ff7c7c;
-    font-size: 0.9rem;
-    font-family: 'Inter', system-ui, sans-serif;
-    animation: fadeIn 0.5s ease-in;
-  }
+  /* Removed unused .error-message styles */
 
-  .checkbox-wrapper {
-    margin-top: 0.35rem;
-    margin-bottom: 0.4rem;
-    text-align: left;
-  }
+  /* Removed unused .checkbox-wrapper styles */
 
-  .checkbox-text {
-    line-height: 1.2;
-  }
+  /* Removed unused .checkbox-text styles */
 
-  .form-actions {
-    display: flex;
-    justify-content: center;
-    margin-top: 0.5rem;
-  }
+  /* Removed unused .form-actions styles */
 
-  .form-intro {
-    margin: 0 0;
-    font-weight: 700;
-    color: #bd9648;
-    text-align: center;
-    font-size: 1rem;
-  }
+  /* Removed unused .form-intro styles */
 
-  @media (min-width: 640px) {
-    .cta-form {
-      max-width: 440px;
-      padding: 1.5rem;
-    }
-  }
+  /* Removed unused .cta-form media rules for >=640px */
 
   @media (min-width: 768px) {
     main {
@@ -407,10 +229,7 @@
     }
     /* END ADDED */
 
-    .subheading {
-      font-size: clamp(1.1rem, 2.5vw, 1.25rem);
-      margin: 0 auto 1.5rem;
-    }
+    /* Removed unused .subheading media rules */
   }
 
   @media (min-width: 1024px) {
@@ -433,17 +252,9 @@
       margin-bottom: -0.4em; /* More negative margin (was -0.3em) */
     }
     /* END ADDED */
-
-    .lantern-container {
-      width: 300px; /* Updated to 300px as requested */
-      height: 300px; /* Updated to 300px as requested */
-      margin: 0 auto 0.25rem; /* Center horizontally with auto margins */
-    }
     /* END ADDED */
 
-    .cta-form {
-      padding: 1.75rem;
-    }
+    /* Removed unused .cta-form media rules */
   }
 
   /* ADDED NEW BLOCK */
@@ -470,28 +281,7 @@
       margin-bottom: -0.45em; /* More negative margin (was -0.35em) */
     }
     /* END ADDED */
-
-    h1 .welcome-large {
-      font-size: clamp(3.5rem, 7vw, 4.5rem); /* Reduced max font size */
-    }
-
-    .lantern-container {
-      width: 300px; /* Updated to 300px as requested */
-      height: 300px; /* Updated to 300px as requested */
-      margin: 0 auto 0.1rem; /* Center horizontally with auto margins */
-    }
-
-    /* Adjust section widths to match wider container */
-    .welcome-section,
-    .exploration-section,
-    .tavern-atmosphere,
-    .testimonials-container {
-      max-width: 1100px;
-    }
-
-    .vision-content {
-      gap: 3rem; /* Increase gap between text and image in vision section */
-    }
+    /* Removed unused width adjustments for child component classes */
   }
   /* END ADDED NEW BLOCK */
 
@@ -506,490 +296,19 @@
     }
   }
 
-  .lantern-container {
-    position: relative;
-    margin: 0 auto 1.5rem;
-    width: 300px; /* Updated to 300px as requested */
-    height: 300px; /* Updated to 300px as requested */
-    cursor: pointer;
-    transition: transform 0.3s ease;
-    user-select: none;
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation; /* Improve touch behavior */
-    display: block; /* Ensure block display for centering */
-  }
+  /* Removed unused lantern container styles */
 
-  .lantern-container:hover {
-    transform: translateY(-5px);
-  }
+  /* Removed unused lantern animations */
 
-  .lantern-container:active {
-    transform: translateY(0);
-  }
+  /* Removed unused pulse keyframes */
 
-  .lantern-image {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    transition: all 0.2s ease;
-    filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.5));
-    will-change: transform, opacity; /* Hint for browser optimization */
-    max-width: 300px; /* Match container size */
-    max-height: 300px; /* Match container size */
-  }
+  /* Removed unused flicker keyframes */
 
-  .lantern-glow {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle, rgba(255, 215, 107, 0.4) 0%, rgba(255, 215, 107, 0) 70%);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    pointer-events: none;
-    z-index: -1;
-    will-change: opacity, transform; /* Hint for browser optimization */
-  }
+  /* Exploration styles moved to src/lib/components/homepage/ExplorationSection.svelte */
 
-  /* Add a no-hover fallback animation for touch-only devices */
-  @media (hover: none) {
-    .lantern-container {
-      animation: subtle-pulse 3s infinite alternate;
-    }
+  /* Tavern Atmosphere styles moved to src/lib/components/homepage/TavernAtmosphere.svelte */
 
-    @keyframes subtle-pulse {
-      0% {
-        transform: translateY(0);
-      }
-      100% {
-        transform: translateY(-3px);
-      }
-    }
-  }
+  /* Removed unused glow keyframes */
 
-  .lantern-animate .lantern-glow {
-    opacity: 0.9;
-    background: radial-gradient(circle, rgba(255, 180, 80, 0.8) 0%, rgba(255, 180, 80, 0) 65%);
-    animation: flicker 0.4s ease-in-out infinite alternate;
-  }
-
-  .lantern-success .lantern-glow {
-    opacity: 1;
-    background: radial-gradient(circle, rgba(255, 215, 107, 0.8) 0%, rgba(255, 215, 107, 0) 75%);
-    animation: pulse 3s infinite alternate;
-  }
-
-  @keyframes pulse {
-    0% {
-      transform: scale(1);
-      opacity: 0.6;
-    }
-    100% {
-      transform: scale(1.2);
-      opacity: 0.9;
-    }
-  }
-
-  @keyframes flicker {
-    0% {
-      opacity: 0.5;
-      transform: scale(0.98);
-    }
-    30% {
-      opacity: 0.75;
-      transform: scale(1.02);
-    }
-    60% {
-      opacity: 0.6;
-      transform: scale(1);
-    }
-    100% {
-      opacity: 0.8;
-      transform: scale(1.03);
-    }
-  }
-
-  /* Exploration Section Styles */
-  .exploration-section {
-    margin-top: 3rem;
-    padding: 1.5rem;
-    border-radius: 10px;
-    background: rgba(31, 27, 45, 0.4);
-    border: 1px solid rgba(247, 232, 212, 0.1);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    max-width: 900px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .exploration-title {
-    font-family: 'Cinzel', serif;
-    font-size: clamp(1.5rem, 3vw, 2rem);
-    margin: 0 0 1rem;
-    font-weight: 700;
-    color: #bd9648;
-    text-shadow: 0 0 8px rgba(189, 150, 72, 0.3);
-    text-align: center;
-    max-width: 100%;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-    hyphens: auto;
-  }
-
-  .exploration-description {
-    font-family: 'Spectral', serif;
-    font-size: clamp(1rem, 2vw, 1.2rem);
-    margin: 0 auto 1.5rem;
-    text-align: center;
-    max-width: 700px;
-    color: rgba(247, 232, 212, 0.92);
-    line-height: 1.5;
-  }
-
-  .exploration-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
-    margin: 2rem 0;
-  }
-
-  .exploration-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 2rem;
-    background: var(--card-bg);
-    border-radius: 8px;
-    text-decoration: none;
-    color: var(--text-color);
-    transition: transform 0.3s ease;
-  }
-
-  .exploration-card:hover {
-    transform: translateY(-5px);
-  }
-
-  .exploration-card i {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-  }
-
-  .exploration-card h3 {
-    margin: 0 0 0.5rem;
-  }
-
-  .exploration-card p {
-    margin: 0;
-    text-align: center;
-  }
-
-  /* Tales from Patrons styles */
-  .tavern-atmosphere {
-    margin: 5rem auto;
-    max-width: 1000px;
-    padding: 0 1.5rem;
-  }
-
-  .atmosphere-title {
-    font-family: 'Cinzel', serif;
-    font-size: clamp(1.75rem, 3vw, 2.5rem);
-    color: #d5a44c;
-    margin-bottom: 0.75rem;
-    text-shadow: 0 0 10px rgba(213, 164, 76, 0.4);
-    text-align: center;
-  }
-
-  .atmosphere-title-decoration {
-    width: 100px;
-    height: 3px;
-    background: linear-gradient(
-      90deg,
-      rgba(213, 164, 76, 0.1),
-      rgba(213, 164, 76, 0.7),
-      rgba(213, 164, 76, 0.1)
-    );
-    margin: 0 auto 3rem;
-    border-radius: 2px;
-  }
-
-  .testimonials-container {
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    gap: 2rem;
-    margin-bottom: 4rem;
-  }
-
-  @media (min-width: 768px) {
-    .testimonials-container {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-
-  .testimonial {
-    background: rgba(31, 27, 45, 0.6);
-    padding: 2rem;
-    border-radius: 10px;
-    position: relative;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(189, 150, 72, 0.2);
-    transition:
-      transform 0.3s ease,
-      box-shadow 0.3s ease;
-  }
-
-  .testimonial:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-    border-color: rgba(189, 150, 72, 0.3);
-  }
-
-  .quote-icon {
-    position: absolute;
-    top: -10px;
-    left: 20px;
-    font-size: 3rem;
-    color: rgba(213, 164, 76, 0.3);
-    font-family: serif;
-    line-height: 1;
-  }
-
-  .atmosphere-quote {
-    font-family: 'Spectral', serif;
-    font-size: clamp(1rem, 2vw, 1.1rem);
-    color: rgba(247, 232, 212, 0.9);
-    line-height: 1.6;
-    font-style: italic;
-    margin-bottom: 1.5rem;
-    position: relative;
-    z-index: 1;
-  }
-
-  .quote-attribution {
-    font-family: 'Cinzel', serif;
-    font-size: 0.95rem;
-    color: #bd9648;
-    text-align: right;
-    margin: 0;
-  }
-
-  .attribution-title {
-    font-family: 'Inter', system-ui, sans-serif;
-    font-size: 0.85rem;
-    color: rgba(247, 232, 212, 0.7);
-    font-style: italic;
-  }
-
-  /* Tavern Oak styling */
-  .tavern-song {
-    margin: 3rem auto;
-    max-width: 600px;
-    text-align: center;
-    position: relative;
-  }
-
-  .song-title {
-    font-family: 'Cinzel', serif;
-    font-size: clamp(1.5rem, 3vw, 2rem);
-    color: #d5a44c;
-    margin-bottom: 0.75rem;
-    text-shadow: 0 0 10px rgba(213, 164, 76, 0.4);
-  }
-
-  .song-title-decoration {
-    width: 60px;
-    height: 2px;
-    background: linear-gradient(
-      90deg,
-      rgba(213, 164, 76, 0.1),
-      rgba(213, 164, 76, 0.7),
-      rgba(213, 164, 76, 0.1)
-    );
-    margin: 0 auto 2rem;
-    border-radius: 2px;
-  }
-
-  .scroll-image-container {
-    position: relative;
-    max-width: 450px;
-    margin: 0 auto;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-  }
-
-  .scroll-image-container:hover {
-    transform: translateY(-5px);
-  }
-
-  .scroll-frame {
-    position: relative;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow:
-      0 8px 30px rgba(0, 0, 0, 0.4),
-      0 0 20px rgba(189, 150, 72, 0.2);
-    border: 1px solid rgba(189, 150, 72, 0.3);
-  }
-
-  .tavern-song-scroll {
-    width: 100%;
-    height: auto;
-    display: block;
-    transition: transform 0.5s ease;
-  }
-
-  .scroll-image-container:hover .tavern-song-scroll {
-    transform: scale(1.02);
-  }
-
-  .view-larger-hint {
-    position: absolute;
-    bottom: 15px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(31, 27, 45, 0.85);
-    padding: 0.5rem 1rem;
-    border-radius: 30px;
-    font-size: 0.85rem;
-    color: rgba(247, 232, 212, 0.9);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    border: 1px solid rgba(189, 150, 72, 0.2);
-  }
-
-  .scroll-image-container:hover .view-larger-hint {
-    opacity: 1;
-  }
-
-  .song-notes {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    font-size: 2rem;
-    color: rgba(213, 164, 76, 0.6);
-    text-shadow: 0 0 10px rgba(213, 164, 76, 0.3);
-    transform: rotate(10deg);
-  }
-
-  .music-note {
-    display: inline-block;
-    animation: float 3s ease-in-out infinite;
-  }
-
-  .music-note.delayed {
-    animation-delay: 1.5s;
-    font-size: 1.5rem;
-    margin-left: -5px;
-  }
-
-  @keyframes float {
-    0% {
-      transform: translateY(0) rotate(0);
-    }
-    50% {
-      transform: translateY(-8px) rotate(5deg);
-    }
-    100% {
-      transform: translateY(0) rotate(0);
-    }
-  }
-
-  /* ADDED - Reduce space above H1 */
-
-  .lantern-container {
-    width: 300px; /* Updated to 300px as requested */
-    height: 300px; /* Updated to 300px as requested */
-    margin: 0 auto 0.25rem; /* Center horizontally with auto margins */
-  }
-
-  @keyframes glow {
-    0% {
-      text-shadow:
-        0 0 15px rgba(213, 164, 76, 0.5),
-        0 0 30px rgba(213, 164, 76, 0.3),
-        0 0 45px rgba(213, 164, 76, 0.2);
-      box-shadow:
-        0 0 20px rgba(213, 164, 76, 0.2),
-        inset 0 0 15px rgba(213, 164, 76, 0.1);
-    }
-    100% {
-      text-shadow:
-        0 0 20px rgba(213, 164, 76, 0.6),
-        0 0 40px rgba(213, 164, 76, 0.4),
-        0 0 60px rgba(213, 164, 76, 0.3);
-      box-shadow:
-        0 0 30px rgba(213, 164, 76, 0.3),
-        inset 0 0 20px rgba(213, 164, 76, 0.2);
-    }
-  }
-
-  .welcome-title {
-    font-family: 'Cinzel', serif;
-    font-size: clamp(2.2rem, 5vw, 2.8rem);
-    color: #d5a44c;
-    text-shadow:
-      0 0 12px rgba(213, 164, 76, 0.4),
-      0 0 24px rgba(213, 164, 76, 0.2);
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    margin: 2.5rem 0 1.25rem 0;
-    text-align: center;
-    line-height: 1.1;
-    animation: glow 2.5s infinite alternate;
-  }
-
-  .welcome-nav-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.25rem;
-    justify-content: center;
-    margin: 2.5rem 0 1.5rem 0;
-  }
-
-  .welcome-nav-button {
-    display: inline-block;
-    padding: 0.9rem 2.1rem;
-    background: linear-gradient(135deg, #bd9648 0%, #e5c989 100%);
-    color: #1f1b2d;
-    border: none;
-    border-radius: 50px;
-    font-family: 'Cinzel', serif;
-    font-size: 1.15rem;
-    font-weight: 600;
-    text-decoration: none;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    box-shadow:
-      0 5px 15px rgba(0, 0, 0, 0.18),
-      0 0 12px rgba(189, 150, 72, 0.25);
-    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.18);
-    position: relative;
-    overflow: hidden;
-    margin-bottom: 0.5rem;
-  }
-  .welcome-nav-button:hover {
-    background: linear-gradient(135deg, #e5c989 0%, #bd9648 100%);
-    color: #1f1b2d;
-    transform: translateY(-2px) scale(1.04);
-    box-shadow:
-      0 8px 24px rgba(189, 150, 72, 0.25),
-      0 0 18px rgba(213, 164, 76, 0.18);
-  }
-  .welcome-nav-button .button-content {
-    display: flex;
-    align-items: center;
-    gap: 0.7rem;
-  }
-  .welcome-nav-icon {
-    font-size: 1.2rem;
-    color: #bd9648;
-    margin-right: 0.5rem;
-  }
-  .button-text {
-    font-family: 'Cinzel', serif;
-    font-size: 1.1rem;
-    font-weight: 600;
-    letter-spacing: 0.02em;
-  }
+  /* Welcome navigation/button styles live in src/lib/components/homepage/WelcomeSection.svelte */
 </style>

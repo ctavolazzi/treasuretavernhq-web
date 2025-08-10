@@ -2672,3 +2672,18 @@ Create an organized cleanup plan and scaffolding to execute without changing beh
 7. Types/imports consistency
 
 **Status**: Scaffolding complete. Ready to execute work blocks.
+
+## 2025-08-09 16:10: ♻️ Cleanup - Homepage CSS Prune + Scripts README
+
+### Changes
+- Pruned duplicate and unused CSS from `src/routes/+page.svelte` after component extraction
+- Fixed invalid props on `WelcomeSection` and `TavernAtmosphere` usage in `+page.svelte`
+- Corrected `crossorigin` attribute value in `src/routes/+layout.svelte`
+- Added `scripts/README.md` documenting shims and planned consolidation
+
+### Quality
+- `npm run check`: 0 errors, reduced warnings
+
+### Work Efforts Updated
+- [[50_maintenance/50.11_utils_and_scripts_structure_cleanup]] (status to In Progress; README added)
+- [[50_maintenance/50.15_cleanup_tracking_list]] (noted progress on scripts doc)
