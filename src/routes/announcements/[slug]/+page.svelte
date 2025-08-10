@@ -132,11 +132,11 @@
 
       <div class="navigation">
         <a href="/announcements" class="nav-button">
-          <i class="fas fa-arrow-left" style:margin-right="8px"></i>
+          <i class="fas fa-arrow-left spacer-right"></i>
           All Announcements
         </a>
         <a href="/" class="nav-button">
-          <i class="fas fa-home" style:margin-right="8px"></i>
+          <i class="fas fa-home spacer-right"></i>
           Return to Tavern
         </a>
       </div>
@@ -398,6 +398,10 @@
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
     border-color: rgba(189, 150, 72, 0.2);
+  }
+
+  .spacer-right {
+    margin-right: 8px;
   }
 
   .related-announcements {

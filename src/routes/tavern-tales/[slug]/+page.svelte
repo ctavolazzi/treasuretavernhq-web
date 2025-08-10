@@ -299,12 +299,12 @@
 
         <div class="navigation">
           <a href="/tavern-tales" class="nav-button" data-sveltekit-preload-data="hover">
-            <i class="fas fa-arrow-left" style:margin-right="0.5rem"></i>
+            <i class="fas fa-arrow-left spacer-right"></i>
             All Chronicles
           </a>
           <a href="/" class="nav-button" data-sveltekit-preload-data="hover">
             Return to Tavern
-            <i class="fas fa-home" style:margin-left="0.5rem"></i>
+            <i class="fas fa-home spacer-left"></i>
           </a>
         </div>
       </div>
@@ -936,6 +936,13 @@
     background: rgba(31, 27, 45, 0.8);
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  .spacer-right {
+    margin-right: 0.5rem;
+  }
+  .spacer-left {
+    margin-left: 0.5rem;
   }
 
   .footer {
