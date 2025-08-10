@@ -66,32 +66,37 @@
     return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
   }
 
+  // Named handlers to ensure proper removal on destroy
+  let onLoadedMetadata: (() => void) | null = null;
+  let onEnded: (() => void) | null = null;
+
   // Set up event listeners
   onMount(() => {
-    if (audio) {
-      // Load metadata - this gets the duration once the audio is loaded
-      audio.addEventListener('loadedmetadata', () => {
-        duration = audio.duration;
-      });
+    if (!audio) return;
 
-      // Update progress as audio plays
-      audio.addEventListener('timeupdate', updateProgress);
+    onLoadedMetadata = () => {
+      duration = audio.duration;
+    };
+    onEnded = () => {
+      isPlaying = false;
+      audio.currentTime = 0;
+      updateProgress();
+    };
 
-      // Handle when audio ends
-      audio.addEventListener('ended', () => {
-        isPlaying = false;
-        audio.currentTime = 0;
-        updateProgress();
-      });
-    }
+    audio.addEventListener('loadedmetadata', onLoadedMetadata);
+    audio.addEventListener('timeupdate', updateProgress);
+    audio.addEventListener('ended', onEnded);
   });
 
   // Clean up event listeners
   onDestroy(() => {
-    if (audio) {
-      audio.removeEventListener('loadedmetadata', () => {});
-      audio.removeEventListener('timeupdate', updateProgress);
-      audio.removeEventListener('ended', () => {});
+    if (!audio) return;
+    if (onLoadedMetadata) {
+      audio.removeEventListener('loadedmetadata', onLoadedMetadata);
+    }
+    audio.removeEventListener('timeupdate', updateProgress);
+    if (onEnded) {
+      audio.removeEventListener('ended', onEnded);
     }
   });
 </script>
