@@ -185,7 +185,7 @@
 
       <div class="navigation">
         <a href="/" class="nav-button">
-          <i class="fas fa-home" style:margin-right="8px"></i>
+          <i class="fas fa-home" class:spacer></i>
           Return to Tavern
         </a>
       </div>
@@ -589,6 +589,10 @@
     display: inline-flex;
     align-items: center;
     border: 1px solid rgba(247, 232, 212, 0.1);
+  }
+
+  .nav-button .spacer {
+    margin-right: 8px;
   }
 
   .nav-button:hover {
