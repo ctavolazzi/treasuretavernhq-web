@@ -19,7 +19,9 @@ export function setPageAudio(
 ) {
   // Only proceed if the audio file exists
   if (audioAvailable) {
-    console.log(`Setting page audio: ${src} - ${title}`);
+    if (import.meta.env.DEV) {
+      console.log(`Setting page audio: ${src} - ${title}`);
+    }
     pageAudio.update(() => ({
       src,
       title,
@@ -27,7 +29,9 @@ export function setPageAudio(
       audioAvailable
     }));
   } else {
-    console.warn(`Audio file not available: ${src}`);
+    if (import.meta.env.DEV) {
+      console.warn(`Audio file not available: ${src}`);
+    }
     disablePageAudio();
   }
 }
@@ -43,6 +47,8 @@ export function disablePageAudio() {
 
 // Function to restore default audio
 export function resetPageAudio() {
-  console.log('Resetting to default audio');
+  if (import.meta.env.DEV) {
+    console.log('Resetting to default audio');
+  }
   pageAudio.set(defaultAudio);
 }
