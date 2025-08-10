@@ -2687,3 +2687,17 @@ Create an organized cleanup plan and scaffolding to execute without changing beh
 ### Work Efforts Updated
 - [[50_maintenance/50.11_utils_and_scripts_structure_cleanup]] (status to In Progress; README added)
 - [[50_maintenance/50.15_cleanup_tracking_list]] (noted progress on scripts doc)
+
+## 2025-08-09 16:40: ♻️ Cleanup - About/Tales CSS Prune + Announcements Clamp
+
+### Changes
+- Pruned unused CSS selectors in `src/routes/about/+page.svelte`
+- Pruned unused CSS selectors in `src/routes/tavern-tales/[slug]/+page.svelte`
+- Added standard `line-clamp: 4` to `announcement-excerpt`
+
+### Quality
+- `npm run check`: 0 errors, 1 warning (layout `<slot>` deprecation queued for later)
+
+### Work Efforts Updated
+- [[50_maintenance/50.12_lint_format_normalization_enforcement]] (progress and warning summary)
+- [[50_maintenance/50.09_homepage_component_extraction_no_behavior_change]] (completed; CSS prune noted)

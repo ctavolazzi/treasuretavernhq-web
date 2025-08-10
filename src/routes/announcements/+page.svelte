@@ -80,14 +80,6 @@
 <svelte:head>
   <title>Announcements - Treasure Tavern</title>
   <meta name="description" content="The latest news and announcements from Treasure Tavern" />
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-  />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap"
-    rel="stylesheet"
-  />
 </svelte:head>
 
 <div class="page-container">
@@ -480,6 +472,7 @@
     color: rgba(247, 232, 212, 0.92);
     margin: 0 0 1.5rem;
     line-height: 1.6;
+    line-clamp: 4; /* standard property for compatibility */
     display: -webkit-box;
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;

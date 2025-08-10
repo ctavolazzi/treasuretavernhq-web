@@ -61,10 +61,6 @@
     name="description"
     content="Learn about Treasure Tavern - a place for stories, adventures, and community."
   />
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-  />
 </svelte:head>
 
 <div class="page-container">
@@ -444,75 +440,7 @@
     margin-top: 2rem;
   }
 
-  .cta-title {
-    font-family: 'Cinzel', serif;
-    font-size: clamp(1.75rem, 4vw, 2.5rem);
-    margin-bottom: 1rem;
-    color: #bd9648;
-    text-shadow: 0 0 8px rgba(189, 150, 72, 0.3);
-  }
-
-  .cta-text {
-    font-family: 'Spectral', serif;
-    font-size: clamp(1.1rem, 3vw, 1.3rem);
-    line-height: 1.6;
-    color: rgba(247, 232, 212, 0.92);
-    max-width: 800px;
-    margin: 0 auto 2rem;
-  }
-
-  .cta-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .cta-button {
-    display: inline-block;
-    padding: 0.85rem 1.75rem;
-    background: linear-gradient(135deg, #9e61e3 0%, #7a3ca3 100%);
-    color: #f7e8d4;
-    border: none;
-    border-radius: 6px;
-    font-family: 'Cinzel', serif;
-    font-size: clamp(1rem, 2vw, 1.1rem);
-    font-weight: 500;
-    text-decoration: none;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-
-  .cta-button:hover {
-    background: linear-gradient(135deg, #af71f4 0%, #8a4cb3 100%);
-    transform: translateY(-3px);
-    box-shadow:
-      0 7px 14px rgba(0, 0, 0, 0.15),
-      0 0 10px rgba(158, 97, 227, 0.3);
-  }
-
-  .account-button {
-    background: linear-gradient(135deg, #bd9648 0%, #9a7a3d 100%);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .account-button:hover {
-    background: linear-gradient(135deg, #d4a852 0%, #b99148 100%);
-  }
-
-  .cta-note {
-    font-family: 'Spectral', serif;
-    font-size: 0.95rem;
-    color: rgba(247, 232, 212, 0.8);
-    font-style: italic;
-    max-width: 600px;
-    margin: 0 auto;
-  }
+  /* removed unused CTA styles (cta-title, cta-text, cta-buttons, cta-button, account-button, cta-note) */
 
   .visitor-questions {
     margin: 2.5rem auto;
@@ -626,47 +554,7 @@
     text-align: center;
   }
 
-  .scroll-down {
-    position: absolute;
-    bottom: 1rem;
-    left: 50%;
-    transform: translateX(-50%);
-    color: rgba(247, 232, 212, 0.7);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-size: 0.9rem;
-    font-family: 'Spectral', serif;
-    opacity: 0.8;
-    transition: opacity 0.3s ease;
-    cursor: pointer;
-  }
-
-  .scroll-down:hover {
-    opacity: 1;
-  }
-
-  .scroll-down i {
-    margin-top: 0.5rem;
-    font-size: 1.2rem;
-    animation: bounce 2s infinite;
-  }
-
-  @keyframes bounce {
-    0%,
-    20%,
-    50%,
-    80%,
-    100% {
-      transform: translateY(0);
-    }
-    40% {
-      transform: translateY(-10px);
-    }
-    60% {
-      transform: translateY(-5px);
-    }
-  }
+  /* removed unused .scroll-down styles and bounce keyframes */
 
   .section-divider {
     height: 30px;
@@ -765,8 +653,6 @@
       font-size: 1.2rem;
     }
 
-    .scroll-down {
-      display: none;
-    }
+    /* removed unused .scroll-down media rule */
   }
 </style>

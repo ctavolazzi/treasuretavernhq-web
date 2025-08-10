@@ -1,5 +1,4 @@
 <script lang="ts">
-  import AnnouncementCta from '$lib/components/AnnouncementCta.svelte';
   import ResponsiveImage from '$lib/components/ResponsiveImage.svelte';
   import SimpleAudioPlayer from '$lib/components/SimpleAudioPlayer.svelte';
   import { getTaleSocialMeta, type SocialMetadata } from '$lib/data/social-meta';
@@ -203,11 +202,6 @@
   <!-- Twitter Card Tags - Just the essentials -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:image" content={socialMeta.image} />
-
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-  />
 </svelte:head>
 
 {#key tale.slug}
@@ -450,85 +444,23 @@
     text-shadow: 0 0 15px rgba(231, 206, 143, 0.35);
   }
 
-  .tale-meta-header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 2rem;
-  }
+  /* removed unused .tale-meta-header styles */
 
-  .keeper-title {
-    font-family: 'Cinzel', serif;
-    font-size: clamp(1.5rem, 3vw, 1.8rem);
-    color: rgba(247, 232, 212, 0.9);
-    margin: 0;
-    font-weight: 500;
-  }
+  /* removed unused .keeper-title styles */
 
-  .season-badge {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 1.2rem;
-    background: rgba(31, 27, 45, 0.5);
-    border-radius: 40px;
-    border: 1px solid rgba(158, 97, 227, 0.3);
-  }
+  /* removed unused .season-badge styles */
 
-  .season-badge i {
-    color: #9e61e3;
-    font-size: 1.1rem;
-  }
+  /* removed unused .season-badge i/span styles */
 
-  .season-badge span {
-    font-family: 'Cinzel', serif;
-    font-size: clamp(1rem, 2vw, 1.1rem);
-    color: rgba(247, 232, 212, 0.85);
-  }
+  /* removed unused .tale-type-badge styles */
 
-  .tale-type-badge {
-    margin-top: 1rem;
-    padding: 0.6rem 2rem;
-    background: rgba(78, 34, 133, 0.4);
-    border-radius: 30px;
-    font-family: 'Cinzel', serif;
-    font-size: clamp(1.1rem, 2.5vw, 1.3rem);
-    font-weight: 500;
-    color: #9e61e3;
-    border: 1px solid rgba(158, 97, 227, 0.3);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  }
+  /* removed unused .tale-meta styles */
 
-  .tale-meta {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: clamp(1rem, 3vw, 2rem);
-    margin-bottom: 1rem;
-    flex-wrap: wrap;
-  }
+  /* removed unused .tale-meta-item styles */
 
-  .tale-meta-item {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-family: 'Inter', system-ui, sans-serif;
-    font-size: clamp(0.85rem, 2vw, 0.95rem);
-    color: rgba(247, 232, 212, 0.7);
-  }
+  /* removed unused .meta-icon styles */
 
-  .meta-icon {
-    color: #9e61e3;
-  }
-
-  .tale-type {
-    padding: 0.3rem 0.8rem;
-    background: rgba(158, 97, 227, 0.15);
-    border-radius: 20px;
-    font-weight: 500;
-    color: #9e61e3;
-  }
+  /* removed unused .tale-type styles */
 
   .header-decor {
     position: absolute;
@@ -541,73 +473,11 @@
     background-repeat: no-repeat;
   }
 
-  .back-nav-container {
-    display: flex;
-    justify-content: space-between;
-    padding: 1.5rem 2rem 0.5rem;
-    background: rgba(19, 17, 28, 0.95);
-    border-bottom: 1px solid rgba(189, 150, 72, 0.2);
-  }
+  /* removed unused .back-nav-container styles */
 
-  .back-button {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    padding: 0.8rem 1.5rem;
-    background: rgba(31, 27, 45, 0.8);
-    color: #f7e8d4;
-    border: 1px solid rgba(189, 150, 72, 0.5);
-    border-radius: 8px;
-    font-family: 'Cinzel', serif;
-    font-size: 1.1rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-decoration: none;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  }
+  /* removed unused .back-button styles and hover/icon variants */
 
-  .back-button:hover {
-    background: rgba(31, 27, 45, 0.95);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
-    border-color: rgba(189, 150, 72, 0.8);
-  }
-
-  .back-button i {
-    font-size: 1.2rem;
-    color: #9e61e3;
-  }
-
-  .home-button {
-    padding: 0.8rem 1.5rem;
-    background: rgba(31, 27, 45, 0.8);
-    color: #f7e8d4;
-    border: 1px solid rgba(189, 150, 72, 0.5);
-    border-radius: 8px;
-    font-family: 'Cinzel', serif;
-    font-size: 1.1rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-decoration: none;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  }
-
-  .home-button:hover {
-    background: rgba(31, 27, 45, 0.95);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
-    border-color: rgba(189, 150, 72, 0.8);
-  }
-
-  .home-button i {
-    color: #bd9648;
-  }
+  /* removed unused .home-button styles and hover/icon variants */
 
   .tale-container {
     max-width: 1400px;
@@ -754,9 +624,7 @@
     margin-top: 2rem;
   }
 
-  .tale-content p {
-    margin-bottom: 1.5rem;
-  }
+  /* keep paragraph spacing in content via markdown; removed redundant .tale-content p */
 
   .tale-content :global(strong) {
     color: #bd9648;
@@ -896,13 +764,7 @@
       justify-content: center;
     }
 
-    .tale-cover img {
-      object-fit: contain;
-      max-width: 100%;
-      max-height: 600px;
-      width: auto;
-      height: auto;
-    }
+    /* removed unused .tale-cover img override (component handles sizing) */
   }
 
   .tale-cover :global(img) {
@@ -1189,14 +1051,7 @@
       justify-content: center;
     }
 
-    .back-nav-container {
-      padding: 1rem 1.2rem 0.5rem;
-    }
-
-    .back-button {
-      padding: 0.6rem 1.2rem;
-      font-size: 0.95rem;
-    }
+    /* removed unused back nav adjustments */
   }
 
   @media (max-width: 480px) {
@@ -1228,18 +1083,7 @@
       grid-template-columns: 1fr;
     }
 
-    .back-nav-container {
-      padding: 0.8rem 1rem 0.5rem;
-      flex-direction: row;
-      gap: 0.5rem;
-    }
-
-    .back-button {
-      padding: 0.5rem 0.8rem;
-      font-size: 0.75rem;
-      flex: 1;
-      justify-content: center;
-    }
+    /* removed unused back nav mobile adjustments */
   }
 
   .button-container {
