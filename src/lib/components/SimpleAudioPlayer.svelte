@@ -27,7 +27,7 @@
         audio.pause();
       } else {
         audio.play().catch(error => {
-          console.warn('Failed to play audio:', error);
+          if (import.meta.env.DEV) console.warn('Failed to play audio:', error);
         });
       }
       isPlaying = !isPlaying;
@@ -49,22 +49,14 @@
       // If audio was playing, continue playing after seek
       if (isPlaying) {
         audio.play().catch(error => {
-          console.warn('Failed to play audio after seeking:', error);
+          if (import.meta.env.DEV) console.warn('Failed to play audio after seeking:', error);
         });
       }
     }
   }
 
-  // Format time in MM:SS format
-  function formatTime(seconds: number): string {
-    if (isNaN(seconds)) {
-      return '0:00';
-    }
-
-    const minutes = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
-  }
+  // Format time in MM:SS format (shared)
+  import { formatTime } from '$lib/utils/audio';
 
   // Named handlers to ensure proper removal on destroy
   let onLoadedMetadata: (() => void) | null = null;
