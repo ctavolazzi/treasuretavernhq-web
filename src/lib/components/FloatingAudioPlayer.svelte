@@ -1,9 +1,10 @@
 <script lang="ts">
   import { onMount, onDestroy } from 'svelte';
+  import type { AudioPlayerProps } from '$lib/types/common';
 
   // Props with default values
-  export let audioSrc: string;
-  export let audioTitle: string = 'Background Music';
+  export let audioSrc: AudioPlayerProps['audioSrc'];
+  export let audioTitle: AudioPlayerProps['audioTitle'] = 'Background Music';
   export let hintText: string = 'Click to unmute';
   export let startMuted: boolean = true;
 

@@ -1,9 +1,10 @@
 <script lang="ts">
   import { onMount, onDestroy } from 'svelte';
+  import type { AudioPlayerProps } from '$lib/types/common';
 
   // Props for the component
-  export let audioSrc: string; // The URL of the audio file to play
-  export let audioTitle: string = ''; // Optional title for the audio
+  export let audioSrc: AudioPlayerProps['audioSrc'];
+  export let audioTitle: AudioPlayerProps['audioTitle'] = '';
 
   // Internal state
   let audio: HTMLAudioElement;

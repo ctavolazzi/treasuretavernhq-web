@@ -1,11 +1,12 @@
 <script lang="ts">
   import { onMount, onDestroy } from 'svelte';
+  import type { AudioPlayerProps } from '$lib/types/common';
 
-  // Props for the component
-  export let audioSrc: string; // The URL of the audio file to play
-  export let audioTitle: string = ''; // Optional title for the audio
-  export let autoplay: boolean = false; // Whether to autoplay the audio
-  export let showProgress: boolean = true; // Whether to show the progress bar
+  // Props for the component (aligned with AudioPlayerProps + local flags)
+  export let audioSrc: AudioPlayerProps['audioSrc'];
+  export let audioTitle: AudioPlayerProps['audioTitle'] = '';
+  export let autoplay: AudioPlayerProps['autoplay'] = false;
+  export let showProgress: boolean = true; // local flag
 
   // Internal state
   let audio: HTMLAudioElement;

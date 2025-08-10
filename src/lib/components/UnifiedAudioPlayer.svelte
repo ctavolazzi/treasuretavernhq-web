@@ -1,10 +1,11 @@
 <script lang="ts">
   import { onMount, onDestroy } from 'svelte';
+  import type { AudioPlayerProps } from '$lib/types/common';
 
   // Unified props for all audio use cases
-  export let audioSrc: string;
-  export let audioTitle: string = '';
-  export let autoplay: boolean = false;
+  export let audioSrc: AudioPlayerProps['audioSrc'];
+  export let audioTitle: AudioPlayerProps['audioTitle'] = '';
+  export let autoplay: AudioPlayerProps['autoplay'] = false;
   export let loop: boolean = true;
   export let volume: number = 0.3;
   export let showTitle: boolean = true;
