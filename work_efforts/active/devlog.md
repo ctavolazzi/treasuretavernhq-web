@@ -1,5 +1,28 @@
 # Development Log
 
+## 2025-08-11 12:10: ✅ COMPLETED - Spaghetti Cleanup (Audio, Navigation, Scripts)
+
+### Objective
+Reduce code duplication and ad-hoc patterns by unifying audio usage, improving client-side navigation, and consolidating duplicate scripts.
+
+### Work Effort
+- **File**: `work_efforts/50_maintenance/50.16_spaghetti_cleanup_2025_08_11.md`
+- **Category**: 50_Maintenance
+
+### Changes
+- Replaced `SimpleAudioPlayer` with `UnifiedAudioPlayer` on `src/routes/tavern-tales/[slug]/+page.svelte`
+- Switched related tales navigation to `goto()` for SPA navigation
+- Removed duplicate script: `utils/scripts/png-to-webp.sh` (kept `scripts/png-to-webp.sh`)
+- DRY: Added `extractPlainTextFromHtml` helper, used by copy/download functions
+
+### Impact
+- Reduced component duplication and improved consistency
+- Faster client-side navigation without full reloads
+- Cleaner scripts structure with a single PNG→WebP entry point
+
+### Status
+Completed.
+
 ## 2025-01-28 11:10: ✅ COMPLETED - Touchstart Passive Event Warning Debug Session
 
 ### Objective
