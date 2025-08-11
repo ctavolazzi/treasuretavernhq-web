@@ -9,6 +9,7 @@
   export let loop: boolean = true;
   export let volume: number = 0.3;
   export let showTitle: boolean = true;
+  export let startMuted: AudioPlayerProps['startMuted'] = true;
   export let variant: 'floating' | 'inline' | 'bottom-nav' | 'simple' = 'inline';
   export let position: 'top-right' | 'bottom-right' | 'bottom-left' | 'center' = 'bottom-right';
   export let size: 'small' | 'medium' | 'large' = 'medium';
@@ -16,7 +17,7 @@
   // Audio state
   let audio: HTMLAudioElement | undefined;
   let isPlaying = false;
-  let isMuted = true;
+  let isMuted = startMuted;
   let isLoaded = false;
   let isError = false;
 
@@ -32,7 +33,9 @@
       const playPromise = audio.play();
       if (playPromise !== undefined) {
         playPromise.catch(error => {
-          console.warn('Audio playback failed:', error);
+          if (import.meta.env.DEV) {
+            console.warn('Audio playback failed:', error);
+          }
           isError = true;
         });
       }
@@ -71,7 +74,7 @@
       audio = new Audio(audioSrc);
       audio.loop = loop;
       audio.volume = volume;
-      audio.muted = true; // Start muted for better UX
+      audio.muted = startMuted; // Start muted for better UX (configurable)
 
       // Event listeners
       audio.addEventListener('loadeddata', handleAudioLoad);
