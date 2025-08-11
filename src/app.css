@@ -1,1 +1,6 @@
 @import "tailwindcss";
+
+/* Wrapper used in app.html to avoid inline style */
+.sk-body {
+  display: contents;
+}

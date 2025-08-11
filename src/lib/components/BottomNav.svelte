@@ -181,13 +181,13 @@
 
         // If it was playing before, we'll attempt to resume after canplaythrough
         if (wasPlaying) {
-          console.log('Will attempt to resume playback after load');
+          if (import.meta.env.DEV) console.log('Will attempt to resume playback after load');
           // Set a flag to resume playback when canplaythrough fires
           resumeAfterLoad = true;
         }
 
         prevAudioSrc = audioSrc;
-        console.log('Audio initialized with source:', audioSrc);
+        if (import.meta.env.DEV) console.log('Audio initialized with source:', audioSrc);
       }
     } catch (error) {
       console.error('Error setting up audio:', error);
@@ -199,9 +199,9 @@
   let resumeAfterLoad = false;
 
   function handleCanPlayThrough() {
-    console.log('Audio can play through');
+    if (import.meta.env.DEV) console.log('Audio can play through');
     if (resumeAfterLoad) {
-      console.log('Resuming playback after load');
+      if (import.meta.env.DEV) console.log('Resuming playback after load');
       const playPromise = audio?.play();
       if (playPromise) {
         playPromise

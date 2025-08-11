@@ -61,14 +61,6 @@
 <svelte:head>
   <title>{announcement.title} - Treasure Tavern</title>
   <meta name="description" content={announcement.content} />
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-  />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap"
-    rel="stylesheet"
-  />
 </svelte:head>
 
 <div class="page-container">

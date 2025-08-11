@@ -106,10 +106,7 @@
     name="description"
     content="Immerse yourself in the mystical world of Treasure Tavern through stories, poems, songs, and visual tales collected from travelers across the realms."
   />
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-  />
+  
 </svelte:head>
 
 <div class="page-container">

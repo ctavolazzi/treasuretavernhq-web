@@ -1,10 +1,11 @@
 <script lang="ts">
   import ResponsiveImage from '$lib/components/ResponsiveImage.svelte';
-  import SimpleAudioPlayer from '$lib/components/SimpleAudioPlayer.svelte';
+  import UnifiedAudioPlayer from '$lib/components/UnifiedAudioPlayer.svelte';
   import { getTaleSocialMeta, type SocialMetadata } from '$lib/data/social-meta';
   import { disablePageAudio, resetPageAudio, setPageAudio } from '$lib/stores/audioStore';
   import { onDestroy, onMount } from 'svelte';
   import { fade } from 'svelte/transition';
+  import { goto } from '$app/navigation';
 
   // Define Tale interface to fix type errors
   interface Tale {
@@ -55,6 +56,12 @@
   let copySuccess = false;
   let copyTimeout: ReturnType<typeof setTimeout> | null = null;
 
+  function extractPlainTextFromHtml(html: string): string {
+    const tempElement = document.createElement('div');
+    tempElement.innerHTML = html;
+    return tempElement.textContent || tempElement.innerText || '';
+  }
+
   onMount(() => {
     // If this is the Bone Kingdom tale, set its custom audio
     if (tale.slug === 'the-bone-kingdom') {
@@ -66,12 +73,16 @@
       audio.addEventListener('canplaythrough', () => {
         // Audio file exists and can be played
         setPageAudio(audioSrc, 'The Bone Kingdom Theme', true);
-        console.log('Bone Kingdom audio loaded successfully');
+        if (import.meta.env.DEV) {
+          console.log('Bone Kingdom audio loaded successfully');
+        }
       });
 
       audio.addEventListener('error', () => {
         // Audio file doesn't exist or can't be played
-        console.warn('Bone Kingdom audio failed to load');
+        if (import.meta.env.DEV) {
+          console.warn('Bone Kingdom audio failed to load');
+        }
         disablePageAudio();
       });
 
@@ -108,12 +119,7 @@
   // Function to copy tale content to clipboard
   function copyTaleContent() {
     if (typeof window !== 'undefined' && tale) {
-      // Create a temporary element to hold the HTML content
-      const tempElement = document.createElement('div');
-      tempElement.innerHTML = tale.content;
-
-      // Get the text content (strips HTML tags)
-      const textContent = tempElement.textContent || tempElement.innerText || '';
+      const textContent = extractPlainTextFromHtml(tale.content);
 
       // Copy to clipboard
       navigator.clipboard
@@ -141,12 +147,7 @@
   // Function to download tale content as a text file
   function downloadTaleAsText() {
     if (typeof window !== 'undefined' && tale) {
-      // Create a temporary element to hold the HTML content
-      const tempElement = document.createElement('div');
-      tempElement.innerHTML = tale.content;
-
-      // Get the text content (strips HTML tags)
-      const textContent = tempElement.textContent || tempElement.innerText || '';
+      const textContent = extractPlainTextFromHtml(tale.content);
 
       // Create a blob with the text content
       const blob = new Blob([textContent], { type: 'text/plain' });
@@ -250,9 +251,11 @@
             </div>
           </div>
         {:else if tale.mediaType === 'audio' && mediaReady}
-          <SimpleAudioPlayer
+          <UnifiedAudioPlayer
             audioSrc={tale.mediaContent || ''}
             audioTitle={`Audio Narration: ${tale.title}`}
+            variant="inline"
+            showTitle={true}
           />
         {:else if tale.mediaType === 'interactive'}
           <div class="media-container">
@@ -332,8 +335,8 @@
                       // Scroll to top immediately
                       window.scrollTo({ top: 0, behavior: 'auto' });
 
-                      // Navigate using proper SvelteKit navigation to ensure title updates
-                      window.location.href = `/tavern-tales/${encodeURIComponent(relatedTale.slug)}`;
+                      // Navigate using SvelteKit client-side navigation
+                      goto(`/tavern-tales/${encodeURIComponent(relatedTale.slug)}`);
                     }
                   }}
                 >
