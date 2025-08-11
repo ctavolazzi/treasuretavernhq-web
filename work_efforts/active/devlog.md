@@ -1,5 +1,29 @@
 # Development Log
 
+## 2025-08-11 12:40: 🚧 IN PROGRESS - Authenticated New Tale Flow
+
+### Objective
+Create a protected `/tales/new` route gated by Supabase auth with SSR session handling and a minimal `/login` page.
+
+### Work Effort
+- **File**: `work_efforts/10_development/10.03_authenticated_new_tale_flow.md`
+- **Category**: 10_Development
+
+### Changes
+- Installed `@supabase/ssr`
+- Added `src/hooks.server.ts` to initialize server client and set `locals.session`/`locals.user`
+- Added `/login` magic link page (`src/routes/login/+page.svelte`)
+- Created protected `/tales/new` route with server guard and starter content
+
+### Next
+- Add form scaffolding and optional allowlist/role enforcement
+
+### 2025-08-11 11:30 — OpenAI Story Generator (TDD) kickoff
+- Created `10.03_openai_story_generator` work effort and active log `202508111130_openai_story_generator_pipeline.md`.
+- Added Vitest, test scripts, and initial unit tests for `slug` utilities and `StoryGeneratorService`.
+- Implemented minimal generator service (DI for AI, storage, repo) to satisfy tests.
+- Next: admin form route `/tavern-tales/new`, server action integration, Supabase persistence.
+
 ## 2025-08-11 12:10: ✅ COMPLETED - Spaghetti Cleanup (Audio, Navigation, Scripts)
 
 ### Objective

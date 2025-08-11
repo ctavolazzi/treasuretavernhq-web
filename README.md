@@ -54,6 +54,8 @@ Our ultimate vision is to create an interactive AI-generated gaming experience w
 - `npm run preview` - Preview production build locally
 - `npm run check` - Run TypeScript and Svelte checks
 - `npm run check:watch` - Run checks in watch mode
+- `npm run test` - Run unit tests once (Vitest)
+- `npm run test:watch` - Run unit tests in watch mode
 
 ### Project Structure
 
