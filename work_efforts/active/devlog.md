@@ -16,7 +16,17 @@ Create a protected `/tales/new` route gated by Supabase auth with SSR session ha
 - Created protected `/tales/new` route with server guard and starter content
 
 ### Next
-- Add form scaffolding and optional allowlist/role enforcement
+- To-do chain:
+  1) Return categories in `/tales/new` server load
+  2) Build protected form (title, author, season/date, category, tags, featured, media)
+  3) Slug auto-generation
+  4) Generate `tales.js` snippet
+  5) Download `<slug>.txt` from content
+  6) Validate inputs
+  7) Optional: allowlist/role enforcement via env or user metadata
+  8) Optional: Supabase draft persistence
+  9) Optional: cover/media upload and WebP conversion
+  10) Optional: local server action to write files (guarded)
 
 ### 2025-08-11 11:30 — OpenAI Story Generator (TDD) kickoff
 - Created `10.03_openai_story_generator` work effort and active log `202508111130_openai_story_generator_pipeline.md`.

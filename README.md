@@ -165,6 +165,17 @@ The project is configured for deployment on Cloudflare Pages:
 - `tsconfig.json` - TypeScript configuration
 - `package.json` - Dependencies and scripts
 
+### Authentication (Supabase)
+
+Set the following environment variables for auth to work locally and in Cloudflare Pages:
+
+```
+PUBLIC_SUPABASE_URL=your-supabase-url
+PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
+# Optional: comma-separated allowlist for accessing /tales/new
+TALES_ALLOWLIST_EMAILS=you@example.com,other@example.com
+```
+
 ### Environment Setup
 
 Create a `.env` file for local development (if needed):

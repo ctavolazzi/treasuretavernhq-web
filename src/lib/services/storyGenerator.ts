@@ -76,7 +76,10 @@ export class StoryGeneratorService {
       content_md: draft.markdown,
       content_html,
       category: input.category,
-      type: input.category === 'story' ? 'Story' : input.category.charAt(0).toUpperCase() + input.category.slice(1),
+      type:
+        input.category === 'story'
+          ? 'Story'
+          : input.category.charAt(0).toUpperCase() + input.category.slice(1),
       date_label: input.dateLabel || 'Unknown Season',
       cover_image_url: coverUrl,
       featured: Boolean(input.featured),
@@ -89,5 +92,3 @@ export class StoryGeneratorService {
     return record;
   }
 }
-
-

@@ -1,4 +1,6 @@
-import { redirect } from '@sveltejs/kit';
+import { TALES_ALLOWLIST_EMAILS } from '$env/static/private';
+import { getCategories } from '$lib/data/tales.js';
+import { error, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals, url }) => {
@@ -7,14 +9,23 @@ export const load: PageServerLoad = async ({ locals, url }) => {
     throw redirect(302, `/login`);
   }
 
-  // Optional: restrict to allowlist emails
-  // const allowlist = ['you@example.com'];
-  // if (!locals.user || !allowlist.includes(locals.user.email ?? '')) {
-  //   throw error(403, 'Not authorized');
-  // }
+  // Optional allowlist: if TALES_ALLOWLIST_EMAILS is set, restrict access to listed emails
+  const rawAllowlist = TALES_ALLOWLIST_EMAILS || '';
+  if (rawAllowlist.trim().length > 0) {
+    const allowlist = rawAllowlist
+      .split(',')
+      .map(s => s.trim().toLowerCase())
+      .filter(Boolean);
+    const userEmail = (locals.user?.email || '').toLowerCase();
+    if (!userEmail || !allowlist.includes(userEmail)) {
+      throw error(403, 'Not authorized');
+    }
+  }
 
+  const categories = await getCategories();
   return {
-    userEmail: locals.user?.email ?? null
+    userEmail: locals.user?.email ?? null,
+    categories
   };
 };
 

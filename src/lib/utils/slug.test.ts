@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest';
-import { slugify, ensureUniqueSlug } from './slug';
+import { describe, expect, it } from 'vitest';
+import { ensureUniqueSlug, slugify } from './slug';
 
 describe('slugify', () => {
   it('converts to lowercase, trims, and replaces spaces', () => {
@@ -26,5 +26,3 @@ describe('ensureUniqueSlug', () => {
     expect(ensureUniqueSlug(existing, 'The Bone Kingdom')).toBe('the-bone-kingdom-3');
   });
 });
-
-

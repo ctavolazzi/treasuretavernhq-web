@@ -1,5 +1,10 @@
-import { describe, it, expect } from 'vitest';
-import { StoryGeneratorService, type OpenAIClient, type StorageClient, type TalesRepository } from './storyGenerator';
+import { describe, expect, it } from 'vitest';
+import {
+  StoryGeneratorService,
+  type OpenAIClient,
+  type StorageClient,
+  type TalesRepository
+} from './storyGenerator';
 
 function makeAi(): OpenAIClient {
   return {
@@ -41,7 +46,11 @@ function makeRepo(existing: string[] = []): TalesRepository {
 describe('StoryGeneratorService', () => {
   it('generates a tale, uploads image, saves record, returns full record', async () => {
     const service = new StoryGeneratorService(makeAi(), makeStorage(), makeRepo());
-    const result = await service.generateAndPersist({ prompt: 'cosmic horror in a gentle tone', category: 'story', featured: true });
+    const result = await service.generateAndPersist({
+      prompt: 'cosmic horror in a gentle tone',
+      category: 'story',
+      featured: true
+    });
 
     expect(result.slug).toBe('whispers-of-the-void');
     expect(result.title).toBe('Whispers of the Void');
@@ -61,8 +70,8 @@ describe('StoryGeneratorService', () => {
 
   it('rejects short prompts', async () => {
     const service = new StoryGeneratorService(makeAi(), makeStorage(), makeRepo());
-    await expect(service.generateAndPersist({ prompt: 'too short', category: 'story' })).rejects.toThrow('Prompt too short');
+    await expect(
+      service.generateAndPersist({ prompt: 'too short', category: 'story' })
+    ).rejects.toThrow('Prompt too short');
   });
 });
-
-
