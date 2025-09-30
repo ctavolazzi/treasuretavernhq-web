@@ -3,9 +3,9 @@ import { resolveOpenAiKey } from './apiKey';
 
 describe('resolveOpenAiKey', () => {
   it('returns provided key when available', () => {
-    expect(
-      resolveOpenAiKey({ providedKey: 'sk-provided', envKey: 'sk-env', isDev: true })
-    ).toBe('sk-provided');
+    expect(resolveOpenAiKey({ providedKey: 'sk-provided', envKey: 'sk-env', isDev: true })).toBe(
+      'sk-provided'
+    );
   });
 
   it('uses env key in dev when provided key missing', () => {
@@ -18,5 +18,3 @@ describe('resolveOpenAiKey', () => {
     );
   });
 });
-
-

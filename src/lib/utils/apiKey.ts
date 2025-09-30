@@ -13,7 +13,7 @@ export function resolveOpenAiKey({ providedKey, envKey, isDev }: ResolveApiKeyPa
     if (trimmedEnv.length > 0) return trimmedEnv;
   }
 
-  throw new Error('Missing OpenAI API key. Provide it in the form. In development, you may set OPENAI_API_KEY in .env.');
+  throw new Error(
+    'Missing OpenAI API key. Provide it in the form. In development, you may set OPENAI_API_KEY in .env.'
+  );
 }
-
-
