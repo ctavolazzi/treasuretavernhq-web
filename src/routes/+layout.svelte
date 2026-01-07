@@ -15,6 +15,7 @@
   const navOptions = [
     { label: 'Home', href: '/' },
     { label: 'Tales', href: '/tavern-tales' },
+    { label: 'Character', href: '/character', icon: 'fa-user-shield' },
     { label: 'Newsletter', href: '/newsletter' },
     { label: 'Contact', href: '/contact' },
     { label: 'Sign Up', href: '/waitlist', special: true, icon: 'fa-user-plus' }
@@ -68,6 +69,8 @@
         return 'fa-envelope';
       case 'tavern-tales':
         return 'fa-book';
+      case 'character':
+        return 'fa-user-shield';
       case 'waitlist':
         return 'fa-user-plus';
       default:
