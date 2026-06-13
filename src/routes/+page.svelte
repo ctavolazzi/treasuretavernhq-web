@@ -14,10 +14,10 @@
 </script>
 
 <svelte:head>
-  <title>Treasure Tavern - Immersive Fantasy Tales & Adventures</title>
+  <title>Treasure Tavern - Empowering You to Empower Yourself</title>
   <meta
     name="description"
-    content="Discover immersive fantasy stories, interactive adventures, and a vibrant community of storytellers at Treasure Tavern."
+    content="Treasure Tavern is the online community for creators, dreamers, and trailblazers, founded by Christopher Tavolazzi (@thecoffeejesus). Explore the Discord and start building your story."
   />
 </svelte:head>
 
@@ -54,19 +54,18 @@
           </picture>
         </a>
       </div>
-      <h2 class="welcome-title">The<br class="mobile-break" /> Door Is Opening</h2>
+      <h2 class="welcome-title">Empowering You<br class="mobile-break" /> to Empower Yourself</h2>
       <p class="welcome-description">
-        Step through our magical doorway and find yourself in a realm where legends come alive,
-        treasures await discovery, and fellow adventurers gather to share their tales by the hearth.
+        Treasure Tavern is the online community for creators, dreamers, and trailblazers. Founded
+        by Christopher Tavolazzi, aka <strong>@thecoffeejesus</strong>, it is a gathering place for
+        people who are building something meaningful and want a community to grow alongside them.
       </p>
       <p class="welcome-description">
-        Treasure Tavern is a fantasy universe created and updated to entertain and offer an escape
-        from the real world. It's a work of fiction, an online store, an interactive social media
-        experience, and more - a multifaceted realm where imagination meets community.
+        Whether you are just starting out or already deep into your journey, you will find fellow
+        adventurers here who are ready to support you, challenge you, and celebrate your wins.
       </p>
       <p class="welcome-footer">
-        Pull up a chair, order your favorite brew, and make yourself at home. The Tavern Keeper has
-        been expecting you.
+        Pull up a chair, explore the Discord, and see how we can help you build your own story.
       </p>
 
       <!-- Navigation buttons -->
@@ -76,10 +75,15 @@
             <span class="button-text">What is the Treasure Tavern?</span>
           </div>
         </a>
-        <a href="/tavern-tales" class="welcome-nav-button tales-button">
+        <a
+          href="https://discord.gg/treasuretavern"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="welcome-nav-button tales-button"
+        >
           <div class="button-content">
-            <i class="fas fa-book-open welcome-nav-icon"></i>
-            <span class="button-text">Read Tavern Tales</span>
+            <i class="fab fa-discord welcome-nav-icon"></i>
+            <span class="button-text">Join the Discord</span>
           </div>
         </a>
       </div>
@@ -88,20 +92,39 @@
     <!-- Benefits Section -->
     <section class="benefits">
       <div class="benefits-pattern"></div>
-      <h2 class="benefits-title">What You'll Discover</h2>
+      <h2 class="benefits-title">What You'll Find Here</h2>
       <p class="benefits-subtitle">
-        Step into a world of imagination and adventure, where every visit to the Treasure Tavern
-        brings new experiences.
+        The Treasure Tavern is more than a community. It is a launchpad for your next chapter.
       </p>
       <div class="benefits-grid">
         <div class="benefit-card">
           <span class="benefit-icon">
+            <i class="fas fa-users"></i>
+          </span>
+          <h3 class="benefit-title">Your People</h3>
+          <p class="benefit-desc">
+            Connect with creators, dreamers, and trailblazers who are on the same path. You do not
+            have to build alone.
+          </p>
+        </div>
+        <div class="benefit-card">
+          <span class="benefit-icon">
             <i class="fas fa-book-open"></i>
           </span>
-          <h3 class="benefit-title">Curated Tales</h3>
+          <h3 class="benefit-title">Tavern Tales</h3>
           <p class="benefit-desc">
-            Discover carefully collected stories ranging from epic adventures to intimate moments of
-            wonder and mystery, all presented in an immersive format.
+            Explore a growing collection of original stories from the Treasure Tavern universe.
+            Magic, mystery, and adventure await you.
+          </p>
+        </div>
+        <div class="benefit-card">
+          <span class="benefit-icon">
+            <i class="fas fa-star"></i>
+          </span>
+          <h3 class="benefit-title">Your Story</h3>
+          <p class="benefit-desc">
+            Every great story starts with a single step. The Tavern is here to help you take yours
+            and keep going when it gets hard.
           </p>
         </div>
       </div>
@@ -111,21 +134,35 @@
     <div class="exploration-section">
       <h2 class="exploration-title">Explore the Tavern</h2>
       <p class="exploration-description">
-        Treasure Tavern is a fantastical universe filled with mythical characters, magical
-        artifacts, and extraordinary tales. Explore our world through the links below and begin your
-        journey.
+        Your journey starts here. Dive into the community, read the tales, and stay connected with
+        everything happening inside the Treasure Tavern.
       </p>
 
       <div class="exploration-grid">
         <a href="/about" class="exploration-card">
           <i class="fas fa-info-circle"></i>
           <h3>About</h3>
-          <p>Learn more about Treasure Tavern</p>
+          <p>Learn who we are and what we stand for</p>
         </a>
         <a href="/announcements" class="exploration-card">
           <i class="fas fa-bullhorn"></i>
           <h3>Announcements</h3>
-          <p>Latest updates and news</p>
+          <p>Latest news and updates from the Tavern</p>
+        </a>
+        <a href="/tavern-tales" class="exploration-card">
+          <i class="fas fa-book-open"></i>
+          <h3>Tavern Tales</h3>
+          <p>Original stories from the Treasure Tavern universe</p>
+        </a>
+        <a
+          href="https://discord.gg/treasuretavern"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="exploration-card"
+        >
+          <i class="fab fa-discord"></i>
+          <h3>Discord</h3>
+          <p>Join the community and start your story</p>
         </a>
       </div>
     </div>
@@ -1205,5 +1242,88 @@
     font-size: 1.1rem;
     font-weight: 600;
     letter-spacing: 0.02em;
+  }
+
+  /* Benefits section */
+  .benefits {
+    margin: 4rem auto;
+    max-width: 1000px;
+    padding: 2rem 1.5rem;
+    border-radius: 10px;
+    background: rgba(31, 27, 45, 0.4);
+    border: 1px solid rgba(247, 232, 212, 0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .benefits-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    color: #bd9648;
+    text-shadow: 0 0 8px rgba(189, 150, 72, 0.3);
+    margin: 0 0 0.75rem;
+    text-align: center;
+  }
+
+  .benefits-subtitle {
+    font-family: 'Spectral', serif;
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: rgba(247, 232, 212, 0.8);
+    margin: 0 auto 2rem;
+    text-align: center;
+    max-width: 600px;
+  }
+
+  .benefits-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .benefits-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .benefit-card {
+    background: rgba(31, 27, 45, 0.6);
+    border: 1px solid rgba(189, 150, 72, 0.2);
+    border-radius: 10px;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
+  }
+
+  .benefit-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    border-color: rgba(189, 150, 72, 0.35);
+  }
+
+  .benefit-icon {
+    display: inline-block;
+    font-size: 2rem;
+    color: #d5a44c;
+    margin-bottom: 1rem;
+  }
+
+  .benefit-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1.15rem;
+    color: #f7e8d4;
+    margin: 0 0 0.75rem;
+  }
+
+  .benefit-desc {
+    font-family: 'Spectral', serif;
+    font-size: 1rem;
+    color: rgba(247, 232, 212, 0.8);
+    line-height: 1.6;
+    margin: 0;
+    max-width: 100%;
   }
 </style>

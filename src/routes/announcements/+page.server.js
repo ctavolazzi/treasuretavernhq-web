@@ -63,8 +63,7 @@ const hardcodedAnnouncements = [
 
 export async function load() {
   try {
-    // For Cloudflare deployment, we'll use only hardcoded announcements
-    // In a production environment, you would fetch from a database like Supabase
+    // Announcements are sourced from in-repo content (no external database)
 
     // Sort by date (newest first)
     const allAnnouncements = [...hardcodedAnnouncements];
