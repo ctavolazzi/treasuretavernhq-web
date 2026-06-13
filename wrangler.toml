@@ -1,6 +1,4 @@
-compatibility_flags = ["nodejs_compat"]
-compatibility_date = "2023-11-21"
-
-[build]
-command = "npm run build"
+name = "treasuretavernhq-web"
 pages_build_output_dir = ".svelte-kit/cloudflare"
+compatibility_date = "2023-11-21"
+compatibility_flags = ["nodejs_compat"]
