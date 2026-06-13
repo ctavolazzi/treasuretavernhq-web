@@ -156,13 +156,6 @@ export interface ApiResponse<T = any> {
   message?: string;
 }
 
-// Supabase submission result
-export interface SupabaseResult {
-  success: boolean;
-  error?: string;
-  data?: any;
-}
-
 // Common event handlers
 export interface CommonEventHandlers {
   onClick?: (event: MouseEvent) => void;
